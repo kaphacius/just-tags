@@ -62,16 +62,6 @@ internal struct EMVTagsApp: App {
               let data = try? Data(contentsOf: URL(fileURLWithPath: url)),
            let decoded = try? JSONDecoder().decode(TagInfoContainer.self, from: data) {
             commonTags = decoded.tags
-//
-//            let encoder = JSONEncoder()
-//            encoder.outputFormatting = [.sortedKeys, .prettyPrinted, .withoutEscapingSlashes]
-//            if let encoded = try? encoder.encode(decoded) {
-//                let url = FileManager.default.temporaryDirectory.absoluteURL
-//                let fileUrl = url.appendingPathComponent("updated_tags.json")
-//                FileManager.default.createFile(atPath: fileUrl.path, contents: encoded)
-//                print(fileUrl)
-////                try! encoded.write(to: URL(fileURLWithPath: url))
-//            }
         } else {
             commonTags = []
         }
