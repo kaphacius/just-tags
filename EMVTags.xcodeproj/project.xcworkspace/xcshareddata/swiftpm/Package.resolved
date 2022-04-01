@@ -1,0 +1,23 @@
+{
+  "pins" : [
+    {
+      "identity" : "swifty-ber-tlv",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kaphacius/swifty-ber-tlv",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "829a57753483a7e5ce3c96b4833b81ff577f9180"
+      }
+    },
+    {
+      "identity" : "swifty-emv-tags",
+      "kind" : "localSourceControl",
+      "location" : "/Users/yurii/projects/swifty-emv-tags",
+      "state" : {
+        "branch" : "develop",
+        "revision" : "10687b54a7fc29e49a283306f849dd311accf184"
+      }
+    }
+  ],
+  "version" : 2
+}
