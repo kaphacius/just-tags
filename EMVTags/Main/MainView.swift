@@ -148,6 +148,7 @@ struct MainView: View {
             )
             dataSource.tags = initialTags
                 .filter { matchingTags.contains($0.id) }
+                .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
         }
     }
 }
@@ -165,6 +166,26 @@ extension EMVTag {
                 .map(\.meaning)
                 .filter { $0 != "RFU" }.joined()
         ].joined()
+    }
+    
+    func filtered(with string: String, matchingTags: Set<UUID>) -> EMVTag {
+        if isConstructed {
+            return .init(
+                id: self.id,
+                tag: self.tag,
+                name: self.name,
+                description: self.description,
+                source: self.source,
+                format: self.format,
+                kernel: self.kernel,
+                isConstructed: self.isConstructed,
+                value: self.value,
+                subtags: self.subtags.filter { matchingTags.contains($0.id) },
+                decodedMeaningList: self.decodedMeaningList
+            )
+        } else {
+            return self
+        }
     }
     
 }
