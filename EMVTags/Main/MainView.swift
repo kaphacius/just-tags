@@ -141,6 +141,7 @@ struct MainView: View {
         if searchText.count < 2 {
             dataSource.tags = initialTags
         } else {
+            let searchText = searchText.lowercased()
             let matchingTags = Set(
                 tagDescriptions
                 .filter { $0.value.contains(searchText) }
@@ -165,7 +166,7 @@ extension EMVTag {
                 .flatMap(\.bitList)
                 .map(\.meaning)
                 .filter { $0 != "RFU" }.joined()
-        ].joined()
+        ].joined().lowercased()
     }
     
     func filtered(with string: String, matchingTags: Set<UUID>) -> EMVTag {
