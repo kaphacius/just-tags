@@ -93,39 +93,22 @@ struct MainView: View {
     }
     
     private func parse(string: String) {
-        var parsedData: Data? = nil
-        
-        let hexStringBytes = string
-            .replacingOccurrences(of: " ", with: "")
-            .split(by: 2)
-            .map { UInt8($0, radix: 16) }
-        
-        let compactedHexStringBytes = hexStringBytes.compactMap { $0 }
-        
-        if hexStringBytes.count == compactedHexStringBytes.count {
-            parsedData = Data(compactedHexStringBytes)
-        } else if let base64Bytes = Data(
-            base64Encoded: string, options: .ignoreUnknownCharacters
-        ) {
-            parsedData = Data(base64Bytes)
-        }
-    
-        guard let parsedData = parsedData,
-              let tlv = try? BERTLV.parse(bytes: [UInt8](parsedData)) else {
-                showingAlert = true
-                return
+        do {
+            let tlv = try InputParser.parse(input: string)
+            
+            initialTags = tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
+            
+            let pairs = initialTags.flatMap { tag in
+                [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
             }
-        
-        initialTags = tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
-    
-        let pairs = initialTags.flatMap { tag in
-            [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
+            
+            tagDescriptions = .init(uniqueKeysWithValues: pairs)
+            searchText = ""
+            updateTags()
+            selectedTag = nil
+        } catch {
+            showingAlert = true
         }
-        
-        tagDescriptions = .init(uniqueKeysWithValues: pairs)
-        searchText = ""
-        updateTags()
-        selectedTag = nil
     }
     
     private func setUpSearch() {

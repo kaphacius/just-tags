@@ -15,11 +15,9 @@ internal struct EMVTagsApp: App {
     
     internal var body: some Scene {
         WindowGroup {
-            MainView()
-                .environmentObject(infoDataSource)
-                .onAppear {
-                    
-                }
+            DiffView()
+//            MainView()
+//                .environmentObject(infoDataSource)
         }
         .commands {
             CommandGroup(before: CommandGroupPlacement.newItem, addition: {

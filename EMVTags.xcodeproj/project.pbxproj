@@ -12,6 +12,10 @@
 		5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */; };
 		5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB127F42B5200603D99 /* SearchBar.swift */; };
 		5A4FDDB427F42C8F00603D99 /* TagsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */; };
+		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
+		5A51B17E2811F18D00F516F5 /* DiffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17D2811F18D00F516F5 /* DiffView.swift */; };
+		5A5443C6280A56E40059F350 /* DiffView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5443C5280A56E40059F350 /* DiffView2.swift */; };
+		5A5443C9280EE2FB0059F350 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A5443C8280EE2FB0059F350 /* SwiftyEMVTags */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5AE8BF5027E79BF000474AD0 /* EMVTagsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */; };
 		5AE8BF5427E79BF100474AD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AE8BF5327E79BF100474AD0 /* Assets.xcassets */; };
@@ -21,7 +25,6 @@
 		5AE8BF6E27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF6D27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift */; };
 		5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7A27E79CC700474AD0 /* TagDetailView.swift */; };
 		5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7E27E79D0200474AD0 /* TagListView.swift */; };
-		5AE8BF8327E79DA500474AD0 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5AE8BF8227E79DA500474AD0 /* SwiftyEMVTags */; };
 		5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF8427E7AA4D00474AD0 /* MainView.swift */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +51,9 @@
 		5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVM.swift; sourceTree = "<group>"; };
 		5A4FDDB127F42B5200603D99 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsDataSource.swift; sourceTree = "<group>"; };
+		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
+		5A51B17D2811F18D00F516F5 /* DiffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffView.swift; sourceTree = "<group>"; };
+		5A5443C5280A56E40059F350 /* DiffView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffView2.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5AE8BF4C27E79BF000474AD0 /* EMVTags.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EMVTags.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagsApp.swift; sourceTree = "<group>"; };
@@ -69,7 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5AE8BF8327E79DA500474AD0 /* SwiftyEMVTags in Frameworks */,
+				5A5443C9280EE2FB0059F350 /* SwiftyEMVTags in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -108,6 +114,15 @@
 			path = Main;
 			sourceTree = "<group>";
 		};
+		5A51B17C2811F08500F516F5 /* Diff */ = {
+			isa = PBXGroup;
+			children = (
+				5A5443C5280A56E40059F350 /* DiffView2.swift */,
+				5A51B17D2811F18D00F516F5 /* DiffView.swift */,
+			);
+			path = Diff;
+			sourceTree = "<group>";
+		};
 		5AE8BF4327E79BF000474AD0 = {
 			isa = PBXGroup;
 			children = (
@@ -134,12 +149,14 @@
 				5A4FDDB027F42B3B00603D99 /* Main */,
 				5AE8BF7D27E79CF000474AD0 /* List */,
 				5AE8BF7C27E79CDF00474AD0 /* Details */,
+				5A51B17C2811F08500F516F5 /* Diff */,
 				5A4FDD8527F187AE00603D99 /* Resources */,
 				5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */,
 				5AE8BF5327E79BF100474AD0 /* Assets.xcassets */,
 				5AE8BF5827E79BF100474AD0 /* EMVTags.entitlements */,
 				5AE8BF5527E79BF100474AD0 /* Preview Content */,
 				5A69A35D27ED89A20054B339 /* Helpers.swift */,
+				5A51B17A2811D70E00F516F5 /* InputParser.swift */,
 			);
 			path = EMVTags;
 			sourceTree = "<group>";
@@ -204,7 +221,7 @@
 			);
 			name = EMVTags;
 			packageProductDependencies = (
-				5AE8BF8227E79DA500474AD0 /* SwiftyEMVTags */,
+				5A5443C8280EE2FB0059F350 /* SwiftyEMVTags */,
 			);
 			productName = EMVTags;
 			productReference = 5AE8BF4C27E79BF000474AD0 /* EMVTags.app */;
@@ -279,7 +296,7 @@
 			);
 			mainGroup = 5AE8BF4327E79BF000474AD0;
 			packageReferences = (
-				5AE8BF8127E79DA500474AD0 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */,
+				5A5443C7280EE2FB0059F350 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */,
 			);
 			productRefGroup = 5AE8BF4D27E79BF000474AD0 /* Products */;
 			projectDirPath = "";
@@ -325,11 +342,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */,
+				5A5443C6280A56E40059F350 /* DiffView2.swift in Sources */,
 				5AE8BF5027E79BF000474AD0 /* EMVTagsApp.swift in Sources */,
 				5A4FDDB427F42C8F00603D99 /* TagsDataSource.swift in Sources */,
 				5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */,
+				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */,
+				5A51B17E2811F18D00F516F5 /* DiffView.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
 				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
 				5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */,
@@ -490,12 +510,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = EMVTags/EMVTags.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EMVTags/Preview Content\"";
-				DEVELOPMENT_TEAM = 9L82R8XG5B;
+				DEVELOPMENT_TEAM = B2NYSS5932;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -518,12 +538,12 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = EMVTags/EMVTags.entitlements;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"EMVTags/Preview Content\"";
-				DEVELOPMENT_TEAM = 9L82R8XG5B;
+				DEVELOPMENT_TEAM = B2NYSS5932;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -656,7 +676,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5AE8BF8127E79DA500474AD0 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */ = {
+		5A5443C7280EE2FB0059F350 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "file:///Users/yurii/projects/swifty-emv-tags";
 			requirement = {
@@ -667,9 +687,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5AE8BF8227E79DA500474AD0 /* SwiftyEMVTags */ = {
+		5A5443C8280EE2FB0059F350 /* SwiftyEMVTags */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5AE8BF8127E79DA500474AD0 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */;
+			package = 5A5443C7280EE2FB0059F350 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */;
 			productName = SwiftyEMVTags;
 		};
 /* End XCSwiftPackageProductDependency section */

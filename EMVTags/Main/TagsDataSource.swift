@@ -8,7 +8,10 @@
 import Foundation
 import SwiftyEMVTags
 
-internal final class TagsDataSource: ObservableObject {
+internal final class TagsDataSource: ObservableObject, Identifiable {
+    
+    internal let id = UUID()
+    
     @Published internal var tags: [EMVTag]
     
     internal init(tags: [EMVTag]) {
