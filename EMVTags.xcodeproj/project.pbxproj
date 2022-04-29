@@ -49,6 +49,7 @@
 /* Begin PBXFileReference section */
 		5A31B1632812F308002B2D06 /* TagRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRowView.swift; sourceTree = "<group>"; };
 		5A31B1652816FC31002B2D06 /* Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
+		5A31B16D281BBAA0002B2D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		5A4FDD8627F187B800603D99 /* common_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text.json; path = common_tags.json; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		5A4FDD9127F21CF700603D99 /* TagInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoView.swift; sourceTree = "<group>"; };
 		5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVM.swift; sourceTree = "<group>"; };
@@ -148,6 +149,7 @@
 		5AE8BF4E27E79BF000474AD0 /* EMVTags */ = {
 			isa = PBXGroup;
 			children = (
+				5A31B16D281BBAA0002B2D06 /* Info.plist */,
 				5A4FDDB027F42B3B00603D99 /* Main */,
 				5AE8BF7D27E79CF000474AD0 /* List */,
 				5AE8BF7C27E79CDF00474AD0 /* Details */,
@@ -523,6 +525,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EMVTags/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -551,6 +554,7 @@
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = EMVTags/Info.plist;
 				INFOPLIST_KEY_NSHumanReadableCopyright = "";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

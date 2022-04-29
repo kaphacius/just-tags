@@ -12,13 +12,15 @@ import SwiftyEMVTags
 internal struct EMVTagsApp: App {
     
     @StateObject private var infoDataSource: EMVTagInfoDataSource
+    @Environment(\.openURL) var openURL
     
     internal var body: some Scene {
         WindowGroup {
-//            DiffView()
             MainView()
                 .environmentObject(infoDataSource)
+                .handlesExternalEvents(preferring: Set(arrayLiteral: "main"), allowing: Set(arrayLiteral: "*"))
         }
+        .handlesExternalEvents(matching: Set(arrayLiteral: "main"))
         .commands {
             CommandGroup(before: CommandGroupPlacement.newItem, addition: {
                 Button(action: {
@@ -49,8 +51,24 @@ internal struct EMVTagsApp: App {
                 }, label: {
                     Text("New Tab")
                 }).keyboardShortcut("o", modifiers: [.command, .shift])
+                Button(action: {
+                    openURL(URL(string: "emvtags://diff")!)
+                }, label: {
+                    Text("Diff view")
+                }).keyboardShortcut("d", modifiers: [.command, .shift])
+                Button(action: {
+                    openURL(URL(string: "emvtags://main")!)
+                }, label: {
+                    Text("Main view")
+                }).keyboardShortcut("m", modifiers: [.command, .shift])
             })
         }
+        
+        WindowGroup("Diff") {
+            DiffView()
+                .environmentObject(infoDataSource)
+                .handlesExternalEvents(preferring: Set(arrayLiteral: "diff"), allowing: Set(arrayLiteral: "*"))
+        }.handlesExternalEvents(matching: Set(arrayLiteral: "diff"))
     }
     
     internal init() {

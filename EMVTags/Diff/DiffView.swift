@@ -36,30 +36,30 @@ struct DiffView: View {
     
     var body: some View {
         ScrollView {
-        VStack(spacing: commonPadding) {
-            header
-                .padding(.top, commonPadding)
-            HStack(spacing: commonPadding) {
-                ForEach(0..<columns, id: \.self) { idx in
-                    column(for: idx)
+            VStack(spacing: commonPadding) {
+                header
+                    .padding(.top, commonPadding)
+                HStack(spacing: commonPadding) {
+                    ForEach(0..<columns, id: \.self) { idx in
+                        column(for: idx)
+                    }
                 }
-            }
-            .frame(minWidth: 800.0)
-            .background {
-                Button("new tab") {
-                    texts.append("")
-                    columns += 1
+                .frame(minWidth: 800.0)
+                .background {
+                    Button("new tab") {
+                        texts.append("")
+                        columns += 1
+                    }
+                    .keyboardShortcut("t", modifiers: [.command, .shift])
+                    .hidden()
+                    Button("only diff") {
+                        showOnlyDifferent.toggle()
+                    }
+                    .keyboardShortcut("v", modifiers: [.command, .shift])
+                    .hidden()
                 }
-                .keyboardShortcut("t", modifiers: [.command, .shift])
-                .hidden()
-                Button("only diff") {
-                    showOnlyDifferent.toggle()
-                }
-                .keyboardShortcut("d", modifiers: [.command, .shift])
-                .hidden()
             }
         }
-        }//.onAppear(perform: diffInput)
     }
     
     @ViewBuilder var header: some View {
