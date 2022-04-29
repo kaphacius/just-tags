@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B1632812F308002B2D06 /* TagRowView.swift */; };
+		5A31B1662816FC31002B2D06 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B1652816FC31002B2D06 /* Diff.swift */; };
 		5A4FDD8727F187B800603D99 /* common_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A4FDD8627F187B800603D99 /* common_tags.json */; };
 		5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDD9127F21CF700603D99 /* TagInfoView.swift */; };
 		5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */; };
@@ -14,7 +16,6 @@
 		5A4FDDB427F42C8F00603D99 /* TagsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */; };
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
 		5A51B17E2811F18D00F516F5 /* DiffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17D2811F18D00F516F5 /* DiffView.swift */; };
-		5A5443C6280A56E40059F350 /* DiffView2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5443C5280A56E40059F350 /* DiffView2.swift */; };
 		5A5443C9280EE2FB0059F350 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A5443C8280EE2FB0059F350 /* SwiftyEMVTags */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5AE8BF5027E79BF000474AD0 /* EMVTagsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */; };
@@ -46,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A31B1632812F308002B2D06 /* TagRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRowView.swift; sourceTree = "<group>"; };
+		5A31B1652816FC31002B2D06 /* Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
 		5A4FDD8627F187B800603D99 /* common_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text.json; path = common_tags.json; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		5A4FDD9127F21CF700603D99 /* TagInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoView.swift; sourceTree = "<group>"; };
 		5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVM.swift; sourceTree = "<group>"; };
@@ -53,7 +56,6 @@
 		5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsDataSource.swift; sourceTree = "<group>"; };
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
 		5A51B17D2811F18D00F516F5 /* DiffView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffView.swift; sourceTree = "<group>"; };
-		5A5443C5280A56E40059F350 /* DiffView2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffView2.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5AE8BF4C27E79BF000474AD0 /* EMVTags.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EMVTags.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagsApp.swift; sourceTree = "<group>"; };
@@ -117,8 +119,8 @@
 		5A51B17C2811F08500F516F5 /* Diff */ = {
 			isa = PBXGroup;
 			children = (
-				5A5443C5280A56E40059F350 /* DiffView2.swift */,
 				5A51B17D2811F18D00F516F5 /* DiffView.swift */,
+				5A31B1652816FC31002B2D06 /* Diff.swift */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -200,6 +202,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE8BF7E27E79D0200474AD0 /* TagListView.swift */,
+				5A31B1632812F308002B2D06 /* TagRowView.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -341,8 +344,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,
 				5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */,
-				5A5443C6280A56E40059F350 /* DiffView2.swift in Sources */,
 				5AE8BF5027E79BF000474AD0 /* EMVTagsApp.swift in Sources */,
 				5A4FDDB427F42C8F00603D99 /* TagsDataSource.swift in Sources */,
 				5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */,
@@ -352,6 +355,7 @@
 				5A51B17E2811F18D00F516F5 /* DiffView.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
 				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
+				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

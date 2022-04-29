@@ -93,3 +93,62 @@ struct TagInfoContainer: Codable {
     let tags: [EMVTag.Info]
 }
 
+extension Array where Self.Element == UInt8 {
+    var hexString: String {
+        map(\.hexString).joined()
+    }
+}
+
+private func isLess(lhs: [UInt8], rhs: [UInt8]) -> Bool {
+    var isLess: Bool? = nil
+    
+    for i in 0..<min(lhs.count, rhs.count) {
+        if lhs[i] != rhs[i] {
+            isLess = lhs[i] < rhs[i]
+            break
+        }
+    }
+    
+    if let isLess = isLess {
+        return isLess
+    } else {
+        return lhs.count < rhs.count
+    }
+}
+
+extension EMVTag: Comparable {
+    
+    public static func < (lhs: EMVTag, rhs: EMVTag) -> Bool {
+        if lhs.tag == rhs.tag {
+            return isLess(lhs: lhs.value, rhs: rhs.value)
+        } else {
+            return lhs.tag < rhs.tag
+        }
+    }
+    
+}
+
+extension EMVTag {
+    
+    init(bytes: [UInt8]) {
+        try! self.init(tlv: .parse(bytes: bytes).first!)
+    }
+    
+    init(hexString: String) {
+        self.init(
+            bytes: hexString
+                .replacingOccurrences(of: " ", with: "")
+                .split(by: 2)
+                .compactMap { UInt8($0, radix: 16) }
+        )
+    }
+    
+}
+
+extension Array where Self.Element == EMVTag {
+    
+    var sortedTags: Self {
+        self.sorted(by: <)
+    }
+    
+}
