@@ -8,45 +8,31 @@
 import Foundation
 import SwiftyEMVTags
 
-internal enum TagDiffResult: CustomStringConvertible, Equatable {
+typealias  TagWithDiff = (EMVTag, [DiffResult])
+
+internal enum TagDiffResult {
     case equal(EMVTag)
-    case different([DiffResult], [DiffResult])
-    case rightMissing(EMVTag)
-    case leftMissing(EMVTag)
+    case different([TagWithDiff?])
     
-    var description: String {
+    var isDifferent: Bool {
         switch self {
-        case .equal:
-            return "equal"
-        case .different:
-            return "different"
-        case .rightMissing:
-            return "right missing"
-        case .leftMissing:
-            return "left missing"
+        case .equal: return false
+        case .different: return true
         }
     }
     
-    func byteDiffResults(isLeft: Bool) -> [DiffResult] {
+    var normalized: (TagWithDiff?, TagWithDiff?) {
         switch self {
-        case .equal(let eMVTag):
-            return eMVTag.value.map { _ in .equal }
-        case .different(let array, let array2):
-            return isLeft ? array : array2
-        case .rightMissing(let eMVTag):
-            return isLeft ? eMVTag.value.map { _ in .equal } : []
-        case .leftMissing(let eMVTag):
-            return isLeft ? [] : eMVTag.value.map { _ in .equal }
+        case .equal(let tag):
+            let part = (tag, Array(repeating: DiffResult.equal, count: tag.value.count))
+            return (part, part)
+        case .different(let tags):
+            return (
+                tags.first.flatMap { $0 },
+                tags.last.flatMap { $0 }
+            )
         }
     }
-    
-    var isEqual: Bool {
-        switch self {
-        case .equal: return true
-        default: return false
-        }
-    }
-    
 }
 
 internal enum DiffResult {
@@ -56,18 +42,31 @@ internal enum DiffResult {
 
 extension EMVTag {
     
-    static func compare(lhs: EMVTag, rhs: EMVTag) -> TagDiffResult {
+    static func compare3(lhs: EMVTag, rhs: EMVTag) -> TagDiffResult {
+        // tags are the same
         if lhs.tag == rhs.tag {
-            // same value
             if lhs.value == rhs.value {
                 return .equal(lhs)
-                // different value
             } else {
                 let res = diffCompare(left: lhs.value, right: rhs.value)
-                return .different(res.lhs, res.rhs)
+                return .different([(lhs, res.lhs), (rhs, res.rhs)])
             }
+        } else if lhs.tag < rhs.tag {
+            // tags are different. left is less. fill the left tags result with different, leave the rigth result empty to move left forward
+            return .different(
+                [
+                    (lhs, .init(repeating: .different, count: lhs.value.count)),
+                    nil
+                ]
+            )
         } else {
-            return .rightMissing(lhs)
+            // tags are different. left is more. fill the right tags result with different, leave the left result empty to move right forward
+            return .different(
+                [
+                    nil,
+                    (rhs, .init(repeating: .different, count: rhs.value.count))
+                ]
+            )
         }
     }
     
@@ -84,29 +83,51 @@ func diffCompareTags(lhs: [EMVTag], rhs: [EMVTag]) -> [TagDiffResult] {
             let currentL = lhs[leftIdx]
             let currentR = rhs[rightIdx]
             
-            let diffResult = EMVTag.compare(lhs: currentL, rhs: currentR)
+            let diffResult = EMVTag.compare3(lhs: currentL, rhs: currentR)
+            results.append(diffResult)
             
             switch diffResult {
-            case .equal, .different:
-                results.append(diffResult)
+                // equal tags
+            case .equal:
                 leftIdx += 1
                 rightIdx += 1
-            case .rightMissing:
-                results.append(diffResult)
+                // tags are different, right is missing, movin the left pointer forward
+            case .different(let results) where results[1] == nil:
                 leftIdx += 1
-            case .leftMissing:
-                break
+                // tags are different, left is missing, movin the right pointer forward
+            case .different(let results) where results[0] == nil:
+                rightIdx += 1
+                // tags are same, values are different, moving both pointers forward
+            case .different:
+                leftIdx += 1
+                rightIdx += 1
             }
-            // append the rest of the right
         } else if leftIdx == lhs.endIndex {
+            // no more tags on the left, append the rest of the right
             results.append(
-                contentsOf: rhs.suffix(from: rightIdx).map(TagDiffResult.leftMissing)
+                contentsOf: rhs.suffix(from: rightIdx).map { tag in
+                    // fill the right tags result with different, leave the rigth result empty
+                        .different(
+                            [
+                                nil,
+                                (tag, .init(repeating: .different, count: tag.value.count))
+                            ]
+                        )
+                }
             )
             rightIdx = rhs.endIndex
-            // apend the rest of the left
         } else if rightIdx == rhs.endIndex {
+            // no more tags on the left, append the rest of the right
             results.append(
-                contentsOf: lhs.suffix(from: leftIdx).map(TagDiffResult.rightMissing)
+                contentsOf: lhs.suffix(from: leftIdx).map { tag in
+                    // fill the left tags result with different, leave the rigth result empty
+                        .different(
+                            [
+                                (tag, .init(repeating: .different, count: tag.value.count)),
+                                nil
+                            ]
+                        )
+                }
             )
             leftIdx = lhs.endIndex
         }
