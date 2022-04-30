@@ -12,10 +12,18 @@ struct TagRowView: View {
 
     let tag: EMVTag
     let byteDiffResults: [DiffResult]
+    let isDiffing: Bool
     
-    internal init(tag: EMVTag, byteDiffResults: [DiffResult] = []) {
+    internal init(diffedTag: DiffedTag) {
+        self.tag = diffedTag.tag
+        self.byteDiffResults = diffedTag.diff
+        self.isDiffing = true
+    }
+    
+    internal init(tag: EMVTag) {
         self.tag = tag
-        self.byteDiffResults = byteDiffResults
+        self.byteDiffResults = []
+        self.isDiffing = false
     }
     
     var body: some View {
@@ -49,31 +57,39 @@ struct TagRowView: View {
         }
     }
     
+    @ViewBuilder
     func tagValueView(for tag: EMVTag) -> some View {
-//        Text(tag.value.map(\.hexString).joined())
-//            .font(.body.monospaced()).fontWeight(.light)
-//            .frame(alignment: .leading)
-        bytesDiffView(bytes: tag.value, results: byteDiffResults)
+        if isDiffing {
+            diffedValueView
+        } else {
+            valueView
+        }
     }
     
     @ViewBuilder
-    func bytesDiffView(bytes: [UInt8], results: [DiffResult]) -> some View {
+    private var valueView: some View {
+        Text(tag.value.hexString)
+            .font(.title3.monospaced())
+    }
+    
+    @ViewBuilder
+    private var diffedValueView: some View {
         HStack(alignment: .top, spacing: 0.0) {
-            ForEach(Array(results.enumerated()), id: \.offset) {
-                viewFor(results[$0.offset], byte: bytes[$0.offset])
+            ForEach(Array(zip(tag.value, byteDiffResults).enumerated()), id: \.offset) { (offset, diffedByte) in
+                diffedByteView(diffedByte)
             }
             Spacer()
         }
     }
     
     @ViewBuilder
-    func viewFor(_ diffResult: DiffResult, byte: UInt8) -> some View {
-        switch diffResult {
+    func diffedByteView(_ diffedByte: DiffedByte) -> some View {
+        switch diffedByte.result {
         case .equal:
-            byteValueView(for: byte)
+            byteValueView(for: diffedByte.byte)
         case .different:
-            byteValueView(for: byte)
-                .background(Color.yellow.opacity(0.2))
+            byteValueView(for: diffedByte.byte)
+                .background(diffBackground)
         }
     }
     
@@ -82,36 +98,15 @@ struct TagRowView: View {
         Text(tag.hexString)
             .font(.title3.monospaced())
     }
-    
-//    @ViewBuilder
-//    func viewFor(_ diffResult: ByteDiffResult, isLeft: Bool) -> some View {
-//        switch diffResult {
-//        case .equal(let byte):
-//            byteValueView(for: byte)
-//        case .different(let lhs, let rhs):
-//            byteValueView(for: (isLeft ? lhs : rhs))
-//                .background(Color(.systemBlue).opacity(0.5))
-//        case .rightMissing(let lhs):
-//            if isLeft {
-//                byteValueView(for: lhs)
-//                    .background(Color.red)
-//            } else {
-//                EmptyView()
-//            }
-//        case .leftMissing(let rhs):
-//            if isLeft == false {
-//                byteValueView(for: rhs)
-//                    .background(Color.red)
-//            } else {
-//                EmptyView()
-//            }
-//        }
-//    }
+
 }
 
 struct TagRowView_Previews: PreviewProvider {
     static var previews: some View {
         TagRowView(tag: .init(hexString: "9F33032808C8"))
+        TagRowView(
+            diffedTag: (tag: .init(hexString: "9F33032808C8"), diff: [.equal, .different, .different])
+        )
     }
 }
 

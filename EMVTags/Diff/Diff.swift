@@ -8,11 +8,32 @@
 import Foundation
 import SwiftyEMVTags
 
-typealias  TagWithDiff = (EMVTag, [DiffResult])
+typealias DiffedTag = (tag: EMVTag, diff: [DiffResult])
+
+internal struct DiffedTagPair {
+    
+    internal let lhs: DiffedTag?
+    internal let rhs: DiffedTag?
+    internal let isEqual: Bool
+    
+    internal init(lhs: DiffedTag?, rhs: DiffedTag?) {
+        self.lhs = lhs
+        self.rhs = rhs
+        switch (lhs, rhs) {
+            case (let lhs?, .some):
+                self.isEqual = lhs.diff.contains(.different) == false
+            default:
+                self.isEqual = false
+        }
+    }
+    
+}
+
+typealias DiffedByte = (byte: UInt8, result: DiffResult)
 
 internal enum TagDiffResult {
     case equal(EMVTag)
-    case different([TagWithDiff?])
+    case different([DiffedTag?])
     
     var isDifferent: Bool {
         switch self {
@@ -21,21 +42,21 @@ internal enum TagDiffResult {
         }
     }
     
-    var normalized: (TagWithDiff?, TagWithDiff?) {
+    var diffedPair: DiffedTagPair {
         switch self {
         case .equal(let tag):
             let part = (tag, Array(repeating: DiffResult.equal, count: tag.value.count))
-            return (part, part)
+            return .init(lhs: part, rhs: part)
         case .different(let tags):
-            return (
-                tags.first.flatMap { $0 },
-                tags.last.flatMap { $0 }
+            return .init(
+                lhs: tags.first.flatMap { $0 },
+                rhs: tags.last.flatMap { $0 }
             )
         }
     }
 }
 
-internal enum DiffResult {
+internal enum DiffResult: Equatable {
     case equal
     case different
 }
