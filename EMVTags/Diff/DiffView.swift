@@ -152,6 +152,7 @@ struct DiffView: View {
             case (let lhs?, let rhs?):
                 HStack(alignment: .top, spacing: commonPadding) {
                     TagRowView(diffedTag: lhs)
+                    Divider()
                     TagRowView(diffedTag: rhs)
                 }
             case (let lhs?, _):
@@ -169,7 +170,7 @@ struct DiffView: View {
             }
         }
         .background {
-            if diffPair.isEqual {
+            if diffPair.isEqual || showOnlyDifferent {
                 Color.clear
             } else {
                 diffBackground
