@@ -63,7 +63,7 @@ internal enum DiffResult: Equatable {
 
 extension EMVTag {
     
-    static func compare3(lhs: EMVTag, rhs: EMVTag) -> TagDiffResult {
+    static func compare(lhs: EMVTag, rhs: EMVTag) -> TagDiffResult {
         // tags are the same
         if lhs.tag == rhs.tag {
             if lhs.value == rhs.value {
@@ -104,7 +104,7 @@ func diffCompareTags(lhs: [EMVTag], rhs: [EMVTag]) -> [TagDiffResult] {
             let currentL = lhs[leftIdx]
             let currentR = rhs[rightIdx]
             
-            let diffResult = EMVTag.compare3(lhs: currentL, rhs: currentR)
+            let diffResult = EMVTag.compare(lhs: currentL, rhs: currentR)
             results.append(diffResult)
             
             switch diffResult {
