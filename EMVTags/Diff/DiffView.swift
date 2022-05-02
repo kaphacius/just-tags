@@ -24,7 +24,7 @@ struct DiffView: View {
     internal init(
         columns: Int = 2,
         texts: [String] = ["", ""],
-        initialTags: [[EMVTag]] = [],
+        initialTags: [[EMVTag]] = [[], []],
         diffResults: [TagDiffResult] = []
     ) {
         _columns = .init(initialValue: columns)
@@ -37,7 +37,7 @@ struct DiffView: View {
                 onlyDifferent: false
             )
         )
-        _showsDiff = .init(initialValue: initialTags.count == columns)
+        _showsDiff = .init(initialValue: initialTags.contains([]) == false)
     }
     
     var body: some View {
@@ -99,10 +99,10 @@ struct DiffView: View {
     @ViewBuilder
     private func column(for idx: Int) -> some View {
         GroupBox {
-            if showsDiff {
-                tagList(for: initialTags[idx])
-            } else {
+            if initialTags[idx].isEmpty {
                 textInput(for: idx)
+            } else {
+                tagList(for: initialTags[idx])
             }
         }.frame(minHeight: 500.0)
     }
@@ -110,6 +110,7 @@ struct DiffView: View {
     @ViewBuilder
     private func textInput(for idx: Int) -> some View {
         TextEditor(text: $texts[idx])
+            .font(.title3.monospaced())
             .onChange(of: texts[idx]) { text in
                 do {
                     try parseInput(text, at: idx)
@@ -149,7 +150,7 @@ struct DiffView: View {
         Group {
             switch (diffPair.lhs, diffPair.rhs) {
             case (let lhs?, let rhs?):
-                HStack(spacing: commonPadding) {
+                HStack(alignment: .top, spacing: commonPadding) {
                     TagRowView(diffedTag: lhs)
                     TagRowView(diffedTag: rhs)
                 }
@@ -175,6 +176,7 @@ struct DiffView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 5.0, style: .continuous))
             }
         }
+        .fixedSize(horizontal: false, vertical: true)
     }
     
     private func parseInput(_ input: String, at idx: Int) throws {
@@ -195,7 +197,7 @@ struct DiffView: View {
     }
     
     private func diffInitialTags() {
-        if initialTags.count == columns {
+        if initialTags.contains([]) == false {
             showsDiff = true
         }
         
