@@ -35,7 +35,7 @@ internal struct EMVTagsApp: App {
             newTabButton
             openTagInfoButton
             openMainViewButton
-            openTagInfoButton
+            openDiffViewButton
         })
     }
     

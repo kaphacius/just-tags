@@ -22,27 +22,18 @@ struct MainView: View {
     @State private var searchText: String = ""
     @State private var cancellables = Set<AnyCancellable>()
     @State private var showingSearch = false
+    @State private var showingTags = false
     @FocusState private var searchFocused
     
     private var searchTextPublisher = CurrentValueSubject<String, Never>("")
     
-    var body: some View {
+    internal var body: some View {
         HStack(spacing: 0.0) {
-            VStack(spacing: 0.0) {
-                if showingSearch {
-                    SearchBar(searchText: $searchText, focused: _searchFocused)
-                        .padding([.top, .leading], commonPadding)
-                }
-                list
-            }.background(shortcutButtons)
-            .frame(maxWidth: .infinity)
-            details
-                .frame(width: detailWidth)
+            mainView
         }
+        .background(shortcutButtons)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear {
-            setUpSearch()
-        }
+        .onAppear(perform: setUpSearch)
         .onChange(of: searchText, perform: searchTextPublisher.send)
         .alert("Error!", isPresented: $showingAlert, actions: {
             Button("I'll do better next time") {
@@ -55,6 +46,25 @@ struct MainView: View {
             searchFocused = showingSearch
         }
         .environmentObject(dataSource)
+    }
+    
+    @ViewBuilder
+    internal var mainView: some View {
+        if showingTags {
+            VStack(spacing: 0.0) {
+                if showingSearch {
+                    SearchBar(searchText: $searchText, focused: _searchFocused)
+                        .padding([.top, .leading], commonPadding)
+                }
+                list
+            }
+            .frame(maxWidth: .infinity)
+            details
+                .frame(width: detailWidth)
+        } else {
+            HintView()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+        }
     }
     
     private var list: some View {
@@ -106,6 +116,7 @@ struct MainView: View {
             searchText = ""
             updateTags()
             selectedTag = nil
+            showingTags = true
         } catch {
             showingAlert = true
         }
