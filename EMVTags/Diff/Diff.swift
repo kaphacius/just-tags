@@ -20,10 +20,10 @@ internal struct DiffedTagPair {
         self.lhs = lhs
         self.rhs = rhs
         switch (lhs, rhs) {
-            case (let lhs?, .some):
-                self.isEqual = lhs.diff.contains(.different) == false
-            default:
-                self.isEqual = false
+        case (let lhs?, let rhs?):
+            self.isEqual = lhs.diff.equalDiff && rhs.diff.equalDiff
+        default:
+            self.isEqual = false
         }
     }
     
@@ -191,4 +191,12 @@ func diffCompare<T: Equatable>(
     }
     
     return results
+}
+
+extension Array where Element == DiffResult {
+    
+    fileprivate var equalDiff: Bool {
+        contains(.different) == false
+    }
+    
 }
