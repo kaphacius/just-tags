@@ -8,41 +8,54 @@
 import SwiftUI
 import SwiftyEMVTags
 
-struct TagRowView: View {
+internal struct TagRowView: View {
 
-    let tag: EMVTag
-    let byteDiffResults: [DiffResult]
-    let isDiffing: Bool
+    private let tag: EMVTag
+    private let byteDiffResults: [DiffResult]
+    private let isDiffing: Bool
+    private let canExpand: Bool
+    
+    @State private var isExpanded: Bool = false
     
     internal init(diffedTag: DiffedTag) {
         self.tag = diffedTag.tag
         self.byteDiffResults = diffedTag.diff
         self.isDiffing = true
+        self.canExpand = diffedTag.tag.decodedMeaningList.isEmpty == false
     }
     
     internal init(tag: EMVTag) {
         self.tag = tag
         self.byteDiffResults = []
         self.isDiffing = false
+        self.canExpand = tag.decodedMeaningList.isEmpty == false
     }
     
-    var body: some View {
+    internal var body: some View {
         GroupBox {
             primitiveTagView
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
     
-    var primitiveTagView: some View {
+    @ViewBuilder
+    private var primitiveTagView: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
-                tagHeaderView(for: tag)
-                tagValueView(for: tag)
-                    .padding(.vertical, commonPadding)
+            tagHeaderView
+            if canExpand {
+                expandableValueView
+                    .padding(-commonPadding)
+            } else {
+                tagValueView
             }
+        }
         .contentShape(Rectangle())
+        .onTapGesture {
+            isExpanded.toggle()
+        }
     }
     
-    func tagHeaderView(for tag: EMVTag) -> some View {
+    private var tagHeaderView: some View {
         HStack {
             Text(tag.tag.hexString)
                 .font(.body.monospaced())
@@ -58,7 +71,7 @@ struct TagRowView: View {
     }
     
     @ViewBuilder
-    func tagValueView(for tag: EMVTag) -> some View {
+    var tagValueView: some View {
         if isDiffing {
             diffedValueView
         } else {
@@ -83,7 +96,7 @@ struct TagRowView: View {
     }
     
     @ViewBuilder
-    func diffedByteView(_ diffedByte: DiffedByte) -> some View {
+    private func diffedByteView(_ diffedByte: DiffedByte) -> some View {
         switch diffedByte.result {
         case .equal:
             byteValueView(for: diffedByte.byte)
@@ -94,9 +107,23 @@ struct TagRowView: View {
     }
     
     @ViewBuilder
-    func byteValueView(for tag: UInt8) -> some View {
-        Text(tag.hexString)
+    private func byteValueView(for byte: UInt8) -> some View {
+        Text(byte.hexString)
             .font(.title3.monospaced())
+    }
+    
+    private var expandableValueView: some View {
+        DisclosureGroup(
+            isExpanded: $isExpanded,
+            content: {
+                SelectedMeaningList(tag: tag)
+                    .padding(.leading, commonPadding * 3)
+            }, label: {
+                tagValueView
+            }
+        )
+        .padding(.horizontal, commonPadding)
+        .animation(.none, value: isExpanded)
     }
 
 }
@@ -107,6 +134,7 @@ struct TagRowView_Previews: PreviewProvider {
         TagRowView(
             diffedTag: (tag: .init(hexString: "9F33032808C8"), diff: [.equal, .different, .different])
         )
+        TagRowView(tag: EMVTag(tlv: mockTLV, info: mockInfo, subtags: []))
     }
 }
 

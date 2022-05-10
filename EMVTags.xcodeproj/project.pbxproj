@@ -12,6 +12,7 @@
 		5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B16E281BC225002B2D06 /* DiffView.swift */; };
 		5A31B176281D37BA002B2D06 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B175281D37BA002B2D06 /* Globals.swift */; };
 		5A31B178281D8032002B2D06 /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B177281D8032002B2D06 /* HintView.swift */; };
+		5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */; };
 		5A4FDD8727F187B800603D99 /* common_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A4FDD8627F187B800603D99 /* common_tags.json */; };
 		5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDD9127F21CF700603D99 /* TagInfoView.swift */; };
 		5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */; };
@@ -55,6 +56,7 @@
 		5A31B16E281BC225002B2D06 /* DiffView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DiffView.swift; sourceTree = "<group>"; };
 		5A31B175281D37BA002B2D06 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		5A31B177281D8032002B2D06 /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
+		5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedMeaningList.swift; sourceTree = "<group>"; };
 		5A4FDD8627F187B800603D99 /* common_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text.json; path = common_tags.json; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		5A4FDD9127F21CF700603D99 /* TagInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoView.swift; sourceTree = "<group>"; };
 		5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVM.swift; sourceTree = "<group>"; };
@@ -209,6 +211,7 @@
 		5AE8BF7D27E79CF000474AD0 /* List */ = {
 			isa = PBXGroup;
 			children = (
+				5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */,
 				5AE8BF7E27E79D0200474AD0 /* TagListView.swift */,
 				5A31B1632812F308002B2D06 /* TagRowView.swift */,
 			);
@@ -360,6 +363,7 @@
 				5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */,
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
+				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
