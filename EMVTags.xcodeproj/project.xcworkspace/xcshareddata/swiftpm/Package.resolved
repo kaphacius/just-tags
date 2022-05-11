@@ -11,11 +11,11 @@
     },
     {
       "identity" : "swifty-emv-tags",
-      "kind" : "localSourceControl",
-      "location" : "/Users/yurii/projects/swifty-emv-tags",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/kaphacius/swifty-emv-tags",
       "state" : {
-        "branch" : "develop",
-        "revision" : "10687b54a7fc29e49a283306f849dd311accf184"
+        "branch" : "main",
+        "revision" : "01f3098b9b24c51b78c1a5d73eab7b44403c39f0"
       }
     }
   ],

@@ -19,8 +19,8 @@
 		5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB127F42B5200603D99 /* SearchBar.swift */; };
 		5A4FDDB427F42C8F00603D99 /* TagsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */; };
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
-		5A5443C9280EE2FB0059F350 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A5443C8280EE2FB0059F350 /* SwiftyEMVTags */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
+		5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A9BC832282C3528000C05F7 /* SwiftyEMVTags */; };
 		5AE8BF5027E79BF000474AD0 /* EMVTagsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */; };
 		5AE8BF5427E79BF100474AD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AE8BF5327E79BF100474AD0 /* Assets.xcassets */; };
 		5AE8BF5727E79BF100474AD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AE8BF5627E79BF100474AD0 /* Preview Assets.xcassets */; };
@@ -84,7 +84,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A5443C9280EE2FB0059F350 /* SwiftyEMVTags in Frameworks */,
+				5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -235,7 +235,7 @@
 			);
 			name = EMVTags;
 			packageProductDependencies = (
-				5A5443C8280EE2FB0059F350 /* SwiftyEMVTags */,
+				5A9BC832282C3528000C05F7 /* SwiftyEMVTags */,
 			);
 			productName = EMVTags;
 			productReference = 5AE8BF4C27E79BF000474AD0 /* EMVTags.app */;
@@ -310,7 +310,7 @@
 			);
 			mainGroup = 5AE8BF4327E79BF000474AD0;
 			packageReferences = (
-				5A5443C7280EE2FB0059F350 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */,
+				5A9BC831282C3528000C05F7 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */,
 			);
 			productRefGroup = 5AE8BF4D27E79BF000474AD0 /* Products */;
 			projectDirPath = "";
@@ -696,20 +696,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5A5443C7280EE2FB0059F350 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */ = {
+		5A9BC831282C3528000C05F7 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "file:///Users/yurii/projects/swifty-emv-tags";
+			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
-				branch = develop;
+				branch = main;
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5A5443C8280EE2FB0059F350 /* SwiftyEMVTags */ = {
+		5A9BC832282C3528000C05F7 /* SwiftyEMVTags */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5A5443C7280EE2FB0059F350 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */;
+			package = 5A9BC831282C3528000C05F7 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */;
 			productName = SwiftyEMVTags;
 		};
 /* End XCSwiftPackageProductDependency section */
