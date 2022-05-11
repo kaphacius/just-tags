@@ -12,12 +12,10 @@ import SwiftyEMVTags
 let commonPadding: CGFloat = 4.0
 let detailWidth: CGFloat = 500.0
 
-struct TagListView: View {
+internal struct TagListView: View {
     
     @State private var disclosureGroups: [UUID: Bool] = [:]
     @EnvironmentObject private var dataSource: TagsDataSource
-    
-    internal let onTagSelected: (EMVTag) -> Void
     
     internal var body: some View {
         VStack(spacing: commonPadding) {
@@ -52,11 +50,7 @@ struct TagListView: View {
     
     private var tagList: some View {
         LazyVStack(spacing: commonPadding) {
-            ForEach(dataSource.tags) { tag in
-                GroupBox {
-                    tagView(for: tag)
-                }
-            }
+            ForEach(dataSource.tags, content: tagView(for:))
         }
         .animation(.linear(duration: 0.2), value: dataSource.tags)
     }
@@ -84,44 +78,11 @@ struct TagListView: View {
     @ViewBuilder
     func tagView(for tag: EMVTag) -> some View {
         if tag.isConstructed {
-            constructedTagView(for: tag)
-        } else {
-            primitiveTagView(for: tag)
-        }
-    }
-    
-    func primitiveTagView(for tag: EMVTag) -> some View {
-        let binding = expandedBinding(for: tag.id)
-        
-        return HStack {
-            VStack(alignment: .leading, spacing: commonPadding) {
-                if tag.decodedMeaningList.isEmpty {
-                    tagHeaderView(for: tag)
-                    tagValueView(for: tag)
-                        .padding(.vertical, 3.0)
-                } else {
-                    Button(
-                        action: { onTagSelected(tag) },
-                        label: { tagHeaderView(for: tag) }
-                    )
-                    DisclosureGroup(
-                        isExpanded: binding,
-                        content: {
-                            setOptionsView(tag: tag)
-                                .padding(.leading, commonPadding * 3)
-                        }, label: {
-                            tagValueView(for: tag)
-                        }
-                    )
-                        .padding(.horizontal, commonPadding)
-                        .animation(.none, value: expandedBinding(for: tag.id).wrappedValue)
-                }
+            GroupBox {
+                constructedTagView(for: tag)
             }
-            Spacer()
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            binding.wrappedValue.toggle()
+        } else {
+            TagRowView(tag: tag)
         }
     }
     
@@ -136,7 +97,7 @@ struct TagListView: View {
                         ForEach(tag.subtags) { subtag in
                             GroupBox {
                                 HStack {
-                                    primitiveTagView(for: subtag)
+                                    TagRowView(tag: subtag)
                                     Spacer()
                                 }.padding(.horizontal, commonPadding)
                             }
@@ -158,22 +119,6 @@ struct TagListView: View {
         .contentShape(Rectangle())
         .onTapGesture {
             binding.wrappedValue.toggle()
-        }
-    }
-    
-    func setOptionsView(tag: EMVTag) -> some View {
-        HStack {
-            VStack(alignment: .leading, spacing: commonPadding) {
-                ForEach(Array(tag.decodedMeaningList
-                                .flatMap(\.bitList)
-                                .filter(\.isSet)
-                                .map(\.meaning)
-                                .enumerated()), id: \.0) { (idx, line) in
-                    Text(line)
-                        .multilineTextAlignment(.leading)
-                }
-            }
-            Spacer()
         }
     }
     
@@ -200,10 +145,10 @@ struct TagListView: View {
     }
     
 }
-//
-//struct EMVTagListView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TagListView(onTagSelected: { _ in })
-//            .environmentObject(EMVTagsDataSource(tags: ppp))
-//    }
-//}
+
+struct EMVTagListView_Previews: PreviewProvider {
+    static var previews: some View {
+        TagListView()
+            .environmentObject(TagsDataSource(tags: []))
+    }
+}

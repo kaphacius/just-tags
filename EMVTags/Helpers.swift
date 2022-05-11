@@ -8,6 +8,7 @@
 import Foundation
 import SwiftyEMVTags
 import SwiftyBERTLV
+import SwiftUI
 
 extension String {
     func split(by length: Int) -> [String] {
@@ -151,4 +152,15 @@ extension Array where Self.Element == EMVTag {
         self.sorted(by: <)
     }
     
+}
+
+internal struct SelectedTag: EnvironmentKey {
+    static let defaultValue: Binding<EMVTag?> = .constant(nil)
+}
+
+extension EnvironmentValues {
+    internal var selectedTag: Binding<EMVTag?> {
+        get { self[SelectedTag.self] }
+        set { self[SelectedTag.self] = newValue }
+    }
 }

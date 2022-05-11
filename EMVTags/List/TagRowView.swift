@@ -9,11 +9,14 @@ import SwiftUI
 import SwiftyEMVTags
 
 internal struct TagRowView: View {
+    
+    @Environment (\.selectedTag) private var selectedTag
 
     private let tag: EMVTag
     private let byteDiffResults: [DiffResult]
     private let isDiffing: Bool
     private let canExpand: Bool
+    private let showsDetails: Bool
     
     @State private var isExpanded: Bool = false
     
@@ -22,6 +25,7 @@ internal struct TagRowView: View {
         self.byteDiffResults = diffedTag.diff
         self.isDiffing = true
         self.canExpand = diffedTag.tag.decodedMeaningList.isEmpty == false
+        self.showsDetails = canExpand
     }
     
     internal init(tag: EMVTag) {
@@ -29,6 +33,7 @@ internal struct TagRowView: View {
         self.byteDiffResults = []
         self.isDiffing = false
         self.canExpand = tag.decodedMeaningList.isEmpty == false
+        self.showsDetails = canExpand
     }
     
     internal var body: some View {
@@ -41,7 +46,14 @@ internal struct TagRowView: View {
     @ViewBuilder
     private var primitiveTagView: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
-            tagHeaderView
+            if showsDetails {
+                Button(
+                    action: { selectedTag.wrappedValue = tag },
+                    label: { tagHeaderView }
+                )
+            } else {
+                tagHeaderView
+            }
             if canExpand {
                 expandableValueView
                     .padding(-commonPadding)

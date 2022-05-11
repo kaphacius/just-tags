@@ -46,6 +46,7 @@ struct MainView: View {
             searchFocused = showingSearch
         }
         .environmentObject(dataSource)
+        .environment(\.selectedTag, $selectedTag)
     }
     
     @ViewBuilder
@@ -56,7 +57,7 @@ struct MainView: View {
                     SearchBar(searchText: $searchText, focused: _searchFocused)
                         .padding([.top, .leading], commonPadding)
                 }
-                list
+                TagListView()
             }
             .frame(maxWidth: .infinity)
             details
@@ -65,12 +66,6 @@ struct MainView: View {
             HintView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-    }
-    
-    private var list: some View {
-        TagListView(onTagSelected: { tag in
-            self.selectedTag = tag
-        })
     }
     
     private var details: some View {
