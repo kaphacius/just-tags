@@ -135,12 +135,38 @@ extension EMVTag {
         try! self.init(tlv: .parse(bytes: bytes).first!)
     }
     
+    init(tlv: BERTLV) {
+        self.init(
+            tlv: tlv,
+            info: .unknownInfo(for: tlv.tag),
+            subtags: tlv.subTags.map { .init(tlv: $0, info: .unknownInfo(for: $0.tag), subtags: []) }
+        )
+    }
+    
     init(hexString: String) {
         self.init(
             bytes: hexString
                 .replacingOccurrences(of: " ", with: "")
                 .split(by: 2)
                 .compactMap { UInt8($0, radix: 16) }
+        )
+    }
+    
+}
+
+extension EMVTag.Info {
+    
+    fileprivate static func unknownInfo(for tag: UInt64) -> EMVTag.Info {
+        .init(
+            tag: tag,
+            name: "Unknown",
+            description: "Unknown",
+            source: .unknown,
+            format: "Unknown",
+            kernel: .general,
+            minLength: "Unknown",
+            maxLength: "Unknown",
+            byteMeaningList: []
         )
     }
     
