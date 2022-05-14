@@ -49,10 +49,10 @@ internal struct TagRowView: View {
             if showsDetails {
                 Button(
                     action: { selectedTag.wrappedValue = tag },
-                    label: { tagHeaderView }
+                    label: { TagHeaderView(tag: tag) }
                 )
             } else {
-                tagHeaderView
+                TagHeaderView(tag: tag)
             }
             if canExpand {
                 expandableValueView
@@ -67,34 +67,13 @@ internal struct TagRowView: View {
         }
     }
     
-    private var tagHeaderView: some View {
-        HStack {
-            Text(tag.tag.hexString)
-                .font(.body.monospaced())
-                .fontWeight(.semibold)
-                .minimumScaleFactor(0.5)
-                .lineLimit(1)
-
-            Text(tag.name)
-                .font(.body)
-                .fontWeight(.semibold)
-                .minimumScaleFactor(0.5)
-        }
-    }
-    
     @ViewBuilder
     var tagValueView: some View {
         if isDiffing {
             diffedValueView
         } else {
-            valueView
+            TagValueView(value: tag.value)
         }
-    }
-    
-    @ViewBuilder
-    private var valueView: some View {
-        Text(tag.value.hexString)
-            .font(.title3.monospaced())
     }
     
     @ViewBuilder
@@ -140,9 +119,37 @@ internal struct TagRowView: View {
 
 }
 
+internal struct TagValueView: View {
+    internal let value: [UInt8]
+    
+    internal var body: some View {
+        Text(value.hexString)
+            .font(.title3.monospaced())
+    }
+}
+
+internal struct TagHeaderView: View {
+    internal let tag: EMVTag
+    
+    internal var body: some View {
+        HStack {
+            Text(tag.tag.hexString)
+                .font(.body.monospaced())
+                .fontWeight(.semibold)
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
+            
+            Text(tag.name)
+                .font(.body)
+                .fontWeight(.semibold)
+                .minimumScaleFactor(0.5)
+        }
+    }
+}
+
 struct TagRowView_Previews: PreviewProvider {
     static var previews: some View {
-        TagRowView(tag: .init(hexString: "9F33032808C8"))
+        TagRowView(tag: .init(hexString: "e181c7df810c01029f060aa0000000041010d076129f150260519f160f3130303920202020202020202020209f1a0205289f1c0832313930303031389f090200029f3501229f40056000b0a003df812005fc50bca000df8121050010000000df812205fc50bcf8009f1d009f6d02ffffdf81170120df81180120df81190108df811b01b0df811e0110df811f0108df812306000000002500df812406000009999999df812506000009999999df8126060000000050009f530152df811c020078df811d0102df812c0100"))
         TagRowView(
             diffedTag: (tag: .init(hexString: "9F33032808C8"), diff: [.equal, .different, .different])
         )
