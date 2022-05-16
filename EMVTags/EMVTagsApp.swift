@@ -30,6 +30,7 @@ internal struct EMVTagsApp: App {
         }.handlesExternalEvents(matching: ["diff"])
     }
     
+    @CommandsBuilder
     private func commands() -> some Commands {
         CommandGroup(before: CommandGroupPlacement.newItem, addition: {
             newTabButton

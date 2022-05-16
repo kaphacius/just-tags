@@ -700,7 +700,7 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
-				branch = main;
+				branch = develop;
 				kind = branch;
 			};
 		};

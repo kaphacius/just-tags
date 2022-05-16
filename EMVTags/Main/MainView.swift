@@ -13,6 +13,7 @@ import SwiftyBERTLV
 struct MainView: View {
     
     @StateObject var dataSource = TagsDataSource(tags: [])
+    @StateObject var selectedTagDataSource = SelectedTagsSource()
     @State var tagDescriptions: Dictionary<UUID, String> = [:]
     @EnvironmentObject private var infoDataSource: EMVTagInfoDataSource
     
@@ -46,6 +47,7 @@ struct MainView: View {
             searchFocused = showingSearch
         }
         .environmentObject(dataSource)
+        .environmentObject(selectedTagDataSource)
         .environment(\.selectedTag, $selectedTag)
     }
     
@@ -170,6 +172,7 @@ extension EMVTag {
                 kernel: self.kernel,
                 isConstructed: self.isConstructed,
                 value: self.value,
+                lengthBytes: self.lengthBytes,
                 subtags: self.subtags.filter { matchingTags.contains($0.id) },
                 decodedMeaningList: self.decodedMeaningList
             )

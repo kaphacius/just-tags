@@ -10,6 +10,24 @@ import SwiftyEMVTags
 import SwiftyBERTLV
 import SwiftUI
 
+extension View {
+    /// Applies the given transform if the given condition evaluates to `true`.
+    /// - Parameters:
+    ///   - condition: The condition to evaluate.
+    ///   - transform: The transform to apply to the source `View`.
+    /// - Returns: Either the original `View` or the modified `View` if the condition is `true`.
+    @ViewBuilder func `if`<Content: View>(
+        _ condition: @autoclosure () -> Bool,
+        transform: (Self) -> Content
+    ) -> some View {
+        if condition() {
+            transform(self)
+        } else {
+            self
+        }
+    }
+}
+
 extension String {
     func split(by length: Int) -> [String] {
         var startIndex = self.startIndex
@@ -152,14 +170,6 @@ extension EMVTag {
         )
     }
     
-    var hexString: String {
-        [
-            tag.hexString,
-            value.count.hexString,
-            value.hexString
-        ].joined()
-    }
-    
 }
 
 extension Int {
@@ -205,4 +215,31 @@ extension EnvironmentValues {
         get { self[SelectedTag.self] }
         set { self[SelectedTag.self] = newValue }
     }
+}
+
+internal class SelectedTagsSource: ObservableObject {
+    
+    @Published private(set) var selectedIds = Set<UUID>()
+    @Published private(set) var selectedTags = [EMVTag]()
+    
+    internal func onTagSelected(tag: EMVTag) {
+        if selectedIds.contains(tag.id) {
+            selectedIds.remove(tag.id)
+            _ = selectedTags
+                .firstIndex(of: tag)
+                .map{ selectedTags.remove(at: $0) }
+        } else {
+            selectedIds.insert(tag.id)
+            selectedTags.append(tag)
+        }
+    }
+    
+    internal func contains(id: UUID) -> Bool {
+        selectedIds.contains(id)
+    }
+    
+    internal var hexString: String {
+        selectedTags.map(\.hexString).joined()
+    }
+    
 }

@@ -11,6 +11,7 @@ import SwiftyEMVTags
 internal struct TagRowView: View {
     
     @Environment (\.selectedTag) private var selectedTag
+    @EnvironmentObject private var selectedTags: SelectedTagsSource
 
     private let tag: EMVTag
     private let byteDiffResults: [DiffResult]
@@ -40,7 +41,22 @@ internal struct TagRowView: View {
         GroupBox {
             primitiveTagView
                 .frame(maxWidth: .infinity, alignment: .leading)
-        }.contextMenu { contextMenu }
+        }
+        .contextMenu { contextMenu }
+        .contentShape(Rectangle())
+        .gesture(TapGesture().modifiers(.command).onEnded { _ in
+            selectedTags.onTagSelected(tag: tag)
+        })
+        .onTapGesture {
+            isExpanded.toggle()
+        }
+        .if(selectedTags.contains(id: tag.id)) { view in
+            view.overlay {
+                RoundedRectangle(cornerRadius: 4.0, style: .continuous)
+                    .strokeBorder(lineWidth: 1.0, antialiased: true)
+                    .foregroundColor(.secondary)
+            }.transition(.opacity)
+        }
     }
     
     @ViewBuilder
@@ -60,10 +76,6 @@ internal struct TagRowView: View {
             } else {
                 tagValueView
             }
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            isExpanded.toggle()
         }
     }
     
@@ -127,6 +139,14 @@ internal struct TagRowView: View {
             NSPasteboard.general.declareTypes([.string], owner: nil)
             NSPasteboard.general.setString(tag.value.hexString, forType: .string)
         }
+        if selectedTags.selectedTags.count > 1 {
+            Button("Copy selected tags") {
+                NSPasteboard.general.declareTypes([.string], owner: nil)
+                NSPasteboard.general.setString(
+                    selectedTags.hexString, forType: .string
+                )
+            }
+        }
     }
 
 }
@@ -159,6 +179,7 @@ internal struct TagHeaderView: View {
     }
 }
 
+#if DEBUG
 struct TagRowView_Previews: PreviewProvider {
     static var previews: some View {
         TagRowView(tag: .init(hexString: "e181c7df810c01029f060aa0000000041010d076129f150260519f160f3130303920202020202020202020209f1a0205289f1c0832313930303031389f090200029f3501229f40056000b0a003df812005fc50bca000df8121050010000000df812205fc50bcf8009f1d009f6d02ffffdf81170120df81180120df81190108df811b01b0df811e0110df811f0108df812306000000002500df812406000009999999df812506000009999999df8126060000000050009f530152df811c020078df811d0102df812c0100"))
@@ -168,5 +189,4 @@ struct TagRowView_Previews: PreviewProvider {
         TagRowView(tag: EMVTag(tlv: mockTLV, info: mockInfo, subtags: []))
     }
 }
-
-
+#endif
