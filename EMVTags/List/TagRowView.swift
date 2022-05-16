@@ -40,7 +40,7 @@ internal struct TagRowView: View {
         GroupBox {
             primitiveTagView
                 .frame(maxWidth: .infinity, alignment: .leading)
-        }
+        }.contextMenu { contextMenu }
     }
     
     @ViewBuilder
@@ -115,6 +115,18 @@ internal struct TagRowView: View {
         )
         .padding(.horizontal, commonPadding)
         .animation(.none, value: isExpanded)
+    }
+    
+    @ViewBuilder
+    private var contextMenu: some View {
+        Button("Copy full tag") {
+            NSPasteboard.general.declareTypes([.string], owner: nil)
+            NSPasteboard.general.setString(tag.hexString, forType: .string)
+        }
+        Button("Copy value") {
+            NSPasteboard.general.declareTypes([.string], owner: nil)
+            NSPasteboard.general.setString(tag.value.hexString, forType: .string)
+        }
     }
 
 }

@@ -152,6 +152,22 @@ extension EMVTag {
         )
     }
     
+    var hexString: String {
+        [
+            tag.hexString,
+            value.count.hexString,
+            value.hexString
+        ].joined()
+    }
+    
+}
+
+extension Int {
+    
+    public var hexString: String {
+        String(format: "%02X", UInt64(self))
+    }
+    
 }
 
 extension EMVTag.Info {
