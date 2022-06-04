@@ -10,8 +10,7 @@ import SwiftyEMVTags
 
 internal struct TagRowView: View {
     
-    @Environment (\.selectedTag) private var selectedTag
-    @EnvironmentObject private var selectedTags: SelectedTagsSource
+    @EnvironmentObject private var windowVM: WindowVW
 
     private let tag: EMVTag
     private let byteDiffResults: [DiffResult]
@@ -39,94 +38,27 @@ internal struct TagRowView: View {
     
     internal var body: some View {
         GroupBox {
-            primitiveTagView
-                .frame(maxWidth: .infinity, alignment: .leading)
+            if tag.isConstructed {
+                ConstructedTagView(tag: tag)
+            } else {
+                PrimitiveTagView(
+                    tag: tag,
+                    byteDiffResults: byteDiffResults,
+                    isDiffing: isDiffing,
+                    canExpand: canExpand,
+                    showsDetails: showsDetails
+                )
+            }
         }
         .contextMenu { contextMenu }
         .contentShape(Rectangle())
-        .gesture(TapGesture().modifiers(.command).onEnded { _ in
-            selectedTags.onTagSelected(tag: tag)
-        })
-        .onTapGesture {
-            isExpanded.toggle()
-        }
-        .if(selectedTags.contains(id: tag.id)) { view in
+        .if(windowVM.contains(id: tag.id)) { view in
             view.overlay {
                 RoundedRectangle(cornerRadius: 4.0, style: .continuous)
                     .strokeBorder(lineWidth: 1.0, antialiased: true)
                     .foregroundColor(.secondary)
             }.transition(.opacity)
         }
-    }
-    
-    @ViewBuilder
-    private var primitiveTagView: some View {
-        VStack(alignment: .leading, spacing: commonPadding) {
-            if showsDetails {
-                Button(
-                    action: { selectedTag.wrappedValue = tag },
-                    label: { TagHeaderView(tag: tag) }
-                )
-            } else {
-                TagHeaderView(tag: tag)
-            }
-            if canExpand {
-                expandableValueView
-                    .padding(-commonPadding)
-            } else {
-                tagValueView
-            }
-        }
-    }
-    
-    @ViewBuilder
-    var tagValueView: some View {
-        if isDiffing {
-            diffedValueView
-        } else {
-            TagValueView(value: tag.value)
-        }
-    }
-    
-    @ViewBuilder
-    private var diffedValueView: some View {
-        HStack(alignment: .top, spacing: 0.0) {
-            ForEach(Array(zip(tag.value, byteDiffResults).enumerated()), id: \.offset) { (offset, diffedByte) in
-                diffedByteView(diffedByte)
-            }
-            Spacer()
-        }
-    }
-    
-    @ViewBuilder
-    private func diffedByteView(_ diffedByte: DiffedByte) -> some View {
-        switch diffedByte.result {
-        case .equal:
-            byteValueView(for: diffedByte.byte)
-        case .different:
-            byteValueView(for: diffedByte.byte)
-                .background(diffBackground)
-        }
-    }
-    
-    @ViewBuilder
-    private func byteValueView(for byte: UInt8) -> some View {
-        Text(byte.hexString)
-            .font(.title3.monospaced())
-    }
-    
-    private var expandableValueView: some View {
-        DisclosureGroup(
-            isExpanded: $isExpanded,
-            content: {
-                SelectedMeaningList(tag: tag)
-                    .padding(.leading, commonPadding * 3)
-            }, label: {
-                tagValueView
-            }
-        )
-        .padding(.horizontal, commonPadding)
-        .animation(.none, value: isExpanded)
     }
     
     @ViewBuilder
@@ -139,11 +71,11 @@ internal struct TagRowView: View {
             NSPasteboard.general.declareTypes([.string], owner: nil)
             NSPasteboard.general.setString(tag.value.hexString, forType: .string)
         }
-        if selectedTags.selectedTags.count > 1 {
+        if windowVM.selectedTags.count > 1 {
             Button("Copy selected tags") {
                 NSPasteboard.general.declareTypes([.string], owner: nil)
                 NSPasteboard.general.setString(
-                    selectedTags.hexString, forType: .string
+                    windowVM.hexString, forType: .string
                 )
             }
         }

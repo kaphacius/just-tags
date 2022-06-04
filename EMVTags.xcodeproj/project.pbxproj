@@ -21,6 +21,9 @@
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A9BC832282C3528000C05F7 /* SwiftyEMVTags */; };
+		5AA64D07283547A800F295A9 /* WindowVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D06283547A800F295A9 /* WindowVM.swift */; };
+		5AA64D2C2848079100F295A9 /* ConstructedTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D2B2848079100F295A9 /* ConstructedTagView.swift */; };
+		5AA64D2E2848083000F295A9 /* PrimitiveTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D2D2848083000F295A9 /* PrimitiveTagView.swift */; };
 		5AE8BF5027E79BF000474AD0 /* EMVTagsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */; };
 		5AE8BF5427E79BF100474AD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AE8BF5327E79BF100474AD0 /* Assets.xcassets */; };
 		5AE8BF5727E79BF100474AD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AE8BF5627E79BF100474AD0 /* Preview Assets.xcassets */; };
@@ -64,6 +67,9 @@
 		5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsDataSource.swift; sourceTree = "<group>"; };
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
+		5AA64D06283547A800F295A9 /* WindowVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowVM.swift; sourceTree = "<group>"; };
+		5AA64D2B2848079100F295A9 /* ConstructedTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedTagView.swift; sourceTree = "<group>"; };
+		5AA64D2D2848083000F295A9 /* PrimitiveTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrimitiveTagView.swift; sourceTree = "<group>"; };
 		5AE8BF4C27E79BF000474AD0 /* EMVTags.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EMVTags.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagsApp.swift; sourceTree = "<group>"; };
 		5AE8BF5327E79BF100474AD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -120,6 +126,7 @@
 				5A4FDDB127F42B5200603D99 /* SearchBar.swift */,
 				5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */,
 				5A31B177281D8032002B2D06 /* HintView.swift */,
+				5AA64D06283547A800F295A9 /* WindowVM.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -211,9 +218,11 @@
 		5AE8BF7D27E79CF000474AD0 /* List */ = {
 			isa = PBXGroup;
 			children = (
-				5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */,
 				5AE8BF7E27E79D0200474AD0 /* TagListView.swift */,
 				5A31B1632812F308002B2D06 /* TagRowView.swift */,
+				5AA64D2B2848079100F295A9 /* ConstructedTagView.swift */,
+				5AA64D2D2848083000F295A9 /* PrimitiveTagView.swift */,
+				5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */,
 			);
 			path = List;
 			sourceTree = "<group>";
@@ -359,17 +368,20 @@
 				5A31B178281D8032002B2D06 /* HintView.swift in Sources */,
 				5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */,
 				5AE8BF5027E79BF000474AD0 /* EMVTagsApp.swift in Sources */,
+				5AA64D2C2848079100F295A9 /* ConstructedTagView.swift in Sources */,
 				5A4FDDB427F42C8F00603D99 /* TagsDataSource.swift in Sources */,
 				5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */,
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
+				5AA64D07283547A800F295A9 /* WindowVM.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
 				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,
+				5AA64D2E2848083000F295A9 /* PrimitiveTagView.swift in Sources */,
 				5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

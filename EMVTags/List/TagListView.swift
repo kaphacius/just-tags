@@ -15,21 +15,16 @@ let detailWidth: CGFloat = 500.0
 internal struct TagListView: View {
     
     @State private var disclosureGroups: [UUID: Bool] = [:]
-    @EnvironmentObject private var dataSource: TagsDataSource
+    @EnvironmentObject private var viewModel: WindowVW
     
     internal var body: some View {
         VStack(spacing: commonPadding) {
-            header
             ScrollView {
                 tagList
             }
         }
         .frame(maxWidth: .infinity)
         .padding([.top, .leading, .bottom], commonPadding)
-        .onChange(of: dataSource.tags) { _ in
-            self.updateGroups()
-        }
-        .onAppear(perform: updateGroups)
     }
     
     private var header: some View {
@@ -52,74 +47,9 @@ internal struct TagListView: View {
     
     private var tagList: some View {
         LazyVStack(spacing: commonPadding) {
-            ForEach(dataSource.tags, content: tagView(for:))
+            ForEach(viewModel.dataSource.tags, content: TagRowView.init(tag:))
         }
-        .animation(.linear(duration: 0.2), value: dataSource.tags)
-    }
-    
-    func updateGroups() {
-        disclosureGroups = dataSource
-            .tags
-            .filter(\.isConstructed)
-            .map(\.id).reduce(into: [:], { $0[$1] = true })
-    }
-    
-    @ViewBuilder
-    func tagView(for tag: EMVTag) -> some View {
-        if tag.isConstructed {
-            GroupBox {
-                constructedTagView(for: tag)
-            }
-        } else {
-            TagRowView(tag: tag)
-        }
-    }
-    
-    func constructedTagView(for tag: EMVTag) -> some View {
-        let binding = expandedBinding(for: tag.id)
-        
-        return VStack(alignment: .leading) {
-            disclosureGroup(for: tag, binding: binding)
-            constructedTagValueView(for: tag, binding: binding)
-        }
-        .contentShape(Rectangle())
-        .onTapGesture {
-            binding.wrappedValue.toggle()
-        }
-    }
-    
-    private func disclosureGroup(for tag: EMVTag, binding: Binding<Bool>) -> some View {
-        DisclosureGroup(
-            isExpanded: binding,
-            content: {
-                VStack(alignment: .leading, spacing: commonPadding) {
-                    ForEach(tag.subtags, content: TagRowView.init(tag:))
-                }
-                .padding(.top, commonPadding)
-            }, label: {
-                TagHeaderView(tag: tag)
-                    .padding(.leading, commonPadding)
-                    .padding(.vertical, -commonPadding)
-            }
-        ).animation(.none, value: binding.wrappedValue)
-    }
-    
-    @ViewBuilder
-    private func constructedTagValueView(for tag: EMVTag, binding: Binding<Bool>) -> some View {
-        if binding.wrappedValue == false {
-            HStack(spacing: 0.0) {
-                TagValueView(value: tag.value)
-                    .multilineTextAlignment(.leading)
-                    .padding(.top, -commonPadding)
-            }
-        }
-    }
-    
-    func expandedBinding(for id: UUID) -> Binding<Bool> {
-        .init(
-            get: { disclosureGroups[id] ?? true },
-            set: { disclosureGroups[id] = $0 }
-        )
+        .animation(.linear(duration: 0.2), value: viewModel.dataSource.tags)
     }
     
 }
