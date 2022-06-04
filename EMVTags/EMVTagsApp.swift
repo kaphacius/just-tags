@@ -70,7 +70,7 @@ internal struct EMVTagsApp: App {
             
             infoDataSource.infoList.append(contentsOf: result.tags)
         }, label: {
-            Text("New Tab")
+            Text("Open tag info list")
         }).keyboardShortcut("o", modifiers: [.command, .shift])
     }
     
