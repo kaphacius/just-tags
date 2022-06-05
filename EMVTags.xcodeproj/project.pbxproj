@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDD284C976B00BBE844 /* AppVM.swift */; };
+		5A301EE0284CBEA700BBE844 /* HistingWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDF284CBEA700BBE844 /* HistingWindowFinder.swift */; };
+		5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EE1284CC67500BBE844 /* MainViewCommands.swift */; };
 		5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B1632812F308002B2D06 /* TagRowView.swift */; };
 		5A31B1662816FC31002B2D06 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B1652816FC31002B2D06 /* Diff.swift */; };
 		5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B16E281BC225002B2D06 /* DiffView.swift */; };
@@ -53,6 +56,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A301EDD284C976B00BBE844 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
+		5A301EDF284CBEA700BBE844 /* HistingWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistingWindowFinder.swift; sourceTree = "<group>"; };
+		5A301EE1284CC67500BBE844 /* MainViewCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCommands.swift; sourceTree = "<group>"; };
 		5A31B1632812F308002B2D06 /* TagRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRowView.swift; sourceTree = "<group>"; };
 		5A31B1652816FC31002B2D06 /* Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
 		5A31B16D281BBAA0002B2D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -127,6 +133,8 @@
 				5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */,
 				5A31B177281D8032002B2D06 /* HintView.swift */,
 				5AA64D06283547A800F295A9 /* WindowVM.swift */,
+				5A301EDF284CBEA700BBE844 /* HistingWindowFinder.swift */,
+				5A301EE1284CC67500BBE844 /* MainViewCommands.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -176,6 +184,7 @@
 				5A69A35D27ED89A20054B339 /* Helpers.swift */,
 				5A51B17A2811D70E00F516F5 /* InputParser.swift */,
 				5A31B175281D37BA002B2D06 /* Globals.swift */,
+				5A301EDD284C976B00BBE844 /* AppVM.swift */,
 			);
 			path = EMVTags;
 			sourceTree = "<group>";
@@ -365,6 +374,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,
+				5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */,
 				5A31B178281D8032002B2D06 /* HintView.swift in Sources */,
 				5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */,
 				5AE8BF5027E79BF000474AD0 /* EMVTagsApp.swift in Sources */,
@@ -373,7 +383,9 @@
 				5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */,
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
+				5A301EE0284CBEA700BBE844 /* HistingWindowFinder.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
+				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
 				5AA64D07283547A800F295A9 /* WindowVM.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */,

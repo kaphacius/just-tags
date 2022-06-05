@@ -9,7 +9,7 @@ import Foundation
 import SwiftyEMVTags
 import SwiftUI
 
-internal final class WindowVW: ObservableObject {
+internal final class WindowVM: ObservableObject {
     
     @Published internal var dataSource = TagsDataSource(tags: [])
     @Published internal var selectedTag: EMVTag? = nil

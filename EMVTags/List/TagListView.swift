@@ -15,7 +15,7 @@ let detailWidth: CGFloat = 500.0
 internal struct TagListView: View {
     
     @State private var disclosureGroups: [UUID: Bool] = [:]
-    @EnvironmentObject private var viewModel: WindowVW
+    @EnvironmentObject private var viewModel: WindowVM
     
     internal var body: some View {
         VStack(spacing: commonPadding) {

@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal struct ConstructedTagView: View {
     
-    @EnvironmentObject private var windowVM: WindowVW
+    @EnvironmentObject private var windowVM: WindowVM
     
     @State var isExpanded: Bool = false
     

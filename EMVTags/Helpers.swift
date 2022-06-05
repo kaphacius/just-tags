@@ -243,3 +243,12 @@ internal class SelectedTagsSource: ObservableObject {
     }
     
 }
+
+extension NSPasteboard {
+    
+    static func copyString(_ string: String) {
+        NSPasteboard.general.declareTypes([.string], owner: nil)
+        NSPasteboard.general.setString(string, forType: .string)
+    }
+    
+}

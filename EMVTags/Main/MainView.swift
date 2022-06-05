@@ -12,8 +12,9 @@ import SwiftyBERTLV
 
 struct MainView: View {
     
-    @StateObject var viewModel = WindowVW()
-    @State var tagDescriptions: Dictionary<UUID, String> = [:]
+    @State private var tagDescriptions: Dictionary<UUID, String> = [:]
+    @EnvironmentObject private var appVM: AppVM
+    @StateObject private var windowVM: WindowVM = .init()
     @EnvironmentObject private var infoDataSource: EMVTagInfoDataSource
     
     @State private var initialTags: [EMVTag] = []
@@ -44,7 +45,13 @@ struct MainView: View {
         .onChange(of: showingSearch) { _ in
             searchFocused = showingSearch
         }
-        .environmentObject(viewModel)
+        .environmentObject(windowVM)
+        .background {
+            HostingWindowFinder { window in
+                guard let window = window else { return }
+                self.appVM.addWindow(window, viewModel: windowVM)
+            }.opacity(0.0)
+        }
     }
     
     @ViewBuilder
@@ -68,7 +75,7 @@ struct MainView: View {
     
     private var details: some View {
         GroupBox {
-            if let selectedTag = viewModel.selectedTag {
+            if let selectedTag = windowVM.selectedTag {
                 TagDetailView(vm: .init(emvTag: selectedTag))
             } else {
                 Text("Select a tag to view the details")
@@ -108,7 +115,7 @@ struct MainView: View {
             tagDescriptions = .init(uniqueKeysWithValues: pairs)
             searchText = ""
             updateTags()
-            viewModel.selectedTag = nil
+            windowVM.selectedTag = nil
             showingTags = true
         } catch {
             showingAlert = true
@@ -126,7 +133,7 @@ struct MainView: View {
     
     private func updateTags() {
         if searchText.count < 2 {
-            viewModel.dataSource.tags = initialTags
+            windowVM.dataSource.tags = initialTags
         } else {
             let searchText = searchText.lowercased()
             let matchingTags = Set(
@@ -134,7 +141,7 @@ struct MainView: View {
                 .filter { $0.value.contains(searchText) }
                 .keys
             )
-            viewModel.dataSource.tags = initialTags
+            windowVM.dataSource.tags = initialTags
                 .filter { matchingTags.contains($0.id) }
                 .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
         }

@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal struct TagRowView: View {
     
-    @EnvironmentObject private var windowVM: WindowVW
+    @EnvironmentObject private var windowVM: WindowVM
 
     private let tag: EMVTag
     private let byteDiffResults: [DiffResult]
@@ -64,19 +64,14 @@ internal struct TagRowView: View {
     @ViewBuilder
     private var contextMenu: some View {
         Button("Copy full tag") {
-            NSPasteboard.general.declareTypes([.string], owner: nil)
-            NSPasteboard.general.setString(tag.hexString, forType: .string)
+            NSPasteboard.copyString(tag.hexString)
         }
         Button("Copy value") {
-            NSPasteboard.general.declareTypes([.string], owner: nil)
-            NSPasteboard.general.setString(tag.value.hexString, forType: .string)
+            NSPasteboard.copyString(tag.value.hexString)
         }
         if windowVM.selectedTags.count > 1 {
             Button("Copy selected tags") {
-                NSPasteboard.general.declareTypes([.string], owner: nil)
-                NSPasteboard.general.setString(
-                    windowVM.hexString, forType: .string
-                )
+                NSPasteboard.copyString(windowVM.hexString)
             }
         }
     }
