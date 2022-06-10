@@ -12,20 +12,14 @@ import SwiftyBERTLV
 
 struct MainView: View {
     
-    @State private var tagDescriptions: Dictionary<UUID, String> = [:]
     @EnvironmentObject private var appVM: AppVM
     @StateObject private var windowVM: WindowVM = .init()
     @EnvironmentObject private var infoDataSource: EMVTagInfoDataSource
     
-    @State private var initialTags: [EMVTag] = []
     @State private var showingAlert: Bool = false
-    @State private var searchText: String = ""
-    @State private var cancellables = Set<AnyCancellable>()
     @State private var showingSearch = false
     @State private var showingTags = false
     @FocusState private var searchFocused
-    
-    private var searchTextPublisher = CurrentValueSubject<String, Never>("")
     
     internal var body: some View {
         HStack(spacing: 0.0) {
@@ -33,8 +27,6 @@ struct MainView: View {
         }
         .background(shortcutButtons)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .onAppear(perform: setUpSearch)
-        .onChange(of: searchText, perform: searchTextPublisher.send)
         .alert("Error!", isPresented: $showingAlert, actions: {
             Button("I'll do better next time") {
                 self.showingAlert = false
@@ -59,10 +51,11 @@ struct MainView: View {
         if showingTags {
             VStack(spacing: 0.0) {
                 if showingSearch {
-                    SearchBar(searchText: $searchText, focused: _searchFocused)
+                    SearchBar(searchText: $windowVM.searchText, focused: _searchFocused)
                         .padding([.top, .leading], commonPadding)
                 }
                 TagListView()
+                    .environmentObject(windowVM)
             }
             .frame(maxWidth: .infinity)
             details
@@ -106,44 +99,18 @@ struct MainView: View {
         do {
             let tlv = try InputParser.parse(input: string)
             
-            initialTags = tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
+            windowVM.initialTags = tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
             
-            let pairs = initialTags.flatMap { tag in
+            let pairs = windowVM.initialTags.flatMap { tag in
                 [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
             }
             
-            tagDescriptions = .init(uniqueKeysWithValues: pairs)
-            searchText = ""
-            updateTags()
+            windowVM.currentTags = windowVM.initialTags
+            windowVM.tagDescriptions = .init(uniqueKeysWithValues: pairs)
             windowVM.selectedTag = nil
             showingTags = true
         } catch {
             showingAlert = true
-        }
-    }
-    
-    private func setUpSearch() {
-        searchTextPublisher
-            .debounce(for: 0.2, scheduler: RunLoop.main, options: nil)
-            .removeDuplicates()
-            .sink { _ in
-                updateTags()
-            }.store(in: &cancellables)
-    }
-    
-    private func updateTags() {
-        if searchText.count < 2 {
-            windowVM.dataSource.tags = initialTags
-        } else {
-            let searchText = searchText.lowercased()
-            let matchingTags = Set(
-                tagDescriptions
-                .filter { $0.value.contains(searchText) }
-                .keys
-            )
-            windowVM.dataSource.tags = initialTags
-                .filter { matchingTags.contains($0.id) }
-                .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
         }
     }
 }

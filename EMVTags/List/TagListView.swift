@@ -47,9 +47,9 @@ internal struct TagListView: View {
     
     private var tagList: some View {
         LazyVStack(spacing: commonPadding) {
-            ForEach(viewModel.dataSource.tags, content: TagRowView.init(tag:))
+            ForEach(viewModel.currentTags, content: TagRowView.init(tag:))
         }
-        .animation(.linear(duration: 0.2), value: viewModel.dataSource.tags)
+        .animation(.linear(duration: 0.1), value: viewModel.currentTags)
     }
     
 }
