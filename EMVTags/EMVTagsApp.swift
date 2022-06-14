@@ -11,13 +11,11 @@ import SwiftyEMVTags
 @main
 internal struct EMVTagsApp: App {
     
-    @StateObject private var infoDataSource: EMVTagInfoDataSource
     @StateObject private var appVM = AppVM()
     
     internal var body: some Scene {
         WindowGroup {
                 MainView()
-                .environmentObject(infoDataSource)
                 .environmentObject(appVM)
                 .handlesExternalEvents(preferring: ["main"], allowing: ["main"])
         }
@@ -29,24 +27,11 @@ internal struct EMVTagsApp: App {
         
         WindowGroup("Diff") {
             DiffView()
-                .environmentObject(infoDataSource)
+                .environmentObject(appVM.infoDataSource)
                 .handlesExternalEvents(preferring: ["diff"], allowing: ["diff"])
         }.handlesExternalEvents(matching: ["diff"])
     }
-    
-    internal init() {
-        let commonTags: Array<EMVTag.Info>
-        
-        if let url = Bundle.main.path(forResource: "common_tags", ofType: "json"),
-              let data = try? Data(contentsOf: URL(fileURLWithPath: url)),
-           let decoded = try? JSONDecoder().decode(TagInfoContainer.self, from: data) {
-            commonTags = decoded.tags
-        } else {
-            commonTags = []
-        }
-        
-        self._infoDataSource = .init(wrappedValue: .init(infoList: commonTags))
-    }
+
 }
 
 final class EMVTagInfoDataSource: AnyEMVTagInfoSource, ObservableObject {

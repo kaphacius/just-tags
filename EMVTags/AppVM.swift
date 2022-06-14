@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftyEMVTags
 
 internal final class AppVM: NSObject, ObservableObject {
     
@@ -13,6 +14,7 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var viewModels = [Int: WindowVM]()
     @Published internal var activeWindow: NSWindow?
     @Published internal var activeVM: WindowVM?
+    @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
     
     internal func addWindow(_ window: NSWindow, viewModel: WindowVM) {
         window.delegate = self
@@ -24,6 +26,60 @@ internal final class AppVM: NSObject, ObservableObject {
     fileprivate func setAsActive(window: NSWindow) {
         activeWindow = window
         activeVM = viewModels[window.windowNumber]
+    }
+    
+    internal override init() {
+        super.init()
+        
+        let commonTags: Array<EMVTag.Info>
+        
+        if let url = Bundle.main.path(forResource: "common_tags", ofType: "json"),
+           let data = try? Data(contentsOf: URL(fileURLWithPath: url)),
+           let decoded = try? JSONDecoder().decode(TagInfoContainer.self, from: data) {
+            commonTags = decoded.tags
+        } else {
+            commonTags = []
+        }
+        
+        self._infoDataSource = .init(wrappedValue: .init(infoList: commonTags))
+    }
+    
+    internal func openNewTab() {
+        if let currentWindow = NSApp.keyWindow,
+           let windowController = currentWindow.windowController {
+            windowController.newWindowForTab(nil)
+            if let newWindow = NSApp.keyWindow, currentWindow != newWindow {
+                currentWindow.addTabbedWindow(newWindow, ordered: .above)
+            }
+        }
+    }
+    
+    internal func pasteIntoCurrentTab() {
+        DispatchQueue.main.async { [self] in
+            guard let pasteString = NSPasteboard.general.string(forType: .string),
+                  let activeVM = activeVM
+            else {
+                return
+            }
+            activeVM.parse(
+                string: pasteString,
+                infoDataSource: infoDataSource
+            )
+        }
+    }
+    
+    internal func loadInfoJSON() {
+        let openPanel = NSOpenPanel()
+        openPanel.canChooseDirectories = true
+        openPanel.canChooseFiles = true
+        openPanel.allowedContentTypes = [.json]
+        guard openPanel.runModal() == .OK else { return }
+        
+        let data = try! Data(contentsOf: openPanel.url!)
+        
+        let result = try! JSONDecoder().decode(TagInfoContainer.self, from: data)
+        
+        infoDataSource.infoList.append(contentsOf: result.tags)
     }
     
 }

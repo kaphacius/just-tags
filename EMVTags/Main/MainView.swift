@@ -14,11 +14,8 @@ struct MainView: View {
     
     @EnvironmentObject private var appVM: AppVM
     @StateObject private var windowVM: WindowVM = .init()
-    @EnvironmentObject private var infoDataSource: EMVTagInfoDataSource
     
-    @State private var showingAlert: Bool = false
     @State private var showingSearch = false
-    @State private var showingTags = false
     @FocusState private var searchFocused
     
     internal var body: some View {
@@ -27,9 +24,9 @@ struct MainView: View {
         }
         .background(shortcutButtons)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .alert("Error!", isPresented: $showingAlert, actions: {
+        .alert("Error!", isPresented: $windowVM.showingAlert, actions: {
             Button("I'll do better next time") {
-                self.showingAlert = false
+                windowVM.showingAlert = false
             }
         }, message: {
             Text("Unable to parse given string into BERTLV")
@@ -48,7 +45,7 @@ struct MainView: View {
     
     @ViewBuilder
     internal var mainView: some View {
-        if showingTags {
+        if windowVM.showingTags {
             VStack(spacing: 0.0) {
                 if showingSearch {
                     SearchBar(searchText: $windowVM.searchText, focused: _searchFocused)
@@ -85,34 +82,9 @@ struct MainView: View {
                 showingSearch.toggle()
             }.frame(width: 0.0, height: 0.0)
                 .keyboardShortcut("f", modifiers: [.command])
-            Button("Paste") {
-                guard let pasteString = NSPasteboard.general.string(forType: .string) else {
-                    return
-                }
-                parse(string: pasteString)
-            }.frame(width: 0.0, height: 0.0)
-                .keyboardShortcut("v", modifiers: [.command])
         }.hidden()
     }
     
-    private func parse(string: String) {
-        do {
-            let tlv = try InputParser.parse(input: string)
-            
-            windowVM.initialTags = tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
-            
-            let pairs = windowVM.initialTags.flatMap { tag in
-                [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
-            }
-            
-            windowVM.currentTags = windowVM.initialTags
-            windowVM.tagDescriptions = .init(uniqueKeysWithValues: pairs)
-            windowVM.selectedTag = nil
-            showingTags = true
-        } catch {
-            showingAlert = true
-        }
-    }
 }
 
 extension EMVTag {

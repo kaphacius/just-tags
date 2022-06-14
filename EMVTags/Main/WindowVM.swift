@@ -19,6 +19,8 @@ internal final class WindowVM: ObservableObject {
     @Published private(set) var selectedIds = Set<UUID>()
     @Published private(set) var selectedTags = [EMVTag]()
     @Published internal var searchText: String = ""
+    @Published internal var showingTags: Bool = false
+    @Published internal var showingAlert: Bool = false
     private var cancellables = Set<AnyCancellable>()
     
     init() {
@@ -32,6 +34,25 @@ internal final class WindowVM: ObservableObject {
             .sink { v in
                 self.updateTags()
             }.store(in: &cancellables)
+    }
+    
+    internal func parse(string: String, infoDataSource: EMVTagInfoDataSource) {
+        do {
+            let tlv = try InputParser.parse(input: string)
+            
+            initialTags = tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
+            
+            let pairs = initialTags.flatMap { tag in
+                [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
+            }
+            
+            currentTags = initialTags
+            tagDescriptions = .init(uniqueKeysWithValues: pairs)
+            selectedTag = nil
+            showingTags = true
+        } catch {
+            showingAlert = true
+        }
     }
     
     private func updateTags() {

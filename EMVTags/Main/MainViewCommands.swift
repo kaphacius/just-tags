@@ -10,7 +10,6 @@ import SwiftUI
 internal struct MainViewCommands: Commands {
     
     @Environment(\.openURL) var openURL
-    @EnvironmentObject var infoDataSource: EMVTagInfoDataSource
     
     @ObservedObject internal var viewModel: AppVM
     
@@ -23,6 +22,8 @@ internal struct MainViewCommands: Commands {
     var editCommands: some Commands {
         CommandGroup(replacing: CommandGroupPlacement.pasteboard) {
             copySelectedTagsButton
+            paste
+            pasteIntoNewTab
         }
     }
     
@@ -47,6 +48,20 @@ internal struct MainViewCommands: Commands {
         .keyboardShortcut("c", modifiers: [.command])
     }
     
+    private var paste: some View {
+        Button(
+            "Paste",
+            action: viewModel.pasteIntoCurrentTab
+        ).keyboardShortcut("v", modifiers: [.command])
+    }
+    
+    private var pasteIntoNewTab: some View {
+        Button("Paste into new tab") {
+            viewModel.openNewTab()
+            viewModel.pasteIntoCurrentTab()
+        }.keyboardShortcut("v", modifiers: [.command, .shift])
+    }
+    
     @ViewBuilder
     private var copyTagsButtonLabel: some View {
         if viewModel.activeVM.map(\.selectedTags.count) == 1 {
@@ -57,51 +72,29 @@ internal struct MainViewCommands: Commands {
     }
     
     private var newTabButton: some View {
-        Button(action: {
-            if let currentWindow = NSApp.keyWindow,
-               let windowController = currentWindow.windowController {
-                windowController.newWindowForTab(nil)
-                if let newWindow = NSApp.keyWindow, currentWindow != newWindow {
-                    currentWindow.addTabbedWindow(newWindow, ordered: .above)
-                }
-            }
-        }, label: {
-            Text("New Tab")
-        }).keyboardShortcut("t", modifiers: [.command])
+        Button(
+            "New Tab",
+            action: viewModel.openNewTab
+        ).keyboardShortcut("t", modifiers: [.command])
     }
     
     private var openTagInfoButton: some View {
-        Button(action: {
-            let openPanel = NSOpenPanel()
-            openPanel.canChooseDirectories = true
-            openPanel.canChooseFiles = true
-            openPanel.allowedContentTypes = [.json]
-            guard openPanel.runModal() == .OK else { return }
-            
-            let data = try! Data(contentsOf: openPanel.url!)
-            
-            let result = try! JSONDecoder().decode(TagInfoContainer.self, from: data)
-            
-            infoDataSource.infoList.append(contentsOf: result.tags)
-        }, label: {
-            Text("Open tag info list")
-        }).keyboardShortcut("o", modifiers: [.command, .shift])
+        Button(
+            "Open tag info list",
+            action: viewModel.loadInfoJSON
+        ).keyboardShortcut("o", modifiers: [.command, .shift])
     }
     
     private var openDiffViewButton: some View {
-        Button(action: {
+        Button("Diff view") {
             openURL(URL(string: "emvtags://diff")!)
-        }, label: {
-            Text("Diff view")
-        }).keyboardShortcut("d", modifiers: [.command, .shift])
+        }.keyboardShortcut("d", modifiers: [.command, .shift])
     }
     
     private var openMainViewButton: some View {
-        Button(action: {
+        Button("Main view") {
             openURL(URL(string: "emvtags://main")!)
-        }, label: {
-            Text("Main view")
-        }).keyboardShortcut("m", modifiers: [.command, .shift])
+        }.keyboardShortcut("m", modifiers: [.command, .shift])
     }
     
 }
