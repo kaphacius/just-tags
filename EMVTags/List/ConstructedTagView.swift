@@ -21,7 +21,7 @@ internal struct ConstructedTagView: View {
             disclosureGroup(for: tag, binding: $isExpanded)
             if isExpanded == false {
                 HStack(spacing: 0.0) {
-                    TagValueView(value: tag.value)
+                    TagValueView(tag: tag)
                         .multilineTextAlignment(.leading)
                         .padding(.top, -commonPadding)
                 }
@@ -57,7 +57,7 @@ internal struct ConstructedTagView: View {
     private func constructedTagValueView(for tag: EMVTag, binding: Binding<Bool>) -> some View {
         if binding.wrappedValue == false {
             HStack(spacing: 0.0) {
-                TagValueView(value: tag.value)
+                TagValueView(tag: tag)
                     .multilineTextAlignment(.leading)
                     .padding(.top, -commonPadding)
             }
@@ -66,8 +66,10 @@ internal struct ConstructedTagView: View {
     
 }
 
+#if DEBUG
 struct ConstructedTagView_Previews: PreviewProvider {
     static var previews: some View {
         ConstructedTagView(tag: mockTag)
     }
 }
+#endif

@@ -51,7 +51,7 @@ internal struct PrimitiveTagView: View {
         if isDiffing {
             diffedValueView
         } else {
-            TagValueView(value: tag.value)
+            TagValueView(tag: tag)
         }
     }
     
@@ -97,6 +97,7 @@ internal struct PrimitiveTagView: View {
     }
 }
 
+#if DEBUG
 struct PrimitiveTagView_Previews: PreviewProvider {
     static var previews: some View {
         PrimitiveTagView(
@@ -108,3 +109,4 @@ struct PrimitiveTagView_Previews: PreviewProvider {
         )
     }
 }
+#endif

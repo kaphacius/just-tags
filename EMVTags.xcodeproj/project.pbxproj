@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A2018142858F06C00751702 /* TagFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018132858F06C00751702 /* TagFormatter.swift */; };
+		5A2018162859A4D800751702 /* MCCMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018152859A4D800751702 /* MCCMapper.swift */; };
+		5A2018192859B3AF00751702 /* CurrencyCodeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018182859B3AF00751702 /* CurrencyCodeMapper.swift */; };
+		5A20181B285AEF3F00751702 /* AIDMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A20181A285AEF3F00751702 /* AIDMapper.swift */; };
+		5A20181D285B0F3000751702 /* CountryCodeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A20181C285B0F3000751702 /* CountryCodeMapper.swift */; };
 		5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDD284C976B00BBE844 /* AppVM.swift */; };
 		5A301EE0284CBEA700BBE844 /* HistingWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDF284CBEA700BBE844 /* HistingWindowFinder.swift */; };
 		5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EE1284CC67500BBE844 /* MainViewCommands.swift */; };
@@ -22,6 +27,9 @@
 		5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB127F42B5200603D99 /* SearchBar.swift */; };
 		5A4FDDB427F42C8F00603D99 /* TagsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */; };
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
+		5A5B09F5285BAF0B00705C35 /* EntryModeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */; };
+		5A5B09F7285BAF8A00705C35 /* CryptogramDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F6285BAF8A00705C35 /* CryptogramDataMapper.swift */; };
+		5A5B09F9285BB13500705C35 /* TerminalTypeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F8285BB13500705C35 /* TerminalTypeMapper.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A9BC832282C3528000C05F7 /* SwiftyEMVTags */; };
 		5AA64D07283547A800F295A9 /* WindowVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D06283547A800F295A9 /* WindowVM.swift */; };
@@ -56,6 +64,11 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A2018132858F06C00751702 /* TagFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFormatter.swift; sourceTree = "<group>"; };
+		5A2018152859A4D800751702 /* MCCMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCCMapper.swift; sourceTree = "<group>"; };
+		5A2018182859B3AF00751702 /* CurrencyCodeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCodeMapper.swift; sourceTree = "<group>"; };
+		5A20181A285AEF3F00751702 /* AIDMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIDMapper.swift; sourceTree = "<group>"; };
+		5A20181C285B0F3000751702 /* CountryCodeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeMapper.swift; sourceTree = "<group>"; };
 		5A301EDD284C976B00BBE844 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
 		5A301EDF284CBEA700BBE844 /* HistingWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HistingWindowFinder.swift; sourceTree = "<group>"; };
 		5A301EE1284CC67500BBE844 /* MainViewCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCommands.swift; sourceTree = "<group>"; };
@@ -72,6 +85,9 @@
 		5A4FDDB127F42B5200603D99 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsDataSource.swift; sourceTree = "<group>"; };
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
+		5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryModeMapper.swift; sourceTree = "<group>"; };
+		5A5B09F6285BAF8A00705C35 /* CryptogramDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptogramDataMapper.swift; sourceTree = "<group>"; };
+		5A5B09F8285BB13500705C35 /* TerminalTypeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalTypeMapper.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5AA64D06283547A800F295A9 /* WindowVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowVM.swift; sourceTree = "<group>"; };
 		5AA64D2B2848079100F295A9 /* ConstructedTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedTagView.swift; sourceTree = "<group>"; };
@@ -117,6 +133,21 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		5A2018172859B2E200751702 /* Mappers */ = {
+			isa = PBXGroup;
+			children = (
+				5A2018132858F06C00751702 /* TagFormatter.swift */,
+				5A2018152859A4D800751702 /* MCCMapper.swift */,
+				5A2018182859B3AF00751702 /* CurrencyCodeMapper.swift */,
+				5A20181A285AEF3F00751702 /* AIDMapper.swift */,
+				5A20181C285B0F3000751702 /* CountryCodeMapper.swift */,
+				5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */,
+				5A5B09F6285BAF8A00705C35 /* CryptogramDataMapper.swift */,
+				5A5B09F8285BB13500705C35 /* TerminalTypeMapper.swift */,
+			);
+			path = Mappers;
+			sourceTree = "<group>";
+		};
 		5A4FDD8527F187AE00603D99 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -176,6 +207,7 @@
 				5AE8BF7D27E79CF000474AD0 /* List */,
 				5AE8BF7C27E79CDF00474AD0 /* Details */,
 				5A51B17C2811F08500F516F5 /* Diff */,
+				5A2018172859B2E200751702 /* Mappers */,
 				5A4FDD8527F187AE00603D99 /* Resources */,
 				5AE8BF4F27E79BF000474AD0 /* EMVTagsApp.swift */,
 				5AE8BF5327E79BF100474AD0 /* Assets.xcassets */,
@@ -373,6 +405,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				5A5B09F9285BB13500705C35 /* TerminalTypeMapper.swift in Sources */,
 				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,
 				5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */,
 				5A31B178281D8032002B2D06 /* HintView.swift in Sources */,
@@ -384,15 +417,22 @@
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
 				5A301EE0284CBEA700BBE844 /* HistingWindowFinder.swift in Sources */,
+				5A5B09F7285BAF8A00705C35 /* CryptogramDataMapper.swift in Sources */,
+				5A20181D285B0F3000751702 /* CountryCodeMapper.swift in Sources */,
+				5A20181B285AEF3F00751702 /* AIDMapper.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
 				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
 				5AA64D07283547A800F295A9 /* WindowVM.swift in Sources */,
+				5A2018192859B3AF00751702 /* CurrencyCodeMapper.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
+				5A5B09F5285BAF0B00705C35 /* EntryModeMapper.swift in Sources */,
 				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
+				5A2018162859A4D800751702 /* MCCMapper.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,
+				5A2018142858F06C00751702 /* TagFormatter.swift in Sources */,
 				5AA64D2E2848083000F295A9 /* PrimitiveTagView.swift in Sources */,
 				5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */,
 			);

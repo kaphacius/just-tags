@@ -79,11 +79,18 @@ internal struct TagRowView: View {
 }
 
 internal struct TagValueView: View {
-    internal let value: [UInt8]
+    internal let tag: EMVTag
     
     internal var body: some View {
-        Text(value.hexString)
-            .font(.title3.monospaced())
+        HStack(spacing: commonPadding * 2) {
+            Text(tag.value.hexString)
+                .font(.title3.monospaced())
+            if let text = tag.textRepresentation {
+                Text(text)
+                    .font(.title3)
+                    .foregroundColor(.secondary)
+            }
+        }
     }
 }
 
