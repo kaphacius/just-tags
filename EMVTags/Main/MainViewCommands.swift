@@ -60,9 +60,9 @@ internal struct MainViewCommands: Commands {
     
     private var deselectAll: some View {
         Button(
-            "Deselect all",
+            "Deselect",
             action: viewModel.deselectAll
-        ).keyboardShortcut("a", modifiers: [.command, .shift])
+        ).keyboardShortcut("d", modifiers: [.command, .shift])
     }
     
     private var paste: some View {
@@ -105,13 +105,13 @@ internal struct MainViewCommands: Commands {
     private var openDiffViewButton: some View {
         Button("Diff view") {
             openURL(URL(string: "emvtags://diff")!)
-        }.keyboardShortcut("d", modifiers: [.command, .shift])
+        }.keyboardShortcut("d", modifiers: [.command])
     }
     
     private var openMainViewButton: some View {
         Button("Main view") {
             openURL(URL(string: "emvtags://main")!)
-        }.keyboardShortcut("m", modifiers: [.command, .shift])
+        }.keyboardShortcut("m", modifiers: [.command])
     }
     
 }
