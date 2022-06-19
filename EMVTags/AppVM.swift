@@ -13,7 +13,8 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var windows = Set<NSWindow>()
     @Published internal var viewModels = [Int: AnyWindowVM]()
     @Published internal var activeWindow: NSWindow?
-    @Published internal var activeVM: AnyWindowVM?
+    // Throwaway to avoid optionals
+    @Published internal var activeVM: AnyWindowVM = MainWindowVM()
     @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
     @Environment(\.openURL) var openURL
     
@@ -34,8 +35,12 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     fileprivate func setAsActive(window: NSWindow) {
+        guard let vm = viewModels[window.windowNumber] else {
+            assertionFailure("Unable to find a VM for window \(window.windowNumber)")
+            return
+        }
         activeWindow = window
-        activeVM = viewModels[window.windowNumber]
+        activeVM = vm
     }
     
     internal override init() {
@@ -81,29 +86,14 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func selectAll() {
-        guard let activeVM = activeVM else {
-            assertionFailure("activeVM must be set")
-            return
-        }
-
         activeVM.selectAll()
     }
     
     internal func deselectAll() {
-        guard let activeVM = activeVM else {
-            assertionFailure("activeVM must be set")
-            return
-        }
-        
         activeVM.deselectAll()
     }
     
     internal func diffSelectedTags() {
-        guard let activeVM = activeVM else {
-            assertionFailure("activeVM must be set")
-            return
-        }
-        
         guard activeVM is MainWindowVM else {
             // Don't diff tags when DiffView is active
             return

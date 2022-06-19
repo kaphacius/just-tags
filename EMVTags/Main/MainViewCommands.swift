@@ -55,9 +55,7 @@ internal struct MainViewCommands: Commands {
     
     private var copySelectedTags: some View {
         Button(action: {
-            viewModel.activeVM
-                .map(\.hexString)
-                .map(NSPasteboard.copyString(_:))
+            NSPasteboard.copyString(viewModel.activeVM.hexString)
         }, label: {
             copyTagsButtonLabel
         })
@@ -94,7 +92,7 @@ internal struct MainViewCommands: Commands {
     
     @ViewBuilder
     private var copyTagsButtonLabel: some View {
-        if viewModel.activeVM.map(\.selectedTags.count) == 1 {
+        if viewModel.activeVM.selectedTags.count == 1 {
             Text("Copy selected tag")
         } else {
             Text("Copy selected tags")
