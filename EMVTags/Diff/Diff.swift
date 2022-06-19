@@ -11,7 +11,6 @@ import SwiftyEMVTags
 typealias DiffedTag = (tag: EMVTag, diff: [DiffResult])
 
 internal struct DiffedTagPair {
-    
     internal let lhs: DiffedTag?
     internal let rhs: DiffedTag?
     internal let isEqual: Bool
@@ -197,6 +196,28 @@ extension Array where Element == DiffResult {
     
     fileprivate var equalDiff: Bool {
         contains(.different) == false
+    }
+    
+}
+
+internal enum Diff {
+
+    static func diff(tags: [[EMVTag]], onlyDifferent: Bool) -> [DiffedTagPair] {
+        guard tags.isEmpty == false else {
+            return []
+        }
+        
+        if tags.count == 1 {
+            return tags[0].map(TagDiffResult.equal).map(\.diffedPair)
+        }
+        
+        let result = diffCompareTags(lhs: tags[0], rhs: tags[1]).map(\.diffedPair)
+        
+        if onlyDifferent == false {
+            return result
+        } else {
+            return result.filter { $0.isEqual == false }
+        }
     }
     
 }

@@ -15,7 +15,7 @@ let detailWidth: CGFloat = 500.0
 internal struct TagListView: View {
     
     @State private var disclosureGroups: [UUID: Bool] = [:]
-    @EnvironmentObject private var viewModel: WindowVM
+    @Binding internal var tags: [EMVTag]
     
     internal var body: some View {
         VStack(spacing: commonPadding) {
@@ -47,9 +47,9 @@ internal struct TagListView: View {
     
     private var tagList: some View {
         LazyVStack(spacing: commonPadding) {
-            ForEach(viewModel.currentTags, content: TagRowView.init(tag:))
+            ForEach(tags, content: TagRowView.init(tag:))
         }
-        .animation(.linear(duration: 0.1), value: viewModel.currentTags)
+        .animation(.linear(duration: 0.1), value: tags)
     }
     
 }
@@ -61,7 +61,7 @@ private let mockTags = try! InputParser.parse(input: "5A81c7df810c01029f060aa000
 
 struct EMVTagListView_Previews: PreviewProvider {
     static var previews: some View {
-        TagListView()
+        TagListView(tags: .constant([]))
             .environmentObject(TagsDataSource(tags: mockTags))
     }
 }

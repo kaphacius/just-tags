@@ -27,7 +27,7 @@ internal struct EMVTagsApp: App {
         
         WindowGroup("Diff") {
             DiffView()
-                .environmentObject(appVM.infoDataSource)
+                .environmentObject(appVM)
                 .handlesExternalEvents(preferring: ["diff"], allowing: ["diff"])
         }.handlesExternalEvents(matching: ["diff"])
     }

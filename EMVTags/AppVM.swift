@@ -11,14 +11,15 @@ import SwiftyEMVTags
 internal final class AppVM: NSObject, ObservableObject {
     
     @Published internal var windows = Set<NSWindow>()
-    @Published internal var viewModels = [Int: WindowVM]()
+    @Published internal var viewModels = [Int: AnyWindowVM]()
     @Published internal var activeWindow: NSWindow?
-    @Published internal var activeVM: WindowVM?
+    @Published internal var activeVM: AnyWindowVM?
     @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
     
-    internal func addWindow(_ window: NSWindow, viewModel: WindowVM) {
+    internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
         window.delegate = self
         windows.insert(window)
+        viewModel.infoDataSource = infoDataSource
         viewModels[window.windowNumber] = viewModel
         setAsActive(window: window)
     }
@@ -61,10 +62,7 @@ internal final class AppVM: NSObject, ObservableObject {
             else {
                 return
             }
-            activeVM.parse(
-                string: pasteString,
-                infoDataSource: infoDataSource
-            )
+            activeVM.parse(string: pasteString)
         }
     }
     

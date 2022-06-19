@@ -27,7 +27,9 @@ struct HintView: View {
                 }.font(.system(size: 70.0))
                     .foregroundColor(Color(nsColor: NSColor.secondaryLabelColor))
             }.padding()
-        }.disabled(true)
+        }
+        .disabled(true)
+        .allowsHitTesting(false)
     }
 }
 

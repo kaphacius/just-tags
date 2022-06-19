@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal struct TagRowView: View {
     
-    @EnvironmentObject private var windowVM: WindowVM
+    @EnvironmentObject private var windowVM: AnyWindowVM
 
     private let tag: EMVTag
     private let byteDiffResults: [DiffResult]

@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal struct PrimitiveTagView: View {
     
-    @EnvironmentObject private var windowVM: WindowVM
+    @EnvironmentObject private var windowVM: AnyWindowVM
     @State internal var isExpanded: Bool = false
     
     internal let tag: EMVTag

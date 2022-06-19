@@ -24,9 +24,9 @@ struct MainView: View {
         }
         .background(shortcutButtons)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .alert("Error!", isPresented: $windowVM.showingAlert, actions: {
+        .alert("Error!", isPresented: $windowVM.showsAlert, actions: {
             Button("I'll do better next time") {
-                windowVM.showingAlert = false
+                windowVM.showsAlert = false
             }
         }, message: {
             Text("Unable to parse given string into BERTLV")
@@ -34,7 +34,7 @@ struct MainView: View {
         .onChange(of: showingSearch) { _ in
             searchFocused = showingSearch
         }
-        .environmentObject(windowVM)
+        .environmentObject(windowVM as AnyWindowVM)
         .background {
             HostingWindowFinder { window in
                 guard let window = window else { return }
@@ -51,8 +51,7 @@ struct MainView: View {
                     SearchBar(searchText: $windowVM.searchText, focused: _searchFocused)
                         .padding([.top, .leading], commonPadding)
                 }
-                TagListView()
-                    .environmentObject(windowVM)
+                TagListView(tags: $windowVM.currentTags)
             }
             .frame(maxWidth: .infinity)
             details

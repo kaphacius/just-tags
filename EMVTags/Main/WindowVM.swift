@@ -10,20 +10,55 @@ import SwiftyEMVTags
 import SwiftUI
 import Combine
 
-internal final class WindowVM: ObservableObject {
+internal class AnyWindowVM: ObservableObject {
+    
+    internal var infoDataSource: EMVTagInfoDataSource?
+    
+    @Published internal var selectedTags = [EMVTag]()
+    @Published internal var selectedIds = Set<UUID>()
+    @Published internal var selectedTag: EMVTag? = nil
+    @Published internal var showsAlert: Bool = false
+    
+    internal func contains(id: UUID) -> Bool {
+        selectedIds.contains(id)
+    }
+    
+    internal func onTagSelected(tag: EMVTag) {
+        if selectedIds.contains(tag.id) {
+            selectedIds.remove(tag.id)
+            _ = selectedTags
+                .firstIndex(of: tag)
+                .map{ selectedTags.remove(at: $0) }
+        } else {
+            selectedIds.insert(tag.id)
+            selectedTags.append(tag)
+        }
+    }
+    
+    internal var hexString: String {
+        selectedTags.map(\.hexString).joined()
+    }
+    
+    internal func parse(string: String) {}
+    
+    internal func refreshState() {
+        selectedTags = []
+        selectedIds = []
+        selectedTag = nil
+    }
+}
+
+internal final class WindowVM: AnyWindowVM {
     
     @Published internal var initialTags: [EMVTag] = []
     @Published internal var currentTags: [EMVTag] = []
     @Published internal var tagDescriptions: Dictionary<UUID, String> = [:]
-    @Published internal var selectedTag: EMVTag? = nil
-    @Published private(set) var selectedIds = Set<UUID>()
-    @Published private(set) var selectedTags = [EMVTag]()
     @Published internal var searchText: String = ""
     @Published internal var showingTags: Bool = false
-    @Published internal var showingAlert: Bool = false
     private var cancellables = Set<AnyCancellable>()
     
-    init() {
+    override init() {
+        super.init()
         setUpSearch()
     }
     
@@ -36,7 +71,12 @@ internal final class WindowVM: ObservableObject {
             }.store(in: &cancellables)
     }
     
-    internal func parse(string: String, infoDataSource: EMVTagInfoDataSource) {
+    internal override func parse(string: String) {
+        guard let infoDataSource = infoDataSource else {
+            assertionFailure("infoDataSource is missing")
+            return
+        }
+        
         do {
             let tlv = try InputParser.parse(input: string)
             
@@ -48,10 +88,10 @@ internal final class WindowVM: ObservableObject {
             
             currentTags = initialTags
             tagDescriptions = .init(uniqueKeysWithValues: pairs)
-            selectedTag = nil
             showingTags = true
+            refreshState()
         } catch {
-            showingAlert = true
+            showsAlert = true
         }
     }
     
@@ -70,26 +110,6 @@ internal final class WindowVM: ObservableObject {
                 .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
             print(currentTags.count)
         }
-    }
-    
-    internal func onTagSelected(tag: EMVTag) {
-        if selectedIds.contains(tag.id) {
-            selectedIds.remove(tag.id)
-            _ = selectedTags
-                .firstIndex(of: tag)
-                .map{ selectedTags.remove(at: $0) }
-        } else {
-            selectedIds.insert(tag.id)
-            selectedTags.append(tag)
-        }
-    }
-    
-    internal func contains(id: UUID) -> Bool {
-        selectedIds.contains(id)
-    }
-    
-    internal var hexString: String {
-        selectedTags.map(\.hexString).joined()
     }
     
 }
