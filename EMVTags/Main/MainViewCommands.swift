@@ -62,7 +62,7 @@ internal struct MainViewCommands: Commands {
         Button(
             "Deselect",
             action: viewModel.deselectAll
-        ).keyboardShortcut("d", modifiers: [.command, .shift])
+        ).keyboardShortcut("a", modifiers: [.command, .shift])
     }
     
     private var paste: some View {
@@ -73,10 +73,10 @@ internal struct MainViewCommands: Commands {
     }
     
     private var pasteIntoNewTab: some View {
-        Button("Paste into new tab") {
-            viewModel.openNewTab()
-            viewModel.pasteIntoCurrentTab()
-        }.keyboardShortcut("v", modifiers: [.command, .shift])
+        Button(
+            "Paste into new tab",
+            action: viewModel.pasteIntoNewTab
+        ).keyboardShortcut("v", modifiers: [.command, .shift])
     }
     
     @ViewBuilder
@@ -103,15 +103,17 @@ internal struct MainViewCommands: Commands {
     }
     
     private var openDiffViewButton: some View {
-        Button("Diff view") {
-            openURL(URL(string: "emvtags://diff")!)
-        }.keyboardShortcut("d", modifiers: [.command])
+        Button(
+            "Diff view",
+            action: viewModel.openDiffView
+        ).keyboardShortcut("d", modifiers: [.command, .shift])
     }
     
     private var openMainViewButton: some View {
-        Button("Main view") {
-            openURL(URL(string: "emvtags://main")!)
-        }.keyboardShortcut("m", modifiers: [.command])
+        Button(
+            "Main view",
+            action: viewModel.openMainView
+        ).keyboardShortcut("m", modifiers: [.command, .shift])
     }
     
 }

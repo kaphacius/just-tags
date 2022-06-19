@@ -15,9 +15,9 @@ internal struct EMVTagsApp: App {
     
     internal var body: some Scene {
         WindowGroup {
-                MainView()
-                    .environmentObject(appVM)
-                    .handlesExternalEvents(preferring: ["main"], allowing: ["main"])
+            MainView()
+                .environmentObject(appVM)
+                .handlesExternalEvents(preferring: ["main"], allowing: ["main"])
         }
         .commands {
             MainViewCommands(viewModel: appVM)

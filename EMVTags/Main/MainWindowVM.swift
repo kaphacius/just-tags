@@ -50,9 +50,11 @@ internal class AnyWindowVM: ObservableObject {
     internal func selectAll() { }
     
     internal func deselectAll() { }
+    
+    internal func diffSelectedTags() { }
 }
 
-internal final class WindowVM: AnyWindowVM {
+internal final class MainWindowVM: AnyWindowVM {
     
     @Published internal var initialTags: [EMVTag] = []
     @Published internal var currentTags: [EMVTag] = []
@@ -81,6 +83,8 @@ internal final class WindowVM: AnyWindowVM {
             return
         }
         
+        refreshState()
+        
         do {
             let tlv = try InputParser.parse(input: string)
             
@@ -93,7 +97,6 @@ internal final class WindowVM: AnyWindowVM {
             currentTags = initialTags
             tagDescriptions = .init(uniqueKeysWithValues: pairs)
             showingTags = true
-            refreshState()
         } catch {
             showsAlert = true
         }

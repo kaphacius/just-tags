@@ -251,4 +251,30 @@ extension NSPasteboard {
         NSPasteboard.general.setString(string, forType: .string)
     }
     
+    static var string: String? {
+        NSPasteboard.general.string(forType: .string)
+    }
+    
+}
+
+internal func onMain(_ execute: @escaping () -> Void) {
+    DispatchQueue.main.async {
+        execute()
+    }
+}
+
+internal func onMain(delay: TimeInterval, execute: @escaping () -> Void) {
+    DispatchQueue.main.asyncAfter(
+        deadline: .now() + .milliseconds(Int(delay) * 1000),
+        execute: execute
+    )
+}
+
+internal func t2FlatMap<T, U>(_ arg: (T?, U?)) -> (T, U)? {
+    if let foo = arg.0,
+       let bar = arg.1 {
+        return (foo, bar)
+    } else {
+        return nil
+    }
 }

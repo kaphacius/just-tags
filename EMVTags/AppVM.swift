@@ -15,6 +15,9 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var activeWindow: NSWindow?
     @Published internal var activeVM: AnyWindowVM?
     @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
+    @Environment(\.openURL) var openURL
+    
+    private var newVMSetup: ((AnyWindowVM) -> Void)?
     
     internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
         window.delegate = self
@@ -22,6 +25,11 @@ internal final class AppVM: NSObject, ObservableObject {
         viewModel.infoDataSource = infoDataSource
         viewModels[window.windowNumber] = viewModel
         setAsActive(window: window)
+        
+        if let newVMSetup = newVMSetup {
+            newVMSetup(viewModel)
+            self.newVMSetup = nil
+        }
     }
     
     fileprivate func setAsActive(window: NSWindow) {
@@ -55,15 +63,23 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
-    internal func pasteIntoCurrentTab() {
-        DispatchQueue.main.async { [self] in
-            guard let pasteString = NSPasteboard.general.string(forType: .string),
-                  let activeVM = activeVM
-            else {
-                return
-            }
-            activeVM.parse(string: pasteString)
+    internal func pasteIntoNewTab() {
+        newVMSetup = { [weak self] in
+            self?.paste(string: NSPasteboard.string, into: $0)
         }
+        openNewTab()
+    }
+    
+    internal func pasteIntoCurrentTab() {
+        paste(
+            string: NSPasteboard.string,
+            into: activeVM
+        )
+    }
+    
+    private func paste(string: String?, into viewModel: AnyWindowVM?) {
+        t2FlatMap((string, viewModel))
+            .map { $0.1.parse(string: $0.0) }
     }
     
     internal func selectAll() {
@@ -82,6 +98,30 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         activeVM.deselectAll()
+    }
+    
+    internal func diffSelectedTags() {
+
+    }
+    
+    internal func openDiffView() {
+        if let existingDiffWindow = viewModels.first(where: { $0.value is DiffWindowVM } ),
+           let window = windows.first(where: { $0.windowNumber == existingDiffWindow.key }) {
+            // No need to open a new Diff window if it is already the active one
+            window.makeKeyAndOrderFront(self)
+        } else {
+            openURL(URL(string: "emvtags://diff")!)
+        }
+    }
+    
+    internal func openMainView() {
+        if let existingDiffWindow = viewModels.first(where: { $0.value is MainWindowVM } ),
+           let window = windows.first(where: { $0.windowNumber == existingDiffWindow.key }) {
+            // No need to open a new Main window if it is already the active one
+            window.makeKeyAndOrderFront(self)
+        } else {
+            openURL(URL(string: "emvtags://main")!)
+        }
     }
     
     internal func loadInfoJSON() {
@@ -115,6 +155,7 @@ extension AppVM: NSWindowDelegate {
             return
         }
         
+        windows.remove(window)
         _ = viewModels.removeValue(forKey: window.windowNumber)
     }
     

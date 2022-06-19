@@ -13,7 +13,7 @@ internal struct HostingWindowFinder: NSViewRepresentable {
     
     internal func makeNSView(context: Self.Context) -> NSView {
         let view = NSView()
-        DispatchQueue.main.async { self.callback(view.window) }
+        onMain { self.callback(view.window) }
         return view
     }
     

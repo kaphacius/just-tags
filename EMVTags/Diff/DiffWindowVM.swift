@@ -98,6 +98,12 @@ internal final class DiffWindowVM: AnyWindowVM {
         diffTags()
     }
     
+    internal func diff(tags: [[EMVTag]]) throws {
+        refreshState()
+        initialTags = tags
+        diffTags()
+    }
+    
     override func onTagSelected(tag: EMVTag) {
         // Do nothing, we don't support tag selection in the diff view
     }

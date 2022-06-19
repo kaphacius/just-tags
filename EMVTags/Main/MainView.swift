@@ -13,8 +13,7 @@ import SwiftyBERTLV
 struct MainView: View {
     
     @EnvironmentObject private var appVM: AppVM
-    @StateObject private var windowVM: WindowVM = .init()
-    
+    @StateObject private var windowVM: MainWindowVM = .init()
     @State private var showingSearch = false
     @FocusState private var searchFocused
     
