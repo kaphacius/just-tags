@@ -18,6 +18,8 @@ internal class AnyWindowVM: ObservableObject {
     @Published internal var selectedIds = Set<UUID>()
     @Published internal var selectedTag: EMVTag? = nil
     @Published internal var showsAlert: Bool = false
+    internal var errorTitle: String = ""
+    internal var errorMessage: String = ""
     
     internal func contains(id: UUID) -> Bool {
         selectedIds.contains(id)
@@ -52,6 +54,13 @@ internal class AnyWindowVM: ObservableObject {
     internal func deselectAll() { }
     
     internal func diffSelectedTags() { }
+    
+    internal func showParsingAlert(with error: Error) {
+        showsAlert = true
+        errorTitle = "Error parsing tags"
+        errorMessage = "Unable to parse given string into BERTLV with error: \(error)"
+    }
+
 }
 
 internal final class MainWindowVM: AnyWindowVM {
@@ -98,7 +107,7 @@ internal final class MainWindowVM: AnyWindowVM {
             tagDescriptions = .init(uniqueKeysWithValues: pairs)
             showingTags = true
         } catch {
-            showsAlert = true
+            showParsingAlert(with: error)
         }
     }
     

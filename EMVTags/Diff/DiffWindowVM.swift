@@ -70,7 +70,7 @@ internal final class DiffWindowVM: AnyWindowVM {
             try parseInput(string, at: focusedEditorIdx)
         } catch {
             texts[focusedEditorIdx] = ""
-            showsAlert = true
+            showParsingAlert(with: error)
         }
     }
     

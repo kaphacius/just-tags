@@ -13,7 +13,7 @@ import SwiftyBERTLV
 struct MainView: View {
     
     @EnvironmentObject private var appVM: AppVM
-    @StateObject private var windowVM: MainWindowVM = .init()
+    @StateObject private var vm: MainWindowVM = .init()
     @State private var showingSearch = false
     @FocusState private var searchFocused
     
@@ -23,34 +23,32 @@ struct MainView: View {
         }
         .background(shortcutButtons)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .alert("Error!", isPresented: $windowVM.showsAlert, actions: {
-            Button("I'll do better next time") {
-                windowVM.showsAlert = false
-            }
+        .alert(vm.errorTitle, isPresented: $vm.showsAlert, actions: {
+            Button("I'll do better next time") {}
         }, message: {
-            Text("Unable to parse given string into BERTLV")
+            Text(vm.errorMessage)
         })
         .onChange(of: showingSearch) { _ in
             searchFocused = showingSearch
         }
-        .environmentObject(windowVM as AnyWindowVM)
+        .environmentObject(vm as AnyWindowVM)
         .background {
             HostingWindowFinder { window in
                 guard let window = window else { return }
-                self.appVM.addWindow(window, viewModel: windowVM)
+                self.appVM.addWindow(window, viewModel: vm)
             }.opacity(0.0)
         }
     }
     
     @ViewBuilder
     internal var mainView: some View {
-        if windowVM.showingTags {
+        if vm.showingTags {
             VStack(spacing: 0.0) {
                 if showingSearch {
-                    SearchBar(searchText: $windowVM.searchText, focused: _searchFocused)
+                    SearchBar(searchText: $vm.searchText, focused: _searchFocused)
                         .padding([.top, .leading], commonPadding)
                 }
-                TagListView(tags: $windowVM.currentTags)
+                TagListView(tags: $vm.currentTags)
             }
             .frame(maxWidth: .infinity)
             details
@@ -63,7 +61,7 @@ struct MainView: View {
     
     private var details: some View {
         GroupBox {
-            if let selectedTag = windowVM.selectedTag {
+            if let selectedTag = vm.selectedTag {
                 TagDetailView(vm: .init(emvTag: selectedTag))
             } else {
                 Text("Select a tag to view the details")
