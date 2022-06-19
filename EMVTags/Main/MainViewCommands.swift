@@ -20,24 +20,27 @@ internal struct MainViewCommands: Commands {
     
     @CommandsBuilder
     var editCommands: some Commands {
-        CommandGroup(replacing: CommandGroupPlacement.pasteboard) {
-            copySelectedTagsButton
+        CommandGroup(replacing: .pasteboard) {
+            copySelectedTags
             paste
             pasteIntoNewTab
+            selectAll
+            deselectAll
         }
+        CommandGroup(replacing: .undoRedo) {}
     }
     
     @CommandsBuilder
     var fileCommands: some Commands {
-        CommandGroup(replacing: CommandGroupPlacement.newItem, addition: {
+        CommandGroup(replacing: .newItem) {
             newTabButton
             openTagInfoButton
             openMainViewButton
             openDiffViewButton
-        })
+        }
     }
     
-    private var copySelectedTagsButton: some View {
+    private var copySelectedTags: some View {
         Button(action: {
             viewModel.activeVM
                 .map(\.hexString)
@@ -46,6 +49,20 @@ internal struct MainViewCommands: Commands {
             copyTagsButtonLabel
         })
         .keyboardShortcut("c", modifiers: [.command])
+    }
+    
+    private var selectAll: some View {
+        Button(
+            "Select all",
+            action: viewModel.selectAll
+        ).keyboardShortcut("a", modifiers: [.command])
+    }
+    
+    private var deselectAll: some View {
+        Button(
+            "Deselect all",
+            action: viewModel.deselectAll
+        ).keyboardShortcut("a", modifiers: [.command, .shift])
     }
     
     private var paste: some View {

@@ -66,6 +66,24 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
+    internal func selectAll() {
+        guard let activeVM = activeVM else {
+            assertionFailure("activeVM must be set")
+            return
+        }
+
+        activeVM.selectAll()
+    }
+    
+    internal func deselectAll() {
+        guard let activeVM = activeVM else {
+            assertionFailure("activeVM must be set")
+            return
+        }
+        
+        activeVM.deselectAll()
+    }
+    
     internal func loadInfoJSON() {
         let openPanel = NSOpenPanel()
         openPanel.canChooseDirectories = true

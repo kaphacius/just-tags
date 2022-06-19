@@ -46,6 +46,10 @@ internal class AnyWindowVM: ObservableObject {
         selectedIds = []
         selectedTag = nil
     }
+    
+    internal func selectAll() { }
+    
+    internal func deselectAll() { }
 }
 
 internal final class WindowVM: AnyWindowVM {
@@ -110,6 +114,16 @@ internal final class WindowVM: AnyWindowVM {
                 .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
             print(currentTags.count)
         }
+    }
+    
+    override internal func selectAll() {
+        selectedTags = currentTags
+        selectedIds = Set(selectedTags.map(\.id))
+    }
+    
+    override internal func deselectAll() {
+        selectedTags = []
+        selectedIds = []
     }
     
 }
