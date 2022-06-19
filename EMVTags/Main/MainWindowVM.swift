@@ -13,6 +13,7 @@ import Combine
 internal class AnyWindowVM: ObservableObject {
     
     internal var infoDataSource: EMVTagInfoDataSource?
+    internal weak var appVM: AppVM?
     
     @Published internal var selectedTags = [EMVTag]()
     @Published internal var selectedIds = Set<UUID>()
@@ -41,7 +42,25 @@ internal class AnyWindowVM: ObservableObject {
         selectedTags.map(\.hexString).joined()
     }
     
-    internal func parse(string: String) {}
+    internal func parse(string: String) {
+        assertionFailure("this should be overriden")
+    }
+    
+    internal func tagsByParsing(string: String) -> [EMVTag] {
+        do {
+            guard let infoDataSource = infoDataSource else {
+                assertionFailure("infoDataSource is missing")
+                return []
+            }
+            
+            let tlv = try InputParser.parse(input: string)
+            
+            return tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
+        } catch {
+            showParsingAlert(with: error)
+            return []
+        }
+    }
     
     internal func refreshState() {
         selectedTags = []
@@ -60,6 +79,22 @@ internal class AnyWindowVM: ObservableObject {
         errorTitle = "Error parsing tags"
         errorMessage = "Unable to parse given string into BERTLV with error: \(error)"
     }
+    
+    internal func showTooManyDiffAlert() {
+        showsAlert = true
+        errorTitle = "Unable to diff selected tags"
+        errorMessage = "Diffing is only available if there are 2 tags selected in the current tab. Please select less tags."
+    }
+    
+    internal func showNotEnoughDiffAlert() {
+        showsAlert = true
+        errorTitle = "Unable to diff selected tags"
+        errorMessage = "Diffing is only available if there are 2 tags selected in the current tab. Please select more tags."
+    }
+    
+    internal var isEmpty: Bool {
+        false
+    }
 
 }
 
@@ -77,6 +112,10 @@ internal final class MainWindowVM: AnyWindowVM {
         setUpSearch()
     }
     
+    override var isEmpty: Bool {
+        initialTags.isEmpty
+    }
+    
     private func setUpSearch() {
         $searchText
             .debounce(for: 0.2, scheduler: RunLoop.main, options: nil)
@@ -87,28 +126,17 @@ internal final class MainWindowVM: AnyWindowVM {
     }
     
     internal override func parse(string: String) {
-        guard let infoDataSource = infoDataSource else {
-            assertionFailure("infoDataSource is missing")
-            return
-        }
-        
         refreshState()
         
-        do {
-            let tlv = try InputParser.parse(input: string)
-            
-            initialTags = tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
-            
-            let pairs = initialTags.flatMap { tag in
-                [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
-            }
-            
-            currentTags = initialTags
-            tagDescriptions = .init(uniqueKeysWithValues: pairs)
-            showingTags = true
-        } catch {
-            showParsingAlert(with: error)
+        initialTags = tagsByParsing(string: string)
+        
+        let pairs = initialTags.flatMap { tag in
+            [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
         }
+        
+        currentTags = initialTags
+        tagDescriptions = .init(uniqueKeysWithValues: pairs)
+        showingTags = initialTags.isEmpty == false
     }
     
     private func updateTags() {
@@ -136,6 +164,16 @@ internal final class MainWindowVM: AnyWindowVM {
     override internal func deselectAll() {
         selectedTags = []
         selectedIds = []
+    }
+    
+    override func diffSelectedTags() {
+        if selectedTags.count < 2 {
+            showNotEnoughDiffAlert()
+        } else if selectedTags.count > 2 {
+            showTooManyDiffAlert()
+        } else {
+            appVM?.diffTags(([selectedTags[0]], [selectedTags[1]]))
+        }
     }
     
 }

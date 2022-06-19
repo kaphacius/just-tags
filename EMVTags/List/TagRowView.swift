@@ -74,6 +74,12 @@ internal struct TagRowView: View {
                 NSPasteboard.copyString(windowVM.hexString)
             }
         }
+        if windowVM.selectedTags.count == 2 {
+            Button(
+                "Diff selected tags",
+                action: windowVM.diffSelectedTags
+            )
+        }
     }
 
 }

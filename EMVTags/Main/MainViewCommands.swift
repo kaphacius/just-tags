@@ -9,17 +9,18 @@ import SwiftUI
 
 internal struct MainViewCommands: Commands {
     
-    @Environment(\.openURL) var openURL
+    @Environment(\.openURL) private  var openURL
     
     @ObservedObject internal var viewModel: AppVM
     
-    var body: some Commands {
+    internal var body: some Commands {
         fileCommands
         editCommands
+        diffCommands
     }
     
     @CommandsBuilder
-    var editCommands: some Commands {
+    private var editCommands: some Commands {
         CommandGroup(replacing: .pasteboard) {
             copySelectedTags
             paste
@@ -30,14 +31,26 @@ internal struct MainViewCommands: Commands {
         CommandGroup(replacing: .undoRedo) {}
     }
     
-    @CommandsBuilder
-    var fileCommands: some Commands {
+    private var fileCommands: some Commands {
         CommandGroup(replacing: .newItem) {
             newTabButton
             openTagInfoButton
             openMainViewButton
             openDiffViewButton
         }
+    }
+    
+    private var diffCommands: some Commands {
+        CommandMenu("Diff") {
+            diffSelectedTags
+        }
+    }
+    
+    private var diffSelectedTags: some View {
+        Button(
+            "Diff selected tags",
+            action: viewModel.diffSelectedTags
+        ).keyboardShortcut("d", modifiers: [.option, .shift])
     }
     
     private var copySelectedTags: some View {

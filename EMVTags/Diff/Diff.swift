@@ -8,6 +8,7 @@
 import Foundation
 import SwiftyEMVTags
 
+typealias TagPair = (lhs: [EMVTag], rhs: [EMVTag])
 typealias DiffedTag = (tag: EMVTag, diff: [DiffResult])
 
 internal struct DiffedTagPair {

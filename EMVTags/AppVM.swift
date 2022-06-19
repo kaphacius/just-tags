@@ -23,6 +23,7 @@ internal final class AppVM: NSObject, ObservableObject {
         window.delegate = self
         windows.insert(window)
         viewModel.infoDataSource = infoDataSource
+        viewModel.appVM = self
         viewModels[window.windowNumber] = viewModel
         setAsActive(window: window)
         
@@ -71,10 +72,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func pasteIntoCurrentTab() {
-        paste(
-            string: NSPasteboard.string,
-            into: activeVM
-        )
+        paste(string: NSPasteboard.string, into: activeVM)
     }
     
     private func paste(string: String?, into viewModel: AnyWindowVM?) {
@@ -101,14 +99,69 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func diffSelectedTags() {
-
+        guard let activeVM = activeVM else {
+            assertionFailure("activeVM must be set")
+            return
+        }
+        
+        guard activeVM is MainWindowVM else {
+            // Don't diff tags when DiffView is active
+            return
+        }
+        
+        guard activeVM.selectedTags.count == 2 else {
+            // Don't diff if not exactly 2 tags selected
+            return
+        }
+        
+        let toDiff = (lhs: [activeVM.selectedTags[0]], rhs: [activeVM.selectedTags[1]])
+        
+        diffTags(toDiff)
+    }
+    
+    internal func diffTags(_ tags: TagPair) {
+        if let emptyDiffVMKV = emptyDiffVMKV.map(\.value) {
+            // An empty diff vm is available, use it
+            emptyDiffVMKV.diff(tags: tags)
+            makeActive(vm: emptyDiffVMKV)
+        } else {
+            // No empty diff vms available, we will get a new one
+            newVMSetup = { newVM in
+                guard let newVM = newVM as? DiffWindowVM else {
+                    assertionFailure("activeVM must be set")
+                    return
+                }
+                newVM.diff(tags: tags)
+            }
+            openDiffView()
+            // If the diff window was already in place - open
+            if anyDiffWindow != nil {
+                openNewTab()
+            }
+        }
+    }
+    
+    private var emptyDiffVMKV: (key: Int, value: DiffWindowVM)? {
+        viewModels
+            .filter(\.value.isEmpty)
+            .first(where: { $0.value is DiffWindowVM })
+            .map { ($0.key, $0.value as? DiffWindowVM )}
+            .flatMap(t2FlatMap(_:))
+    }
+    
+    private var anyDiffWindow: NSWindow? {
+        viewModels
+            .first(where: { $0.value is DiffWindowVM })
+            .map(\.key)
+            .flatMap({ (key: Int) -> NSWindow? in
+                windows.first(where: { window in window.windowNumber == key })
+            })
     }
     
     internal func openDiffView() {
-        if let existingDiffWindow = viewModels.first(where: { $0.value is DiffWindowVM } ),
-           let window = windows.first(where: { $0.windowNumber == existingDiffWindow.key }) {
+        if let anyDiffWindow = anyDiffWindow {
             // No need to open a new Diff window if it is already the active one
-            window.makeKeyAndOrderFront(self)
+            anyDiffWindow.makeKeyAndOrderFront(self)
         } else {
             openURL(URL(string: "emvtags://diff")!)
         }
@@ -136,6 +189,19 @@ internal final class AppVM: NSObject, ObservableObject {
         let result = try! JSONDecoder().decode(TagInfoContainer.self, from: data)
         
         infoDataSource.infoList.append(contentsOf: result.tags)
+    }
+    
+    private func window(for vm: AnyWindowVM) -> NSWindow? {
+        viewModels.first(where: { $0.value === vm })
+            .map(\.key)
+            .flatMap({ (key: Int) -> NSWindow? in
+                windows.first(where: { window in window.windowNumber == key })
+            })
+    }
+    
+    private func makeActive(vm: AnyWindowVM) {
+        window(for: vm)
+            .map { $0.makeKeyAndOrderFront(self) }
     }
     
 }

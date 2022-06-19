@@ -46,46 +46,41 @@ internal final class DiffWindowVM: AnyWindowVM {
             .store(in: &cancellables)
     }
     
+    override var isEmpty: Bool {
+        initialTags.allSatisfy(\.isEmpty)
+    }
+    
     internal func updateFocusedEditor(_ idx: Int?) {
         self.focusedEditorIdx = idx
     }
     
-    internal func diffTags() {
+    internal func diffInitialTags() {
         guard initialTags.contains([]) == false else {
             return
         }
     
         showsDiff = true
-        toggleShowOnlyDifferent(showOnlyDifferent)
+        diffResults = Diff.diff(tags: initialTags, onlyDifferent: false)
     }
     
     private func toggleShowOnlyDifferent(_ value: Bool) {
         diffResults = Diff.diff(tags: initialTags, onlyDifferent: value)
     }
     
-    override func parse(string: String) {
+    override internal func parse(string: String) {
         guard let focusedEditorIdx = focusedEditorIdx else { return }
         
-        do {
-            try parseInput(string, at: focusedEditorIdx)
-        } catch {
+        let tags = tagsByParsing(string: string)
+        guard tags.isEmpty == false else {
             texts[focusedEditorIdx] = ""
-            showParsingAlert(with: error)
-        }
-    }
-    
-    internal func parseInput(_ input: String, at idx: Int) throws {
-        guard let infoDataSource = infoDataSource else {
-            assertionFailure("infoDataSource is missing")
             return
         }
         
-        let tlv = try InputParser.parse(input: input)
-        let tags = tlv
-            .map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
-            .sortedTags
-        
-        guard tags.isEmpty == false else { return }
+        apply(tags: tags, at: focusedEditorIdx)
+    }
+    
+    internal func apply(tags: [EMVTag], at idx: Int) {
+        let tags = tags.sortedTags
         
         if initialTags.count <= idx {
             initialTags.append(tags)
@@ -95,13 +90,13 @@ internal final class DiffWindowVM: AnyWindowVM {
         
         refreshState()
         
-        diffTags()
+        diffInitialTags()
     }
     
-    internal func diff(tags: [[EMVTag]]) throws {
+    internal func diff(tags: TagPair) {
         refreshState()
-        initialTags = tags
-        diffTags()
+        initialTags = [tags.lhs, tags.rhs]
+        diffInitialTags()
     }
     
     override func onTagSelected(tag: EMVTag) {
