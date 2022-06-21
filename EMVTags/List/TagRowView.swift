@@ -38,7 +38,7 @@ internal struct TagRowView: View {
     
     internal var body: some View {
         GroupBox {
-            if tag.isConstructed {
+            if tag.isConstructed && isDiffing == false {
                 ConstructedTagView(tag: tag)
             } else {
                 PrimitiveTagView(
