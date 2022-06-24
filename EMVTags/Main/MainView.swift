@@ -47,9 +47,15 @@ struct MainView: View {
                 if showingSearch {
                     SearchBar(searchText: $vm.searchText, focused: _searchFocused)
                         .padding([.top, .leading], commonPadding)
+                        .onExitCommand {
+                            vm.searchText = ""
+                            showingSearch = false
+                        }
                 }
+                header
                 TagListView(tags: $vm.currentTags)
             }
+            .animation(.easeOut(duration: 0.25), value: showingSearch)
             .frame(maxWidth: .infinity)
             details
                 .frame(width: detailWidth)
@@ -57,6 +63,17 @@ struct MainView: View {
             HintView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
+    }
+    
+    @ViewBuilder
+    private var header: some View {
+        GroupBox {
+            HStack {
+                Button("Expand all", action: vm.expandAll)
+                Button("Collapse all", action: vm.collapseAll)
+                Spacer()
+            }
+        }.padding([.top, .leading], commonPadding)
     }
     
     private var details: some View {

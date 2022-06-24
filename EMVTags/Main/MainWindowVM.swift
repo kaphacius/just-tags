@@ -19,6 +19,7 @@ internal class AnyWindowVM: ObservableObject {
     @Published internal var selectedIds = Set<UUID>()
     @Published internal var selectedTag: EMVTag? = nil
     @Published internal var showsAlert: Bool = false
+    @Published internal var disclosureGroups: [UUID: Bool] = [:]
     internal var errorTitle: String = ""
     internal var errorMessage: String = ""
     
@@ -66,6 +67,7 @@ internal class AnyWindowVM: ObservableObject {
         selectedTags = []
         selectedIds = []
         selectedTag = nil
+        disclosureGroups = [:]
     }
     
     internal func selectAll() { }
@@ -94,6 +96,13 @@ internal class AnyWindowVM: ObservableObject {
     
     internal var isEmpty: Bool {
         false
+    }
+    
+    internal func binding(for uuid: UUID) -> Binding<Bool> {
+        .init(
+            get: { self.disclosureGroups[uuid, default: false] },
+            set: { self.disclosureGroups[uuid] = $0 }
+        )
     }
 
 }
@@ -137,6 +146,12 @@ internal final class MainWindowVM: AnyWindowVM {
         currentTags = initialTags
         tagDescriptions = .init(uniqueKeysWithValues: pairs)
         showingTags = initialTags.isEmpty == false
+        disclosureGroups = .init(
+            uniqueKeysWithValues: initialTags
+                .filter(\.isConstructed)
+                .map(\.id)
+                .map { ($0, false) }
+        )
     }
     
     private func updateTags() {
@@ -152,7 +167,6 @@ internal final class MainWindowVM: AnyWindowVM {
             currentTags = initialTags
                 .filter { matchingTags.contains($0.id) }
                 .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
-            print(currentTags.count)
         }
     }
     
@@ -166,13 +180,25 @@ internal final class MainWindowVM: AnyWindowVM {
         selectedIds = []
     }
     
-    override func diffSelectedTags() {
+    override internal func diffSelectedTags() {
         if selectedTags.count < 2 {
             showNotEnoughDiffAlert()
         } else if selectedTags.count > 2 {
             showTooManyDiffAlert()
         } else {
             appVM?.diffTags(([selectedTags[0]], [selectedTags[1]]))
+        }
+    }
+    
+    internal func collapseAll() {
+        disclosureGroups.keys.forEach { key in
+            disclosureGroups[key] = false
+        }
+    }
+    
+    internal func expandAll() {
+        disclosureGroups.keys.forEach { key in
+            disclosureGroups[key] = true
         }
     }
     

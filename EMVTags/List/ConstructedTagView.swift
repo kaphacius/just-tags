@@ -10,16 +10,16 @@ import SwiftyEMVTags
 
 internal struct ConstructedTagView: View {
     
-    @EnvironmentObject private var windowVM: AnyWindowVM
-    
-    @State var isExpanded: Bool = false
+    @EnvironmentObject private var vm: AnyWindowVM
     
     internal let tag: EMVTag
     
     internal var body: some View {
+        let binding = vm.binding(for: tag.id)
+        
         return VStack(alignment: .leading) {
-            disclosureGroup(for: tag, binding: $isExpanded)
-            if isExpanded == false {
+            disclosureGroup(for: tag, binding: binding)
+            if binding.wrappedValue == false {
                 HStack(spacing: 0.0) {
                     TagValueView(tag: tag)
                         .multilineTextAlignment(.leading)
@@ -29,10 +29,10 @@ internal struct ConstructedTagView: View {
         }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
-            windowVM.onTagSelected(tag: tag)
+            vm.onTagSelected(tag: tag)
         })
         .onTapGesture {
-            isExpanded.toggle()
+            binding.wrappedValue.toggle()
         }
     }
     
