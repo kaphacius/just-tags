@@ -110,9 +110,18 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func diffTags(_ tags: TagPair) {
+        let toDiff: TagPair
+        
+        // If two constructed tags are selected - diff the subtags
+        if tags.lhs[0].isConstructed && tags.rhs[0].isConstructed {
+            toDiff = (tags.lhs[0].subtags, tags.rhs[0].subtags)
+        } else {
+            toDiff = tags
+        }
+        
         if let emptyDiffVMKV = emptyDiffVMKV.map(\.value) {
             // An empty diff vm is available, use it
-            emptyDiffVMKV.diff(tags: tags)
+            emptyDiffVMKV.diff(tags: toDiff)
             makeActive(vm: emptyDiffVMKV)
         } else {
             // No empty diff vms available, we will get a new one
@@ -121,7 +130,7 @@ internal final class AppVM: NSObject, ObservableObject {
                     assertionFailure("activeVM must be set")
                     return
                 }
-                newVM.diff(tags: tags)
+                newVM.diff(tags: toDiff)
             }
             openDiffView()
             // If the diff window was already in place - open
