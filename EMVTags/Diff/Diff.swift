@@ -9,7 +9,21 @@ import Foundation
 import SwiftyEMVTags
 
 typealias TagPair = (lhs: [EMVTag], rhs: [EMVTag])
-typealias DiffedTag = (tag: EMVTag, diff: [DiffResult])
+
+internal struct DiffedByte {
+    internal let byte: UInt8
+    internal let result: DiffResult
+}
+
+internal struct DiffedTag {
+    internal let tag: EMVTag
+    internal let results: [DiffResult]
+    
+    var diffedBytes: [DiffedByte] {
+        zip(tag.value, results)
+            .map(DiffedByte.init)
+    }
+}
 
 internal struct DiffedTagPair {
     internal let lhs: DiffedTag?
@@ -21,15 +35,13 @@ internal struct DiffedTagPair {
         self.rhs = rhs
         switch (lhs, rhs) {
         case (let lhs?, let rhs?):
-            self.isEqual = lhs.diff.equalDiff && rhs.diff.equalDiff
+            self.isEqual = lhs.results.equalDiff && rhs.results.equalDiff
         default:
             self.isEqual = false
         }
     }
     
 }
-
-typealias DiffedByte = (byte: UInt8, result: DiffResult)
 
 internal enum TagDiffResult {
     case equal(EMVTag)
@@ -45,7 +57,10 @@ internal enum TagDiffResult {
     var diffedPair: DiffedTagPair {
         switch self {
         case .equal(let tag):
-            let part = (tag, Array(repeating: DiffResult.equal, count: tag.value.count))
+            let part: DiffedTag = .init(
+                tag: tag,
+                results: Array(repeating: DiffResult.equal, count: tag.value.count)
+            )
             return .init(lhs: part, rhs: part)
         case .different(let tags):
             return .init(
@@ -70,13 +85,15 @@ extension EMVTag {
                 return .equal(lhs)
             } else {
                 let res = diffCompare(left: lhs.value, right: rhs.value)
-                return .different([(lhs, res.lhs), (rhs, res.rhs)])
+                return .different(
+                    [.init(tag: lhs, results: res.lhs), .init(tag: rhs, results: res.rhs)]
+                )
             }
         } else if lhs.tag < rhs.tag {
             // tags are different. left is less. fill the left tags result with different, leave the rigth result empty to move left forward
             return .different(
                 [
-                    (lhs, .init(repeating: .different, count: lhs.value.count)),
+                    .init(tag: lhs, results: .init(repeating: .different, count: lhs.value.count)),
                     nil
                 ]
             )
@@ -85,7 +102,7 @@ extension EMVTag {
             return .different(
                 [
                     nil,
-                    (rhs, .init(repeating: .different, count: rhs.value.count))
+                    .init(tag: rhs, results: .init(repeating: .different, count: rhs.value.count))
                 ]
             )
         }
@@ -131,7 +148,7 @@ func diffCompareTags(lhs: [EMVTag], rhs: [EMVTag]) -> [TagDiffResult] {
                         .different(
                             [
                                 nil,
-                                (tag, .init(repeating: .different, count: tag.value.count))
+                                .init(tag: tag, results: .init(repeating: .different, count: tag.value.count))
                             ]
                         )
                 }
@@ -144,7 +161,7 @@ func diffCompareTags(lhs: [EMVTag], rhs: [EMVTag]) -> [TagDiffResult] {
                     // fill the left tags result with different, leave the rigth result empty
                         .different(
                             [
-                                (tag, .init(repeating: .different, count: tag.value.count)),
+                                .init(tag: tag, results: .init(repeating: .different, count: tag.value.count)),
                                 nil
                             ]
                         )

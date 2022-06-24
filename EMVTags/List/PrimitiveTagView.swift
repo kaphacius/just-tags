@@ -49,30 +49,9 @@ internal struct PrimitiveTagView: View {
     @ViewBuilder
     private var tagValueView: some View {
         if isDiffing {
-            diffedValueView
+            DiffedTagValueView(diffedTag: .init(tag: tag, results: byteDiffResults))
         } else {
             TagValueView(tag: tag)
-        }
-    }
-    
-    @ViewBuilder
-    private var diffedValueView: some View {
-        HStack(alignment: .top, spacing: 0.0) {
-            ForEach(Array(zip(tag.value, byteDiffResults).enumerated()), id: \.offset) { (offset, diffedByte) in
-                diffedByteView(diffedByte)
-            }
-            Spacer()
-        }
-    }
-    
-    @ViewBuilder
-    private func diffedByteView(_ diffedByte: DiffedByte) -> some View {
-        switch diffedByte.result {
-        case .equal:
-            byteValueView(for: diffedByte.byte)
-        case .different:
-            byteValueView(for: diffedByte.byte)
-                .background(diffBackground)
         }
     }
     
@@ -95,6 +74,33 @@ internal struct PrimitiveTagView: View {
         .padding(.horizontal, commonPadding)
         .animation(.none, value: isExpanded)
     }
+}
+
+private struct DiffedTagValueView: View {
+    
+    internal let diffedTag: DiffedTag
+    
+    internal var body: some View {
+        Text(text)
+            .font(.title3.monospaced())
+    }
+    
+    private let backgroundColorContainer: AttributeContainer = {
+        var container = AttributeContainer()
+        container.backgroundColor = diffBackground
+        return container
+    }()
+    
+    private var text: AttributedString {
+        diffedTag.diffedBytes
+            .map { diffedByte in
+                AttributedString(
+                    diffedByte.byte.hexString,
+                    attributes: diffedByte.result == .different ? backgroundColorContainer : .init()
+                )
+            }.reduce(into: AttributedString()) { $0.append($1) }
+    }
+    
 }
 
 #if DEBUG
