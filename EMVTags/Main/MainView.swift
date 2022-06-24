@@ -38,6 +38,8 @@ struct MainView: View {
                 self.appVM.addWindow(window, viewModel: vm)
             }.opacity(0.0)
         }
+        .onAppear(perform: vm.setUp)
+        .navigationTitle(vm.title)
     }
     
     @ViewBuilder

@@ -34,6 +34,7 @@ internal struct MainViewCommands: Commands {
     private var fileCommands: some Commands {
         CommandGroup(replacing: .newItem) {
             newTabButton
+            renameTabButton
             openTagInfoButton
             openMainViewButton
             openDiffViewButton
@@ -104,6 +105,13 @@ internal struct MainViewCommands: Commands {
             "New Tab",
             action: viewModel.openNewTab
         ).keyboardShortcut("t", modifiers: [.command])
+    }
+    
+    private var renameTabButton: some View {
+        Button(
+            "Rename Tab",
+            action: viewModel.activeVM.renameTab
+        ).keyboardShortcut("r", modifiers: [.command, .shift])
     }
     
     private var openTagInfoButton: some View {

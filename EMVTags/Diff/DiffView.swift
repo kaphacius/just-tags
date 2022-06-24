@@ -35,7 +35,10 @@ struct DiffView: View {
                 guard let window = window else { return }
                 self.appVM.addWindow(window, viewModel: vm)
             }.opacity(0.0)
-        }.environmentObject(vm as AnyWindowVM)
+        }
+        .environmentObject(vm as AnyWindowVM)
+        .onAppear(perform: vm.setUp)
+        .navigationTitle(vm.title)
     }
     
     @ViewBuilder

@@ -225,3 +225,14 @@ extension AppVM: NSWindowDelegate {
     }
     
 }
+
+extension AppVM {
+    
+    private static var tabCounter: Int = 0
+    
+    internal static var tabName: String {
+        tabCounter += 1
+        return "Unknown #\(tabCounter - 1)"
+    }
+    
+}
