@@ -52,13 +52,12 @@ internal struct TagRowView: View {
         }
         .contextMenu { contextMenu }
         .contentShape(Rectangle())
-        .if(windowVM.contains(id: tag.id)) { view in
-            view.overlay {
-                RoundedRectangle(cornerRadius: 4.0, style: .continuous)
-                    .strokeBorder(lineWidth: 1.0, antialiased: true)
-                    .foregroundColor(.secondary)
-            }.transition(.opacity)
-        }
+        .overlay(
+            RoundedRectangle(cornerRadius: 4.0, style: .continuous)
+                .strokeBorder(lineWidth: 1.0, antialiased: true)
+                .foregroundColor(windowVM.contains(id: tag.id) ? .secondary : .clear)
+                .animation(.easeOut(duration: 0.25), value: windowVM.contains(id: tag.id))
+        )
     }
     
     @ViewBuilder

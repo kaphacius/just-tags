@@ -78,6 +78,13 @@ struct MainView: View {
                 showingSearch.toggle()
             }.frame(width: 0.0, height: 0.0)
                 .keyboardShortcut("f", modifiers: [.command])
+            
+            Button(
+                "Deselect all",
+                action: vm.deselectAll
+            )
+            .frame(width: 0.0, height: 0.0)
+            .keyboardShortcut(.cancelAction)
         }.hidden()
     }
     
