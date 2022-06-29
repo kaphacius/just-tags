@@ -77,12 +77,31 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func pasteIntoCurrentTab() {
-        paste(string: NSPasteboard.string, into: activeVM)
+        if activeVM.isEmpty {
+            paste(string: NSPasteboard.string, into: activeVM)
+        } else {
+            let alert = NSAlert()
+            alert.messageText = "Are you sure you want to replace tags in the current tab?"
+            let okButton = alert.addButton(withTitle: "Yes")
+            okButton.tag = 999
+            okButton.hasDestructiveAction = true
+            let newTabButton = alert.addButton(withTitle: "Paste into a new tab")
+            newTabButton.tag = 888
+            alert.addButton(withTitle: "Cancel")
+            alert.alertStyle = .warning
+            let result = alert.runModal().rawValue
+            if result == okButton.tag {
+                paste(string: NSPasteboard.string, into: activeVM)
+            } else if result == newTabButton.tag {
+                pasteIntoNewTab()
+            }
+        }
     }
     
-    private func paste(string: String?, into viewModel: AnyWindowVM?) {
-        t2FlatMap((string, viewModel))
-            .map { $0.1.parse(string: $0.0) }
+    private func paste(string: String?, into viewModel: AnyWindowVM) {
+        if let string = string {
+            viewModel.parse(string: string)
+        }
     }
     
     internal func selectAll() {
