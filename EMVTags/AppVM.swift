@@ -263,7 +263,7 @@ extension AppVM {
     
     internal static var tabName: String {
         tabCounter += 1
-        return "Unknown #\(tabCounter - 1)"
+        return "New Tab #\(tabCounter - 1)"
     }
     
 }
