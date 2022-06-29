@@ -90,6 +90,10 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func deselectAll() {
+        if activeVM.selectedIds.isEmpty == false {
+            activeWindow.map(doPoof(window:))
+        }
+    
         activeVM.deselectAll()
     }
     
@@ -201,6 +205,14 @@ internal final class AppVM: NSObject, ObservableObject {
     private func makeActive(vm: AnyWindowVM) {
         window(for: vm)
             .map { $0.makeKeyAndOrderFront(self) }
+    }
+    
+    private func doPoof(window: NSWindow) {
+        let loc = CGPoint(x: window.frame.maxX - 15, y: window.frame.maxY - 45)
+        let poofSize = 20.0
+        
+        NSAnimationEffect.poof
+            .show(centeredAt: loc, size: .init(width: poofSize, height: poofSize))
     }
     
 }

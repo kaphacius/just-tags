@@ -100,7 +100,7 @@ struct MainView: View {
             
             Button(
                 "Deselect all",
-                action: vm.deselectAll
+                action: appVM.deselectAll
             )
             .frame(width: 0.0, height: 0.0)
             .keyboardShortcut(.cancelAction)
