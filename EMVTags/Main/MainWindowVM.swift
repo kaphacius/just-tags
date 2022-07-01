@@ -122,6 +122,10 @@ internal class AnyWindowVM: ObservableObject {
         false
     }
     
+    internal var canPaste: Bool {
+        true
+    }
+    
     internal func binding(for uuid: UUID) -> Binding<Bool> {
         .init(
             get: { self.disclosureGroups[uuid, default: false] },
@@ -146,6 +150,10 @@ internal final class MainWindowVM: AnyWindowVM {
     }
     
     override var isEmpty: Bool {
+        initialTags.isEmpty
+    }
+    
+    override var canPaste: Bool {
         initialTags.isEmpty
     }
     

@@ -77,7 +77,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func pasteIntoCurrentTab() {
-        if activeVM.isEmpty {
+        if activeVM.canPaste {
             paste(string: NSPasteboard.string, into: activeVM)
         } else {
             let alert = NSAlert()
