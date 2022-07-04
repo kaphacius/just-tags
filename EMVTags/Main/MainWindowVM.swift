@@ -21,6 +21,7 @@ internal class AnyWindowVM: ObservableObject {
     @Published internal var detailTag: EMVTag? = nil
     @Published internal var showsAlert: Bool = false
     @Published internal var disclosureGroups: [UUID: Bool] = [:]
+    @Published internal var showsDetails: Bool = true
     internal var errorTitle: String = ""
     internal var errorMessage: String = ""
     
@@ -69,6 +70,7 @@ internal class AnyWindowVM: ObservableObject {
         } else {
             detailTag = tag
         }
+        showsDetails = true
     }
     
     internal var hexString: String {
@@ -239,6 +241,13 @@ internal final class MainWindowVM: AnyWindowVM {
     internal func expandAll() {
         disclosureGroups.keys.forEach { key in
             disclosureGroups[key] = true
+        }
+    }
+    
+    internal func toggleShowsDetails() {
+        showsDetails.toggle()
+        if showsDetails == false {
+            detailTag = nil
         }
     }
     

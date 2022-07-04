@@ -31,6 +31,7 @@ struct MainView: View {
         .onChange(of: showingSearch) { _ in
             searchFocused = showingSearch
         }
+        .animation(.easeIn, value: vm.showsDetails)
         .environmentObject(vm as AnyWindowVM)
         .background {
             HostingWindowFinder { window in
@@ -74,21 +75,29 @@ struct MainView: View {
                 Button("Expand all", action: vm.expandAll)
                 Button("Collapse all", action: vm.collapseAll)
                 Spacer()
+                Button(action: vm.toggleShowsDetails) {
+                    Image(systemName: "sidebar.right")
+                }
             }
         }.padding([.top, .leading], commonPadding)
     }
     
+    @ViewBuilder
     private var details: some View {
-        GroupBox {
-            if let detailTag = vm.detailTag {
-                TagDetailView(vm: .init(emvTag: detailTag))
-            } else {
-                Text("Select a tag to view the details")
-                    .foregroundColor(.secondary)
-                    .font(.title2)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
+        if vm.showsDetails {
+            GroupBox {
+                if let detailTag = vm.detailTag {
+                    TagDetailView(vm: .init(emvTag: detailTag))
+                } else {
+                    Text("Select a tag to view the details")
+                        .foregroundColor(.secondary)
+                        .font(.title2)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                }
             }
-        }.padding(commonPadding)
+            .padding(commonPadding)
+            .transition(.move(edge: .trailing))
+        }
     }
     
     private var shortcutButtons: some View {
