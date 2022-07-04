@@ -16,15 +16,12 @@ struct TagInfoView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4.0) {
             Text(vm.description)
-                .lineLimit(nil)
-                .fixedSize(horizontal: false, vertical: true)
             Text("Source: ").bold() + Text(vm.source)
             Text("Format: ").bold() + Text(vm.format)
             Text("Kernel: ").bold() + Text(vm.kernel)
         }
         .font(.body)
         .padding(commonPadding)
-        .frame(maxWidth: detailWidth, maxHeight: 200.0)
     }
 }
 
@@ -126,6 +123,6 @@ struct TagInfoView_Previews: PreviewProvider {
     static var previews: some View {
         TagInfoView(vm:
                 .init(emvTag: EMVTag(tlv: mockTLV, info: mockInfo, subtags: []))
-        ).frame(width: detailWidth)
+        )
     }
 }

@@ -10,24 +10,27 @@ import SwiftyEMVTags
 
 struct TagDetailView: View {
     
-    static let borderColor: Color = Color(nsColor: .tertiaryLabelColor)
+    private static let borderColor: Color = Color(nsColor: .tertiaryLabelColor)
     
-    static let rowHeight = 25.0
+    private static let rowHeight = 25.0
     
-    let vm: TagDetailVM
+    internal let vm: TagDetailVM
     
-    @State var showsPopup = false
+    @State var infoOpen = true
     
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: commonPadding) {
                 header
+                detailsView
                 ForEach(vm.bytes, content: byteView(for:))
-            }.frame(maxWidth: .infinity)
-        }
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.trailing, commonPadding)
+        }.padding(.trailing, -commonPadding)
     }
     
-    var header: some View {
+    private var header: some View {
         GroupBox {
             VStack(spacing: 0.0) {
                 Text(vm.tag)
@@ -36,17 +39,25 @@ struct TagDetailView: View {
                     .font(.title2)
             }
             .frame(maxWidth: .infinity)
-            .overlay(alignment: .topTrailing) {
-                Button(action: {
-                    showsPopup.toggle()
-                }, label: {
-                    Image(systemName: "info.circle.fill")
-                })
-            }.popover(
-                isPresented: $showsPopup,
-                content: { TagInfoView(vm: vm) }
-            )
         }
+    }
+    
+    private var detailsView: some View {
+        GroupBox {
+            DisclosureGroup(
+                isExpanded: $infoOpen,
+                content: {
+                    HStack(spacing: 0.0) {
+                        TagInfoView(vm: vm)
+                        Spacer()
+                    }
+                }, label: {
+                    Label("Tag Info", systemImage: "info.circle.fill")
+                        .font(.headline)
+                }
+            ).padding(.leading, commonPadding)
+        }
+        .onTapGesture { infoOpen.toggle() }
     }
     
     func byteView(for vm: TagDetailVM.ByteVM) -> some View {
@@ -123,7 +134,7 @@ struct MockSource: AnyEMVTagInfoSource {
         .init(
             tag: tag,
             name: "Some capabilities",
-            description: "A very long description string, explaining what the tag is used for",
+            description: "A very long description string, explaining what the tag is used for. A very long description string, explaining what the tag is used for. A very long description string, explaining what the tag is used for",
             source: .kernel,
             format: "binary",
             kernel: .general,
