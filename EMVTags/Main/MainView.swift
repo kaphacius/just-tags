@@ -80,8 +80,8 @@ struct MainView: View {
     
     private var details: some View {
         GroupBox {
-            if let selectedTag = vm.selectedTag {
-                TagDetailView(vm: .init(emvTag: selectedTag))
+            if let detailTag = vm.detailTag {
+                TagDetailView(vm: .init(emvTag: detailTag))
             } else {
                 Text("Select a tag to view the details")
                     .foregroundColor(.secondary)

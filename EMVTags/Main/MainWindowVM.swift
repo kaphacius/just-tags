@@ -18,7 +18,7 @@ internal class AnyWindowVM: ObservableObject {
     @Published internal var title = ""
     @Published internal var selectedTags = [EMVTag]()
     @Published internal var selectedIds = Set<UUID>()
-    @Published internal var selectedTag: EMVTag? = nil
+    @Published internal var detailTag: EMVTag? = nil
     @Published internal var showsAlert: Bool = false
     @Published internal var disclosureGroups: [UUID: Bool] = [:]
     internal var errorTitle: String = ""
@@ -63,6 +63,14 @@ internal class AnyWindowVM: ObservableObject {
         }
     }
     
+    internal func onDetailTagSelected(tag: EMVTag) {
+        if detailTag == tag {
+            detailTag = nil
+        } else {
+            detailTag = tag
+        }
+    }
+    
     internal var hexString: String {
         selectedTags.map(\.hexString).joined()
     }
@@ -90,7 +98,7 @@ internal class AnyWindowVM: ObservableObject {
     internal func refreshState() {
         selectedTags = []
         selectedIds = []
-        selectedTag = nil
+        detailTag = nil
         disclosureGroups = [:]
     }
     

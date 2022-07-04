@@ -21,14 +21,7 @@ internal struct PrimitiveTagView: View {
     
     internal var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
-            if showsDetails {
-                Button(
-                    action: { windowVM.selectedTag = tag },
-                    label: { TagHeaderView(tag: tag) }
-                )
-            } else {
-                TagHeaderView(tag: tag)
-            }
+            TagHeaderView(tag: tag)
             if canExpand {
                 expandableValueView
                     .padding(-commonPadding)
@@ -37,10 +30,14 @@ internal struct PrimitiveTagView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
+        .overlay(alignment: .trailing) { detailsButton }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
             windowVM.onTagSelected(tag: tag)
         })
+        .onTapGesture(count: 2) {
+            windowVM.onDetailTagSelected(tag: tag)
+        }
         .onTapGesture {
             isExpanded.toggle()
         }
@@ -73,6 +70,25 @@ internal struct PrimitiveTagView: View {
         )
         .padding(.horizontal, commonPadding)
         .animation(.none, value: isExpanded)
+    }
+    
+    private var detailsButton: some View {
+        Button(
+            action: {
+                windowVM.onDetailTagSelected(tag: tag)
+            }, label: {
+                GroupBox {
+                    Label(
+                        "Details",
+                        systemImage: windowVM.detailTag == tag ? "lessthan" : "greaterthan"
+                    )
+                    .labelStyle(.iconOnly)
+                    .padding(.horizontal, commonPadding)
+                }
+            }
+        )
+        .padding(.horizontal, commonPadding)
+        .buttonStyle(.plain)
     }
 }
 
@@ -112,7 +128,7 @@ struct PrimitiveTagView_Previews: PreviewProvider {
             isDiffing: false,
             canExpand: false,
             showsDetails: false
-        )
+        ).environmentObject(MainWindowVM() as AnyWindowVM)
     }
 }
 #endif
