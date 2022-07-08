@@ -185,7 +185,7 @@ internal final class AppVM: NSObject, ObservableObject {
             // No need to open a new Diff window if it is already the active one
             anyDiffWindow.makeKeyAndOrderFront(self)
         } else {
-            openURL(URL(string: "emvtags://diff")!)
+            openURL(URL(string: "justtags://diff")!)
         }
     }
     
@@ -195,7 +195,7 @@ internal final class AppVM: NSObject, ObservableObject {
             // No need to open a new Main window if it is already the active one
             window.makeKeyAndOrderFront(self)
         } else {
-            openURL(URL(string: "emvtags://main")!)
+            openURL(URL(string: "justtags://main")!)
         }
     }
     
