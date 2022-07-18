@@ -30,7 +30,11 @@ internal struct PrimitiveTagView: View {
             }
         }
         .frame(maxWidth: .infinity, alignment: .leading)
-        .overlay(alignment: .trailing) { detailsButton }
+        .overlay(alignment: .trailing) {
+            if isDiffing == false {
+                detailsButton
+            }
+        }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
             windowVM.onTagSelected(tag: tag)
