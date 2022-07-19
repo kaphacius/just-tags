@@ -43,7 +43,6 @@ internal struct MainViewCommands: Commands {
         CommandGroup(replacing: .newItem) {
             newTabButton
             renameTabButton
-            openTagInfoButton
             openMainViewButton
             openDiffViewButton
         }
