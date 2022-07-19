@@ -20,7 +20,7 @@ internal struct JustTagsApp: App {
                 .handlesExternalEvents(preferring: ["main"], allowing: ["main"])
         }
         .commands {
-            MainViewCommands(viewModel: appVM)
+            MainViewCommands(vm: appVM)
         }
         .handlesExternalEvents(matching: ["main"])
         

@@ -11,12 +11,20 @@ internal struct MainViewCommands: Commands {
     
     @Environment(\.openURL) private  var openURL
     
-    @ObservedObject internal var viewModel: AppVM
+    @ObservedObject internal var vm: AppVM
     
     internal var body: some Commands {
+        aboutCommands
         fileCommands
         editCommands
         diffCommands
+    }
+    
+    @CommandsBuilder
+    private var aboutCommands: some Commands {
+        CommandGroup(replacing: .appInfo) {
+            aboutAppButton
+        }
     }
     
     @CommandsBuilder
@@ -50,13 +58,13 @@ internal struct MainViewCommands: Commands {
     private var diffSelectedTags: some View {
         Button(
             "Diff selected tags",
-            action: viewModel.diffSelectedTags
+            action: vm.diffSelectedTags
         ).keyboardShortcut("d", modifiers: [.option, .shift])
     }
     
     private var copySelectedTags: some View {
         Button(action: {
-            NSPasteboard.copyString(viewModel.activeVM.hexString)
+            NSPasteboard.copyString(vm.activeVM.hexString)
         }, label: {
             copyTagsButtonLabel
         })
@@ -66,34 +74,34 @@ internal struct MainViewCommands: Commands {
     private var selectAll: some View {
         Button(
             "Select all",
-            action: viewModel.selectAll
+            action: vm.selectAll
         ).keyboardShortcut("a", modifiers: [.command])
     }
     
     private var deselectAll: some View {
         Button(
             "Deselect",
-            action: viewModel.deselectAll
+            action: vm.deselectAll
         ).keyboardShortcut("a", modifiers: [.command, .shift])
     }
     
     private var paste: some View {
         Button(
             "Paste",
-            action: viewModel.pasteIntoCurrentTab
+            action: vm.pasteIntoCurrentTab
         ).keyboardShortcut("v", modifiers: [.command])
     }
     
     private var pasteIntoNewTab: some View {
         Button(
             "Paste into new tab",
-            action: viewModel.pasteIntoNewTab
+            action: vm.pasteIntoNewTab
         ).keyboardShortcut("v", modifiers: [.command, .shift])
     }
     
     @ViewBuilder
     private var copyTagsButtonLabel: some View {
-        if viewModel.activeVM.selectedTags.count == 1 {
+        if vm.activeVM.selectedTags.count == 1 {
             Text("Copy selected tag")
         } else {
             Text("Copy selected tags")
@@ -103,36 +111,43 @@ internal struct MainViewCommands: Commands {
     private var newTabButton: some View {
         Button(
             "New Tab",
-            action: viewModel.openNewTab
+            action: vm.openNewTab
         ).keyboardShortcut("t", modifiers: [.command])
     }
     
     private var renameTabButton: some View {
         Button(
             "Rename Tab",
-            action: viewModel.activeVM.renameTab
+            action: vm.activeVM.renameTab
         ).keyboardShortcut("r", modifiers: [.command, .shift])
     }
     
     private var openTagInfoButton: some View {
         Button(
             "Open tag info list",
-            action: viewModel.loadInfoJSON
+            action: vm.loadInfoJSON
         ).keyboardShortcut("o", modifiers: [.command, .shift])
     }
     
     private var openDiffViewButton: some View {
         Button(
             "Diff view",
-            action: viewModel.openDiffView
+            action: vm.openDiffView
         ).keyboardShortcut("d", modifiers: [.command, .shift])
     }
     
     private var openMainViewButton: some View {
         Button(
             "Main view",
-            action: viewModel.openMainView
+            action: vm.openMainView
         ).keyboardShortcut("m", modifiers: [.command, .shift])
+    }
+    
+    private var aboutAppButton: some View {
+        Button(
+            "About JustTags",
+            action: vm.showAboutApp
+        )
     }
     
 }
