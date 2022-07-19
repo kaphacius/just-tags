@@ -31,7 +31,7 @@ internal struct PrimitiveTagView: View {
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(alignment: .trailing) {
-            if isDiffing == false {
+            if isDiffing == false && tag.name != .uknownTag {
                 detailsButton
             }
         }

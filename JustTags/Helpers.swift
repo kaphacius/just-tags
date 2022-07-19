@@ -41,6 +41,8 @@ extension String {
         
         return results.map { String($0) }
     }
+    
+    static let uknownTag = "Unknown tag"
 }
 
 extension EMVTag.Info: Codable {
