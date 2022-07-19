@@ -15,8 +15,6 @@ internal struct SearchBar: View {
     internal var body: some View {
         GroupBox {
             ZStack {
-                Rectangle()
-                    .foregroundColor(Color("LightGray"))
                 HStack(spacing: commonPadding) {
                     Image(systemName: "magnifyingglass")
                     TextField("Search...", text: $searchText)
