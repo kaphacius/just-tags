@@ -69,3 +69,12 @@ Please open an [issue](https://github.com/kaphacius/just-tags/issues/new?labels=
 ## License
 
 [GNU GPLv3](https://choosealicense.com/licenses/gpl-3.0/)
+
+
+## Alternative Tools
+
+Eftlab's [BP-Tools]([https://www.eftlab.com.au/index.php/site-map/tutorials/256-bp-tools-emvt](https://www.eftlab.com/bp-tools/))
+
+Emvlab's [tlvtool](http://www.emvlab.org/tlvutils/)
+
+Binaryfoo's [emv-bertlv](https://github.com/binaryfoo/emv-bertlv)
