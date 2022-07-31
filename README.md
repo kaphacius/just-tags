@@ -73,7 +73,7 @@ Please open an [issue](https://github.com/kaphacius/just-tags/issues/new?labels=
 
 ## Alternative Tools
 
-Eftlab's [BP-Tools]([https://www.eftlab.com.au/index.php/site-map/tutorials/256-bp-tools-emvt](https://www.eftlab.com/bp-tools/))
+Eftlab's [BP-Tools](https://www.eftlab.com/bp-tools/)
 
 Emvlab's [tlvtool](http://www.emvlab.org/tlvutils/)
 
