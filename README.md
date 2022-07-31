@@ -58,6 +58,7 @@ Build and run with `Command + R`
 - Adding tag information for specific kernels at runtime.
 - Improvements to tag value decoding: more tags and more formats.
 - Display the number of decoded and selected tags.
+- Save the session data to be available when the app is opened again.
 
 ## Contributing
 
