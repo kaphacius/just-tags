@@ -9,14 +9,26 @@ import Foundation
 
 internal struct AppState: Codable {
     
-    internal enum ActiveWindow: Codable {
-        case main(Int)
-        case diff(Int)
+    private var mains: [MainWindowState]
+    internal let activeTab: Int
+    
+    internal init(
+        mains: [MainWindowState],
+        activeTab: Int
+    ) {
+        self.mains = mains
+        self.activeTab = activeTab
     }
     
-    internal let mains: [MainWindowState]
-    internal let diffs: [DiffWindowState]
-    internal let activeWindow: ActiveWindow
+    internal static let empty: AppState = .init(mains: [], activeTab: 0)
+    
+    mutating internal func nextMainState() -> MainWindowState? {
+        mains.isEmpty ? nil : mains.removeFirst()
+    }
+    
+    internal var isStateRestored: Bool {
+        mains.isEmpty
+    }
     
     internal static func save(state: AppState) {
         do {
@@ -28,13 +40,15 @@ internal struct AppState: Codable {
 
     }
     
-    internal static func loadState() -> AppState? {
+    internal static func loadState() -> AppState {
         do {
             let fileHandle = try FileHandle(forReadingFrom: stateFileURL)
-            return try JSONDecoder().decode(AppState.self, from: fileHandle.availableData)
+            let loadedAppState = try JSONDecoder().decode(AppState.self, from: fileHandle.availableData)
+            print("Loaded state with \(loadedAppState.mains.count) objects")
+            return loadedAppState
         } catch {
             print("Error loading state", error)
-            return nil
+            return .empty
         }
     }
     
@@ -59,20 +73,6 @@ internal struct MainWindowState: Codable {
     internal init(windowVM vm: MainWindowVM) {
         self.title = vm.title
         self.tagsHexString = vm.initialTags.map(\.hexString).joined()
-    }
-    
-}
-
-internal struct DiffWindowState: Codable {
-    
-    internal let title: String
-    internal let texts: [String]
-    internal let showsOnlyDifferent: Bool
-    
-    internal init(diffWindowVM vm: DiffWindowVM) {
-        self.title = vm.title
-        self.texts = vm.texts
-        self.showsOnlyDifferent = vm.showOnlyDifferent
     }
     
 }
