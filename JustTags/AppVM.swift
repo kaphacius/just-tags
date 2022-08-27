@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal final class AppVM: NSObject, ObservableObject {
     
-    @Published internal var windows = Set<NSWindow>()
+    @Published internal var windows: [NSWindow] = []
     @Published internal var viewModels = [Int: AnyWindowVM]()
     @Published internal var activeWindow: NSWindow?
     // Throwaway to avoid optionals
@@ -19,29 +19,7 @@ internal final class AppVM: NSObject, ObservableObject {
     @Environment(\.openURL) var openURL
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
-    
-    internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
-        window.delegate = self
-        windows.insert(window)
-        viewModel.infoDataSource = infoDataSource
-        viewModel.appVM = self
-        viewModels[window.windowNumber] = viewModel
-        setAsActive(window: window)
-        
-        if let newVMSetup = newVMSetup {
-            newVMSetup(viewModel)
-            self.newVMSetup = nil
-        }
-    }
-    
-    fileprivate func setAsActive(window: NSWindow) {
-        guard let vm = viewModels[window.windowNumber] else {
-            assertionFailure("Unable to find a VM for window \(window.windowNumber)")
-            return
-        }
-        activeWindow = window
-        activeVM = vm
-    }
+    private var loadedState: AppState?
     
     internal override init() {
         super.init()
@@ -57,6 +35,84 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         self._infoDataSource = .init(wrappedValue: .init(infoList: commonTags))
+        self.loadedState = AppState.loadState()
+        
+        // Get notified when app is about to quit
+        NotificationCenter.default.addObserver(
+            forName: NSApplication.willTerminateNotification,
+            object: nil,
+            queue: .main
+        ) { notification in
+            self.saveAppState()
+        }
+    }
+    
+    internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
+        print("Adding a new window")
+
+        window.delegate = self
+        windows.append(window)
+        viewModel.infoDataSource = infoDataSource
+        viewModel.appVM = self
+        viewModels[window.windowNumber] = viewModel
+        
+        // Window is already key and active, but we just became its delegate.
+        // Need to update our internal state to reflect that
+        setAsActive(window: window)
+        
+        if let newVMSetup = newVMSetup {
+            newVMSetup(viewModel)
+            self.newVMSetup = nil
+        }
+        
+        // Need to it this way because `nextMainState` is mutating
+        guard let nextState = loadedState?.nextMainState(),
+              let loadedState = self.loadedState,
+              let mainVM = viewModel as? MainWindowVM else {
+            print("No state to restore")
+            return
+        }
+        
+        print("Restoring state")
+        applyLoadedState(
+            nextState,
+            to: mainVM,
+            activeTab: loadedState.isStateRestored ? loadedState.activeTab : nil
+        )
+    }
+    
+    private func applyLoadedState(
+        _ state: MainWindowState,
+        to mainVM: MainWindowVM,
+        activeTab: Int?
+    ) {
+        mainVM.title = state.title
+        mainVM.parse(string: state.tagsHexString)
+        
+        // If activeTab is passed - all tabs have been restored.
+        // Time to select the last active tab and finish the state restoration.
+        if let activeTab = activeTab {
+            print("State restoration completed")
+            loadedState = nil
+            print("Setting tab \(activeTab) as active")
+            windows[activeTab].makeKeyAndOrderFront(nil)
+        } else {
+            // Open the next tab after a small delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                guard self.loadedState != nil else { return }
+                print("Opening a new tab, current tabs", self.windows.count)
+                self.openNewTab()
+            }
+        }
+    }
+    
+    fileprivate func setAsActive(window: NSWindow) {
+        guard let vm = viewModels[window.windowNumber] else {
+            assertionFailure("Unable to find a VM for window \(window.windowNumber)")
+            return
+        }
+        activeWindow = window
+        activeVM = vm
     }
     
     internal func openNewTab() {
@@ -145,7 +201,7 @@ internal final class AppVM: NSObject, ObservableObject {
         if let emptyDiffVMKV = emptyDiffVMKV.map(\.value) {
             // An empty diff vm is available, use it
             emptyDiffVMKV.diff(tags: toDiff)
-            makeActive(vm: emptyDiffVMKV)
+            makeKeyAndActive(vm: emptyDiffVMKV)
         } else {
             // No empty diff vms available, we will get a new one
             newVMSetup = { newVM in
@@ -221,7 +277,7 @@ internal final class AppVM: NSObject, ObservableObject {
             })
     }
     
-    private func makeActive(vm: AnyWindowVM) {
+    private func makeKeyAndActive(vm: AnyWindowVM) {
         window(for: vm)
             .map { $0.makeKeyAndOrderFront(self) }
     }
@@ -303,8 +359,12 @@ extension AppVM: NSWindowDelegate {
             return
         }
         
-        windows.remove(window)
-        _ = viewModels.removeValue(forKey: window.windowNumber)
+        if let idx = windows
+            .map(\.windowNumber)
+            .firstIndex(of: window.windowNumber) {
+            windows.remove(at: idx)
+            viewModels[window.windowNumber] = nil
+        }
     }
     
 }
