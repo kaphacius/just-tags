@@ -145,7 +145,7 @@ internal struct MainViewCommands: Commands {
     private var aboutAppButton: some View {
         Button(
             "About JustTags",
-            action: vm.showAboutApp
+            action: showAboutApp
         )
     }
     
