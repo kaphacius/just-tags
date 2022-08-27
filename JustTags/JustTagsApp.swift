@@ -16,6 +16,12 @@ internal struct JustTagsApp: App {
     internal var body: some Scene {
         WindowGroup {
             MainView()
+                .blur(radius: appVM.setUpInProgress ? 30.0 : 0.0)
+                .overlay {
+                    if appVM.setUpInProgress {
+                        ProgressView().progressViewStyle(.circular)
+                    }
+                }
                 .environmentObject(appVM)
                 .handlesExternalEvents(preferring: ["main"], allowing: ["main"])
         }

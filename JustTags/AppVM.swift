@@ -13,6 +13,7 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var windows: [NSWindow] = []
     @Published internal var viewModels = [Int: AnyWindowVM]()
     @Published internal var activeWindow: NSWindow?
+    @Published internal var setUpInProgress: Bool = true
     // Throwaway to avoid optionals
     @Published internal var activeVM: AnyWindowVM = MainWindowVM()
     @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
@@ -35,7 +36,11 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         self._infoDataSource = .init(wrappedValue: .init(infoList: commonTags))
-        self.loadedState = AppState.loadState()
+        let loadedState = AppState.loadState()
+        self.loadedState = loadedState
+        if loadedState.isStateRestored {
+            self.setUpInProgress = false
+        }
         
         // Get notified when app is about to quit
         NotificationCenter.default.addObserver(
@@ -65,10 +70,14 @@ internal final class AppVM: NSObject, ObservableObject {
             self.newVMSetup = nil
         }
         
+        // No need to set up the diffVM
+        guard let mainVM = viewModel as? MainWindowVM else {
+            return
+        }
+        
         // Need to it this way because `nextMainState` is mutating
         guard let nextState = loadedState?.nextMainState(),
-              let loadedState = self.loadedState,
-              let mainVM = viewModel as? MainWindowVM else {
+              let loadedState = self.loadedState else {
             print("No state to restore")
             return
         }
@@ -93,6 +102,7 @@ internal final class AppVM: NSObject, ObservableObject {
         // Time to select the last active tab and finish the state restoration.
         if let activeTab = activeTab {
             print("State restoration completed")
+            setUpInProgress = false
             loadedState = nil
             print("Setting tab \(activeTab) as active")
             windows[activeTab].makeKeyAndOrderFront(nil)
