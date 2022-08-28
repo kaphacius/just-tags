@@ -10,6 +10,7 @@
 		5A1719B028B9F7F000D7894A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719AF28B9F7F000D7894A /* AppState.swift */; };
 		5A1719B228BA1D7A00D7894A /* AppVM+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B128BA1D7A00D7894A /* AppVM+Persistence.swift */; };
 		5A1719B428BAB2A500D7894A /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B328BAB2A500D7894A /* About.swift */; };
+		5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */; };
 		5A2018142858F06C00751702 /* TagFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018132858F06C00751702 /* TagFormatter.swift */; };
 		5A2018162859A4D800751702 /* MCCMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018152859A4D800751702 /* MCCMapper.swift */; };
 		5A2018192859B3AF00751702 /* CurrencyCodeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018182859B3AF00751702 /* CurrencyCodeMapper.swift */; };
@@ -71,6 +72,7 @@
 		5A1719AF28B9F7F000D7894A /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		5A1719B128BA1D7A00D7894A /* AppVM+Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppVM+Persistence.swift"; sourceTree = "<group>"; };
 		5A1719B328BAB2A500D7894A /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
+		5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyWindowVM.swift; sourceTree = "<group>"; };
 		5A2018132858F06C00751702 /* TagFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFormatter.swift; sourceTree = "<group>"; };
 		5A2018152859A4D800751702 /* MCCMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCCMapper.swift; sourceTree = "<group>"; };
 		5A2018182859B3AF00751702 /* CurrencyCodeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCodeMapper.swift; sourceTree = "<group>"; };
@@ -193,6 +195,7 @@
 				5AA64D06283547A800F295A9 /* MainWindowVM.swift */,
 				5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */,
 				5A301EE1284CC67500BBE844 /* MainViewCommands.swift */,
+				5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -436,6 +439,7 @@
 				5A1719B228BA1D7A00D7894A /* AppVM+Persistence.swift in Sources */,
 				5A5B09FB285C493700705C35 /* DiffWindowVM.swift in Sources */,
 				5A5B09F9285BB13500705C35 /* TerminalTypeMapper.swift in Sources */,
+				5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */,
 				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,
 				5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */,
 				5A31B178281D8032002B2D06 /* HintView.swift in Sources */,

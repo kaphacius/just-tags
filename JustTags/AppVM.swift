@@ -208,15 +208,15 @@ internal final class AppVM: NSObject, ObservableObject {
             toDiff = tags
         }
         
-        if let emptyDiffVMKV = emptyDiffVMKV.map(\.value) {
+        if let emptyDiffVM = emptyDiffVM {
             // An empty diff vm is available, use it
-            emptyDiffVMKV.diff(tags: toDiff)
-            makeKeyAndActive(vm: emptyDiffVMKV)
+            emptyDiffVM.diff(tags: toDiff)
+            makeKeyAndActive(vm: emptyDiffVM)
         } else {
             // No empty diff vms available, we will get a new one
             newVMSetup = { newVM in
                 guard let newVM = newVM as? DiffWindowVM else {
-                    assertionFailure("activeVM must be set")
+                    assertionFailure("New VM is not DiffWindowVM")
                     return
                 }
                 newVM.diff(tags: toDiff)
@@ -229,12 +229,12 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
-    private var emptyDiffVMKV: (key: Int, value: DiffWindowVM)? {
+    private var emptyDiffVM: DiffWindowVM? {
         viewModels
-            .filter(\.value.isEmpty)
-            .first(where: { $0.value is DiffWindowVM })
-            .map { ($0.key, $0.value as? DiffWindowVM )}
-            .flatMap(t2FlatMap(_:))
+            .values
+            .filter(\.isEmpty)
+            .compactMap { $0 as? DiffWindowVM }
+            .first
     }
     
     private var anyDiffWindow: NSWindow? {
