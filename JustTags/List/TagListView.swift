@@ -16,6 +16,8 @@ internal struct TagListView: View {
     
     @State private var disclosureGroups: [UUID: Bool] = [:]
     @Binding internal var tags: [EMVTag]
+    @Binding internal var searchInProgress: Bool
+    @Environment(\.isSearching) internal var isSearching
     
     internal var body: some View {
         VStack(spacing: commonPadding) {
@@ -25,6 +27,9 @@ internal struct TagListView: View {
         }
         .frame(maxWidth: .infinity)
         .padding([.top, .leading, .bottom], commonPadding)
+        .onChange(of: isSearching) { newValue in
+            searchInProgress = newValue
+        }
     }
     
     private var header: some View {
@@ -61,7 +66,7 @@ private let mockTags = try! InputParser.parse(input: "5A81c7df810c01029f060aa000
 
 struct EMVTagListView_Previews: PreviewProvider {
     static var previews: some View {
-        TagListView(tags: .constant([]))
+        TagListView(tags: .constant([]), searchInProgress: .constant(true))
             .environmentObject(TagsDataSource(tags: mockTags))
     }
 }

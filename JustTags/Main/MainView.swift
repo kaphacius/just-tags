@@ -14,8 +14,8 @@ struct MainView: View {
     
     @EnvironmentObject private var appVM: AppVM
     @StateObject private var vm: MainWindowVM = .init()
-    @State private var showingSearch = false
-    @FocusState private var searchFocused
+    @State private var searchItem: NSSearchToolbarItem?
+    @State private var searchInProgress: Bool = false
     
     internal var body: some View {
         HStack(spacing: 0.0) {
@@ -28,17 +28,22 @@ struct MainView: View {
         }, message: {
             Text(vm.errorMessage)
         })
-        .onChange(of: showingSearch) { _ in
-            searchFocused = showingSearch
-        }
         .animation(.easeIn, value: vm.showsDetails)
         .environmentObject(vm as AnyWindowVM)
         .background {
             HostingWindowFinder { window in
                 guard let window = window else { return }
                 self.appVM.addWindow(window, viewModel: vm)
+                self.searchItem = window.toolbar
+                    .flatMap { $0.visibleItems }
+                    .flatMap { items in
+                        items
+                            .compactMap { $0 as? NSSearchToolbarItem }
+                            .first
+                    }
             }.opacity(0.0)
         }
+        .searchable(text: $vm.searchText)
         .onAppear(perform: vm.setUp)
         .navigationTitle(vm.title)
     }
@@ -47,18 +52,12 @@ struct MainView: View {
     internal var mainView: some View {
         if vm.showingTags {
             VStack(spacing: 0.0) {
-                if showingSearch {
-                    SearchBar(searchText: $vm.searchText, focused: _searchFocused)
-                        .padding([.top, .leading], commonPadding)
-                        .onExitCommand {
-                            vm.searchText = ""
-                            showingSearch = false
-                        }
-                }
                 header
-                TagListView(tags: $vm.currentTags)
+                TagListView(
+                    tags: $vm.currentTags,
+                    searchInProgress: $searchInProgress
+                )
             }
-            .animation(.easeOut(duration: 0.25), value: showingSearch)
             .frame(maxWidth: .infinity)
             details
                 .frame(width: detailWidth)
@@ -103,7 +102,17 @@ struct MainView: View {
     private var shortcutButtons: some View {
         Group {
             Button("Search") {
-                showingSearch.toggle()
+                guard let searchItem = searchItem else {
+                    return
+                }
+                
+                if searchInProgress {
+                    searchItem.endSearchInteraction()
+                    searchInProgress = false
+                } else {
+                    searchItem.beginSearchInteraction()
+                    searchInProgress = true
+                }
             }.frame(width: 0.0, height: 0.0)
                 .keyboardShortcut("f", modifiers: [.command])
             

@@ -28,7 +28,6 @@
 		5A4FDD8727F187B800603D99 /* common_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A4FDD8627F187B800603D99 /* common_tags.json */; };
 		5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDD9127F21CF700603D99 /* TagInfoView.swift */; };
 		5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */; };
-		5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB127F42B5200603D99 /* SearchBar.swift */; };
 		5A4FDDB427F42C8F00603D99 /* TagsDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */; };
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
 		5A5B09F5285BAF0B00705C35 /* EntryModeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */; };
@@ -91,7 +90,6 @@
 		5A4FDD8627F187B800603D99 /* common_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text.json; path = common_tags.json; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		5A4FDD9127F21CF700603D99 /* TagInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoView.swift; sourceTree = "<group>"; };
 		5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVM.swift; sourceTree = "<group>"; };
-		5A4FDDB127F42B5200603D99 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagsDataSource.swift; sourceTree = "<group>"; };
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
 		5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryModeMapper.swift; sourceTree = "<group>"; };
@@ -189,7 +187,6 @@
 			isa = PBXGroup;
 			children = (
 				5AE8BF8427E7AA4D00474AD0 /* MainView.swift */,
-				5A4FDDB127F42B5200603D99 /* SearchBar.swift */,
 				5A4FDDB327F42C8F00603D99 /* TagsDataSource.swift */,
 				5A31B177281D8032002B2D06 /* HintView.swift */,
 				5AA64D06283547A800F295A9 /* MainWindowVM.swift */,
@@ -461,7 +458,6 @@
 				5AA64D07283547A800F295A9 /* MainWindowVM.swift in Sources */,
 				5A2018192859B3AF00751702 /* CurrencyCodeMapper.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
-				5A4FDDB227F42B5200603D99 /* SearchBar.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
 				5A5B09F5285BAF0B00705C35 /* EntryModeMapper.swift in Sources */,
 				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
