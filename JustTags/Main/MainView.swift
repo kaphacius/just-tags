@@ -52,15 +52,15 @@ struct MainView: View {
     @ToolbarContentBuilder
     internal var toolbarItems: some ToolbarContent {
         ToolbarItemGroup(placement: .primaryAction) {
-            Button(action: vm.toggleShowsDetails) {
-                Label("Details", systemImage: "sidebar.right")
-            }
             Button(action: vm.collapseAll) {
                 Label("Collapse all", systemImage: "chevron.right.square")
             }.keyboardShortcut(.leftArrow, modifiers: [])
             Button(action: vm.expandAll) {
                 Label("Expand all", systemImage: "chevron.down.square")
             }.keyboardShortcut(.rightArrow, modifiers: [])
+            Button(action: vm.toggleShowsDetails) {
+                Label("Details", systemImage: "sidebar.right")
+            }
         }
     }
     
