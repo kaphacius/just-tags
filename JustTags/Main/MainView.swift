@@ -46,13 +46,28 @@ struct MainView: View {
         .searchable(text: $vm.searchText)
         .onAppear(perform: vm.setUp)
         .navigationTitle(vm.title)
+        .toolbar { toolbarItems }
+    }
+    
+    @ToolbarContentBuilder
+    internal var toolbarItems: some ToolbarContent {
+        ToolbarItemGroup(placement: .primaryAction) {
+            Button(action: vm.toggleShowsDetails) {
+                Label("Details", systemImage: "sidebar.right")
+            }
+            Button(action: vm.collapseAll) {
+                Label("Collapse all", systemImage: "chevron.right.square")
+            }.keyboardShortcut(.leftArrow, modifiers: [])
+            Button(action: vm.expandAll) {
+                Label("Expand all", systemImage: "chevron.down.square")
+            }.keyboardShortcut(.rightArrow, modifiers: [])
+        }
     }
     
     @ViewBuilder
     internal var mainView: some View {
         if vm.showingTags {
             VStack(spacing: 0.0) {
-                header
                 TagListView(
                     tags: $vm.currentTags,
                     searchInProgress: $searchInProgress
@@ -65,20 +80,6 @@ struct MainView: View {
             HintView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
         }
-    }
-    
-    @ViewBuilder
-    private var header: some View {
-        GroupBox {
-            HStack {
-                Button("Expand all", action: vm.expandAll)
-                Button("Collapse all", action: vm.collapseAll)
-                Spacer()
-                Button(action: vm.toggleShowsDetails) {
-                    Image(systemName: "sidebar.right")
-                }
-            }
-        }.padding([.top, .leading], commonPadding)
     }
     
     @ViewBuilder
