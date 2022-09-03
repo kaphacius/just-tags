@@ -10,7 +10,7 @@ import SwiftyEMVTags
 import SwiftUI
 import Combine
 
-internal final class MainWindowVM: AnyWindowVM {
+internal final class MainVM: AnyWindowVM {
     
     @Published internal var initialTags: [EMVTag] = []
     @Published internal var currentTags: [EMVTag] = []

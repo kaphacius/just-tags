@@ -127,7 +127,7 @@ struct TagRowView_Previews: PreviewProvider {
                 diffedTag: .init(tag: .init(hexString: "9F33032808C8"), results: [.equal, .different, .different])
             )
             TagRowView(tag: EMVTag(tlv: mockTLV, info: mockInfo, subtags: []))
-        }.environmentObject(MainWindowVM() as AnyWindowVM)
+        }.environmentObject(MainVM() as AnyWindowVM)
     }
 }
 #endif

@@ -70,7 +70,7 @@ internal struct MainWindowState: Codable {
     internal let title: String
     internal let tagsHexString: String
     
-    internal init(windowVM vm: MainWindowVM) {
+    internal init(windowVM vm: MainVM) {
         self.title = vm.title
         self.tagsHexString = vm.initialTags.map(\.hexString).joined()
     }

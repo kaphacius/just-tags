@@ -132,7 +132,7 @@ struct PrimitiveTagView_Previews: PreviewProvider {
             isDiffing: false,
             canExpand: false,
             showsDetails: false
-        ).environmentObject(MainWindowVM() as AnyWindowVM)
+        ).environmentObject(MainVM() as AnyWindowVM)
     }
 }
 #endif

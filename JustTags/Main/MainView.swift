@@ -13,7 +13,7 @@ import SwiftyBERTLV
 struct MainView: View {
     
     @EnvironmentObject private var appVM: AppVM
-    @StateObject private var vm: MainWindowVM = .init()
+    @StateObject private var vm: MainVM = .init()
     @State private var searchItem: NSSearchToolbarItem?
     @State private var searchInProgress: Bool = false
     

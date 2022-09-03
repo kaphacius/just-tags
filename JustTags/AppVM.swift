@@ -15,7 +15,7 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var activeWindow: NSWindow?
     @Published internal var setUpInProgress: Bool = true
     // Throwaway to avoid optionals
-    @Published internal var activeVM: AnyWindowVM = MainWindowVM()
+    @Published internal var activeVM: AnyWindowVM = MainVM()
     @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
     @Environment(\.openURL) var openURL
     
@@ -71,7 +71,7 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         // No need to set up the diffVM
-        guard let mainVM = viewModel as? MainWindowVM else {
+        guard let mainVM = viewModel as? MainVM else {
             return
         }
         
@@ -92,7 +92,7 @@ internal final class AppVM: NSObject, ObservableObject {
     
     private func applyLoadedState(
         _ state: MainWindowState,
-        to mainVM: MainWindowVM,
+        to mainVM: MainVM,
         activeTab: Int?
     ) {
         mainVM.title = state.title
@@ -183,7 +183,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func diffSelectedTags() {
-        guard activeVM is MainWindowVM else {
+        guard activeVM is MainVM else {
             // Don't diff tags when DiffView is active
             return
         }
@@ -256,7 +256,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func openMainView() {
-        if let existingDiffWindow = viewModels.first(where: { $0.value is MainWindowVM } ),
+        if let existingDiffWindow = viewModels.first(where: { $0.value is MainVM } ),
            let window = windows.first(where: { $0.windowNumber == existingDiffWindow.key }) {
             // No need to open a new Main window if it is already the active one
             window.makeKeyAndOrderFront(self)
