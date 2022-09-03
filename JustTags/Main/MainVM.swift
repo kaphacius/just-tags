@@ -53,12 +53,6 @@ internal final class MainVM: AnyWindowVM {
         currentTags = initialTags
         tagDescriptions = .init(uniqueKeysWithValues: pairs)
         showingTags = initialTags.isEmpty == false
-        disclosureGroups = .init(
-            uniqueKeysWithValues: initialTags
-                .filter(\.isConstructed)
-                .map(\.id)
-                .map { ($0, false) }
-        )
     }
     
     private func updateTags() {
@@ -98,15 +92,15 @@ internal final class MainVM: AnyWindowVM {
     }
     
     internal func collapseAll() {
-        disclosureGroups.keys.forEach { key in
-            disclosureGroups[key] = false
-        }
+        expandedConstructedTags.removeAll()
     }
     
     internal func expandAll() {
-        disclosureGroups.keys.forEach { key in
-            disclosureGroups[key] = true
-        }
+        expandedConstructedTags = Set(
+            currentTags
+            .filter(\.isConstructed)
+            .map(\.id)
+        )
     }
     
     internal func toggleShowsDetails() {

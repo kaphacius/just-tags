@@ -19,7 +19,7 @@ internal class AnyWindowVM: ObservableObject {
     @Published internal var selectedIds = Set<UUID>()
     @Published internal var detailTag: EMVTag? = nil
     @Published internal var showsAlert: Bool = false
-    @Published internal var disclosureGroups: [UUID: Bool] = [:]
+    @Published internal var expandedConstructedTags: Set<UUID> = []
     @Published internal var showsDetails: Bool = true
     internal var errorTitle: String = ""
     internal var errorMessage: String = ""
@@ -81,7 +81,7 @@ internal class AnyWindowVM: ObservableObject {
         selectedTags = []
         selectedIds = []
         detailTag = nil
-        disclosureGroups = [:]
+        expandedConstructedTags = []
     }
     
     internal func selectAll() { }
@@ -118,8 +118,14 @@ internal class AnyWindowVM: ObservableObject {
     
     internal func binding(for uuid: UUID) -> Binding<Bool> {
         .init(
-            get: { self.disclosureGroups[uuid, default: false] },
-            set: { self.disclosureGroups[uuid] = $0 }
+            get: { self.expandedConstructedTags.contains(uuid) },
+            set: { isExpanded in
+                if isExpanded {
+                    self.expandedConstructedTags.insert(uuid)
+                } else {
+                    self.expandedConstructedTags.remove(uuid)
+                }
+            }
         )
     }
     
