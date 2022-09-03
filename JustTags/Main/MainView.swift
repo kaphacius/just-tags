@@ -49,6 +49,7 @@ struct MainView: View {
         .toolbar { toolbarItems }
         .focusedSceneValue(\.selectedTags, $vm.selectedTags)
         .focusedSceneValue(\.tabName, $vm.title)
+        .focusedSceneValue(\.mainVM, .constant(vm))
     }
     
     @ToolbarContentBuilder

@@ -12,6 +12,7 @@ internal struct MainViewCommands: Commands {
     
     @FocusedBinding(\.selectedTags) private var selectedTags
     @FocusedBinding(\.tabName) private var tabName
+    @FocusedBinding(\.mainVM) private var mainVM
     @Environment(\.openURL) private  var openURL
     
     @ObservedObject internal var vm: AppVM
@@ -79,14 +80,14 @@ internal struct MainViewCommands: Commands {
     private var selectAll: some View {
         Button(
             "Select all",
-            action: vm.selectAll
+            action: { mainVM?.selectAll() }
         ).keyboardShortcut("a", modifiers: [.command])
     }
     
     private var deselectAll: some View {
         Button(
             "Deselect",
-            action: vm.deselectAll
+            action: { mainVM?.deselectAll() }
         ).keyboardShortcut("a", modifiers: [.command, .shift])
     }
     
