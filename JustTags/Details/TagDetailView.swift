@@ -149,7 +149,7 @@ struct MockSource: AnyEMVTagInfoSource {
 }
 
 let mockTag = EMVTag(
-    tlv: try! .parse(bytes: [0x5A, 0x01, 0xFA]).first!,
+    tlv: try! .parse(bytes: [0x9F, 0x33, 0x03, 0x28, 0x08, 0xC8]).first!,
     kernel: .general,
     infoSource: MockSource()
 )

@@ -14,20 +14,13 @@ internal struct PrimitiveTagView: View {
     @State internal var isExpanded: Bool = false
     
     internal let tag: EMVTag
-    internal let byteDiffResults: [DiffResult]
-    internal let isDiffing: Bool
     internal let canExpand: Bool
     internal let showsDetails: Bool
     
     internal var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
             TagHeaderView(tag: tag)
-            if canExpand {
-                expandableValueView
-                    .padding(-commonPadding)
-            } else {
-                tagValueView
-            }
+            tagValueView
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(alignment: .trailing) {
@@ -40,17 +33,18 @@ internal struct PrimitiveTagView: View {
             windowVM.onTagSelected(tag: tag)
         })
         .onTapGesture(count: 2) {
-            windowVM.onDetailTagSelected(tag: tag)
+            if showsDetails { windowVM.onDetailTagSelected(tag: tag) }
         }
         .onTapGesture {
-            isExpanded.toggle()
+            if canExpand { isExpanded.toggle() }
         }
     }
     
     @ViewBuilder
     private var tagValueView: some View {
-        if isDiffing {
-            DiffedTagValueView(diffedTag: .init(tag: tag, results: byteDiffResults))
+        if canExpand {
+            expandableValueView
+                .padding(-commonPadding)
         } else {
             TagValueView(tag: tag)
         }
@@ -69,7 +63,7 @@ internal struct PrimitiveTagView: View {
                 SelectedMeaningList(tag: tag)
                     .padding(.leading, commonPadding * 3)
             }, label: {
-                tagValueView
+                TagValueView(tag: tag)
             }
         )
         .padding(.horizontal, commonPadding)
@@ -96,43 +90,14 @@ internal struct PrimitiveTagView: View {
     }
 }
 
-private struct DiffedTagValueView: View {
-    
-    internal let diffedTag: DiffedTag
-    
-    internal var body: some View {
-        Text(text)
-            .font(.title3.monospaced())
-    }
-    
-    private let backgroundColorContainer: AttributeContainer = {
-        var container = AttributeContainer()
-        container.backgroundColor = diffBackground
-        return container
-    }()
-    
-    private var text: AttributedString {
-        diffedTag.diffedBytes
-            .map { diffedByte in
-                AttributedString(
-                    diffedByte.byte.hexString,
-                    attributes: diffedByte.result == .different ? backgroundColorContainer : .init()
-                )
-            }.reduce(into: AttributedString()) { $0.append($1) }
-    }
-    
-}
+let mockShortTag: EMVTag = .init(hexString: "9F33032808C8")
 
-#if DEBUG
 struct PrimitiveTagView_Previews: PreviewProvider {
     static var previews: some View {
         PrimitiveTagView(
-            tag: mockTag,
-            byteDiffResults: [],
-            isDiffing: false,
+            tag: mockShortTag,
             canExpand: false,
             showsDetails: false
         ).environmentObject(MainVM() as AnyWindowVM)
     }
 }
-#endif

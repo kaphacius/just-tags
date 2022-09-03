@@ -36,7 +36,10 @@ internal struct ConstructedTagView: View {
         }
     }
     
-    private func disclosureGroup(for tag: EMVTag, binding: Binding<Bool>) -> some View {
+    private func disclosureGroup(
+        for tag: EMVTag,
+        binding: Binding<Bool>
+    ) -> some View {
         DisclosureGroup(
             isExpanded: binding,
             content: {
@@ -53,23 +56,13 @@ internal struct ConstructedTagView: View {
         .animation(.none, value: binding.wrappedValue)
     }
     
-    @ViewBuilder
-    private func constructedTagValueView(for tag: EMVTag, binding: Binding<Bool>) -> some View {
-        if binding.wrappedValue == false {
-            HStack(spacing: 0.0) {
-                TagValueView(tag: tag)
-                    .multilineTextAlignment(.leading)
-                    .padding(.top, -commonPadding)
-            }
-        }
-    }
-    
 }
 
 #if DEBUG
 struct ConstructedTagView_Previews: PreviewProvider {
     static var previews: some View {
         ConstructedTagView(tag: mockTag)
+            .environmentObject(MainVM() as AnyWindowVM)
     }
 }
 #endif

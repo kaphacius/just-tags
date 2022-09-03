@@ -25,12 +25,13 @@ internal final class DiffWindowVM: AnyWindowVM {
         columns: Int = 2,
         texts: [String] = ["", ""],
         initialTags: [[EMVTag]] = [[], []],
-        diffResults: [TagDiffResult] = []
+        diffResults: [TagDiffResult] = [],
+        showOnlyDifferent: Bool = false
     ) {
         _columns = .init(initialValue: columns)
         _texts = .init(initialValue: texts)
         _initialTags = .init(initialValue: initialTags)
-        _showOnlyDifferent = .init(initialValue: false)
+        _showOnlyDifferent = .init(initialValue: showOnlyDifferent)
         _diffResults = .init(
             initialValue: Diff.diff(
                 tags: initialTags,

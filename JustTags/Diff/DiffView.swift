@@ -6,15 +6,20 @@
 //
 
 import SwiftUI
-import class AppKit.NSColor
 import SwiftyEMVTags
 
 struct DiffView: View {
     
     @StateObject private var vm: DiffWindowVM = .init()
     @EnvironmentObject private var appVM: AppVM
-    
     @FocusState internal var focusedEditor: Int?
+    
+    // For preview purposes
+    fileprivate init(vm: DiffWindowVM) {
+        self._vm = .init(wrappedValue: vm)
+    }
+    
+    internal init() {}
     
     internal var body: some View {
         VStack(spacing: commonPadding) {
@@ -134,19 +139,19 @@ struct DiffView: View {
             switch (diffPair.lhs, diffPair.rhs) {
             case (let lhs?, let rhs?):
                 HStack(alignment: .top, spacing: commonPadding) {
-                    TagRowView(diffedTag: lhs)
+                    DiffedTagRowView(diffedTag: lhs)
                     Divider()
-                    TagRowView(diffedTag: rhs)
+                    DiffedTagRowView(diffedTag: rhs)
                 }
             case (let lhs?, _):
                 HStack(spacing: commonPadding) {
-                    TagRowView(diffedTag: lhs)
+                    DiffedTagRowView(diffedTag: lhs)
                     Rectangle().hidden()
                 }
             case (_, let rhs?):
                 HStack(spacing: commonPadding) {
                     Rectangle().hidden()
-                    TagRowView(diffedTag: rhs)
+                    DiffedTagRowView(diffedTag: rhs)
                 }
             case (nil, nil):
                 EmptyView()
@@ -166,9 +171,20 @@ struct DiffView: View {
 }
 
 #if DEBUG
+let viewModel = DiffWindowVM(
+    columns: 2,
+    texts: [],
+    initialTags: [[.init(hexString: "9F33032808C8")], [.init(hexString: "9F33032601C8")]],
+    diffResults: [],
+    showOnlyDifferent: false
+)
+
 struct DiffView_Previews: PreviewProvider {
+    static let appVM = AppVM()
+    
     static var previews: some View {
-        DiffView()
+        DiffView(vm: viewModel)
+            .environmentObject(appVM)
     }
 }
 #endif
