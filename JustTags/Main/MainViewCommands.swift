@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import SwiftyEMVTags
 
 internal struct MainViewCommands: Commands {
     
+    @FocusedBinding(\.selectedTags) private var selectedTags
+    @FocusedBinding(\.tabName) private var tabName
     @Environment(\.openURL) private  var openURL
     
     @ObservedObject internal var vm: AppVM
@@ -63,10 +66,13 @@ internal struct MainViewCommands: Commands {
     
     private var copySelectedTags: some View {
         Button(action: {
-            NSPasteboard.copyString(vm.activeVM.hexString)
+            selectedTags
+                .map(\.hexString)
+                .map(NSPasteboard.copyString)
         }, label: {
-            copyTagsButtonLabel
+            Text(selectedTags.moreThanOne ? "Copy selected tags" : "Copy selected tag")
         })
+        .disabled(selectedTags.isEmptyO)
         .keyboardShortcut("c", modifiers: [.command])
     }
     
@@ -98,15 +104,6 @@ internal struct MainViewCommands: Commands {
         ).keyboardShortcut("v", modifiers: [.command, .shift])
     }
     
-    @ViewBuilder
-    private var copyTagsButtonLabel: some View {
-        if vm.activeVM.selectedTags.count == 1 {
-            Text("Copy selected tag")
-        } else {
-            Text("Copy selected tags")
-        }
-    }
-    
     private var newTabButton: some View {
         Button(
             "New Tab",
@@ -117,7 +114,7 @@ internal struct MainViewCommands: Commands {
     private var renameTabButton: some View {
         Button(
             "Rename Tab",
-            action: vm.activeVM.renameTab
+            action: renameTab
         ).keyboardShortcut("r", modifiers: [.command, .shift])
     }
     
@@ -147,6 +144,25 @@ internal struct MainViewCommands: Commands {
             "About JustTags",
             action: showAboutApp
         )
+    }
+    
+    private func renameTab() {
+        let textField = NSTextField(
+            frame: .init(origin: .zero, size: .init(width: 200.0, height: 20.0))
+        )
+        textField.placeholderString = "Tab name"
+        textField.stringValue = tabName.getOrEmpty()
+        let alert = NSAlert()
+        alert.messageText = "Enter custom name for this tab"
+        let okButton = alert.addButton(withTitle: "OK")
+        okButton.tag = 999
+        alert.addButton(withTitle: "Cancel")
+        alert.alertStyle = .informational
+        alert.accessoryView = textField
+        alert.window.initialFirstResponder = textField
+        if alert.runModal().rawValue == okButton.tag, textField.stringValue.isEmpty == false {
+            tabName = textField.stringValue
+        }
     }
     
 }

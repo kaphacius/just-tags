@@ -47,6 +47,8 @@ struct MainView: View {
         .onAppear(perform: vm.setUp)
         .navigationTitle(vm.title)
         .toolbar { toolbarItems }
+        .focusedSceneValue(\.selectedTags, $vm.selectedTags)
+        .focusedSceneValue(\.tabName, $vm.title)
     }
     
     @ToolbarContentBuilder

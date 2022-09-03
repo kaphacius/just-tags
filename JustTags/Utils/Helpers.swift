@@ -102,6 +102,12 @@ extension Array where Self.Element == UInt8 {
     }
 }
 
+extension Array where Self.Element == EMVTag {
+    var hexString: String {
+        map(\.hexString).joined()
+    }
+}
+
 private func isLess(lhs: [UInt8], rhs: [UInt8]) -> Bool {
     var isLess: Bool? = nil
     
@@ -260,5 +266,36 @@ internal func t2FlatMap<T, U>(_ arg: (T?, U?)) -> (T, U)? {
         return (foo, bar)
     } else {
         return nil
+    }
+}
+
+//optionals
+extension Optional {
+    func get(orElse defaultValue: @autoclosure () -> Wrapped) -> Wrapped {
+        self ?? defaultValue()
+    }
+    
+    func get(orElseO defaultValue: @autoclosure () -> Optional<Wrapped>) -> Optional<Wrapped> {
+        self ?? defaultValue()
+    }
+}
+
+extension Optional where Wrapped: Collection {
+    var notEmpty: Bool {
+        self.map(\.isEmpty).map { $0 == false } ?? false
+    }
+    
+    var isEmptyO: Bool {
+        self.map(\.isEmpty) ?? true
+    }
+    
+    var moreThanOne: Bool {
+        self.map(\.count).map { $0 > 1 } ?? false
+    }
+}
+
+extension Optional where Wrapped == String {
+    func getOrEmpty() -> Wrapped {
+        return self != nil ? self.unsafelyUnwrapped : ""
     }
 }

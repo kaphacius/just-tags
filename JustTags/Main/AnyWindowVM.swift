@@ -24,25 +24,6 @@ internal class AnyWindowVM: ObservableObject {
     internal var errorTitle: String = ""
     internal var errorMessage: String = ""
     
-    internal func renameTab() {
-        let textField = NSTextField(
-            frame: .init(origin: .zero, size: .init(width: 200.0, height: 20.0))
-        )
-        textField.placeholderString = "Tab name"
-        textField.stringValue = title
-        let alert = NSAlert()
-        alert.messageText = "Enter custom name for this tab"
-        let okButton = alert.addButton(withTitle: "OK")
-        okButton.tag = 999
-        alert.addButton(withTitle: "Cancel")
-        alert.alertStyle = .informational
-        alert.accessoryView = textField
-        alert.window.initialFirstResponder = textField
-        if alert.runModal().rawValue == okButton.tag, textField.stringValue.isEmpty == false {
-            title = textField.stringValue
-        }
-    }
-    
     internal func setUp() {
         title = AppVM.tabName
     }
