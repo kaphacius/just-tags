@@ -24,7 +24,7 @@ internal struct TagRowView: View {
         self.tag = diffedTag.tag
         self.byteDiffResults = diffedTag.results
         self.isDiffing = true
-        self.canExpand = diffedTag.tag.decodedMeaningList.isEmpty == false
+        self.canExpand = false
         self.showsDetails = canExpand
     }
     
@@ -32,8 +32,8 @@ internal struct TagRowView: View {
         self.tag = tag
         self.byteDiffResults = []
         self.isDiffing = false
-        self.canExpand = tag.decodedMeaningList.isEmpty == false
-        self.showsDetails = canExpand
+        self.canExpand = tag.decodedMeaningList.isEmpty == false && isDiffing == false
+        self.showsDetails = canExpand && tag.name != .uknownTag
     }
     
     internal var body: some View {
