@@ -15,46 +15,12 @@ internal class AnyWindowVM: ObservableObject {
     internal weak var appVM: AppVM?
     
     @Published internal var title = ""
-    @Published internal var selectedTags = [EMVTag]()
-    @Published internal var selectedIds = Set<UUID>()
-    @Published internal var detailTag: EMVTag? = nil
     @Published internal var showsAlert: Bool = false
-    @Published internal var expandedConstructedTags: Set<UUID> = []
-    @Published internal var showsDetails: Bool = true
     internal var errorTitle: String = ""
     internal var errorMessage: String = ""
     
     internal func setUp() {
         title = AppVM.tabName
-    }
-    
-    internal func contains(id: UUID) -> Bool {
-        selectedIds.contains(id)
-    }
-    
-    internal func onTagSelected(tag: EMVTag) {
-        if selectedIds.contains(tag.id) {
-            selectedIds.remove(tag.id)
-            _ = selectedTags
-                .firstIndex(of: tag)
-                .map{ selectedTags.remove(at: $0) }
-        } else {
-            selectedIds.insert(tag.id)
-            selectedTags.append(tag)
-        }
-    }
-    
-    internal func onDetailTagSelected(tag: EMVTag) {
-        if detailTag == tag {
-            detailTag = nil
-        } else {
-            detailTag = tag
-        }
-        showsDetails = true
-    }
-    
-    internal var hexString: String {
-        selectedTags.map(\.hexString).joined()
     }
     
     internal func parse(string: String) {
@@ -77,16 +43,7 @@ internal class AnyWindowVM: ObservableObject {
         }
     }
     
-    internal func refreshState() {
-        selectedTags = []
-        selectedIds = []
-        detailTag = nil
-        expandedConstructedTags = []
-    }
-    
-    internal func selectAll() { }
-    
-    internal func deselectAll() { }
+    internal func refreshState() { }
     
     internal func diffSelectedTags() { }
     
@@ -114,19 +71,6 @@ internal class AnyWindowVM: ObservableObject {
     
     internal var canPaste: Bool {
         true
-    }
-    
-    internal func binding(for uuid: UUID) -> Binding<Bool> {
-        .init(
-            get: { self.expandedConstructedTags.contains(uuid) },
-            set: { isExpanded in
-                if isExpanded {
-                    self.expandedConstructedTags.insert(uuid)
-                } else {
-                    self.expandedConstructedTags.remove(uuid)
-                }
-            }
-        )
     }
     
 }

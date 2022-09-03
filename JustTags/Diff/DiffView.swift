@@ -114,7 +114,14 @@ struct DiffView: View {
     private func tagList(for tags: [EMVTag]) -> some View {
         ScrollView {
             LazyVStack(spacing: commonPadding) {
-                ForEach(tags, content: TagRowView.init(tag:))
+                ForEach(tags) { tag in
+                    DiffedTagRowView(
+                        diffedTag: .init(
+                            tag: tag,
+                            results: Array(repeating: .equal, count: tag.value.count)
+                        )
+                    )
+                }
             }
         }
         .animation(.linear(duration: 0.5), value: tags)

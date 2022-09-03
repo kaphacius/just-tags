@@ -100,8 +100,4 @@ internal final class DiffWindowVM: AnyWindowVM {
         diffInitialTags()
     }
     
-    override func onTagSelected(tag: EMVTag) {
-        // Do nothing, we don't support tag selection in the diff view
-    }
-    
 }

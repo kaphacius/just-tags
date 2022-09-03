@@ -29,7 +29,7 @@ struct MainView: View {
             Text(vm.errorMessage)
         })
         .animation(.easeIn, value: vm.showsDetails)
-        .environmentObject(vm as AnyWindowVM)
+        .environmentObject(vm)
         .background {
             HostingWindowFinder { window in
                 guard let window = window else { return }
@@ -145,7 +145,7 @@ extension EMVTag {
         ].joined().lowercased()
     }
     
-    func filtered(with string: String, matchingTags: Set<UUID>) -> EMVTag {
+    func filtered(with string: String, matchingTags: Set<EMVTag.ID>) -> EMVTag {
         if isConstructed {
             return .init(
                 id: self.id,

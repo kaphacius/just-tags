@@ -10,12 +10,12 @@ import SwiftyEMVTags
 
 internal struct ConstructedTagView: View {
     
-    @EnvironmentObject private var vm: AnyWindowVM
+    @EnvironmentObject private var vm: MainVM
     
     internal let tag: EMVTag
     
     internal var body: some View {
-        let binding = vm.binding(for: tag.id)
+        let binding = vm.expandedBinding(for: tag.id)
         
         return VStack(alignment: .leading) {
             disclosureGroup(for: tag, binding: binding)
@@ -29,7 +29,7 @@ internal struct ConstructedTagView: View {
         }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
-            vm.onTagSelected(tag: tag)
+            vm.onTagSelected(id: tag.id)
         })
         .onTapGesture {
             binding.wrappedValue.toggle()
@@ -62,7 +62,7 @@ internal struct ConstructedTagView: View {
 struct ConstructedTagView_Previews: PreviewProvider {
     static var previews: some View {
         ConstructedTagView(tag: mockTag)
-            .environmentObject(MainVM() as AnyWindowVM)
+            .environmentObject(MainVM())
     }
 }
 #endif

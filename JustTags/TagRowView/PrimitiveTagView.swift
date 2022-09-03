@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal struct PrimitiveTagView: View {
     
-    @EnvironmentObject private var windowVM: AnyWindowVM
+    @EnvironmentObject private var windowVM: MainVM
     @State internal var isExpanded: Bool = false
     
     internal let tag: EMVTag
@@ -30,10 +30,10 @@ internal struct PrimitiveTagView: View {
         }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
-            windowVM.onTagSelected(tag: tag)
+            windowVM.onTagSelected(id: tag.id)
         })
         .onTapGesture(count: 2) {
-            if showsDetails { windowVM.onDetailTagSelected(tag: tag) }
+            if showsDetails { windowVM.onDetailTagSelected(id: tag.id) }
         }
         .onTapGesture {
             if canExpand { isExpanded.toggle() }
@@ -73,7 +73,7 @@ internal struct PrimitiveTagView: View {
     private var detailsButton: some View {
         Button(
             action: {
-                windowVM.onDetailTagSelected(tag: tag)
+                windowVM.onDetailTagSelected(id: tag.id)
             }, label: {
                 GroupBox {
                     Label(
@@ -98,6 +98,6 @@ struct PrimitiveTagView_Previews: PreviewProvider {
             tag: mockShortTag,
             canExpand: false,
             showsDetails: false
-        ).environmentObject(MainVM() as AnyWindowVM)
+        ).environmentObject(MainVM())
     }
 }

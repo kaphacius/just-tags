@@ -71,7 +71,7 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         // No need to set up the diffVM
-        guard let mainVM = viewModel as? MainVM else {
+        guard let mainVM = activeMainVM else {
             return
         }
         
@@ -171,29 +171,26 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func selectAll() {
-        activeVM.selectAll()
+        activeMainVM?.selectAll()
     }
     
     internal func deselectAll() {
-        if activeVM.selectedIds.isEmpty == false {
-            activeWindow.map(doPoof(window:))
-        }
-    
-        activeVM.deselectAll()
+        activeWindow.map(doPoof(window:))
+        activeMainVM?.deselectAll()
     }
     
     internal func diffSelectedTags() {
-        guard activeVM is MainVM else {
+        guard let activeMainVM = activeMainVM else {
             // Don't diff tags when DiffView is active
             return
         }
         
-        guard activeVM.selectedTags.count == 2 else {
+        guard activeMainVM.selectedIds.count == 2 else {
             // Don't diff if not exactly 2 tags selected
             return
         }
-        
-        let toDiff = (lhs: [activeVM.selectedTags[0]], rhs: [activeVM.selectedTags[1]])
+
+        let toDiff = (lhs: [activeMainVM.selectedTags[0]], rhs: [activeMainVM.selectedTags[1]])
         
         diffTags(toDiff)
     }
@@ -246,6 +243,10 @@ internal final class AppVM: NSObject, ObservableObject {
             })
     }
     
+    internal var activeMainVM: MainVM? {
+        activeVM as? MainVM
+    }
+    
     internal func openDiffView() {
         if let anyDiffWindow = anyDiffWindow {
             // No need to open a new Diff window if it is already the active one
@@ -255,9 +256,13 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
+    
+    
+    
+    
     internal func openMainView() {
-        if let existingDiffWindow = viewModels.first(where: { $0.value is MainVM } ),
-           let window = windows.first(where: { $0.windowNumber == existingDiffWindow.key }) {
+        if let existingMainWindow = viewModels.first(where: { $0.value is MainVM } ),
+           let window = windows.first(where: { $0.windowNumber == existingMainWindow.key }) {
             // No need to open a new Main window if it is already the active one
             window.makeKeyAndOrderFront(self)
         } else {

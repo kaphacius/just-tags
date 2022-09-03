@@ -44,6 +44,6 @@ struct DiffedTagRowView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             DiffedTagRowView(diffedTag: mockDiffedShortTag)
-        }.environmentObject(MainVM() as AnyWindowVM)
+        }.environmentObject(MainVM())
     }
 }

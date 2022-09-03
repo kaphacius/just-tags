@@ -207,33 +207,6 @@ extension EnvironmentValues {
     }
 }
 
-internal class SelectedTagsSource: ObservableObject {
-    
-    @Published private(set) var selectedIds = Set<UUID>()
-    @Published private(set) var selectedTags = [EMVTag]()
-    
-    internal func onTagSelected(tag: EMVTag) {
-        if selectedIds.contains(tag.id) {
-            selectedIds.remove(tag.id)
-            _ = selectedTags
-                .firstIndex(of: tag)
-                .map{ selectedTags.remove(at: $0) }
-        } else {
-            selectedIds.insert(tag.id)
-            selectedTags.append(tag)
-        }
-    }
-    
-    internal func contains(id: UUID) -> Bool {
-        selectedIds.contains(id)
-    }
-    
-    internal var hexString: String {
-        selectedTags.map(\.hexString).joined()
-    }
-    
-}
-
 extension NSPasteboard {
     
     static func copyString(_ string: String) {
@@ -298,4 +271,42 @@ extension Optional where Wrapped == String {
     func getOrEmpty() -> Wrapped {
         return self != nil ? self.unsafelyUnwrapped : ""
     }
+}
+
+extension Array where Element: Identifiable {
+    
+    func firstIndex(with id: Element.ID) -> Int? {
+        firstIndex(where: { $0.id == id })
+    }
+    
+    func first(with id: Element.ID) -> Element? {
+        first(where: { $0.id == id })
+    }
+    
+    @discardableResult
+    mutating func removeFirst(with id: Element.ID) -> Element? {
+        if let idx = firstIndex(with: id) {
+            remove(at: idx)
+        }
+        
+        return nil
+    }
+    
+}
+
+extension Array where Element == EMVTag {
+    
+    func first(with id: Element.ID) -> EMVTag? {
+        for tag in self {
+            if tag.id == id {
+                return tag
+            } else if tag.isConstructed,
+                      let subTag = tag.subtags.first(with: id) {
+                return subTag
+            }
+        }
+        
+        return nil
+    }
+    
 }

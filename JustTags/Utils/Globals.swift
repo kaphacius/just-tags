@@ -10,7 +10,7 @@ import SwiftUI
 internal let diffBackground: Color = .blue.opacity(0.3)
 
 internal func doPoof(window: NSWindow) {
-    let loc = CGPoint(x: window.frame.maxX - 15, y: window.frame.maxY - 45)
+    let loc = CGPoint(x: window.frame.maxX - 15, y: window.frame.maxY - 70)
     let poofSize = 20.0
     
     NSAnimationEffect.poof
