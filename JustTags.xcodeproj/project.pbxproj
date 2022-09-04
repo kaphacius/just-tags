@@ -32,7 +32,7 @@
 		5A5B09F5285BAF0B00705C35 /* EntryModeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */; };
 		5A5B09F7285BAF8A00705C35 /* CryptogramDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F6285BAF8A00705C35 /* CryptogramDataMapper.swift */; };
 		5A5B09F9285BB13500705C35 /* TerminalTypeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F8285BB13500705C35 /* TerminalTypeMapper.swift */; };
-		5A5B09FB285C493700705C35 /* DiffWindowVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffWindowVM.swift */; };
+		5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffVM.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */; };
 		5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A9BC832282C3528000C05F7 /* SwiftyEMVTags */; };
@@ -98,7 +98,7 @@
 		5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryModeMapper.swift; sourceTree = "<group>"; };
 		5A5B09F6285BAF8A00705C35 /* CryptogramDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptogramDataMapper.swift; sourceTree = "<group>"; };
 		5A5B09F8285BB13500705C35 /* TerminalTypeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalTypeMapper.swift; sourceTree = "<group>"; };
-		5A5B09FA285C493700705C35 /* DiffWindowVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffWindowVM.swift; sourceTree = "<group>"; };
+		5A5B09FA285C493700705C35 /* DiffVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffVM.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedValues.swift; sourceTree = "<group>"; };
 		5AA64D06283547A800F295A9 /* MainVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVM.swift; sourceTree = "<group>"; };
@@ -223,7 +223,7 @@
 			children = (
 				5A31B16E281BC225002B2D06 /* DiffView.swift */,
 				5A31B1652816FC31002B2D06 /* Diff.swift */,
-				5A5B09FA285C493700705C35 /* DiffWindowVM.swift */,
+				5A5B09FA285C493700705C35 /* DiffVM.swift */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -462,7 +462,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A1719B228BA1D7A00D7894A /* AppVM+Persistence.swift in Sources */,
-				5A5B09FB285C493700705C35 /* DiffWindowVM.swift in Sources */,
+				5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */,
 				5A5B09F9285BB13500705C35 /* TerminalTypeMapper.swift in Sources */,
 				5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */,
 				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,

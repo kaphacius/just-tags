@@ -1,5 +1,5 @@
 //
-//  DiffWindowVM.swift
+//  DiffVM.swift
 //  JustTags
 //
 //  Created by Yurii Zadoianchuk on 17/06/2022.
@@ -9,7 +9,7 @@ import Foundation
 import SwiftyEMVTags
 import Combine
 
-internal final class DiffWindowVM: AnyWindowVM {
+internal final class DiffVM: AnyWindowVM {
     @Published internal var columns: Int
     @Published internal var texts: [String]
     @Published internal var initialTags: [[EMVTag]]

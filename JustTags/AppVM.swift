@@ -212,7 +212,7 @@ internal final class AppVM: NSObject, ObservableObject {
         } else {
             // No empty diff vms available, we will get a new one
             newVMSetup = { newVM in
-                guard let newVM = newVM as? DiffWindowVM else {
+                guard let newVM = newVM as? DiffVM else {
                     assertionFailure("New VM is not DiffWindowVM")
                     return
                 }
@@ -226,17 +226,17 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
-    private var emptyDiffVM: DiffWindowVM? {
+    private var emptyDiffVM: DiffVM? {
         viewModels
             .values
             .filter(\.isEmpty)
-            .compactMap { $0 as? DiffWindowVM }
+            .compactMap { $0 as? DiffVM }
             .first
     }
     
     private var anyDiffWindow: NSWindow? {
         viewModels
-            .first(where: { $0.value is DiffWindowVM })
+            .first(where: { $0.value is DiffVM })
             .map(\.key)
             .flatMap({ (key: Int) -> NSWindow? in
                 windows.first(where: { window in window.windowNumber == key })

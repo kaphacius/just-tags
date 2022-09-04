@@ -10,12 +10,12 @@ import SwiftyEMVTags
 
 struct DiffView: View {
     
-    @StateObject private var vm: DiffWindowVM = .init()
+    @StateObject private var vm: DiffVM = .init()
     @EnvironmentObject private var appVM: AppVM
     @FocusState internal var focusedEditor: Int?
     
     // For preview purposes
-    fileprivate init(vm: DiffWindowVM) {
+    fileprivate init(vm: DiffVM) {
         self._vm = .init(wrappedValue: vm)
     }
     
@@ -178,7 +178,7 @@ struct DiffView: View {
 }
 
 #if DEBUG
-let viewModel = DiffWindowVM(
+let viewModel = DiffVM(
     columns: 2,
     texts: [],
     initialTags: [[.init(hexString: "9F33032808C8")], [.init(hexString: "9F33032601C8")]],
