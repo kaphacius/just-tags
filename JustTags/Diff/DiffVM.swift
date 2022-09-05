@@ -43,8 +43,9 @@ internal final class DiffVM: AnyWindowVM {
         super.init()
         
         $showOnlyDifferent
-            .sink(receiveValue: toggleShowOnlyDifferent)
-            .store(in: &cancellables)
+            .sink { [weak self] newValue in
+                self?.toggleShowOnlyDifferent(newValue)
+            }.store(in: &cancellables)
     }
     
     override var isEmpty: Bool {

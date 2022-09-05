@@ -77,8 +77,8 @@ internal final class MainVM: AnyWindowVM {
         $searchText
             .debounce(for: 0.2, scheduler: RunLoop.main, options: nil)
             .removeDuplicates()
-            .sink { v in
-                self.updateTags()
+            .sink { [weak self] v in
+                self?.updateTags()
             }.store(in: &cancellables)
     }
     

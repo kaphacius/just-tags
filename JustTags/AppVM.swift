@@ -256,10 +256,6 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
-    
-    
-    
-    
     internal func openMainView() {
         if let existingMainWindow = viewModels.first(where: { $0.value is MainVM } ),
            let window = windows.first(where: { $0.windowNumber == existingMainWindow.key }) {
