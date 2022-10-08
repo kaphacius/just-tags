@@ -38,6 +38,27 @@ extension EMVTag {
         
     }
     
+    internal var isUnknown: Bool {
+        switch decodingResult {
+        case .unknown:
+            return true
+        case .multipleKernels, .singleKernel:
+            return false
+        }
+    }
+    
+    internal var fullHexString: String {
+        [
+            tag.tag.hexString,
+            tag.lengthBytes.hexString,
+            tag.value.hexString
+        ].joined()
+    }
+    
+    internal var valueHexString: String {
+        tag.value.hexString
+    }
+    
 }
 
 extension EMVTag {
