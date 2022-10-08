@@ -23,7 +23,7 @@ struct TagDetailView: View {
             VStack(alignment: .leading, spacing: commonPadding) {
                 header
                 detailsView
-                ForEach(vm.bytes, content: byteView(for:))
+//                ForEach(vm.bytes, content: byteView(for:))
             }
             .frame(maxWidth: .infinity)
             .padding(.trailing, commonPadding)
@@ -33,10 +33,10 @@ struct TagDetailView: View {
     private var header: some View {
         GroupBox {
             VStack(spacing: 0.0) {
-                Text(vm.tag)
-                    .font(.title).monospacedDigit()
-                Text(vm.name)
-                    .font(.title2)
+//                Text(vm.tag)
+//                    .font(.title).monospacedDigit()
+//                Text(vm.name)
+//                    .font(.title2)
             }
             .frame(maxWidth: .infinity)
         }
@@ -128,37 +128,37 @@ struct TagDetailView: View {
 }
 
 #if DEBUG
-struct MockSource: AnyEMVTagInfoSource {
-    
-    func info(for tag: UInt64, kernel: EMVTag.Kernel) -> EMVTag.Info {
-        .init(
-            tag: tag,
-            name: "Some capabilities",
-            description: "A very long description string, explaining what the tag is used for. A very long description string, explaining what the tag is used for. A very long description string, explaining what the tag is used for",
-            source: .kernel,
-            format: "binary",
-            kernel: .general,
-            minLength: "Five",
-            maxLength: "Ten",
-            byteMeaningList: [[
-                "Foo", "Bar", "Baz", "Foo", "Bar", "Baz", "RFU", "FoobazFoobazFoobazFoobaz"
-            ]]
-        )
-    }
-    
-}
+//struct MockSource: AnyEMVTagInfoSource {
+//
+//    func info(for tag: UInt64, kernel: EMVTag.Kernel) -> EMVTag.Info {
+//        .init(
+//            tag: tag,
+//            name: "Some capabilities",
+//            description: "A very long description string, explaining what the tag is used for. A very long description string, explaining what the tag is used for. A very long description string, explaining what the tag is used for",
+//            source: .kernel,
+//            format: "binary",
+//            kernel: .general,
+//            minLength: "Five",
+//            maxLength: "Ten",
+//            byteMeaningList: [[
+//                "Foo", "Bar", "Baz", "Foo", "Bar", "Baz", "RFU", "FoobazFoobazFoobazFoobaz"
+//            ]]
+//        )
+//    }
+//
+//}
 
-let mockTag = EMVTag(
-    tlv: try! .parse(bytes: [0x9F, 0x33, 0x03, 0x28, 0x08, 0xC8]).first!,
-    kernel: .general,
-    infoSource: MockSource()
-)
-
-struct EMVTagDetailView_Previews: PreviewProvider {
-    static var previews: some View {
-        TagDetailView(vm: .init(emvTag: mockTag))
-            .frame(width: 500, height: 600)
-    }
-}
+//let mockTag = EMVTag(
+//    tlv: try! .parse(bytes: [0x9F, 0x33, 0x03, 0x28, 0x08, 0xC8]).first!,
+//    kernel: .general,
+//    infoSource: MockSource()
+//)
+//
+//struct EMVTagDetailView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TagDetailView(vm: .init(emvTag: mockTag))
+//            .frame(width: 500, height: 600)
+//    }
+//}
 
 #endif

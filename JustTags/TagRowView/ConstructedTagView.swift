@@ -15,24 +15,24 @@ internal struct ConstructedTagView: View {
     internal let tag: EMVTag
     
     internal var body: some View {
-        let binding = vm.expandedBinding(for: tag.id)
+//        let binding = vm.expandedBinding(for: tag.id)
         
         return VStack(alignment: .leading) {
-            disclosureGroup(for: tag, binding: binding)
-            if binding.wrappedValue == false {
-                HStack(spacing: 0.0) {
-                    TagValueView(tag: tag)
-                        .multilineTextAlignment(.leading)
-                        .padding(.top, -commonPadding)
-                }
-            }
+//            disclosureGroup(for: tag, binding: binding)
+//            if binding.wrappedValue == false {
+//                HStack(spacing: 0.0) {
+//                    TagValueView(tag: tag)
+//                        .multilineTextAlignment(.leading)
+//                        .padding(.top, -commonPadding)
+//                }
+//            }
         }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
-            vm.onTagSelected(id: tag.id)
+//            vm.onTagSelected(id: tag.id)
         })
         .onTapGesture {
-            binding.wrappedValue.toggle()
+//            binding.wrappedValue.toggle()
         }
     }
     
@@ -44,7 +44,7 @@ internal struct ConstructedTagView: View {
             isExpanded: binding,
             content: {
                 VStack(alignment: .leading, spacing: commonPadding) {
-                    ForEach(tag.subtags, content: TagRowView.init(tag:))
+//                    ForEach(tag.subtags, content: TagRowView.init(tag:))
                 }
                 .padding(.top, commonPadding)
             }, label: {
@@ -58,11 +58,11 @@ internal struct ConstructedTagView: View {
     
 }
 
-#if DEBUG
-struct ConstructedTagView_Previews: PreviewProvider {
-    static var previews: some View {
-        ConstructedTagView(tag: mockTag)
-            .environmentObject(MainVM())
-    }
-}
-#endif
+//#if DEBUG
+//struct ConstructedTagView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ConstructedTagView(tag: mockTag)
+//            .environmentObject(MainVM())
+//    }
+//}
+//#endif

@@ -133,39 +133,39 @@ struct MainView: View {
 
 extension EMVTag {
     
-    var searchString: String {
-        [
-            tag.hexString,
-            name,
-            description,
-            subtags.map(\.searchString).joined(),
-            decodedMeaningList
-                .flatMap(\.bitList)
-                .map(\.meaning)
-                .filter { $0 != "RFU" }.joined()
-        ].joined().lowercased()
-    }
-    
-    func filtered(with string: String, matchingTags: Set<EMVTag.ID>) -> EMVTag {
-        if isConstructed {
-            return .init(
-                id: self.id,
-                tag: self.tag,
-                name: self.name,
-                description: self.description,
-                source: self.source,
-                format: self.format,
-                kernel: self.kernel,
-                isConstructed: self.isConstructed,
-                value: self.value,
-                lengthBytes: self.lengthBytes,
-                subtags: self.subtags.filter { matchingTags.contains($0.id) },
-                decodedMeaningList: self.decodedMeaningList
-            )
-        } else {
-            return self
-        }
-    }
+//    var searchString: String {
+//        [
+//            tag.hexString,
+//            name,
+//            description,
+//            subtags.map(\.searchString).joined(),
+//            decodedMeaningList
+//                .flatMap(\.bitList)
+//                .map(\.meaning)
+//                .filter { $0 != "RFU" }.joined()
+//        ].joined().lowercased()
+//    }
+//    
+//    func filtered(with string: String, matchingTags: Set<EMVTag.ID>) -> EMVTag {
+//        if isConstructed {
+//            return .init(
+//                id: self.id,
+//                tag: self.tag,
+//                name: self.name,
+//                description: self.description,
+//                source: self.source,
+//                format: self.format,
+//                kernel: self.kernel,
+//                isConstructed: self.isConstructed,
+//                value: self.value,
+//                lengthBytes: self.lengthBytes,
+//                subtags: self.subtags.filter { matchingTags.contains($0.id) },
+//                decodedMeaningList: self.decodedMeaningList
+//            )
+//        } else {
+//            return self
+//        }
+//    }
     
 }
     

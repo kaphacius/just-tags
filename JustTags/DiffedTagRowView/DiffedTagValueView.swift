@@ -43,8 +43,8 @@ private extension DiffedTag {
     
 }
 
-struct DiffedTagValueView_Previews: PreviewProvider {
-    static var previews: some View {
-        DiffedTagValueView(diffedTag: .init(tag: mockTag, results: [.different, .different, .equal]))
-    }
-}
+//struct DiffedTagValueView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        DiffedTagValueView(diffedTag: .init(tag: mockTag, results: [.different, .different, .equal]))
+//    }
+//}

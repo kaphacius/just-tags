@@ -16,7 +16,7 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var setUpInProgress: Bool = true
     // Throwaway to avoid optionals
     @Published internal var activeVM: AnyWindowVM = MainVM()
-    @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
+//    @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
     @Environment(\.openURL) var openURL
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
@@ -25,22 +25,22 @@ internal final class AppVM: NSObject, ObservableObject {
     internal override init() {
         super.init()
         
-        let commonTags: Array<EMVTag.Info>
-        
-        if let url = Bundle.main.path(forResource: "common_tags", ofType: "json"),
-           let data = try? Data(contentsOf: URL(fileURLWithPath: url)),
-           let decoded = try? JSONDecoder().decode(TagInfoContainer.self, from: data) {
-            commonTags = decoded.tags
-        } else {
-            commonTags = []
-        }
-        
-        self._infoDataSource = .init(wrappedValue: .init(infoList: commonTags))
-        let loadedState = AppState.loadState()
-        self.loadedState = loadedState
-        if loadedState.isStateRestored {
-            self.setUpInProgress = false
-        }
+//        let commonTags: Array<EMVTag.Info>
+//        
+//        if let url = Bundle.main.path(forResource: "common_tags", ofType: "json"),
+//           let data = try? Data(contentsOf: URL(fileURLWithPath: url)),
+//           let decoded = try? JSONDecoder().decode(TagInfoContainer.self, from: data) {
+//            commonTags = decoded.tags
+//        } else {
+//            commonTags = []
+//        }
+//        
+//        self._infoDataSource = .init(wrappedValue: .init(infoList: commonTags))
+//        let loadedState = AppState.loadState()
+//        self.loadedState = loadedState
+//        if loadedState.isStateRestored {
+//            self.setUpInProgress = false
+//        }
         
         // Get notified when app is about to quit
         NotificationCenter.default.addObserver(
@@ -57,7 +57,7 @@ internal final class AppVM: NSObject, ObservableObject {
 
         window.delegate = self
         windows.append(window)
-        viewModel.infoDataSource = infoDataSource
+//        viewModel.infoDataSource = infoDataSource
         viewModel.appVM = self
         viewModels[window.windowNumber] = viewModel
         
@@ -196,34 +196,34 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func diffTags(_ tags: TagPair) {
-        let toDiff: TagPair
-        
-        // If two constructed tags are selected - diff the subtags
-        if tags.lhs[0].isConstructed && tags.rhs[0].isConstructed {
-            toDiff = (tags.lhs[0].subtags, tags.rhs[0].subtags)
-        } else {
-            toDiff = tags
-        }
-        
-        if let emptyDiffVM = emptyDiffVM {
-            // An empty diff vm is available, use it
-            emptyDiffVM.diff(tags: toDiff)
-            makeKeyAndActive(vm: emptyDiffVM)
-        } else {
-            // No empty diff vms available, we will get a new one
-            newVMSetup = { newVM in
-                guard let newVM = newVM as? DiffVM else {
-                    assertionFailure("New VM is not DiffWindowVM")
-                    return
-                }
-                newVM.diff(tags: toDiff)
-            }
-            openDiffView()
-            // If the diff window was already in place - open
-            if anyDiffWindow != nil {
-                openNewTab()
-            }
-        }
+//        let toDiff: TagPair
+//        
+//        // If two constructed tags are selected - diff the subtags
+//        if tags.lhs[0].isConstructed && tags.rhs[0].isConstructed {
+//            toDiff = (tags.lhs[0].subtags, tags.rhs[0].subtags)
+//        } else {
+//            toDiff = tags
+//        }
+//        
+//        if let emptyDiffVM = emptyDiffVM {
+//            // An empty diff vm is available, use it
+//            emptyDiffVM.diff(tags: toDiff)
+//            makeKeyAndActive(vm: emptyDiffVM)
+//        } else {
+//            // No empty diff vms available, we will get a new one
+//            newVMSetup = { newVM in
+//                guard let newVM = newVM as? DiffVM else {
+//                    assertionFailure("New VM is not DiffWindowVM")
+//                    return
+//                }
+//                newVM.diff(tags: toDiff)
+//            }
+//            openDiffView()
+//            // If the diff window was already in place - open
+//            if anyDiffWindow != nil {
+//                openNewTab()
+//            }
+//        }
     }
     
     private var emptyDiffVM: DiffVM? {
@@ -275,9 +275,9 @@ internal final class AppVM: NSObject, ObservableObject {
         
         let data = try! Data(contentsOf: openPanel.url!)
         
-        let result = try! JSONDecoder().decode(TagInfoContainer.self, from: data)
+//        let result = try! JSONDecoder().decode(TagInfoContainer.self, from: data)
         
-        infoDataSource.infoList.append(contentsOf: result.tags)
+//        infoDataSource.infoList.append(contentsOf: result.tags)
     }
     
     private func window(for vm: AnyWindowVM) -> NSWindow? {
