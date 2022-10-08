@@ -12,7 +12,6 @@ import SwiftyBERTLV
 extension EMVTag {
     
     internal var extendedDescription: String? {
-        
         switch self.decodingResult {
         case .unknown:
             return nil
@@ -22,11 +21,9 @@ extension EMVTag {
             return Set(decodedTags.compactMap(\.extendedDescription))
                 .joined(separator: ", ")
         }
-        
     }
     
     internal var name: String {
-        
         switch self.decodingResult {
         case .unknown:
             return ""
@@ -36,7 +33,6 @@ extension EMVTag {
             return Set(decodedTags.map(\.tagInfo.name))
                 .joined(separator: ", ")
         }
-        
     }
     
     internal var isUnknown: Bool {
@@ -82,7 +78,6 @@ extension EMVTag {
 
 extension EMVTag {
 
-    // TODO: decide what is better, protocol or small VM
     var tagValueVM: TagValueVM {
         .init(
             value: tag.value.hexString,
@@ -91,18 +86,20 @@ extension EMVTag {
     }
 
     var tagHeaderVM: TagHeaderVM {
-        primitiveTagVM
+        .init(
+            tag: tag.tag.hexString,
+            name: name
+        )
     }
     
     var primitiveTagVM: PrimitiveTagVM {
         .init(
             id: id,
-            tag: tag.tag.hexString,
-            name: name,
+            headerVM: tagHeaderVM,
             valueVM: tagValueVM,
-            // TODO: add selected values expansion
-            canExpand: false,
-            showsDetails: isUnknown == false
+            canExpand: selectedMeanings.isEmpty == false,
+            showsDetails: isUnknown == false,
+            selectedMeanings: selectedMeanings
         )
     }
     
@@ -115,8 +112,8 @@ extension EMVTag {
             id: id,
             tag: tag.tag.hexString,
             name: name,
+            headerVM: tagHeaderVM,
             valueVM: tagValueVM,
-            // TODO: pass correct id
             subtags: subtags.map(\.tagRowVM)
         )
     }

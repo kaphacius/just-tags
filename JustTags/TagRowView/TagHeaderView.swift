@@ -8,9 +8,9 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal protocol TagHeaderVM {
-    var tag: String { get }
-    var name: String { get }
+internal struct TagHeaderVM: Equatable {
+    internal let tag: String
+    internal let name: String
 }
 
 internal struct TagHeaderView: View {

@@ -8,11 +8,12 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct ConstructedTagVM: TagHeaderVM, Equatable {
+internal struct ConstructedTagVM: Equatable {
     
     let id: UUID
     let tag: String
     let name: String
+    let headerVM: TagHeaderVM
     let valueVM: TagValueVM
     let subtags: [TagRowVM]
     
@@ -57,7 +58,7 @@ internal struct ConstructedTagView: View {
                 }
                 .padding(.top, commonPadding)
             }, label: {
-                TagHeaderView(vm: vm)
+                TagHeaderView(vm: vm.headerVM)
                     .padding(.leading, commonPadding)
                     .padding(.vertical, -commonPadding)
             }

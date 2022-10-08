@@ -10,19 +10,15 @@ import SwiftyEMVTags
 
 struct SelectedMeaningList: View {
     
-    internal let tag: EMVTag
+    internal let meanings: [String]
     
-    var body: some View {
+    internal var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: commonPadding) {
-//                ForEach(Array(tag.decodedMeaningList
-//                    .flatMap(\.bitList)
-//                    .filter(\.isSet)
-//                    .map(\.meaning)
-//                    .enumerated()), id: \.0) { (idx, line) in
-//                        Text(line)
-//                            .multilineTextAlignment(.leading)
-//                    }
+                ForEach(meanings, id: \.self) { meaning in
+                    Text(meaning)
+                        .multilineTextAlignment(.leading)
+                }
             }
             Spacer()
         }

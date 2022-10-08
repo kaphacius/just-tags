@@ -8,16 +8,16 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct PrimitiveTagVM: Identifiable, Equatable, TagHeaderVM {
+internal struct PrimitiveTagVM: Identifiable, Equatable {
     
     typealias ID = EMVTag.ID
     
     let id: UUID
-    let tag: String
-    let name: String
+    let headerVM: TagHeaderVM
     let valueVM: TagValueVM
     let canExpand: Bool
     let showsDetails: Bool
+    let selectedMeanings: [String]
     
 }
 
@@ -34,7 +34,7 @@ internal struct PrimitiveTagView: View {
     
     internal var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
-            TagHeaderView(vm: vm)
+            TagHeaderView(vm: vm.headerVM)
             tagValueView
         }
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -75,9 +75,8 @@ internal struct PrimitiveTagView: View {
         DisclosureGroup(
             isExpanded: $isExpanded,
             content: {
-            // TODO: Add selected meanings
-//                SelectedMeaningList(tag: tag)
-//                    .padding(.leading, commonPadding * 3)
+                SelectedMeaningList(meanings: vm.selectedMeanings)
+                    .padding(.leading, commonPadding * 3)
             }, label: {
                 TagValueView(vm: vm.valueVM)
             }
