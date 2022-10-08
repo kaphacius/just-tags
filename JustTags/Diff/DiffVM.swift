@@ -38,6 +38,7 @@ internal final class DiffVM: AnyWindowVM {
                 onlyDifferent: false
             )
         )
+        // TODO: diff
 //        _showsDiff = .init(initialValue: initialTags.contains([]) == false)
         
         _showsDiff = .init(initialValue: false)
@@ -59,6 +60,7 @@ internal final class DiffVM: AnyWindowVM {
     }
     
     internal func diffInitialTags() {
+        // TODO: diff
 //        guard initialTags.contains([]) == false else {
 //            return
 //        }
@@ -84,6 +86,7 @@ internal final class DiffVM: AnyWindowVM {
     }
     
     internal func apply(tags: [EMVTag], at idx: Int) {
+        // TODO: diff
 //        let tags = tags.sortedTags
 //
 //        if initialTags.count <= idx {

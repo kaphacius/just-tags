@@ -30,7 +30,6 @@ internal class AnyWindowVM: ObservableObject {
     internal func tagsByParsing(string: String) -> [EMVTag] {
         do {
             guard let tagDecoder = tagDecoder else {
-                // TODO: assert if no decoder
                 return []
             }
             

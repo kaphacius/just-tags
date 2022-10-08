@@ -115,18 +115,18 @@ struct DiffView: View {
         ScrollView {
             LazyVStack(spacing: commonPadding) {
                 // TODO: implement viewing diffed tags
-//                ForEach(tags) { tag in
-//                    DiffedTagRowView(
-//                        diffedTag: .init(
-//                            tag: tag,
-//                            results: Array(repeating: .equal, count: tag.tag.value.count)
-//                        )
-//                    )
-//                }
+                ForEach(tags) { tag in
+                    DiffedTagRowView(
+                        diffedTag: .init(
+                            tag: tag,
+                            results: Array(repeating: .equal, count: tag.tag.value.count)
+                        )
+                    )
+                }
             }
         }
-//        .animation(.linear(duration: 0.5), value: tags)
-//        .transition(.opacity)
+        .animation(.linear(duration: 0.5), value: tags)
+        .transition(.opacity)
     }
     
     @ViewBuilder
@@ -178,7 +178,7 @@ struct DiffView: View {
 
 }
 
-//#if DEBUG
+// TODO: diff
 //let viewModel = DiffVM(
 //    columns: 2,
 //    texts: [],
@@ -195,4 +195,3 @@ struct DiffView: View {
 //            .environmentObject(appVM)
 //    }
 //}
-//#endif

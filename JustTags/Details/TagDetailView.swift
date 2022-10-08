@@ -23,6 +23,7 @@ struct TagDetailView: View {
             VStack(alignment: .leading, spacing: commonPadding) {
                 header
                 detailsView
+                // TODO: detals
 //                ForEach(vm.bytes, content: byteView(for:))
             }
             .frame(maxWidth: .infinity)
@@ -33,6 +34,7 @@ struct TagDetailView: View {
     private var header: some View {
         GroupBox {
             VStack(spacing: 0.0) {
+                // TODO: detals
 //                Text(vm.tag)
 //                    .font(.title).monospacedDigit()
 //                Text(vm.name)
@@ -127,7 +129,7 @@ struct TagDetailView: View {
     }
 }
 
-#if DEBUG
+// TODO: detals
 //struct MockSource: AnyEMVTagInfoSource {
 //
 //    func info(for tag: UInt64, kernel: EMVTag.Kernel) -> EMVTag.Info {
@@ -160,5 +162,3 @@ struct TagDetailView: View {
 //            .frame(width: 500, height: 600)
 //    }
 //}
-
-#endif

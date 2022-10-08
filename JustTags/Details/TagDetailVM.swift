@@ -11,6 +11,7 @@ import SwiftyEMVTags
 struct TagDetailVM {
     
     init(emvTag: EMVTag) {
+        // TODO: detals
 //        self.tag = emvTag.tag.hexString
 //        self.name = emvTag.name
 //        self.description = emvTag.description

@@ -80,6 +80,7 @@ extension EMVTag {
     
     static func compare(lhs: EMVTag, rhs: EMVTag) -> TagDiffResult {
         .equal(lhs)
+        // TODO: diff
         // tags are the same
 //        if lhs.tag == rhs.tag {
 //            if lhs.tag.value == rhs.tag.value {

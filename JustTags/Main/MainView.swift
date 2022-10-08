@@ -131,17 +131,10 @@ struct MainView: View {
     
 }
     
-//#if DEBUG
-//struct MainView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        MainView()
-//            .frame(width: 600, height: 600)
-//    }
-//}
-//#endif
-//
-//let pp = BERTLV.parse(bytes: [UInt8](data)).map(EMVTag.emvTag(with:))
-//let ppp = BERTLV.parse(
-//    bytes: [0x9F, 0x33, 0x03, 0x60, 0x28, 0xC8, 0x9F, 0x33, 0x03, 0x60, 0xC8, 0xC8, 0x9F, 0x34, 0x01, 0xFF])
-//    .map(EMVTag.emvTag(with:))
-
+struct MainView_Previews: PreviewProvider {
+    static var previews: some View {
+        MainView()
+            .frame(width: 1000, height: 600)
+            .environmentObject(AppVM())
+    }
+}

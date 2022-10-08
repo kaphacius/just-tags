@@ -25,8 +25,10 @@ struct SelectedMeaningList: View {
     }
 }
 
-//struct SelectedMeaningList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SelectedMeaningList(tag: EMVTag(tlv: mockTLV, info: mockInfo, subtags: []))
-//    }
-//}
+struct SelectedMeaningList_Previews: PreviewProvider {
+    static var previews: some View {
+        SelectedMeaningList(
+            meanings: EMVTag.mockTag.selectedMeanings
+        )
+    }
+}
