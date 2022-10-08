@@ -39,12 +39,11 @@ extension PrimitiveTagVM {
     
     static func make(
         with tag: EMVTag,
-        id: UUID = .init(),
         canExpand: Bool = false,
         showsDetails: Bool = true
     ) -> PrimitiveTagVM {
         .init(
-            id: .init(),
+            id: tag.id,
             tag: tag.tag.tag.hexString,
             name: tag.name,
             valueVM: tag.tagValueVM,
@@ -64,7 +63,7 @@ extension ConstructedTagVM {
             fatalError("Provided tag is not constructed")
         }
         
-        return tag.constructedTagVM(with: .init())
+        return tag.constructedTagVM
     }
     
 }
@@ -74,7 +73,7 @@ extension TagRowVM {
     static func make(
         with tag: EMVTag
     ) -> TagRowVM {
-        .init(id: .init(), tag: tag)
+        .init(tag: tag)
     }
     
 }

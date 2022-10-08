@@ -15,12 +15,12 @@ internal final class MainVM: AnyWindowVM {
     @Published internal var initialTags: [EMVTag] = []
     @Published internal var currentTags: [EMVTag] = []
     @Published internal var currentTagVMs: [TagRowVM] = []
-    @Published internal var tagDescriptions: Dictionary<EMVTagID, String> = [:]
+    @Published internal var tagDescriptions: Dictionary<EMVTag.ID, String> = [:]
     @Published internal var searchText: String = ""
     @Published internal var showingTags: Bool = false
     @Published internal var selectedTags = [EMVTag]()
-    @Published internal var selectedIds = Set<EMVTagID>()
-    @Published internal var expandedConstructedTags: Set<EMVTagID> = []
+    @Published internal var selectedIds = Set<EMVTag.ID>()
+    @Published internal var expandedConstructedTags: Set<EMVTag.ID> = []
     @Published internal var showsDetails: Bool = true
     @Published internal var detailTag: EMVTag? = nil
     
@@ -31,7 +31,7 @@ internal final class MainVM: AnyWindowVM {
         setUpSearch()
     }
     
-    internal func isTagSelected(id: EMVTagID) -> Bool {
+    internal func isTagSelected(id: EMVTag.ID) -> Bool {
         selectedIds.contains(id)
     }
     
@@ -39,33 +39,31 @@ internal final class MainVM: AnyWindowVM {
         selectedTags.map(\.fullHexString).joined()
     }
     
-    internal func onTagSelected(id: EMVTagID) {
-        // TODO: implement tag selection
-//        if selectedIds.contains(id) {
-//            selectedIds.remove(id)
-//            selectedTags
-//                .removeFirst(with: id)
-//        } else {
-//            selectedIds.insert(id)
-//            currentTags
-//                .firstIndex(with: id)
-//                .map { currentTags[$0] }
-//                .map { selectedTags.append($0) }
-//        }
+    internal func onTagSelected(id: EMVTag.ID) {
+        if selectedIds.contains(id) {
+            selectedIds.remove(id)
+            selectedTags
+                .removeFirst(with: id)
+        } else {
+            selectedIds.insert(id)
+            currentTags
+                .firstIndex(with: id)
+                .map { currentTags[$0] }
+                .map { selectedTags.append($0) }
+        }
     }
     
-    internal func onDetailTagSelected(id: EMVTagID) {
-        // TODO: implement tag selection
-//        guard let tag = currentTags.first(with: id) else {
-//            return
-//        }
-//        
-//        if detailTag == tag {
-//            detailTag = nil
-//        } else {
-//            detailTag = tag
-//        }
-//        showsDetails = true
+    internal func onDetailTagSelected(id: EMVTag.ID) {
+        guard let tag = currentTags.first(with: id) else {
+            return
+        }
+        
+        if detailTag == tag {
+            detailTag = nil
+        } else {
+            detailTag = tag
+        }
+        showsDetails = true
     }
     
     override var isEmpty: Bool {
@@ -171,7 +169,7 @@ internal final class MainVM: AnyWindowVM {
         }
     }
     
-    internal func expandedBinding(for id: EMVTagID) -> Binding<Bool> {
+    internal func expandedBinding(for id: EMVTag.ID) -> Binding<Bool> {
         .init(
             get: { self.expandedConstructedTags.contains(id) },
             set: { isExpanded in

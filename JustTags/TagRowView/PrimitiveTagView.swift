@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal struct PrimitiveTagVM: Identifiable, TagHeaderVM {
     
-    typealias ID = TagRowVM.ID
+    typealias ID = EMVTag.ID
     
     let id: UUID
     let tag: String
@@ -92,12 +92,7 @@ internal struct PrimitiveTagView: View {
                 windowVM.onDetailTagSelected(id: vm.id)
             }, label: {
                 GroupBox {
-                    EmptyView()
-                    // TODO: add tag id as property
-//                    Label(
-//                        "Details",
-//                        systemImage: windowVM.detailTag?.id == vm.id ? "lessthan" : "greaterthan"
-//                    )
+                    Label("Details", systemImage: buttonImage)
                     .labelStyle(.iconOnly)
                     .padding(.horizontal, commonPadding)
                 }
@@ -105,6 +100,10 @@ internal struct PrimitiveTagView: View {
         )
         .padding(.horizontal, commonPadding)
         .buttonStyle(.plain)
+    }
+    
+    private var buttonImage: String {
+        windowVM.detailTag?.id == vm.id ? "lessthan" : "greaterthan"
     }
 }
 

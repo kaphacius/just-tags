@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal struct TagRowVM: Equatable, Identifiable {
     
-    internal let id: EMVTagID
+    internal let id: EMVTag.ID
     internal let category: Category
     internal let fullHexString: String
     internal let valueHexString: String
@@ -20,24 +20,22 @@ internal struct TagRowVM: Equatable, Identifiable {
         case constructed(ConstructedTagVM)
         
         static func category(
-            with tag: EMVTag,
-            id: EMVTagID
+            with tag: EMVTag
         ) -> Category {
             switch tag.category {
             case .plain:
-                return .primitive(tag.primitiveTagVM(with: id))
-            case .constructed(let subtags):
-                return .constructed(tag.constructedTagVM(with: id))
+                return .primitive(tag.primitiveTagVM)
+            case .constructed:
+                return .constructed(tag.constructedTagVM)
             }
         }
     }
     
     init(
-        id: EMVTagID,
         tag: EMVTag
     ) {
-        self.id = id
-        self.category = .category(with: tag, id: id)
+        self.id = tag.id
+        self.category = .category(with: tag)
         self.fullHexString = tag.fullHexString
         self.valueHexString = tag.valueHexString
     }
