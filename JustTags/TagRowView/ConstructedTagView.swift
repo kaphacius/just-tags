@@ -48,7 +48,7 @@ internal struct ConstructedTagView: View {
                 }
                 .padding(.top, commonPadding)
             }, label: {
-                TagHeaderView(tag: tag)
+                TagHeaderView(vm: tag.tagHeaderVM)
                     .padding(.leading, commonPadding)
                     .padding(.vertical, -commonPadding)
             }

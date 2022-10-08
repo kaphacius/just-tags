@@ -8,45 +8,54 @@
 import SwiftUI
 import SwiftyEMVTags
 
+internal struct PrimitiveTagVM: Identifiable, TagHeaderVM {
+    
+    let id: UUID
+    let tag: String
+    let name: String
+    let valueVM: TagValueVM
+    let canExpand: Bool
+    let showsDetails: Bool
+    
+}
+
 internal struct PrimitiveTagView: View {
     
     @EnvironmentObject private var windowVM: MainVM
     @State internal var isExpanded: Bool = false
     
-    internal let tag: EMVTag
-    internal let canExpand: Bool
-    internal let showsDetails: Bool
+    internal let vm: PrimitiveTagVM
     
     internal var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
-            TagHeaderView(tag: tag)
+            TagHeaderView(vm: vm)
             tagValueView
         }
         .frame(maxWidth: .infinity, alignment: .leading)
         .overlay(alignment: .trailing) {
-            if showsDetails {
+            if vm.showsDetails {
                 detailsButton
             }
         }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
-            windowVM.onTagSelected(id: tag.id)
+            windowVM.onTagSelected(id: vm.id)
         })
         .onTapGesture(count: 2) {
-            if showsDetails { windowVM.onDetailTagSelected(id: tag.id) }
+            if vm.showsDetails { windowVM.onDetailTagSelected(id: vm.id) }
         }
         .onTapGesture {
-            if canExpand { isExpanded.toggle() }
+            if vm.canExpand { isExpanded.toggle() }
         }
     }
     
     @ViewBuilder
     private var tagValueView: some View {
-        if canExpand {
+        if vm.canExpand {
             expandableValueView
                 .padding(-commonPadding)
         } else {
-            TagValueView(tag: tag)
+            TagValueView(vm: vm.valueVM)
         }
     }
     
@@ -60,10 +69,11 @@ internal struct PrimitiveTagView: View {
         DisclosureGroup(
             isExpanded: $isExpanded,
             content: {
-                SelectedMeaningList(tag: tag)
-                    .padding(.leading, commonPadding * 3)
+            // TODO: Add selected meanings
+//                SelectedMeaningList(tag: tag)
+//                    .padding(.leading, commonPadding * 3)
             }, label: {
-                TagValueView(tag: tag)
+                TagValueView(vm: vm.valueVM)
             }
         )
         .padding(.horizontal, commonPadding)
@@ -73,17 +83,16 @@ internal struct PrimitiveTagView: View {
     private var detailsButton: some View {
         Button(
             action: {
-                windowVM.onDetailTagSelected(id: tag.id)
+                windowVM.onDetailTagSelected(id: vm.id)
             }, label: {
-                EmptyView()
-//                GroupBox {
-//                    Label(
-//                        "Details",
-//                        systemImage: windowVM.detailTag == tag ? "lessthan" : "greaterthan"
-//                    )
-//                    .labelStyle(.iconOnly)
-//                    .padding(.horizontal, commonPadding)
-//                }
+                GroupBox {
+                    Label(
+                        "Details",
+                        systemImage: windowVM.detailTag?.id == vm.id ? "lessthan" : "greaterthan"
+                    )
+                    .labelStyle(.iconOnly)
+                    .padding(.horizontal, commonPadding)
+                }
             }
         )
         .padding(.horizontal, commonPadding)
@@ -91,14 +100,21 @@ internal struct PrimitiveTagView: View {
     }
 }
 
-//let mockShortTag: EMVTag = .init(hexString: "9F33032808C8")
-
-//struct PrimitiveTagView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        PrimitiveTagView(
-//            tag: mockShortTag,
-//            canExpand: false,
-//            showsDetails: false
-//        ).environmentObject(MainVM())
-//    }
-//}
+struct PrimitiveTagView_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            PrimitiveTagView(
+                vm: .make(with: .mockTag)
+            )
+            PrimitiveTagView(
+                vm: .make(with: .mockTagExtended)
+            )
+            PrimitiveTagView(
+                vm: .make(with: .mockTag, canExpand: true)
+            )
+            PrimitiveTagView(
+                vm: .make(with: .mockTag, showsDetails: false)
+            )
+        }.environmentObject(MainVM())
+    }
+}
