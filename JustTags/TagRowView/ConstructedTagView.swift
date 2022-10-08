@@ -14,7 +14,7 @@ internal struct ConstructedTagVM: TagHeaderVM {
     let tag: String
     let name: String
     let valueVM: TagValueVM
-    let subtags: [PrimitiveTagVM]
+    let subtags: [TagRowVM]
     
 }
 
@@ -54,7 +54,7 @@ internal struct ConstructedTagView: View {
             content: {
                 VStack(alignment: .leading, spacing: commonPadding) {
                     // TODO: show TagRowView here
-                    ForEach(vm.subtags, content: PrimitiveTagView.init(vm:))
+                    ForEach(vm.subtags, content: TagRowView.init(vm:))
                 }
                 .padding(.top, commonPadding)
             }, label: {
