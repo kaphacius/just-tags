@@ -15,7 +15,7 @@ internal struct DiffedTagRowView: View {
     internal var body: some View {
         GroupBox {
             VStack(alignment: .leading, spacing: commonPadding) {
-                TagHeaderView(tag: diffedTag.tag)
+                TagHeaderView(vm: diffedTag.tag.tagHeaderVM)
                 DiffedTagValueView(diffedTag: diffedTag)
             }
             .frame(maxWidth: .infinity, alignment: .leading)

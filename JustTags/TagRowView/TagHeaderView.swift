@@ -8,27 +8,35 @@
 import SwiftUI
 import SwiftyEMVTags
 
+internal protocol TagHeaderVM {
+    var tag: String { get }
+    var name: String { get }
+}
+
 internal struct TagHeaderView: View {
-    internal let tag: EMVTag
+    internal let vm: TagHeaderVM
     
     internal var body: some View {
         HStack {
-//            Text(tag.tag.hexString)
-//                .font(.title3.monospaced())
-//                .fontWeight(.medium)
-//                .minimumScaleFactor(0.5)
-//                .lineLimit(1)
-//
-//            Text(tag.name)
-//                .font(.title3)
-//                .fontWeight(.regular)
-//                .minimumScaleFactor(0.5)
+            Text(vm.tag)
+                .font(.title3.monospaced())
+                .fontWeight(.medium)
+                .minimumScaleFactor(0.5)
+                .lineLimit(1)
+
+            Text(vm.name)
+                .font(.title3)
+                .fontWeight(.regular)
+                .minimumScaleFactor(0.5)
         }
     }
 }
 
-//struct TagHeaderView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        TagHeaderView(tag: mockTag)
-//    }
-//}
+struct TagHeaderView_Previews: PreviewProvider {
+    static var previews: some View {
+        VStack {
+            TagHeaderView(vm: EMVTag.mockTag.tagHeaderVM)
+            TagHeaderView(vm: EMVTag.mockTagExtended.tagHeaderVM)
+        }
+    }
+}

@@ -1,0 +1,53 @@
+//
+//  PreviewHelpers.swift
+//  JustTags
+//
+//  Created by Yurii Zadoianchuk on 08/10/2022.
+//
+
+import Foundation
+import SwiftyEMVTags
+import SwiftyBERTLV
+
+private let tagDecoder = try! TagDecoder.defaultDecoder()
+
+extension BERTLV {
+    
+    internal static let mockTLV = try! BERTLV
+        .parse(bytes: [0x9f, 0x33, 0x03, 0x28, 0x08, 0xC8])
+        .first!
+    
+    internal static let mockTLVExtended = try! BERTLV
+        .parse(bytes: [0x5f, 0x2a, 0x02, 0x09, 0x78])
+        .first!
+    
+    internal static let mockTLVConstructed = try! InputParser
+        .parse(input: <#T##String#>)
+    
+}
+
+extension EMVTag {
+    
+    internal static let mockTag = tagDecoder.decodeBERTLV(.mockTLV)
+    internal static let mockTagExtended = tagDecoder.decodeBERTLV(.mockTLVExtended)
+    
+}
+
+extension PrimitiveTagVM {
+    
+    static func make(
+        with tag: EMVTag,
+        canExpand: Bool = false,
+        showsDetails: Bool = true
+    ) -> PrimitiveTagVM {
+        .init(
+            id: .init(),
+            tag: tag.tag.tag.hexString,
+            name: tag.name,
+            valueVM: tag.tagValueVM,
+            canExpand: canExpand,
+            showsDetails: showsDetails
+        )
+    }
+    
+}

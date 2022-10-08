@@ -11,6 +11,8 @@
 		5A1719B228BA1D7A00D7894A /* AppVM+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B128BA1D7A00D7894A /* AppVM+Persistence.swift */; };
 		5A1719B428BAB2A500D7894A /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B328BAB2A500D7894A /* About.swift */; };
 		5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */; };
+		5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */; };
+		5A1CA02928F14BF2007672D4 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */; };
 		5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDD284C976B00BBE844 /* AppVM.swift */; };
 		5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */; };
 		5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EE1284CC67500BBE844 /* MainViewCommands.swift */; };
@@ -68,6 +70,8 @@
 		5A1719B128BA1D7A00D7894A /* AppVM+Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppVM+Persistence.swift"; sourceTree = "<group>"; };
 		5A1719B328BAB2A500D7894A /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyWindowVM.swift; sourceTree = "<group>"; };
+		5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagExtensions.swift; sourceTree = "<group>"; };
+		5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHelpers.swift; sourceTree = "<group>"; };
 		5A301EDD284C976B00BBE844 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
 		5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingWindowFinder.swift; sourceTree = "<group>"; };
 		5A301EE1284CC67500BBE844 /* MainViewCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCommands.swift; sourceTree = "<group>"; };
@@ -149,6 +153,8 @@
 				5A31B175281D37BA002B2D06 /* Globals.swift */,
 				5A1719B328BAB2A500D7894A /* About.swift */,
 				5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */,
+				5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */,
+				5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -433,6 +439,7 @@
 				5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */,
 				5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */,
 				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,
+				5A1CA02928F14BF2007672D4 /* PreviewHelpers.swift in Sources */,
 				5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */,
 				5A31B178281D8032002B2D06 /* HintView.swift in Sources */,
 				5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */,
@@ -454,6 +461,7 @@
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5AE923E628C33D5400BD6B3E /* TagValueView.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
+				5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */,
 				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,
