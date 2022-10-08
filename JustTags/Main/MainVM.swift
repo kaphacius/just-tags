@@ -99,39 +99,38 @@ internal final class MainVM: AnyWindowVM {
         refreshState()
         
         initialTags = tagsByParsing(string: string)
-        // TODO: implement parsing
-//        let pairs = initialTags.flatMap { tag in
-//            [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
-//        }
-        
         currentTags = initialTags
-        
-        // TODO: implement tag descriptions
-//        tagDescriptions = .init(uniqueKeysWithValues: [])
+        populateSearch()
         showingTags = initialTags.isEmpty == false
+    }
+    
+    private func populateSearch() {
+        let pairs = initialTags.map { tag in
+            (tag.id, tag.searchString)
+        }
+        tagDescriptions = .init(uniqueKeysWithValues: pairs)
     }
     
     private func updateTags() {
         if searchText.count < 2 {
             currentTags = initialTags
         } else {
-            // TODO: implement searching
-//            let searchText = searchText.lowercased()
-//            let matchingTags = Set(
-//                tagDescriptions
-//                    .filter { $0.value.contains(searchText) }
-//                    .keys
-//            )
-//            currentTags = initialTags
-//                .filter { matchingTags.contains($0.id) }
+            let searchText = searchText.lowercased()
+            let matchingTags = Set(
+                tagDescriptions
+                    .filter { $0.value.contains(searchText) }
+                    .keys
+            )
+            currentTags = initialTags
+                .filter { matchingTags.contains($0.id) }
+            // TODO: add filtering subtags to searched tags
 //                .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
         }
     }
     
     internal func selectAll() {
         selectedTags = currentTags
-        // TODO: implement tag id
-//        selectedIds = Set(selectedTags.map(\.id))
+        selectedIds = Set(selectedTags.map(\.id))
     }
     
     internal func deselectAll() {

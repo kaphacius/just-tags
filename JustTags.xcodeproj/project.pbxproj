@@ -22,6 +22,7 @@
 		5A31B176281D37BA002B2D06 /* Globals.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B175281D37BA002B2D06 /* Globals.swift */; };
 		5A31B178281D8032002B2D06 /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B177281D8032002B2D06 /* HintView.swift */; };
 		5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */; };
+		5A4F646328F17C2F00FEC0C5 /* EMVTagSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */; };
 		5A4FDD8727F187B800603D99 /* common_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A4FDD8627F187B800603D99 /* common_tags.json */; };
 		5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDD9127F21CF700603D99 /* TagInfoView.swift */; };
 		5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */; };
@@ -82,6 +83,7 @@
 		5A31B175281D37BA002B2D06 /* Globals.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Globals.swift; sourceTree = "<group>"; };
 		5A31B177281D8032002B2D06 /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedMeaningList.swift; sourceTree = "<group>"; };
+		5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagSearch.swift; sourceTree = "<group>"; };
 		5A4FDD8627F187B800603D99 /* common_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text.json; path = common_tags.json; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		5A4FDD9127F21CF700603D99 /* TagInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoView.swift; sourceTree = "<group>"; };
 		5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVM.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */,
 				5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */,
 				5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */,
+				5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -456,6 +459,7 @@
 				5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
 				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
+				5A4F646328F17C2F00FEC0C5 /* EMVTagSearch.swift in Sources */,
 				5AE923EA28C33DF300BD6B3E /* DiffedTagValueView.swift in Sources */,
 				5AA64D07283547A800F295A9 /* MainVM.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
@@ -807,7 +811,7 @@
 			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
 				kind = exactVersion;
-				version = 2.0.1;
+				version = 2.0.3;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
