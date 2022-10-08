@@ -13,19 +13,19 @@ internal struct TagValueView: View {
     
     internal var body: some View {
         HStack(spacing: commonPadding * 2) {
-            Text(tag.value.hexString)
-                .font(.title3.monospaced())
-            if let text = tag.textRepresentation {
-                Text(text)
-                    .font(.title3)
-                    .foregroundColor(.secondary)
-            }
+//            Text(tag.value.hexString)
+//                .font(.title3.monospaced())
+//            if let text = tag.textRepresentation {
+//                Text(text)
+//                    .font(.title3)
+//                    .foregroundColor(.secondary)
+//            }
         }
     }
 }
 
-struct TagValueView_Previews: PreviewProvider {
-    static var previews: some View {
-        TagValueView(tag: mockTag)
-    }
-}
+//struct TagValueView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        TagValueView(tag: mockTag)
+//    }
+//}

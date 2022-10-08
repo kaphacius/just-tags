@@ -30,20 +30,20 @@ internal struct DiffedTagRowView: View {
             NSPasteboard.copyString(diffedTag.tag.hexString)
         }
         Button("Copy value") {
-            NSPasteboard.copyString(diffedTag.tag.value.hexString)
+            NSPasteboard.copyString(diffedTag.tag.tag.value.hexString)
         }
     }
     
 }
-
-internal let mockDiffedShortTag = DiffedTag(
-    tag: mockShortTag, results: [.equal, .different, .different]
-)
-
-struct DiffedTagRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            DiffedTagRowView(diffedTag: mockDiffedShortTag)
-        }.environmentObject(MainVM())
-    }
-}
+//
+//internal let mockDiffedShortTag = DiffedTag(
+//    tag: mockShortTag, results: [.equal, .different, .different]
+//)
+//
+//struct DiffedTagRowView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        Group {
+//            DiffedTagRowView(diffedTag: mockDiffedShortTag)
+//        }.environmentObject(MainVM())
+//    }
+//}

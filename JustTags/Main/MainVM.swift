@@ -56,13 +56,13 @@ internal final class MainVM: AnyWindowVM {
         guard let tag = currentTags.first(with: id) else {
             return
         }
-        
-        if detailTag == tag {
-            detailTag = nil
-        } else {
-            detailTag = tag
-        }
-        showsDetails = true
+//        
+//        if detailTag == tag {
+//            detailTag = nil
+//        } else {
+//            detailTag = tag
+//        }
+//        showsDetails = true
     }
     
     override var isEmpty: Bool {
@@ -95,13 +95,13 @@ internal final class MainVM: AnyWindowVM {
         
         initialTags = tagsByParsing(string: string)
         
-        let pairs = initialTags.flatMap { tag in
-            [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
-        }
+//        let pairs = initialTags.flatMap { tag in
+//            [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
+//        }
         
-        currentTags = initialTags
-        tagDescriptions = .init(uniqueKeysWithValues: pairs)
-        showingTags = initialTags.isEmpty == false
+//        currentTags = initialTags
+//        tagDescriptions = .init(uniqueKeysWithValues: [])
+//        showingTags = initialTags.isEmpty == false
     }
     
     private func updateTags() {
@@ -114,9 +114,9 @@ internal final class MainVM: AnyWindowVM {
                     .filter { $0.value.contains(searchText) }
                     .keys
             )
-            currentTags = initialTags
-                .filter { matchingTags.contains($0.id) }
-                .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
+//            currentTags = initialTags
+//                .filter { matchingTags.contains($0.id) }
+//                .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
         }
     }
     
@@ -145,11 +145,11 @@ internal final class MainVM: AnyWindowVM {
     }
     
     internal func expandAll() {
-        expandedConstructedTags = Set(
-            currentTags
-            .filter(\.isConstructed)
-            .map(\.id)
-        )
+//        expandedConstructedTags = Set(
+//            currentTags
+//            .filter(\.isConstructed)
+//            .map(\.id)
+//        )
     }
     
     internal func toggleShowsDetails() {

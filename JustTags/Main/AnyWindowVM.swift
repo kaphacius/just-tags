@@ -11,7 +11,7 @@ import SwiftyEMVTags
 
 internal class AnyWindowVM: ObservableObject {
     
-    internal var infoDataSource: EMVTagInfoDataSource?
+    internal var infoDataSource: TagDecoder?
     internal weak var appVM: AppVM?
     
     @Published internal var title = ""
@@ -35,8 +35,8 @@ internal class AnyWindowVM: ObservableObject {
             }
             
             let tlv = try InputParser.parse(input: string)
-            
-            return tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
+            return []
+//            return tlv.map { EMVTag(tlv: $0, kernel: .general, infoSource: infoDataSource) }
         } catch {
             showParsingAlert(with: error)
             return []

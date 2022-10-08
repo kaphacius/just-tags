@@ -11,37 +11,37 @@ import SwiftyEMVTags
 struct TagDetailVM {
     
     init(emvTag: EMVTag) {
-        self.tag = emvTag.tag.hexString
-        self.name = emvTag.name
-        self.description = emvTag.description
-        self.kernel = emvTag.kernel.description
-        self.source = emvTag.source.description
-        self.format = emvTag.format
-        
-        self.bytes = emvTag
-            .decodedMeaningList
-            .enumerated()
-            .map { (byteIdx, byte) in
-                ByteVM(
-                    byteIdx: byteIdx,
-                    bits: byte.bitList.enumerated().map { (bitIdx, bit) in
-                        BitVM(
-                            meaning: bit.meaning,
-                            isSet: bit.isSet,
-                            idx: bitIdx
-                        )
-                    }
-                )
-            }
+//        self.tag = emvTag.tag.hexString
+//        self.name = emvTag.name
+//        self.description = emvTag.description
+//        self.kernel = emvTag.kernel.description
+//        self.source = emvTag.source.description
+//        self.format = emvTag.format
+//        
+//        self.bytes = emvTag
+//            .decodedMeaningList
+//            .enumerated()
+//            .map { (byteIdx, byte) in
+//                ByteVM(
+//                    byteIdx: byteIdx,
+//                    bits: byte.bitList.enumerated().map { (bitIdx, bit) in
+//                        BitVM(
+//                            meaning: bit.meaning,
+//                            isSet: bit.isSet,
+//                            idx: bitIdx
+//                        )
+//                    }
+//                )
+//            }
     }
     
-    let tag: String
-    let name: String
-    let description: String
-    let kernel: String
-    let source: String
-    let format: String
-    let bytes: [ByteVM]
+//    let tag: String
+//    let name: String
+//    let description: String
+//    let kernel: String
+//    let source: String
+//    let format: String
+//    let bytes: [ByteVM]
     
     struct ByteVM: Identifiable {
         let byteIdx: Int

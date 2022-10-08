@@ -75,14 +75,15 @@ internal struct PrimitiveTagView: View {
             action: {
                 windowVM.onDetailTagSelected(id: tag.id)
             }, label: {
-                GroupBox {
-                    Label(
-                        "Details",
-                        systemImage: windowVM.detailTag == tag ? "lessthan" : "greaterthan"
-                    )
-                    .labelStyle(.iconOnly)
-                    .padding(.horizontal, commonPadding)
-                }
+                EmptyView()
+//                GroupBox {
+//                    Label(
+//                        "Details",
+//                        systemImage: windowVM.detailTag == tag ? "lessthan" : "greaterthan"
+//                    )
+//                    .labelStyle(.iconOnly)
+//                    .padding(.horizontal, commonPadding)
+//                }
             }
         )
         .padding(.horizontal, commonPadding)
@@ -90,14 +91,14 @@ internal struct PrimitiveTagView: View {
     }
 }
 
-let mockShortTag: EMVTag = .init(hexString: "9F33032808C8")
+//let mockShortTag: EMVTag = .init(hexString: "9F33032808C8")
 
-struct PrimitiveTagView_Previews: PreviewProvider {
-    static var previews: some View {
-        PrimitiveTagView(
-            tag: mockShortTag,
-            canExpand: false,
-            showsDetails: false
-        ).environmentObject(MainVM())
-    }
-}
+//struct PrimitiveTagView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        PrimitiveTagView(
+//            tag: mockShortTag,
+//            canExpand: false,
+//            showsDetails: false
+//        ).environmentObject(MainVM())
+//    }
+//}

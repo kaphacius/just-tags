@@ -15,22 +15,22 @@ struct SelectedMeaningList: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading, spacing: commonPadding) {
-                ForEach(Array(tag.decodedMeaningList
-                    .flatMap(\.bitList)
-                    .filter(\.isSet)
-                    .map(\.meaning)
-                    .enumerated()), id: \.0) { (idx, line) in
-                        Text(line)
-                            .multilineTextAlignment(.leading)
-                    }
+//                ForEach(Array(tag.decodedMeaningList
+//                    .flatMap(\.bitList)
+//                    .filter(\.isSet)
+//                    .map(\.meaning)
+//                    .enumerated()), id: \.0) { (idx, line) in
+//                        Text(line)
+//                            .multilineTextAlignment(.leading)
+//                    }
             }
             Spacer()
         }
     }
 }
 
-struct SelectedMeaningList_Previews: PreviewProvider {
-    static var previews: some View {
-        SelectedMeaningList(tag: EMVTag(tlv: mockTLV, info: mockInfo, subtags: []))
-    }
-}
+//struct SelectedMeaningList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SelectedMeaningList(tag: EMVTag(tlv: mockTLV, info: mockInfo, subtags: []))
+//    }
+//}

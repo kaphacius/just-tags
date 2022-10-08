@@ -20,7 +20,7 @@ internal struct DiffedTag {
     internal let results: [DiffResult]
     
     var diffedBytes: [DiffedByte] {
-        zip(tag.value, results)
+        zip(tag.tag.value, results)
             .map(DiffedByte.init)
     }
 }
@@ -59,7 +59,7 @@ internal enum TagDiffResult {
         case .equal(let tag):
             let part: DiffedTag = .init(
                 tag: tag,
-                results: Array(repeating: DiffResult.equal, count: tag.value.count)
+                results: Array(repeating: DiffResult.equal, count: tag.tag.value.count)
             )
             return .init(lhs: part, rhs: part)
         case .different(let tags):
@@ -79,33 +79,34 @@ internal enum DiffResult: Equatable {
 extension EMVTag {
     
     static func compare(lhs: EMVTag, rhs: EMVTag) -> TagDiffResult {
+        .equal(lhs)
         // tags are the same
-        if lhs.tag == rhs.tag {
-            if lhs.value == rhs.value {
-                return .equal(lhs)
-            } else {
-                let res = diffCompare(left: lhs.value, right: rhs.value)
-                return .different(
-                    [.init(tag: lhs, results: res.lhs), .init(tag: rhs, results: res.rhs)]
-                )
-            }
-        } else if lhs.tag < rhs.tag {
-            // tags are different. left is less. fill the left tags result with different, leave the rigth result empty to move left forward
-            return .different(
-                [
-                    .init(tag: lhs, results: .init(repeating: .different, count: lhs.value.count)),
-                    nil
-                ]
-            )
-        } else {
-            // tags are different. left is more. fill the right tags result with different, leave the left result empty to move right forward
-            return .different(
-                [
-                    nil,
-                    .init(tag: rhs, results: .init(repeating: .different, count: rhs.value.count))
-                ]
-            )
-        }
+//        if lhs.tag == rhs.tag {
+//            if lhs.tag.value == rhs.tag.value {
+//                return .equal(lhs)
+//            } else {
+//                let res = diffCompare(left: lhs.tag.value, right: rhs.tag.value)
+//                return .different(
+//                    [.init(tag: lhs, results: res.lhs), .init(tag: rhs, results: res.rhs)]
+//                )
+//            }
+//        } else if lhs.tag.value < rhs.tag.value {
+//            // tags are different. left is less. fill the left tags result with different, leave the rigth result empty to move left forward
+//            return .different(
+//                [
+//                    .init(tag: lhs, results: .init(repeating: .different, count: lhs.tag.value.count)),
+//                    nil
+//                ]
+//            )
+//        } else {
+//            // tags are different. left is more. fill the right tags result with different, leave the left result empty to move right forward
+//            return .different(
+//                [
+//                    nil,
+//                    .init(tag: rhs, results: .init(repeating: .different, count: rhs.tag.value.count))
+//                ]
+//            )
+//        }
     }
     
 }
@@ -148,7 +149,7 @@ func diffCompareTags(lhs: [EMVTag], rhs: [EMVTag]) -> [TagDiffResult] {
                         .different(
                             [
                                 nil,
-                                .init(tag: tag, results: .init(repeating: .different, count: tag.value.count))
+                                .init(tag: tag, results: .init(repeating: .different, count: tag.tag.value.count))
                             ]
                         )
                 }
@@ -161,7 +162,7 @@ func diffCompareTags(lhs: [EMVTag], rhs: [EMVTag]) -> [TagDiffResult] {
                     // fill the left tags result with different, leave the rigth result empty
                         .different(
                             [
-                                .init(tag: tag, results: .init(repeating: .different, count: tag.value.count)),
+                                .init(tag: tag, results: .init(repeating: .different, count: tag.tag.value.count)),
                                 nil
                             ]
                         )

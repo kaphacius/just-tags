@@ -11,11 +11,6 @@
 		5A1719B228BA1D7A00D7894A /* AppVM+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B128BA1D7A00D7894A /* AppVM+Persistence.swift */; };
 		5A1719B428BAB2A500D7894A /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B328BAB2A500D7894A /* About.swift */; };
 		5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */; };
-		5A2018142858F06C00751702 /* TagFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018132858F06C00751702 /* TagFormatter.swift */; };
-		5A2018162859A4D800751702 /* MCCMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018152859A4D800751702 /* MCCMapper.swift */; };
-		5A2018192859B3AF00751702 /* CurrencyCodeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2018182859B3AF00751702 /* CurrencyCodeMapper.swift */; };
-		5A20181B285AEF3F00751702 /* AIDMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A20181A285AEF3F00751702 /* AIDMapper.swift */; };
-		5A20181D285B0F3000751702 /* CountryCodeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A20181C285B0F3000751702 /* CountryCodeMapper.swift */; };
 		5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDD284C976B00BBE844 /* AppVM.swift */; };
 		5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */; };
 		5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EE1284CC67500BBE844 /* MainViewCommands.swift */; };
@@ -29,9 +24,6 @@
 		5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDD9127F21CF700603D99 /* TagInfoView.swift */; };
 		5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */; };
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
-		5A5B09F5285BAF0B00705C35 /* EntryModeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */; };
-		5A5B09F7285BAF8A00705C35 /* CryptogramDataMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F6285BAF8A00705C35 /* CryptogramDataMapper.swift */; };
-		5A5B09F9285BB13500705C35 /* TerminalTypeMapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09F8285BB13500705C35 /* TerminalTypeMapper.swift */; };
 		5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffVM.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */; };
@@ -76,11 +68,6 @@
 		5A1719B128BA1D7A00D7894A /* AppVM+Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppVM+Persistence.swift"; sourceTree = "<group>"; };
 		5A1719B328BAB2A500D7894A /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
 		5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyWindowVM.swift; sourceTree = "<group>"; };
-		5A2018132858F06C00751702 /* TagFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagFormatter.swift; sourceTree = "<group>"; };
-		5A2018152859A4D800751702 /* MCCMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MCCMapper.swift; sourceTree = "<group>"; };
-		5A2018182859B3AF00751702 /* CurrencyCodeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyCodeMapper.swift; sourceTree = "<group>"; };
-		5A20181A285AEF3F00751702 /* AIDMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIDMapper.swift; sourceTree = "<group>"; };
-		5A20181C285B0F3000751702 /* CountryCodeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CountryCodeMapper.swift; sourceTree = "<group>"; };
 		5A301EDD284C976B00BBE844 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
 		5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingWindowFinder.swift; sourceTree = "<group>"; };
 		5A301EE1284CC67500BBE844 /* MainViewCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCommands.swift; sourceTree = "<group>"; };
@@ -95,9 +82,6 @@
 		5A4FDD9127F21CF700603D99 /* TagInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoView.swift; sourceTree = "<group>"; };
 		5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVM.swift; sourceTree = "<group>"; };
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
-		5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EntryModeMapper.swift; sourceTree = "<group>"; };
-		5A5B09F6285BAF8A00705C35 /* CryptogramDataMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CryptogramDataMapper.swift; sourceTree = "<group>"; };
-		5A5B09F8285BB13500705C35 /* TerminalTypeMapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalTypeMapper.swift; sourceTree = "<group>"; };
 		5A5B09FA285C493700705C35 /* DiffVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffVM.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedValues.swift; sourceTree = "<group>"; };
@@ -167,21 +151,6 @@
 				5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */,
 			);
 			path = Utils;
-			sourceTree = "<group>";
-		};
-		5A2018172859B2E200751702 /* Mappers */ = {
-			isa = PBXGroup;
-			children = (
-				5A2018132858F06C00751702 /* TagFormatter.swift */,
-				5A2018152859A4D800751702 /* MCCMapper.swift */,
-				5A2018182859B3AF00751702 /* CurrencyCodeMapper.swift */,
-				5A20181A285AEF3F00751702 /* AIDMapper.swift */,
-				5A20181C285B0F3000751702 /* CountryCodeMapper.swift */,
-				5A5B09F4285BAF0B00705C35 /* EntryModeMapper.swift */,
-				5A5B09F6285BAF8A00705C35 /* CryptogramDataMapper.swift */,
-				5A5B09F8285BB13500705C35 /* TerminalTypeMapper.swift */,
-			);
-			path = Mappers;
 			sourceTree = "<group>";
 		};
 		5A26FC5628C33A7A00334B20 /* TagRowView */ = {
@@ -258,7 +227,6 @@
 				5AE923ED28C33F7600BD6B3E /* DiffedTagRowView */,
 				5AE8BF7C27E79CDF00474AD0 /* Details */,
 				5A51B17C2811F08500F516F5 /* Diff */,
-				5A2018172859B2E200751702 /* Mappers */,
 				5A4FDD8527F187AE00603D99 /* Resources */,
 				5A1719AE28B9F7E300D7894A /* Persistence */,
 				5A1719B528BABD4E00D7894A /* Utils */,
@@ -391,7 +359,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					5AE8BF4B27E79BF000474AD0 = {
 						CreatedOnToolsVersion = 13.2;
@@ -463,7 +431,6 @@
 			files = (
 				5A1719B228BA1D7A00D7894A /* AppVM+Persistence.swift in Sources */,
 				5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */,
-				5A5B09F9285BB13500705C35 /* TerminalTypeMapper.swift in Sources */,
 				5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */,
 				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,
 				5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */,
@@ -477,26 +444,19 @@
 				5AE923E428C33C7D00BD6B3E /* DiffedTagRowView.swift in Sources */,
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
 				5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */,
-				5A5B09F7285BAF8A00705C35 /* CryptogramDataMapper.swift in Sources */,
 				5A1719B428BAB2A500D7894A /* About.swift in Sources */,
 				5A1719B028B9F7F000D7894A /* AppState.swift in Sources */,
-				5A20181D285B0F3000751702 /* CountryCodeMapper.swift in Sources */,
-				5A20181B285AEF3F00751702 /* AIDMapper.swift in Sources */,
 				5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
 				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
 				5AE923EA28C33DF300BD6B3E /* DiffedTagValueView.swift in Sources */,
 				5AA64D07283547A800F295A9 /* MainVM.swift in Sources */,
-				5A2018192859B3AF00751702 /* CurrencyCodeMapper.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5AE923E628C33D5400BD6B3E /* TagValueView.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
-				5A5B09F5285BAF0B00705C35 /* EntryModeMapper.swift in Sources */,
 				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
-				5A2018162859A4D800751702 /* MCCMapper.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,
-				5A2018142858F06C00751702 /* TagFormatter.swift in Sources */,
 				5AA64D2E2848083000F295A9 /* PrimitiveTagView.swift in Sources */,
 				5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */,
 			);
@@ -569,6 +529,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -630,6 +591,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -661,6 +623,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"JustTags/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -691,6 +654,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"JustTags/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
@@ -718,6 +682,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9L82R8XG5B;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.1;
@@ -738,6 +703,7 @@
 				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9L82R8XG5B;
 				GENERATE_INFOPLIST_FILE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 12.1;
@@ -756,6 +722,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9L82R8XG5B;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -773,6 +740,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_TEAM = 9L82R8XG5B;
 				GENERATE_INFOPLIST_FILE = YES;
 				MARKETING_VERSION = 1.0;
@@ -830,8 +798,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
-				branch = develop;
-				kind = branch;
+				kind = exactVersion;
+				version = 2.0.1;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
