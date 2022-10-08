@@ -8,7 +8,9 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct TagRowVM {
+internal struct TagRowVM: Equatable, Identifiable {
+    
+    typealias ID = UUID
     
     internal let id: UUID
     internal let category: Category
@@ -54,6 +56,10 @@ internal struct TagRowVM {
         self.category = .category(with: tag, id: id)
         self.fullHexString = tag.fullHexString
         self.valueHexString = tag.valueHexString
+    }
+    
+    static func == (lhs: TagRowVM, rhs: TagRowVM) -> Bool {
+        lhs.id == rhs.id
     }
 }
 

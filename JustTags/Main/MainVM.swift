@@ -14,6 +14,7 @@ internal final class MainVM: AnyWindowVM {
     
     @Published internal var initialTags: [EMVTag] = []
     @Published internal var currentTags: [EMVTag] = []
+    @Published internal var currentTagVMs: [TagRowVM] = []
     @Published internal var tagDescriptions: Dictionary<EMVTag.ID, String> = [:]
     @Published internal var searchText: String = ""
     @Published internal var showingTags: Bool = false
@@ -101,6 +102,8 @@ internal final class MainVM: AnyWindowVM {
 //        }
         
         currentTags = initialTags
+        // TODO: autoupdate currentTagVMs
+        currentTagVMs = currentTags.map(TagRowVM.make(with:))
         
         // TODO: implement tag descriptions
 //        tagDescriptions = .init(uniqueKeysWithValues: [])
@@ -110,6 +113,8 @@ internal final class MainVM: AnyWindowVM {
     private func updateTags() {
         if searchText.count < 2 {
             currentTags = initialTags
+            // TODO: autoupdate currentTagVMs
+            currentTagVMs = currentTags.map(TagRowVM.make(with:))
         } else {
             // TODO: implement searching
 //            let searchText = searchText.lowercased()
