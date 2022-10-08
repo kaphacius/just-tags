@@ -98,7 +98,13 @@ extension EMVTag {
             name: name,
             valueVM: tagValueVM,
             // TODO: pass correct id
-            subtags: subtags.map(\.primitiveTagVM)
+            subtags: subtags.map(\.tagRowVM)
+        )
+    }
+    
+    var tagRowVM: TagRowVM {
+        .init(
+            tag: self
         )
     }
 
