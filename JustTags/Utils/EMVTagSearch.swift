@@ -28,27 +28,24 @@ extension EMVTag: Searchable {
             .lowercased()
     }
     
-    // TODO: add filtering subtags to searched tags
-//    func filtered(with string: String, matchingTags: Set<EMVTag.ID>) -> EMVTag {
-//        if isConstructed {
-//            return .init(
-//                id: self.id,
-//                tag: self.tag,
-//                name: self.name,
-//                description: self.description,
-//                source: self.source,
-//                format: self.format,
-//                kernel: self.kernel,
-//                isConstructed: self.isConstructed,
-//                value: self.value,
-//                lengthBytes: self.lengthBytes,
-//                subtags: self.subtags.filter { matchingTags.contains($0.id) },
-//                decodedMeaningList: self.decodedMeaningList
-//            )
-//        } else {
-//            return self
-//        }
-//    }
+    internal func filterSubtags(with string: String) -> EMVTag {
+        guard case let .constructed(subtags) = category else {
+            return self
+        }
+        
+        let filteredSubtags = subtags.filter { $0.searchString.contains(string) }
+        
+        if filteredSubtags.isEmpty {
+            return self
+        } else {
+            return .init(
+                id: self.id,
+                tag: self.tag,
+                category: .constructed(subtags: filteredSubtags),
+                decodingResult: self.decodingResult
+            )
+        }
+    }
     
 }
 

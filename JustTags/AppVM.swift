@@ -63,11 +63,12 @@ internal final class AppVM: NSObject, ObservableObject {
             self.newVMSetup = nil
         }
         
+        // TODO: implement diff again
 //        // No need to set up the diffVM
 //        guard let mainVM = activeMainVM else {
 //            return
 //        }
-        
+        // TODO: implement state restoration
 //        // Need to it this way because `nextMainState` is mutating
 //        guard let nextState = loadedState?.nextMainState(),
 //              let loadedState = self.loadedState else {

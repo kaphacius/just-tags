@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftyEMVTags
+import SwiftyBERTLV
 
 extension EMVTag {
     
