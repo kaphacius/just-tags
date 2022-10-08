@@ -114,6 +114,7 @@ struct DiffView: View {
     private func tagList(for tags: [EMVTag]) -> some View {
         ScrollView {
             LazyVStack(spacing: commonPadding) {
+                // TODO: implement viewing diffed tags
 //                ForEach(tags) { tag in
 //                    DiffedTagRowView(
 //                        diffedTag: .init(

@@ -72,7 +72,7 @@ struct MainView: View {
         if vm.showingTags {
             VStack(spacing: 0.0) {
                 TagListView(
-                    tags: $vm.currentTags,
+                    tags: $vm.currentTagVMs,
                     searchInProgress: $searchInProgress
                 )
             }
