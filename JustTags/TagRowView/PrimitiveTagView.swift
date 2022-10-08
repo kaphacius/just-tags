@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct PrimitiveTagVM: Identifiable, TagHeaderVM {
+internal struct PrimitiveTagVM: Identifiable, Equatable, TagHeaderVM {
     
     typealias ID = EMVTag.ID
     

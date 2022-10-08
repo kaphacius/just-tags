@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct TagValueVM {
+internal struct TagValueVM: Equatable {
     let value: String
     let extendedDescription: String?
 }

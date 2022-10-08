@@ -123,8 +123,8 @@ internal final class MainVM: AnyWindowVM {
             )
             currentTags = initialTags
                 .filter { matchingTags.contains($0.id) }
-            // TODO: add filtering subtags to searched tags
-//                .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
+                .map { $0.filterSubtags(with: searchText) }
+            // TODO: expand found constructed tags
         }
     }
     

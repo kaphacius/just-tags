@@ -39,10 +39,21 @@ internal struct TagRowVM: Equatable, Identifiable {
         self.fullHexString = tag.fullHexString
         self.valueHexString = tag.valueHexString
     }
+}
+
+extension TagRowVM.Category: Equatable {
     
-    static func == (lhs: TagRowVM, rhs: TagRowVM) -> Bool {
-        lhs.id == rhs.id
+    internal static func == (lhs: Self, rhs: Self) -> Bool {
+        switch (lhs, rhs) {
+        case (.primitive(let llhs), .primitive(let rrhs)):
+            return llhs == rrhs
+        case (.constructed(let llhs), .constructed(let rrhs)):
+            return llhs == rrhs
+        default:
+            return false
+        }
     }
+    
 }
 
 internal struct TagRowView: View {

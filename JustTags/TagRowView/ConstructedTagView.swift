@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct ConstructedTagVM: TagHeaderVM {
+internal struct ConstructedTagVM: TagHeaderVM, Equatable {
     
     let id: UUID
     let tag: String
@@ -53,7 +53,6 @@ internal struct ConstructedTagView: View {
             isExpanded: binding,
             content: {
                 VStack(alignment: .leading, spacing: commonPadding) {
-                    // TODO: show TagRowView here
                     ForEach(vm.subtags, content: TagRowView.init(vm:))
                 }
                 .padding(.top, commonPadding)
