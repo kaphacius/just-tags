@@ -13,10 +13,10 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var windows: [NSWindow] = []
     @Published internal var viewModels = [Int: AnyWindowVM]()
     @Published internal var activeWindow: NSWindow?
-    @Published internal var setUpInProgress: Bool = true
+    @Published internal var setUpInProgress: Bool = false
     // Throwaway to avoid optionals
     @Published internal var activeVM: AnyWindowVM = MainVM()
-//    @Published internal var infoDataSource: EMVTagInfoDataSource = .init(infoList: [])
+    @Published internal var tagDecoder: TagDecoder? = try? TagDecoder.defaultDecoder()
     @Environment(\.openURL) var openURL
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
@@ -24,18 +24,7 @@ internal final class AppVM: NSObject, ObservableObject {
     
     internal override init() {
         super.init()
-        
-//        let commonTags: Array<EMVTag.Info>
-//        
-//        if let url = Bundle.main.path(forResource: "common_tags", ofType: "json"),
-//           let data = try? Data(contentsOf: URL(fileURLWithPath: url)),
-//           let decoded = try? JSONDecoder().decode(TagInfoContainer.self, from: data) {
-//            commonTags = decoded.tags
-//        } else {
-//            commonTags = []
-//        }
-//        
-//        self._infoDataSource = .init(wrappedValue: .init(infoList: commonTags))
+
 //        let loadedState = AppState.loadState()
 //        self.loadedState = loadedState
 //        if loadedState.isStateRestored {
@@ -50,6 +39,10 @@ internal final class AppVM: NSObject, ObservableObject {
         ) { notification in
             self.saveAppState()
         }
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + .seconds(1)) {
+            self.paste(string: "9F02060000000017779F2608BE57A8A40B7E8FEB5F24032802294F08A0000000041010019F0607A000000004101082025980500A4D43454E4742524742509F120D6D6320656E20676272206762705F3401219F3602000C9F0702FFC09F080200029F34031F03028F01FA9F2701808E0C000000000000000042031F038408A0000000041010019F0D05CC000000009F0E0500000000009F0F05CC000000009F101A0110A0420FA40000000000000000000000FF00000000000000FF9F7E01019F3901079F33032008089F1A0205289F1C0839393939393939399F1D082C288000000000009F350121950500000080015F2A0209789A032210079F4104000000029F21031046349C01009F3704B176A290DFBF025CFFFF03313F04D8CE000000036CCA0F5D8CBD5BC3F1A5270D3E172C6D86564C0CB1960E8033A59173D1AF8C6DE1774CB9440019C45409A855180991C6F13C36D6EB39CBA4F888FBCE8BD104CB3C9CB04C399D42C7D0F16AE46218BA64C20104C30102C5020200", into: self.activeVM)
+        }
     }
     
     internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
@@ -57,7 +50,7 @@ internal final class AppVM: NSObject, ObservableObject {
 
         window.delegate = self
         windows.append(window)
-//        viewModel.infoDataSource = infoDataSource
+        viewModel.tagDecoder = tagDecoder
         viewModel.appVM = self
         viewModels[window.windowNumber] = viewModel
         
@@ -70,24 +63,24 @@ internal final class AppVM: NSObject, ObservableObject {
             self.newVMSetup = nil
         }
         
-        // No need to set up the diffVM
-        guard let mainVM = activeMainVM else {
-            return
-        }
+//        // No need to set up the diffVM
+//        guard let mainVM = activeMainVM else {
+//            return
+//        }
         
-        // Need to it this way because `nextMainState` is mutating
-        guard let nextState = loadedState?.nextMainState(),
-              let loadedState = self.loadedState else {
-            print("No state to restore")
-            return
-        }
-        
-        print("Restoring state")
-        applyLoadedState(
-            nextState,
-            to: mainVM,
-            activeTab: loadedState.isStateRestored ? loadedState.activeTab : nil
-        )
+//        // Need to it this way because `nextMainState` is mutating
+//        guard let nextState = loadedState?.nextMainState(),
+//              let loadedState = self.loadedState else {
+//            print("No state to restore")
+//            return
+//        }
+//
+//        print("Restoring state")
+//        applyLoadedState(
+//            nextState,
+//            to: mainVM,
+//            activeTab: loadedState.isStateRestored ? loadedState.activeTab : nil
+//        )
     }
     
     private func applyLoadedState(
@@ -275,9 +268,7 @@ internal final class AppVM: NSObject, ObservableObject {
         
         let data = try! Data(contentsOf: openPanel.url!)
         
-//        let result = try! JSONDecoder().decode(TagInfoContainer.self, from: data)
-        
-//        infoDataSource.infoList.append(contentsOf: result.tags)
+        try! tagDecoder?.addKernelInfo(data: data)
     }
     
     private func window(for vm: AnyWindowVM) -> NSWindow? {

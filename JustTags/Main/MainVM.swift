@@ -99,9 +99,9 @@ internal final class MainVM: AnyWindowVM {
 //            [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
 //        }
         
-//        currentTags = initialTags
+        currentTags = initialTags
 //        tagDescriptions = .init(uniqueKeysWithValues: [])
-//        showingTags = initialTags.isEmpty == false
+        showingTags = initialTags.isEmpty == false
     }
     
     private func updateTags() {

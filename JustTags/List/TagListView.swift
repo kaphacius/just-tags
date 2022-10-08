@@ -21,6 +21,9 @@ internal struct TagListView: View {
     internal var body: some View {
         VStack(spacing: commonPadding) {
             ScrollView {
+                ForEach(tags) { tag in
+                    Text(tag.tag.tag.hexString)
+                }
 //                tagList
             }
         }

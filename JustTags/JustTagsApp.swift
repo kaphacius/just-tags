@@ -39,21 +39,3 @@ internal struct JustTagsApp: App {
     }
 
 }
-
-//final class EMVTagInfoDataSource: AnyEMVTagInfoSource, ObservableObject {
-//    
-//    @Published internal var infoList: Array<EMVTag.Info> = []
-//    
-//    internal init(infoList: [EMVTag.Info]) {
-//        self.infoList = infoList
-//    }
-//    
-//    func info(for tag: UInt64, kernel: EMVTag.Kernel) -> EMVTag.Info {
-//        infoList.first(
-//            where: { $0.tag == tag &&
-//                $0.kernel.matches(kernel)
-//            }
-//        ) ?? .unknown(tag: tag)
-//    }
-//    
-//}
