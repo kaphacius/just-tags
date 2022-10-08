@@ -39,6 +39,7 @@ extension PrimitiveTagVM {
     
     static func make(
         with tag: EMVTag,
+        id: UUID = .init(),
         canExpand: Bool = false,
         showsDetails: Bool = true
     ) -> PrimitiveTagVM {
@@ -68,6 +69,16 @@ extension ConstructedTagVM {
             tag: tag,
             subtags: subtags
         )
+    }
+    
+}
+
+extension TagRowVM {
+    
+    static func make(
+        with tag: EMVTag
+    ) -> TagRowVM {
+        .init(id: .init(), tag: tag)
     }
     
 }
