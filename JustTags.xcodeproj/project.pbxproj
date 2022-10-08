@@ -47,6 +47,7 @@
 		5AE923E628C33D5400BD6B3E /* TagValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E528C33D5400BD6B3E /* TagValueView.swift */; };
 		5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E728C33D8000BD6B3E /* TagHeaderView.swift */; };
 		5AE923EA28C33DF300BD6B3E /* DiffedTagValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E928C33DF300BD6B3E /* DiffedTagValueView.swift */; };
+		5AFC5F5828F19610004DA503 /* EMVTagDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -111,6 +112,7 @@
 		5AE923E528C33D5400BD6B3E /* TagValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagValueView.swift; sourceTree = "<group>"; };
 		5AE923E728C33D8000BD6B3E /* TagHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagHeaderView.swift; sourceTree = "<group>"; };
 		5AE923E928C33DF300BD6B3E /* DiffedTagValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffedTagValueView.swift; sourceTree = "<group>"; };
+		5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagDecoding.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -158,6 +160,7 @@
 				5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */,
 				5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */,
 				5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */,
+				5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -468,6 +471,7 @@
 				5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */,
 				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
+				5AFC5F5828F19610004DA503 /* EMVTagDecoding.swift in Sources */,
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,
 				5AA64D2E2848083000F295A9 /* PrimitiveTagView.swift in Sources */,
 				5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */,
@@ -810,8 +814,8 @@
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
-				kind = exactVersion;
-				version = 2.0.4;
+				kind = revision;
+				revision = 43111d861a42efbb407d74aed7658d88ffe056af;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

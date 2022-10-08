@@ -87,8 +87,7 @@ extension EMVTag.DecodedTag: Searchable {
             tagInfo.searchComponents,
             result.searchComponents,
             [extendedDescription].compactMap { $0 }
-        ]
-            .flatMap { $0 }
+        ].flatMap { $0 }
     }
     
 }

@@ -22,7 +22,7 @@ extension BERTLV {
         .first!
     
     internal static let mockTLVConstructed = try! BERTLV
-        .parse(bytes: [0xe1, 0x0B, 0x9f, 0x33, 0x03, 0x28, 0x08, 0xC8, 0x5F, 0x2A, 0x02, 0x09, 0x78])
+        .parse(bytes: [0xe1, 0x0b, 0x9f, 0x33, 0x03, 0x28, 0x08, 0xC8, 0x5F, 0x2A, 0x02, 0x09, 0x78])
         .first!
     
 }
@@ -44,11 +44,11 @@ extension PrimitiveTagVM {
     ) -> PrimitiveTagVM {
         .init(
             id: tag.id,
-            tag: tag.tag.tag.hexString,
-            name: tag.name,
+            headerVM: tag.tagHeaderVM,
             valueVM: tag.tagValueVM,
             canExpand: canExpand,
-            showsDetails: showsDetails
+            showsDetails: showsDetails,
+            selectedMeanings: tag.selectedMeanings
         )
     }
     
