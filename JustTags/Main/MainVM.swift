@@ -53,9 +53,10 @@ internal final class MainVM: AnyWindowVM {
     }
     
     internal func onDetailTagSelected(id: EMVTag.ID) {
-        guard let tag = currentTags.first(with: id) else {
-            return
-        }
+        // TODO: implement tag selection
+//        guard let tag = currentTags.first(with: id) else {
+//            return
+//        }
 //        
 //        if detailTag == tag {
 //            detailTag = nil
@@ -94,12 +95,14 @@ internal final class MainVM: AnyWindowVM {
         refreshState()
         
         initialTags = tagsByParsing(string: string)
-        
+        // TODO: implement parsing
 //        let pairs = initialTags.flatMap { tag in
 //            [(tag.id, tag.searchString)] + tag.subtags.map { ($0.id, $0.searchString) }
 //        }
         
         currentTags = initialTags
+        
+        // TODO: implement tag descriptions
 //        tagDescriptions = .init(uniqueKeysWithValues: [])
         showingTags = initialTags.isEmpty == false
     }
@@ -108,12 +111,13 @@ internal final class MainVM: AnyWindowVM {
         if searchText.count < 2 {
             currentTags = initialTags
         } else {
-            let searchText = searchText.lowercased()
-            let matchingTags = Set(
-                tagDescriptions
-                    .filter { $0.value.contains(searchText) }
-                    .keys
-            )
+            // TODO: implement searching
+//            let searchText = searchText.lowercased()
+//            let matchingTags = Set(
+//                tagDescriptions
+//                    .filter { $0.value.contains(searchText) }
+//                    .keys
+//            )
 //            currentTags = initialTags
 //                .filter { matchingTags.contains($0.id) }
 //                .map { $0.filtered(with: searchText, matchingTags: matchingTags) }
@@ -145,6 +149,7 @@ internal final class MainVM: AnyWindowVM {
     }
     
     internal func expandAll() {
+        // TODO: implement constructed tag expainsion
 //        expandedConstructedTags = Set(
 //            currentTags
 //            .filter(\.isConstructed)

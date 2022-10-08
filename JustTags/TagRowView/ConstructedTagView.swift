@@ -8,47 +8,67 @@
 import SwiftUI
 import SwiftyEMVTags
 
+internal struct ConstructedTagVM: TagHeaderVM {
+    
+    let id: UUID
+    let tag: String
+    let name: String
+    let valueVM: TagValueVM
+    let subtags: [EMVTag]
+    
+    init(id: UUID, tag: EMVTag, subtags: [EMVTag]) {
+        self.id = id
+        self.tag = tag.tag.tag.hexString
+        self.name = tag.name
+        self.valueVM = tag.tagValueVM
+        self.subtags = subtags
+    }
+    
+}
+
 internal struct ConstructedTagView: View {
     
-    @EnvironmentObject private var vm: MainVM
+    @EnvironmentObject private var mainVM: MainVM
     
-    internal let tag: EMVTag
+    internal let vm: ConstructedTagVM
     
     internal var body: some View {
-//        let binding = vm.expandedBinding(for: tag.id)
+        let binding = mainVM.expandedBinding(for: vm.id)
         
         return VStack(alignment: .leading) {
-//            disclosureGroup(for: tag, binding: binding)
-//            if binding.wrappedValue == false {
-//                HStack(spacing: 0.0) {
-//                    TagValueView(tag: tag)
-//                        .multilineTextAlignment(.leading)
-//                        .padding(.top, -commonPadding)
-//                }
-//            }
+            disclosureGroup(with: binding)
+            if binding.wrappedValue == false {
+                HStack(spacing: 0.0) {
+                    TagValueView(vm: vm.valueVM)
+                        .multilineTextAlignment(.leading)
+                        .padding(.top, -commonPadding)
+                }
+            }
         }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
-//            vm.onTagSelected(id: tag.id)
+            mainVM.onTagSelected(id: vm.id)
         })
         .onTapGesture {
-//            binding.wrappedValue.toggle()
+            binding.wrappedValue.toggle()
         }
     }
     
     private func disclosureGroup(
-        for tag: EMVTag,
-        binding: Binding<Bool>
+        with binding: Binding<Bool>
     ) -> some View {
         DisclosureGroup(
             isExpanded: binding,
             content: {
                 VStack(alignment: .leading, spacing: commonPadding) {
-//                    ForEach(tag.subtags, content: TagRowView.init(tag:))
+                    // TODO: show TagRowView here
+                    ForEach(vm.subtags) { subtag in
+                        Text(subtag.hexString)
+                    }
                 }
                 .padding(.top, commonPadding)
             }, label: {
-                TagHeaderView(vm: tag.tagHeaderVM)
+                TagHeaderView(vm: vm)
                     .padding(.leading, commonPadding)
                     .padding(.vertical, -commonPadding)
             }
@@ -58,11 +78,10 @@ internal struct ConstructedTagView: View {
     
 }
 
-//#if DEBUG
-//struct ConstructedTagView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ConstructedTagView(tag: mockTag)
-//            .environmentObject(MainVM())
-//    }
-//}
-//#endif
+
+struct ConstructedTagView_Previews: PreviewProvider {
+    static var previews: some View {
+        ConstructedTagView(vm: .make(with: .mockTagConstructed))
+            .environmentObject(MainVM())
+    }
+}
