@@ -114,6 +114,7 @@ internal final class MainVM: AnyWindowVM {
     private func updateTags() {
         if searchText.count < 2 {
             currentTags = initialTags
+            collapseAll()
         } else {
             let searchText = searchText.lowercased()
             let matchingTags = Set(
@@ -124,7 +125,7 @@ internal final class MainVM: AnyWindowVM {
             currentTags = initialTags
                 .filter { matchingTags.contains($0.id) }
                 .map { $0.filterSubtags(with: searchText) }
-            // TODO: expand found constructed tags
+            expandAll()
         }
     }
     
@@ -153,12 +154,10 @@ internal final class MainVM: AnyWindowVM {
     }
     
     internal func expandAll() {
-        // TODO: implement constructed tag expainsion
-//        expandedConstructedTags = Set(
-//            currentTags
-//            .filter(\.isConstructed)
-//            .map(\.id)
-//        )
+        expandedConstructedTags = Set(
+            currentTags
+            .flatMap(\.constructedIds)
+        )
     }
     
     internal func toggleShowsDetails() {

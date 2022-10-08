@@ -33,7 +33,9 @@ extension EMVTag: Searchable {
             return self
         }
         
-        let filteredSubtags = subtags.filter { $0.searchString.contains(string) }
+        let filteredSubtags = subtags
+            .filter { $0.searchString.contains(string) }
+            .map { $0.filterSubtags(with: string) }
         
         if filteredSubtags.isEmpty {
             return self

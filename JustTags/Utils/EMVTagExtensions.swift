@@ -48,6 +48,24 @@ extension EMVTag {
         }
     }
     
+    internal var isConstructed: Bool {
+        switch category {
+        case .plain:
+            return false
+        case .constructed:
+            return true
+        }
+    }
+    
+    internal var constructedIds: [EMVTag.ID] {
+        switch category {
+        case .plain:
+            return []
+        case .constructed(let subtags):
+            return [id] + subtags.flatMap(\.constructedIds)
+        }
+    }
+    
     internal var fullHexString: String {
         [
             tag.tag.hexString,
@@ -82,7 +100,7 @@ extension EMVTag {
             tag: tag.tag.hexString,
             name: name,
             valueVM: tagValueVM,
-            // TODO: add expansion
+            // TODO: add selected values expansion
             canExpand: false,
             showsDetails: isUnknown == false
         )
