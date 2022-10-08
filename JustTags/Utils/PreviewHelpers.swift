@@ -60,15 +60,11 @@ extension ConstructedTagVM {
     static func make(
         with tag: EMVTag
     ) -> ConstructedTagVM {
-        guard case .constructed(let subtags) = tag.category else {
+        guard case .constructed = tag.category else {
             fatalError("Provided tag is not constructed")
         }
         
-        return .init(
-            id: .init(),
-            tag: tag,
-            subtags: subtags
-        )
+        return tag.constructedTagVM(with: .init())
     }
     
 }

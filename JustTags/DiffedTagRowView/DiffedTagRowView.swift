@@ -27,7 +27,7 @@ internal struct DiffedTagRowView: View {
     @ViewBuilder
     private var contextMenu: some View {
         Button("Copy full tag") {
-            NSPasteboard.copyString(diffedTag.tag.hexString)
+            NSPasteboard.copyString(diffedTag.tag.fullHexString)
         }
         Button("Copy value") {
             NSPasteboard.copyString(diffedTag.tag.tag.value.hexString)

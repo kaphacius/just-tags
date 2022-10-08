@@ -8,6 +8,8 @@
 import Foundation
 import SwiftyEMVTags
 
+typealias EMVTagID = UUID
+
 extension EMVTag {
     
     internal var extendedDescription: String? {
@@ -74,6 +76,33 @@ extension EMVTag {
     var tagHeaderVM: TagHeaderVM {
         PrimitiveTagVM.make(
             with: self
+        )
+    }
+    
+    func primitiveTagVM(with id: EMVTagID) -> PrimitiveTagVM {
+        .init(
+            id: id,
+            tag: tag.tag.hexString,
+            name: name,
+            valueVM: tagValueVM,
+            // TODO: add expansion
+            canExpand: false,
+            showsDetails: isUnknown == false
+        )
+    }
+    
+    func constructedTagVM(with id: EMVTagID) -> ConstructedTagVM {
+        guard case let .constructed(subtags) = category else {
+            fatalError("Unable to extract subtags from a plain tag")
+        }
+        
+        return .init(
+            id: id,
+            tag: tag.tag.hexString,
+            name: name,
+            valueVM: tagValueVM,
+            // TODO: pass correct id
+            subtags: subtags.map { $0.primitiveTagVM(with: .init()) }
         )
     }
 
