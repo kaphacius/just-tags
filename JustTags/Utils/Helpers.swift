@@ -104,16 +104,8 @@ extension Array where Self.Element == UInt8 {
 
 extension Array where Self.Element == EMVTag {
     var hexString: String {
-        map(\.hexString).joined()
+        map(\.fullHexString).joined()
     }
-}
-
-extension EMVTag {
-    
-    var hexString: String {
-        tag.value.map(\.hexString).joined()
-    }
-    
 }
 
 private func isLess(lhs: [UInt8], rhs: [UInt8]) -> Bool {
@@ -299,17 +291,6 @@ extension Array where Element: Identifiable {
         
         return nil
     }
-    
-}
-
-
-extension EMVTag: Identifiable {
-    
-    public var id: UUID {
-        .init()
-    }
-        
-    public typealias ID = UUID
     
 }
 

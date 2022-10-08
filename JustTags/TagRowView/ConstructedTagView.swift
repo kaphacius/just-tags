@@ -14,15 +14,7 @@ internal struct ConstructedTagVM: TagHeaderVM {
     let tag: String
     let name: String
     let valueVM: TagValueVM
-    let subtags: [EMVTag]
-    
-    init(id: UUID, tag: EMVTag, subtags: [EMVTag]) {
-        self.id = id
-        self.tag = tag.tag.tag.hexString
-        self.name = tag.name
-        self.valueVM = tag.tagValueVM
-        self.subtags = subtags
-    }
+    let subtags: [PrimitiveTagVM]
     
 }
 
@@ -62,9 +54,7 @@ internal struct ConstructedTagView: View {
             content: {
                 VStack(alignment: .leading, spacing: commonPadding) {
                     // TODO: show TagRowView here
-                    ForEach(vm.subtags) { subtag in
-                        Text(subtag.hexString)
-                    }
+                    ForEach(vm.subtags, content: PrimitiveTagView.init(vm:))
                 }
                 .padding(.top, commonPadding)
             }, label: {

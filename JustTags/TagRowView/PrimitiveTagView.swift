@@ -10,6 +10,8 @@ import SwiftyEMVTags
 
 internal struct PrimitiveTagVM: Identifiable, TagHeaderVM {
     
+    typealias ID = TagRowVM.ID
+    
     let id: UUID
     let tag: String
     let name: String
@@ -24,7 +26,11 @@ internal struct PrimitiveTagView: View {
     @EnvironmentObject private var windowVM: MainVM
     @State internal var isExpanded: Bool = false
     
-    internal let vm: PrimitiveTagVM
+    private let vm: PrimitiveTagVM
+    
+    internal init(vm: PrimitiveTagVM) {
+        self.vm = vm
+    }
     
     internal var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
@@ -86,10 +92,12 @@ internal struct PrimitiveTagView: View {
                 windowVM.onDetailTagSelected(id: vm.id)
             }, label: {
                 GroupBox {
-                    Label(
-                        "Details",
-                        systemImage: windowVM.detailTag?.id == vm.id ? "lessthan" : "greaterthan"
-                    )
+                    EmptyView()
+                    // TODO: add tag id as property
+//                    Label(
+//                        "Details",
+//                        systemImage: windowVM.detailTag?.id == vm.id ? "lessthan" : "greaterthan"
+//                    )
                     .labelStyle(.iconOnly)
                     .padding(.horizontal, commonPadding)
                 }
