@@ -14,6 +14,7 @@ struct TagInfoView: View {
     internal let vm: TagDetailVM
     
     var body: some View {
+        // TODO: detals
         VStack(alignment: .leading, spacing: 4.0) {
 //            Text(vm.description)
 //            Text("Source: ").bold() + Text(vm.source)
