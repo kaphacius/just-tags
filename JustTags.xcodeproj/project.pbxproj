@@ -48,6 +48,8 @@
 		5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E728C33D8000BD6B3E /* TagHeaderView.swift */; };
 		5AE923EA28C33DF300BD6B3E /* DiffedTagValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E928C33DF300BD6B3E /* DiffedTagValueView.swift */; };
 		5AFC5F5828F19610004DA503 /* EMVTagDecoding.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */; };
+		5AFC5F5A28F49501004DA503 /* DecodedByteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC5F5928F49501004DA503 /* DecodedByteView.swift */; };
+		5AFC5F5C28F49595004DA503 /* DecodedRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC5F5B28F49595004DA503 /* DecodedRowView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -113,6 +115,8 @@
 		5AE923E728C33D8000BD6B3E /* TagHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagHeaderView.swift; sourceTree = "<group>"; };
 		5AE923E928C33DF300BD6B3E /* DiffedTagValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffedTagValueView.swift; sourceTree = "<group>"; };
 		5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagDecoding.swift; sourceTree = "<group>"; };
+		5AFC5F5928F49501004DA503 /* DecodedByteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodedByteView.swift; sourceTree = "<group>"; };
+		5AFC5F5B28F49595004DA503 /* DecodedRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DecodedRowView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -283,6 +287,8 @@
 				5AE8BF7A27E79CC700474AD0 /* TagDetailView.swift */,
 				5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */,
 				5A4FDD9127F21CF700603D99 /* TagInfoView.swift */,
+				5AFC5F5928F49501004DA503 /* DecodedByteView.swift */,
+				5AFC5F5B28F49595004DA503 /* DecodedRowView.swift */,
 			);
 			path = Details;
 			sourceTree = "<group>";
@@ -455,10 +461,12 @@
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
 				5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */,
 				5AE923E428C33C7D00BD6B3E /* DiffedTagRowView.swift in Sources */,
+				5AFC5F5C28F49595004DA503 /* DecodedRowView.swift in Sources */,
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
 				5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */,
 				5A1719B428BAB2A500D7894A /* About.swift in Sources */,
 				5A1719B028B9F7F000D7894A /* AppState.swift in Sources */,
+				5AFC5F5A28F49501004DA503 /* DecodedByteView.swift in Sources */,
 				5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
 				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
