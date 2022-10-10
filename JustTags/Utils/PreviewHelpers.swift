@@ -35,13 +35,13 @@ extension EMVTag {
     
 }
 
-extension PrimitiveTagVM {
+extension PlainTagVM {
     
     static func make(
         with tag: EMVTag,
         canExpand: Bool = false,
         showsDetails: Bool = true
-    ) -> PrimitiveTagVM {
+    ) -> PlainTagVM {
         .init(
             id: tag.id,
             headerVM: tag.tagHeaderVM,

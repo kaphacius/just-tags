@@ -92,7 +92,7 @@ extension EMVTag {
         )
     }
     
-    var primitiveTagVM: PrimitiveTagVM {
+    var plainTagVM: PlainTagVM {
         .init(
             id: id,
             headerVM: tagHeaderVM,

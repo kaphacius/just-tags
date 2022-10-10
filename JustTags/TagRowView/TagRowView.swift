@@ -16,7 +16,7 @@ internal struct TagRowVM: Equatable, Identifiable {
     internal let valueHexString: String
     
     internal enum Category {
-        case primitive(PrimitiveTagVM)
+        case plain(PlainTagVM)
         case constructed(ConstructedTagVM)
         
         static func category(
@@ -24,7 +24,7 @@ internal struct TagRowVM: Equatable, Identifiable {
         ) -> Category {
             switch tag.category {
             case .plain:
-                return .primitive(tag.primitiveTagVM)
+                return .plain(tag.plainTagVM)
             case .constructed:
                 return .constructed(tag.constructedTagVM)
             }
@@ -45,7 +45,7 @@ extension TagRowVM.Category: Equatable {
     
     internal static func == (lhs: Self, rhs: Self) -> Bool {
         switch (lhs, rhs) {
-        case (.primitive(let llhs), .primitive(let rrhs)):
+        case (.plain(let llhs), .plain(let rrhs)):
             return llhs == rrhs
         case (.constructed(let llhs), .constructed(let rrhs)):
             return llhs == rrhs
@@ -72,8 +72,8 @@ internal struct TagRowView: View {
             switch vm.category {
             case .constructed(let constructedVM):
                 ConstructedTagView(vm: constructedVM)
-            case .primitive(let primitiveVM):
-                PrimitiveTagView(vm: primitiveVM)
+            case .plain(let plainVM):
+                PlainTagView(vm: plainVM)
             }
         }
         .contextMenu { contextMenu }
