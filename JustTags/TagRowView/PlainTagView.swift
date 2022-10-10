@@ -1,5 +1,5 @@
 //
-//  PrimitiveTagView.swift
+//  PlainTagVM.swift
 //  JustTags
 //
 //  Created by Yurii Zadoianchuk on 01/06/2022.
@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct PrimitiveTagVM: Identifiable, Equatable {
+internal struct PlainTagVM: Identifiable, Equatable {
     
     typealias ID = EMVTag.ID
     
@@ -21,14 +21,14 @@ internal struct PrimitiveTagVM: Identifiable, Equatable {
     
 }
 
-internal struct PrimitiveTagView: View {
+internal struct PlainTagView: View {
     
     @EnvironmentObject private var windowVM: MainVM
     @State internal var isExpanded: Bool = false
     
-    private let vm: PrimitiveTagVM
+    private let vm: PlainTagVM
     
-    internal init(vm: PrimitiveTagVM) {
+    internal init(vm: PlainTagVM) {
         self.vm = vm
     }
     
@@ -103,19 +103,19 @@ internal struct PrimitiveTagView: View {
     }
 }
 
-struct PrimitiveTagView_Previews: PreviewProvider {
+struct PlainTagView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            PrimitiveTagView(
+            PlainTagView(
                 vm: .make(with: .mockTag)
             )
-            PrimitiveTagView(
+            PlainTagView(
                 vm: .make(with: .mockTagExtended)
             )
-            PrimitiveTagView(
+            PlainTagView(
                 vm: .make(with: .mockTag, canExpand: true)
             )
-            PrimitiveTagView(
+            PlainTagView(
                 vm: .make(with: .mockTag, showsDetails: false)
             )
         }.environmentObject(MainVM())
