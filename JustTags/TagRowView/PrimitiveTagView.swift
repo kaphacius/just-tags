@@ -47,9 +47,6 @@ internal struct PrimitiveTagView: View {
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
             windowVM.onTagSelected(id: vm.id)
         })
-        .onTapGesture(count: 2) {
-            if vm.showsDetails { windowVM.onDetailTagSelected(id: vm.id) }
-        }
         .onTapGesture {
             if vm.canExpand { isExpanded.toggle() }
         }
