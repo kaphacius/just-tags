@@ -119,9 +119,31 @@ extension EMVTag {
     }
     
     var tagRowVM: TagRowVM {
-        .init(
-            tag: self
-        )
+        .init(tag: self)
+    }
+    
+    var tagInfoVMs: [TagInfoVM] {
+        switch self.decodingResult {
+        case .unknown:
+            return []
+        case .singleKernel(let decodedTag):
+            return [decodedTag.tagInfoVM]
+        case .multipleKernels(let decodedTags):
+            return decodedTags.map(\.tagInfoVM)
+        }
     }
 
+}
+
+extension EMVTag.DecodedTag {
+    
+    var tagInfoVM: TagInfoVM {
+        .init(
+            source: tagInfo.source.rawValue,
+            format: tagInfo.format,
+            kernel: kernelName,
+            description: tagInfo.description
+        )
+    }
+    
 }
