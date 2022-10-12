@@ -142,7 +142,8 @@ extension EMVTag.DecodedTag {
             tag: tagInfo.tag.hexString,
             name: tagInfo.name,
             info: tagInfoVM,
-            bytes: result.decodedByteVMs
+            bytes: result.decodedByteVMs,
+            kernel: kernelName
         )
     }
     
