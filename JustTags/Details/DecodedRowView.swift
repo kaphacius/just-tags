@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftyEMVTags
 
 struct DecodedRowVM: Equatable {
     
@@ -14,9 +15,17 @@ struct DecodedRowVM: Equatable {
     internal let values: [String]
     internal let startIndex: Int
     
+    internal func value(at idx: Int) -> String? {
+        if idx < startIndex || idx >= startIndex + values.count {
+            return nil
+        } else {
+            return values[idx - startIndex]
+        }
+    }
+    
 }
 
-struct DecodedRowView: View {
+internal struct DecodedRowView: View {
     
     private static let rowHeight = 25.0
     private static let borderColor: Color = Color(nsColor: .tertiaryLabelColor)
@@ -25,10 +34,16 @@ struct DecodedRowView: View {
     
     var body: some View {
         HStack(spacing: 0.0) {
-            ForEach(0..<8, id: \.self, content: element(for:))
-            meaningView
+            Group {
+                ForEach(
+                    (0..<UInt8.bitWidth).map(vm.value(at:)),
+                    id: \.self,
+                    content: element(with:)
+                )
+                meaningView
+            }
+            .frame(height: Self.rowHeight)
         }
-        .frame(height: Self.rowHeight)
         .background {
             if vm.isSelected {
                 Color(nsColor: .yellow.withAlphaComponent(0.1))
@@ -44,30 +59,17 @@ struct DecodedRowView: View {
                 .minimumScaleFactor(0.5)
                 .padding(4.0)
         }
+        .frame(maxHeight: .infinity)
         .border(Self.borderColor, width: 0.5)
     }
     
-    @ViewBuilder
-    private func element(for idx: Int) -> some View {
-        Group {
-            if idx < vm.startIndex {
-                emptyElement
-            } else {
-                valueElement(with: vm.values[idx - vm.startIndex])
-            }
-        }.frame(width: Self.rowHeight, height: Self.rowHeight)
-    }
-    
-    private var emptyElement: some View {
-        Rectangle()
-    }
-    
-    private func valueElement(with text: String) -> some View {
+    private func element(with text: String?) -> some View {
         Rectangle()
             .foregroundColor(.clear)
             .border(Self.borderColor, width: 0.5)
+            .frame(width: Self.rowHeight)
             .overlay {
-                Text(text)
+                text.map(Text.init)
             }
     }
     
@@ -75,23 +77,16 @@ struct DecodedRowView: View {
 
 struct DecodedRowView_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            DecodedRowView(
-                vm: .init(
-                    meaning: "Set Offline Counters to Upper Offline Limits",
-                    isSelected: false,
-                    values: ["0", "1"],
-                    startIndex: 6
-                )
-            )
-            DecodedRowView(
-                vm: .init(
-                    meaning: "Set Offline Counters to Upper Offline Limits",
-                    isSelected: true,
-                    values: ["0", "1"],
-                    startIndex: 6
-                )
-            )
+        VStack(spacing: 0.0) {
+            ForEach(
+                Array(EMVTag
+                    .mockTag
+                    .tagDetailsVMs
+                    .flatMap(\.bytes)
+                    .flatMap(\.rows)
+                    .enumerated()
+                ), id: \.offset
+            ) { DecodedRowView(vm: $0.element) }
         }
     }
 }

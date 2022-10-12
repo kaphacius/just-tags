@@ -137,6 +137,15 @@ extension EMVTag {
 
 extension EMVTag.DecodedTag {
     
+    var tagDetailsVM: TagDetailsVM {
+        .init(
+            tag: tagInfo.tag.hexString,
+            name: tagInfo.name,
+            info: tagInfoVM,
+            bytes: result.decodedByteVMs
+        )
+    }
+    
     var tagInfoVM: TagInfoVM {
         .init(
             source: tagInfo.source.rawValue,
