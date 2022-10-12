@@ -77,8 +77,10 @@ struct MainView: View {
                 )
             }
             .frame(maxWidth: .infinity)
-            details
-                .frame(width: detailWidth)
+            if vm.showsDetails {
+                details
+                    .frame(width: detailWidth)
+            }
         } else {
             HintView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -87,20 +89,39 @@ struct MainView: View {
     
     @ViewBuilder
     private var details: some View {
-        if vm.showsDetails {
-            GroupBox {
-                if let detailTag = vm.detailTag {
-                    TagDetailView(vm: .init(emvTag: detailTag))
-                } else {
-                    Text("Select a tag to view the details")
-                        .foregroundColor(.secondary)
-                        .font(.title2)
-                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        GroupBox {
+            if let detailTag = vm.detailTag {
+                detailViews(vms: detailTag.tagDetailsVMs)
+            } else {
+                tagSelectionHint
+            }
+        }
+        .padding(commonPadding)
+        .transition(.move(edge: .trailing))
+    }
+    
+    @ViewBuilder
+    private func detailViews(vms: [TagDetailsVM]) -> some View {
+        if let first = vms.first, vms.count == 1 {
+            TagDetailsView(vm: first)
+        } else {
+            TabView {
+                ForEach(vms, id: \.kernel) { vm in
+                    TagDetailsView(vm: vm)
+                        .tabItem {
+                            Text(vm.kernel)
+                                .frame(maxWidth: .infinity)
+                        }
                 }
             }
-            .padding(commonPadding)
-            .transition(.move(edge: .trailing))
         }
+    }
+    
+    private var tagSelectionHint: some View {
+        Text("Select a tag to view the details")
+            .foregroundColor(.secondary)
+            .font(.title2)
+            .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
     
     private var shortcutButtons: some View {

@@ -14,6 +14,7 @@ struct TagDetailsVM {
     let name: String
     let info: TagInfoVM
     let bytes: [DecodedByteVM]
+    let kernel: String
     
 }
 
