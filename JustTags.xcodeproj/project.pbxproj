@@ -25,7 +25,6 @@
 		5A4F646328F17C2F00FEC0C5 /* EMVTagSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */; };
 		5A4FDD8727F187B800603D99 /* common_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A4FDD8627F187B800603D99 /* common_tags.json */; };
 		5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDD9127F21CF700603D99 /* TagInfoView.swift */; };
-		5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */; };
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
 		5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffVM.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
@@ -40,7 +39,7 @@
 		5AE8BF6227E79BF100474AD0 /* EMVTagsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF6127E79BF100474AD0 /* EMVTagsTests.swift */; };
 		5AE8BF6C27E79BF100474AD0 /* EMVTagsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF6B27E79BF100474AD0 /* EMVTagsUITests.swift */; };
 		5AE8BF6E27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF6D27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift */; };
-		5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7A27E79CC700474AD0 /* TagDetailView.swift */; };
+		5AE8BF7B27E79CC700474AD0 /* TagDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7A27E79CC700474AD0 /* TagDetailsView.swift */; };
 		5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7E27E79D0200474AD0 /* TagListView.swift */; };
 		5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF8427E7AA4D00474AD0 /* MainView.swift */; };
 		5AE923E428C33C7D00BD6B3E /* DiffedTagRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E328C33C7D00BD6B3E /* DiffedTagRowView.swift */; };
@@ -89,7 +88,6 @@
 		5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagSearch.swift; sourceTree = "<group>"; };
 		5A4FDD8627F187B800603D99 /* common_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text.json; path = common_tags.json; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		5A4FDD9127F21CF700603D99 /* TagInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoView.swift; sourceTree = "<group>"; };
-		5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailVM.swift; sourceTree = "<group>"; };
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
 		5A5B09FA285C493700705C35 /* DiffVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffVM.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
@@ -107,7 +105,7 @@
 		5AE8BF6727E79BF100474AD0 /* JustTagsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JustTagsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE8BF6B27E79BF100474AD0 /* EMVTagsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagsUITests.swift; sourceTree = "<group>"; };
 		5AE8BF6D27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagsUITestsLaunchTests.swift; sourceTree = "<group>"; };
-		5AE8BF7A27E79CC700474AD0 /* TagDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailView.swift; sourceTree = "<group>"; };
+		5AE8BF7A27E79CC700474AD0 /* TagDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailsView.swift; sourceTree = "<group>"; };
 		5AE8BF7E27E79D0200474AD0 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		5AE8BF8427E7AA4D00474AD0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
 		5AE923E328C33C7D00BD6B3E /* DiffedTagRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffedTagRowView.swift; sourceTree = "<group>"; };
@@ -284,8 +282,7 @@
 		5AE8BF7C27E79CDF00474AD0 /* Details */ = {
 			isa = PBXGroup;
 			children = (
-				5AE8BF7A27E79CC700474AD0 /* TagDetailView.swift */,
-				5A4FDDAE27F388A100603D99 /* TagDetailVM.swift */,
+				5AE8BF7A27E79CC700474AD0 /* TagDetailsView.swift */,
 				5A4FDD9127F21CF700603D99 /* TagInfoView.swift */,
 				5AFC5F5928F49501004DA503 /* DecodedByteView.swift */,
 				5AFC5F5B28F49595004DA503 /* DecodedRowView.swift */,
@@ -477,12 +474,11 @@
 				5AE923E628C33D5400BD6B3E /* TagValueView.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
 				5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */,
-				5A4FDDAF27F388A100603D99 /* TagDetailVM.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5AFC5F5828F19610004DA503 /* EMVTagDecoding.swift in Sources */,
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,
 				5AA64D2E2848083000F295A9 /* PlainTagView.swift in Sources */,
-				5AE8BF7B27E79CC700474AD0 /* TagDetailView.swift in Sources */,
+				5AE8BF7B27E79CC700474AD0 /* TagDetailsView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
