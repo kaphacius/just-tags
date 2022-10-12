@@ -24,12 +24,22 @@ struct TagInfoView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
             Text(vm.description)
-            Text("Source: ").bold() + Text(vm.source)
-            Text("Format: ").bold() + Text(vm.format)
-            Text("Kernel: ").bold() + Text(vm.kernel)
+            ForEach(
+                Array(zip(
+                    ["Source", "Format", "Kernel"],
+                    [vm.source, vm.format, vm.kernel]
+                )),
+                id: \.0.self
+            ) {
+                line(header: $0.0, text: $0.1)
+            }
         }
         .font(.body)
         .padding(commonPadding)
+    }
+    
+    private func line(header: String, text: String) -> some View {
+        Text("\(header): ").bold() + Text(text)
     }
     
 }
