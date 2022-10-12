@@ -14,7 +14,7 @@ private let tagDecoder = try! TagDecoder.defaultDecoder()
 extension BERTLV {
     
     internal static let mockTLV = try! BERTLV
-        .parse(bytes: [0x9f, 0x33, 0x03, 0x28, 0x08, 0xC8])
+        .parse(bytes: [0x9f, 0x33, 0x03, 0x20, 0x08, 0xC8])
         .first!
     
     internal static let mockTLVExtended = try! BERTLV
