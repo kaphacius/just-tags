@@ -23,7 +23,6 @@
 		5A31B178281D8032002B2D06 /* HintView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B177281D8032002B2D06 /* HintView.swift */; };
 		5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */; };
 		5A4F646328F17C2F00FEC0C5 /* EMVTagSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */; };
-		5A4FDD8727F187B800603D99 /* common_tags.json in Resources */ = {isa = PBXBuildFile; fileRef = 5A4FDD8627F187B800603D99 /* common_tags.json */; };
 		5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FDD9127F21CF700603D99 /* TagInfoView.swift */; };
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
 		5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffVM.swift */; };
@@ -86,7 +85,6 @@
 		5A31B177281D8032002B2D06 /* HintView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HintView.swift; sourceTree = "<group>"; };
 		5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectedMeaningList.swift; sourceTree = "<group>"; };
 		5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagSearch.swift; sourceTree = "<group>"; };
-		5A4FDD8627F187B800603D99 /* common_tags.json */ = {isa = PBXFileReference; fileEncoding = 4; indentWidth = 2; lastKnownFileType = text.json; path = common_tags.json; sourceTree = "<group>"; tabWidth = 2; usesTabs = 0; };
 		5A4FDD9127F21CF700603D99 /* TagInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagInfoView.swift; sourceTree = "<group>"; };
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
 		5A5B09FA285C493700705C35 /* DiffVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffVM.swift; sourceTree = "<group>"; };
@@ -183,7 +181,6 @@
 		5A4FDD8527F187AE00603D99 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				5A4FDD8627F187B800603D99 /* common_tags.json */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -419,7 +416,6 @@
 			files = (
 				5AE8BF5727E79BF100474AD0 /* Preview Assets.xcassets in Resources */,
 				5AE8BF5427E79BF100474AD0 /* Assets.xcassets in Resources */,
-				5A4FDD8727F187B800603D99 /* common_tags.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
