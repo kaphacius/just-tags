@@ -36,6 +36,10 @@ internal struct JustTagsApp: App {
                 .environmentObject(appVM)
                 .handlesExternalEvents(preferring: ["diff"], allowing: ["diff"])
         }.handlesExternalEvents(matching: ["diff"])
+        
+        Settings {
+            SettingsView()
+        }
     }
 
 }
