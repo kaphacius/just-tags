@@ -8,15 +8,25 @@
 import SwiftUI
 import SwiftyEMVTags
 
+internal struct DiffedTagRowVM {
+    
+    internal let id: EMVTag.ID
+    internal let headerVM: TagHeaderVM
+    internal let valueVM: DiffedTagValueVM
+    internal let fullHexString: String
+    internal let valueHexString: String
+    
+}
+
 internal struct DiffedTagRowView: View {
     
-    internal let diffedTag: DiffedTag
+    internal let vm: DiffedTagRowVM
     
     internal var body: some View {
         GroupBox {
             VStack(alignment: .leading, spacing: commonPadding) {
-                TagHeaderView(vm: diffedTag.tag.tagHeaderVM)
-                DiffedTagValueView(diffedTag: diffedTag)
+                TagHeaderView(vm: vm.headerVM)
+                DiffedTagValueView(vm: vm.valueVM)
             }
             .frame(maxWidth: .infinity, alignment: .leading)
         }
@@ -27,25 +37,23 @@ internal struct DiffedTagRowView: View {
     @ViewBuilder
     private var contextMenu: some View {
         Button("Copy full tag") {
-            NSPasteboard.copyString(diffedTag.tag.fullHexString)
+            NSPasteboard.copyString(vm.fullHexString)
         }
         Button("Copy value") {
-            NSPasteboard.copyString(diffedTag.tag.tag.value.hexString)
+            NSPasteboard.copyString(vm.valueHexString)
         }
     }
     
 }
 
-// TODO: diff
-//
-//internal let mockDiffedShortTag = DiffedTag(
-//    tag: mockShortTag, results: [.equal, .different, .different]
-//)
-//
-//struct DiffedTagRowView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        Group {
-//            DiffedTagRowView(diffedTag: mockDiffedShortTag)
-//        }.environmentObject(MainVM())
-//    }
-//}
+struct DiffedTagRowView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            DiffedTagRowView(
+                vm: DiffedTag(
+                    tag: .mockTag, results: [.different, .equal, .different]
+                ).diffedTagRowVM
+            )
+        }.environmentObject(MainVM())
+    }
+}

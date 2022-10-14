@@ -38,10 +38,7 @@ internal final class DiffVM: AnyWindowVM {
                 onlyDifferent: false
             )
         )
-        // TODO: diff
-//        _showsDiff = .init(initialValue: initialTags.contains([]) == false)
-        
-        _showsDiff = .init(initialValue: false)
+        _showsDiff = .init(initialValue: initialTags.contains([]) == false)
         
         super.init()
         
@@ -60,13 +57,12 @@ internal final class DiffVM: AnyWindowVM {
     }
     
     internal func diffInitialTags() {
-        // TODO: diff
-//        guard initialTags.contains([]) == false else {
-//            return
-//        }
-//
-//        showsDiff = true
-//        diffResults = Diff.diff(tags: initialTags, onlyDifferent: false)
+        guard initialTags.contains([]) == false else {
+            return
+        }
+
+        showsDiff = true
+        diffResults = Diff.diff(tags: initialTags, onlyDifferent: false)
     }
     
     private func toggleShowOnlyDifferent(_ value: Bool) {
@@ -86,17 +82,15 @@ internal final class DiffVM: AnyWindowVM {
     }
     
     internal func apply(tags: [EMVTag], at idx: Int) {
-        // TODO: diff
-//        let tags = tags.sortedTags
-//
-//        if initialTags.count <= idx {
-//            initialTags.append(tags)
-//        } else {
-//            initialTags[idx] = tags
-//        }
+        let tags = tags.sortedTags
+
+        if initialTags.count <= idx {
+            initialTags.append(tags)
+        } else {
+            initialTags[idx] = tags
+        }
         
         refreshState()
-        
         diffInitialTags()
     }
     

@@ -8,16 +8,31 @@
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct DiffedTagValueView: View {
+internal struct DiffedTagValueVM {
     
     internal let text: AttributedString
     
-    init(diffedTag: DiffedTag) {
-        self.text = diffedTag.textRepresentation
+    internal init(
+        value: [UInt8],
+        results: [DiffResult]
+    ) {
+        self.text = zip(value, results)
+            .map { (byte, result) in
+                AttributedString(
+                    byte.hexString,
+                    attributes: result == .different ? backgroundColorContainer : .init()
+                )
+            }.reduce(into: AttributedString()) { $0.append($1) }
     }
     
+}
+
+internal struct DiffedTagValueView: View {
+    
+    internal let vm: DiffedTagValueVM
+    
     internal var body: some View {
-        Text(text)
+        Text(vm.text)
             .font(.title3.monospaced())
     }
     
@@ -29,23 +44,13 @@ private var backgroundColorContainer: AttributeContainer {
     return container
 }
 
-private extension DiffedTag {
-    
-    var textRepresentation: AttributedString {
-        diffedBytes
-            .map { diffedByte in
-                AttributedString(
-                    diffedByte.byte.hexString,
-                    attributes: diffedByte.result == .different ? backgroundColorContainer : .init()
-                )
-            }.reduce(into: AttributedString()) { $0.append($1) }
+struct DiffedTagValueView_Previews: PreviewProvider {
+    static var previews: some View {
+        DiffedTagValueView(
+            vm: .init(
+                value: EMVTag.mockTag.tag.value,
+                results: [.different, .equal, .different]
+            )
+        )
     }
-    
 }
-
-// TODO: diff
-//struct DiffedTagValueView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        DiffedTagValueView(diffedTag: .init(tag: mockTag, results: [.different, .different, .equal]))
-//    }
-//}
