@@ -178,13 +178,6 @@
 			path = TagRowView;
 			sourceTree = "<group>";
 		};
-		5A4FDD8527F187AE00603D99 /* Resources */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Resources;
-			sourceTree = "<group>";
-		};
 		5A4FDDB027F42B3B00603D99 /* Main */ = {
 			isa = PBXGroup;
 			children = (
@@ -238,7 +231,6 @@
 				5AE923ED28C33F7600BD6B3E /* DiffedTagRowView */,
 				5AE8BF7C27E79CDF00474AD0 /* Details */,
 				5A51B17C2811F08500F516F5 /* Diff */,
-				5A4FDD8527F187AE00603D99 /* Resources */,
 				5A1719AE28B9F7E300D7894A /* Persistence */,
 				5A1719B528BABD4E00D7894A /* Utils */,
 				5AE8BF4F27E79BF000474AD0 /* JustTagsApp.swift */,

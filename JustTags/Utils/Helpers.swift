@@ -39,35 +39,17 @@ extension Array where Self.Element == EMVTag {
     }
 }
 
-private func isLess(lhs: [UInt8], rhs: [UInt8]) -> Bool {
-    var isLess: Bool? = nil
-    
-    for i in 0..<min(lhs.count, rhs.count) {
-        if lhs[i] != rhs[i] {
-            isLess = lhs[i] < rhs[i]
-            break
+extension EMVTag: Comparable {
+
+    public static func < (lhs: EMVTag, rhs: EMVTag) -> Bool {
+        if lhs.tag.tag == rhs.tag.tag {
+            return lhs.tag.value < rhs.tag.value
+        } else {
+            return lhs.tag.tag < rhs.tag.tag
         }
     }
-    
-    if let isLess = isLess {
-        return isLess
-    } else {
-        return lhs.count < rhs.count
-    }
-}
 
-// TODO: diff
-//extension EMVTag: Comparable {
-//
-//    public static func < (lhs: EMVTag, rhs: EMVTag) -> Bool {
-//        if lhs.tag == rhs.tag {
-//            return isLess(lhs: lhs.value, rhs: rhs.value)
-//        } else {
-//            return lhs.tag < rhs.tag
-//        }
-//    }
-//
-//}
+}
 
 extension Int {
     
@@ -77,13 +59,27 @@ extension Int {
     
 }
 
-//extension Array where Self.Element == EMVTag {
-//
-//    var sortedTags: Self {
-//        self.sorted(by: <)
-//    }
-//
-//}
+extension Array where Self.Element == EMVTag {
+
+    var sortedTags: Self {
+        self.sorted(by: <)
+    }
+
+}
+
+extension Array: Comparable where Self.Element == UInt8 {
+    
+    public static func < (lhs: Self, rhs: Self) -> Bool {
+        for i in 0..<Swift.min(lhs.count, rhs.count) {
+            if lhs[i] != rhs[i] {
+                return lhs[i] < rhs[i]
+            }
+        }
+        
+        return lhs.count < rhs.count
+    }
+    
+}
 
 internal struct SelectedTag: EnvironmentKey {
     static let defaultValue: Binding<EMVTag?> = .constant(nil)
@@ -191,21 +187,3 @@ extension String {
         return String(repeating: character, count: padCount) + self
     }
 }
-
-
-//extension Array where Element == EMVTag {
-//
-//    func first(with id: Element.ID) -> EMVTag? {
-//        for tag in self {
-//            if tag.id == id {
-//                return tag
-//            } else if tag.isConstructed,
-//                      let subTag = tag.subtags.first(with: id) {
-//                return subTag
-//            }
-//        }
-//
-//        return nil
-//    }
-//
-//}

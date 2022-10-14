@@ -18,6 +18,13 @@ extension EMVTag {
         decodingResult.tagDetailsVMs
     }
     
+    internal var diffedTagRowVM: DiffedTagRowVM {
+        DiffedTag(
+            tag: self,
+            results: Array(repeating: .equal, count: tag.value.count)
+        ).diffedTagRowVM
+    }
+    
 }
 
 extension EMVTag.DecodingResult {

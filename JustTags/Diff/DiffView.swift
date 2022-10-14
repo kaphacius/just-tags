@@ -114,14 +114,8 @@ struct DiffView: View {
     private func tagList(for tags: [EMVTag]) -> some View {
         ScrollView {
             LazyVStack(spacing: commonPadding) {
-                // TODO: implement viewing diffed tags
                 ForEach(tags) { tag in
-                    DiffedTagRowView(
-                        diffedTag: .init(
-                            tag: tag,
-                            results: Array(repeating: .equal, count: tag.tag.value.count)
-                        )
-                    )
+                    DiffedTagRowView(vm: tag.diffedTagRowVM)
                 }
             }
         }
@@ -147,19 +141,19 @@ struct DiffView: View {
             switch (diffPair.lhs, diffPair.rhs) {
             case (let lhs?, let rhs?):
                 HStack(alignment: .top, spacing: commonPadding) {
-                    DiffedTagRowView(diffedTag: lhs)
+                    DiffedTagRowView(vm: lhs.diffedTagRowVM)
                     Divider()
-                    DiffedTagRowView(diffedTag: rhs)
+                    DiffedTagRowView(vm: rhs.diffedTagRowVM)
                 }
             case (let lhs?, _):
                 HStack(spacing: commonPadding) {
-                    DiffedTagRowView(diffedTag: lhs)
+                    DiffedTagRowView(vm: lhs.diffedTagRowVM)
                     Rectangle().hidden()
                 }
             case (_, let rhs?):
                 HStack(spacing: commonPadding) {
                     Rectangle().hidden()
-                    DiffedTagRowView(diffedTag: rhs)
+                    DiffedTagRowView(vm: rhs.diffedTagRowVM)
                 }
             case (nil, nil):
                 EmptyView()
@@ -178,20 +172,17 @@ struct DiffView: View {
 
 }
 
-// TODO: diff
-//let viewModel = DiffVM(
-//    columns: 2,
-//    texts: [],
-//    initialTags: [[.init(hexString: "9F33032808C8")], [.init(hexString: "9F33032601C8")]],
-//    diffResults: [],
-//    showOnlyDifferent: false
-//)
-//
-//struct DiffView_Previews: PreviewProvider {
-//    static let appVM = AppVM()
-//
-//    static var previews: some View {
-//        DiffView(vm: viewModel)
-//            .environmentObject(appVM)
-//    }
-//}
+struct DiffView_Previews: PreviewProvider {
+    private static let viewModel = DiffVM(
+        columns: 2,
+        texts: [],
+        initialTags: [EMVTag.mockDiffPair.0, EMVTag.mockDiffPair.1],
+        diffResults: [],
+        showOnlyDifferent: false
+    )
+
+    static var previews: some View {
+        DiffView(vm: viewModel)
+            .environmentObject(AppVM())
+    }
+}

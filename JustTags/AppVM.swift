@@ -185,35 +185,35 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func diffTags(_ tags: TagPair) {
-        // TODO: diff
-//        let toDiff: TagPair
-//        
-//        // If two constructed tags are selected - diff the subtags
-//        if tags.lhs[0].isConstructed && tags.rhs[0].isConstructed {
-//            toDiff = (tags.lhs[0].subtags, tags.rhs[0].subtags)
-//        } else {
-//            toDiff = tags
-//        }
-//        
-//        if let emptyDiffVM = emptyDiffVM {
-//            // An empty diff vm is available, use it
-//            emptyDiffVM.diff(tags: toDiff)
-//            makeKeyAndActive(vm: emptyDiffVM)
-//        } else {
-//            // No empty diff vms available, we will get a new one
-//            newVMSetup = { newVM in
-//                guard let newVM = newVM as? DiffVM else {
-//                    assertionFailure("New VM is not DiffWindowVM")
-//                    return
-//                }
-//                newVM.diff(tags: toDiff)
-//            }
-//            openDiffView()
-//            // If the diff window was already in place - open
-//            if anyDiffWindow != nil {
-//                openNewTab()
-//            }
-//        }
+        let toDiff: TagPair
+        
+        // If two constructed tags are selected - diff the subtags
+        switch (tags.lhs[0].category, tags.rhs[0].category) {
+        case (.constructed(let llhs), .constructed(let rrhs)):
+            toDiff = (llhs, rrhs)
+        default:
+            toDiff = tags
+        }
+        
+        if let emptyDiffVM = emptyDiffVM {
+            // An empty diff vm is available, use it
+            emptyDiffVM.diff(tags: toDiff)
+            makeKeyAndActive(vm: emptyDiffVM)
+        } else {
+            // No empty diff vms available, we will get a new one
+            newVMSetup = { newVM in
+                guard let newVM = newVM as? DiffVM else {
+                    assertionFailure("New VM is not DiffWindowVM")
+                    return
+                }
+                newVM.diff(tags: toDiff)
+            }
+            openDiffView()
+            // If the diff window was already in place - open
+            if anyDiffWindow != nil {
+                openNewTab()
+            }
+        }
     }
     
     private var emptyDiffVM: DiffVM? {
