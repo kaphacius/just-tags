@@ -49,6 +49,7 @@ internal struct MainViewCommands: Commands {
             renameTabButton
             openMainViewButton
             openDiffViewButton
+            addKernelInfoButton
         }
     }
     
@@ -119,10 +120,10 @@ internal struct MainViewCommands: Commands {
         ).keyboardShortcut("r", modifiers: [.command, .shift])
     }
     
-    private var openTagInfoButton: some View {
+    private var addKernelInfoButton: some View {
         Button(
-            "Open tag info list",
-            action: vm.loadInfoJSON
+            "Add custom kernel info",
+            action: vm.addKernelInfo
         ).keyboardShortcut("o", modifiers: [.command, .shift])
     }
     

@@ -81,17 +81,6 @@ extension Array: Comparable where Self.Element == UInt8 {
     
 }
 
-internal struct SelectedTag: EnvironmentKey {
-    static let defaultValue: Binding<EMVTag?> = .constant(nil)
-}
-
-extension EnvironmentValues {
-    internal var selectedTag: Binding<EMVTag?> {
-        get { self[SelectedTag.self] }
-        set { self[SelectedTag.self] = newValue }
-    }
-}
-
 extension NSPasteboard {
     
     static func copyString(_ string: String) {

@@ -256,16 +256,12 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
-    internal func loadInfoJSON() {
-        let openPanel = NSOpenPanel()
-        openPanel.canChooseDirectories = true
-        openPanel.canChooseFiles = true
-        openPanel.allowedContentTypes = [.json]
-        guard openPanel.runModal() == .OK else { return }
-        
-        let data = try! Data(contentsOf: openPanel.url!)
-        
-        try! tagDecoder?.addKernelInfo(data: data)
+    internal func addKernelInfo() {
+        if #available(macOS 13, *) {
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        } else {
+            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+        }
     }
     
     private func window(for vm: AnyWindowVM) -> NSWindow? {

@@ -28,6 +28,9 @@
 		5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffVM.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */; };
+		5A90204228F9B87000CD7BDC /* KernelsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */; };
+		5A90204428F9B91200CD7BDC /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */; };
+		5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */; };
 		5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */; };
 		5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A9BC832282C3528000C05F7 /* SwiftyEMVTags */; };
 		5AA64D07283547A800F295A9 /* MainVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D06283547A800F295A9 /* MainVM.swift */; };
@@ -91,6 +94,9 @@
 		5A5B09FA285C493700705C35 /* DiffVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffVM.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelsSettingsView.swift; sourceTree = "<group>"; };
+		5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
+		5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelInfoView.swift; sourceTree = "<group>"; };
 		5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedValues.swift; sourceTree = "<group>"; };
 		5AA64D06283547A800F295A9 /* MainVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVM.swift; sourceTree = "<group>"; };
 		5AA64D2B2848079100F295A9 /* ConstructedTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedTagView.swift; sourceTree = "<group>"; };
@@ -163,6 +169,7 @@
 				5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */,
 				5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */,
 				5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */,
+				5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -207,6 +214,8 @@
 			isa = PBXGroup;
 			children = (
 				5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */,
+				5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */,
+				5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -450,11 +459,14 @@
 				5A1CA02928F14BF2007672D4 /* PreviewHelpers.swift in Sources */,
 				5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */,
 				5A31B178281D8032002B2D06 /* HintView.swift in Sources */,
+				5A90204428F9B91200CD7BDC /* EnvironmentValues.swift in Sources */,
 				5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */,
 				5AE8BF5027E79BF000474AD0 /* JustTagsApp.swift in Sources */,
 				5AA64D2C2848079100F295A9 /* ConstructedTagView.swift in Sources */,
 				5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */,
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
+				5A90204228F9B87000CD7BDC /* KernelsSettingsView.swift in Sources */,
+				5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */,
 				5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */,
 				5AE923E428C33C7D00BD6B3E /* DiffedTagRowView.swift in Sources */,
 				5AFC5F5C28F49595004DA503 /* DecodedRowView.swift in Sources */,
@@ -819,7 +831,7 @@
 			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
 				kind = revision;
-				revision = 43111d861a42efbb407d74aed7658d88ffe056af;
+				revision = bf0ae39670d1494c6c61e3d5b0d4b4320dcb91ef;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

@@ -6,54 +6,38 @@
 //
 
 import SwiftUI
+import SwiftyEMVTags
 
 struct SettingsView: View {
     var body: some View {
         TabView {
-            ProfileSettingsView()
-                .tabItem {
-                    Label("Profile", systemImage: "person.crop.circle")
-                }
-            
-            AppearanceSettingsView()
-                .tabItem {
-                    Label("Appearance", systemImage: "paintpalette")
-                }
-            
-            PrivacySettingsView()
-                .tabItem {
-                    Label("Privacy", systemImage: "hand.raised")
-                }
+            general
+            kernels
         }
-        .frame(width: 450, height: 250)
+        .navigationTitle("Settings")
+        .padding(commonPadding)
+        .frame(width: 600.0, height: 450.0)
     }
-}
-
-struct ProfileSettingsView: View {
-    var body: some View {
-        Text("Profile Settings")
-            .font(.title)
+    
+    private var general: some View {
+        Text("Here be General settings")
+            .font(.largeTitle)
+            .tabItem {
+                Label("General", systemImage: "gear")
+            }
     }
-}
-
-
-struct AppearanceSettingsView: View {
-    var body: some View {
-        Text("Appearance Settings")
-            .font(.title)
-    }
-}
-
-
-struct PrivacySettingsView: View {
-    var body: some View {
-        Text("Privacy Settings")
-            .font(.title)
+    
+    private var kernels: some View {
+        KernelsSettingsView()
+            .tabItem {
+                Label("Kernels", systemImage: "text.book.closed.fill")
+            }
     }
 }
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+            .environmentObject(try! TagDecoder.defaultDecoder())
     }
 }
