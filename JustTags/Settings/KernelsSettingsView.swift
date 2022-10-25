@@ -17,22 +17,22 @@ struct KernelsSettingsView: View {
         VStack(alignment: .leading, spacing: commonPadding) {
             existingInfoList
             addNewInfo
-        }.padding(commonPadding)
-            .onDrop(of: [.fileURL], isTargeted: nil) { providers in
-                guard let provider = providers.first else { return false }
-                _ = provider.loadObject(
-                    ofClass: NSPasteboard.PasteboardType.self) { (pasteboardItem, error) in
+        }
+        .padding(commonPadding)
+        .onDrop(of: [.fileURL], isTargeted: nil) { providers in
+            guard let provider = providers.first else { return false }
+            _ = provider.loadObject(
+                ofClass: NSPasteboard.PasteboardType.self) { (pasteboardItem, error) in
                     guard let pasteboardItem,
-                          let url = URL(string: pasteboardItem.rawValue),
-                          let data = try? Data(contentsOf: url) else {
+                          let url = URL(string: pasteboardItem.rawValue) else {
                         // TODO: handle error
                         return
                     }
-
-                    try? addNewKernelInfo(data: data)
+                    
+                    try? addNewKernelInfo(at: url)
                 }
-                return true
-            }
+            return true
+        }
     }
     
     private var addNewInfo: some View {
@@ -73,17 +73,48 @@ struct KernelsSettingsView: View {
             
             guard let infoURL = openPanel.url else { return }
             
-            try addNewKernelInfo(data: try Data(contentsOf: infoURL))
+            try addNewKernelInfo(at: infoURL)
         } catch {
             // TODO: handle error
             print(error)
         }
     }
     
-    private func addNewKernelInfo(data: Data) throws {
+    private func addNewKernelInfo(at url: URL) throws {
+        let data = try Data(contentsOf: url)
+        try tagDecoder.addKernelInfo(data: data)
+        saveNewKernelInfo(url: url)
         Task { @MainActor in
-            try tagDecoder.addKernelInfo(data: data)
             tagDecoder.objectWillChange.send()
+        }
+    }
+    
+    private func saveNewKernelInfo(url: URL) {
+        guard let supportFolder = NSSearchPathForDirectoriesInDomains(
+            .applicationSupportDirectory, .userDomainMask, true)
+            .first
+            .map(URL.init(fileURLWithPath:))
+        else {
+            return
+        }
+        
+        do {
+            let dirPath = supportFolder
+                .appendingPathComponent("KernelInfo", isDirectory: true)
+            if FileManager.default.fileExists(atPath: dirPath.path) == false {
+                try FileManager.default.createDirectory(
+                    at: dirPath,
+                    withIntermediateDirectories: false
+                )
+            }
+            
+            try FileManager.default.copyItem(
+                at: url,
+                to: dirPath.appendingPathComponent(url.lastPathComponent)
+            )
+        } catch {
+            // TODO: handle errors
+            print(error)
         }
     }
 }
