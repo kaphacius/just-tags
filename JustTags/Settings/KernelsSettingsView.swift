@@ -15,20 +15,35 @@ struct KernelsSettingsView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
-            Divider()
             existingInfoList
             addNewInfo
         }.padding(commonPadding)
+            .onDrop(of: [.fileURL], isTargeted: nil) { providers in
+                guard let provider = providers.first else { return false }
+                _ = provider.loadObject(
+                    ofClass: NSPasteboard.PasteboardType.self) { (pasteboardItem, error) in
+                    guard let pasteboardItem,
+                          let url = URL(string: pasteboardItem.rawValue),
+                          let data = try? Data(contentsOf: url) else {
+                        // TODO: handle error
+                        return
+                    }
+
+                    try? addNewKernelInfo(data: data)
+                }
+                return true
+            }
     }
     
     private var addNewInfo: some View {
-        Button(action: addNewKernelInfo) {
+        Button(action: toggleOpenPanel) {
             Label("Add custom kernel info...", systemImage: "plus")
         }
     }
     
     private var existingInfoList: some View {
         ScrollView {
+            Divider()
             ForEach(kernelInfoVMs, id: \.name) { vm in
                 HStack {
                     KernelInfoView(vm: vm)
@@ -48,7 +63,7 @@ struct KernelsSettingsView: View {
             }).map(\.kernelInfoVM)
     }
     
-    internal func addNewKernelInfo() {
+    private func toggleOpenPanel() {
         do {
             let openPanel = NSOpenPanel()
             openPanel.canChooseDirectories = true
@@ -58,11 +73,17 @@ struct KernelsSettingsView: View {
             
             guard let infoURL = openPanel.url else { return }
             
-            let data = try Data(contentsOf: infoURL)
+            try addNewKernelInfo(data: try Data(contentsOf: infoURL))
+        } catch {
+            // TODO: handle error
+            print(error)
+        }
+    }
+    
+    private func addNewKernelInfo(data: Data) throws {
+        Task { @MainActor in
             try tagDecoder.addKernelInfo(data: data)
             tagDecoder.objectWillChange.send()
-        } catch {
-            print(error)
         }
     }
 }
