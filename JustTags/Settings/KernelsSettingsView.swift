@@ -12,7 +12,7 @@ extension TagDecoder: ObservableObject {}
 
 struct KernelsSettingsView: View {
     @EnvironmentObject private var tagDecoder: TagDecoder
-    @EnvironmentObject private var repo: KernelInfoRepo
+    @EnvironmentObject private var repo: CustomResourceRepo<KernelInfoHandler>
     
     var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
@@ -48,12 +48,10 @@ struct KernelsSettingsView: View {
     
     @ViewBuilder
     private func deleteButtonOverlay(for name: String) -> some View {
-        if repo.isKernelInfoSaved(with: name) {
+        if repo.resources.contains(name) {
             Button(action: {
                 // TODO: Add confirmation to deletion
-                withAnimation {
-                    repo.removeKernelInfo(with: name)
-                }
+                try! repo.removeResource(with: name)
             }) {
                 Label("Delete \(name)", systemImage: "xmark.bin.fill")
                     .labelStyle(.iconOnly)
@@ -72,7 +70,8 @@ struct KernelsSettingsView: View {
                 return
             }
             
-            try? repo.addNewKernelInfo(at: url)
+            // TODO: handle error
+            try? repo.addNewResource(at: url)
         }
         return true
     }
@@ -96,7 +95,7 @@ struct KernelsSettingsView: View {
             
             guard let infoURL = openPanel.url else { return }
             
-            try repo.addNewKernelInfo(at: infoURL)
+            try repo.addNewResource(at: infoURL)
         } catch {
             // TODO: handle error
             print(error)
@@ -110,7 +109,9 @@ struct KernelsSettingsView_Previews: PreviewProvider {
         KernelsSettingsView()
             .environmentObject(try! TagDecoder.defaultDecoder())
             .environmentObject(
-                KernelInfoRepo(tagDecoder: try! TagDecoder.defaultDecoder())!
+                CustomResourceRepo(
+                    handler: KernelInfoHandler(tagDecoder: try! TagDecoder.defaultDecoder())
+                )!
             )
     }
 }

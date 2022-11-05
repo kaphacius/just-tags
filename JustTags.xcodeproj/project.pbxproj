@@ -27,7 +27,7 @@
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
 		5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffVM.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
-		5A6D76822916452B004CE28C /* KernelInfoRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D76812916452B004CE28C /* KernelInfoRepo.swift */; };
+		5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D76812916452B004CE28C /* CustomResourceRepo.swift */; };
 		5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */; };
 		5A90204228F9B87000CD7BDC /* KernelsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */; };
 		5A90204428F9B91200CD7BDC /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */; };
@@ -94,7 +94,7 @@
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
 		5A5B09FA285C493700705C35 /* DiffVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffVM.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
-		5A6D76812916452B004CE28C /* KernelInfoRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelInfoRepo.swift; sourceTree = "<group>"; };
+		5A6D76812916452B004CE28C /* CustomResourceRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResourceRepo.swift; sourceTree = "<group>"; };
 		5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelsSettingsView.swift; sourceTree = "<group>"; };
 		5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
@@ -218,7 +218,7 @@
 				5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */,
 				5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */,
 				5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */,
-				5A6D76812916452B004CE28C /* KernelInfoRepo.swift */,
+				5A6D76812916452B004CE28C /* CustomResourceRepo.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -470,7 +470,7 @@
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
 				5A90204228F9B87000CD7BDC /* KernelsSettingsView.swift in Sources */,
 				5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */,
-				5A6D76822916452B004CE28C /* KernelInfoRepo.swift in Sources */,
+				5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */,
 				5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */,
 				5AE923E428C33C7D00BD6B3E /* DiffedTagRowView.swift in Sources */,
 				5AFC5F5C28F49595004DA503 /* DecodedRowView.swift in Sources */,
