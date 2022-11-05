@@ -9,59 +9,110 @@ import Foundation
 import SwiftUI
 import SwiftyEMVTags
 
-private let kernelsDirPath = NSSearchPathForDirectoriesInDomains(
-    .applicationSupportDirectory, .userDomainMask, true)
-    .first
-    .map(URL.init(fileURLWithPath:))
-    .map { $0.appendingPathComponent("KernelInfo", isDirectory: true) }
-
-internal func loadSavedKernelInfo(for tagDecoder: TagDecoder) throws {
-    guard let dirPath = kernelsDirPath else {
-        // TODO: Handle this?
-        return
-    }
+internal class KernelInfoRepo {
     
-    guard FileManager.default.fileExists(atPath: dirPath.path) else {
-        // Nothing to load
-        return
-    }
+    internal static let shared: KernelInfoRepo? = KernelInfoRepo()
     
-    try FileManager.default.contentsOfDirectory(atPath: dirPath.path)
-        .map(dirPath.appendingPathComponent)
-        .map { try Data(contentsOf: $0) }
-        .forEach(tagDecoder.addKernelInfo(data:))
-}
+    private let kernelsDirPath: URL
     
-internal func addNewKernelInfo(at url: URL, tagDecoder: TagDecoder) throws {
-    let data = try Data(contentsOf: url)
-    try tagDecoder.addKernelInfo(data: data)
-    // TODO: check if kernel already exists
-    saveNewKernelInfo(url: url, tagDecoder: tagDecoder)
-    Task { @MainActor in
-        tagDecoder.objectWillChange.send()
-    }
-}
-
-internal func saveNewKernelInfo(url: URL, tagDecoder: TagDecoder) {
-    guard let dirPath = kernelsDirPath else {
-        // TODO: Handle this?
-        return
-    }
+    internal var kernelFilenames: Dictionary<String, String> = [:]
     
-    do {
-        if FileManager.default.fileExists(atPath: dirPath.path) == false {
-            try FileManager.default.createDirectory(
-                at: dirPath,
-                withIntermediateDirectories: false
-            )
+    internal init?() {
+        guard let kernelsDirPath = NSSearchPathForDirectoriesInDomains(
+            .applicationSupportDirectory, .userDomainMask, true
+        )
+            .first
+            .map(URL.init(fileURLWithPath:))
+            .map({ $0.appendingPathComponent("KernelInfo", isDirectory: true) }) else {
+            return nil
         }
         
-        try FileManager.default.copyItem(
-            at: url,
-            to: dirPath.appendingPathComponent(url.lastPathComponent)
-        )
-    } catch {
-        // TODO: handle errors
-        print(error)
+        self.kernelsDirPath = kernelsDirPath
     }
+    
+    internal func isKernelInfoSaved(with name: String) -> Bool {
+        kernelFilenames.keys.contains(name)
+    }
+    
+    internal func loadSavedKernelInfo(for tagDecoder: TagDecoder) throws {
+        guard FileManager.default.fileExists(atPath: kernelsDirPath.path) else {
+            // Nothing to load
+            return
+        }
+        
+        try FileManager.default.contentsOfDirectory(atPath: kernelsDirPath.path)
+            .map(kernelsDirPath.appendingPathComponent)
+            .map { (try Data(contentsOf: $0), $0.lastPathComponent) }
+            .map { (try JSONDecoder().decode(KernelInfo.self, from: $0.0), $0.1) }
+            .map { (kernelInfo, kernelFilename) in
+                self.kernelFilenames[kernelInfo.name] = kernelFilename
+                return kernelInfo
+            }
+            .forEach(tagDecoder.addKernelInfo(newInfo:))
+    }
+    
+    internal func addNewKernelInfo(at url: URL, tagDecoder: TagDecoder) throws {
+        let data = try Data(contentsOf: url)
+        let newKernelInfo = try JSONDecoder().decode(KernelInfo.self, from: data)
+        try tagDecoder.addKernelInfo(newInfo: newKernelInfo)
+        // TODO: check if kernel already exists
+        saveNewKernelInfo(at: url, name: newKernelInfo.name, tagDecoder: tagDecoder)
+        Task { @MainActor in
+            withAnimation {
+                tagDecoder.objectWillChange.send()
+            }
+        }
+    }
+    
+    internal func saveNewKernelInfo(at url: URL, name: String, tagDecoder: TagDecoder) {
+        do {
+            if FileManager.default.fileExists(atPath: kernelsDirPath.path) == false {
+                try FileManager.default.createDirectory(
+                    at: kernelsDirPath,
+                    withIntermediateDirectories: false
+                )
+            }
+            
+            let newPath = kernelsDirPath
+                .appendingPathComponent(UUID().uuidString)
+                .appendingPathExtension(for: .json)
+            
+            try FileManager.default.copyItem(
+                at: url,
+                to: newPath
+            )
+            
+            kernelFilenames[name] = newPath.lastPathComponent
+        } catch {
+            // TODO: handle errors
+            print(error)
+        }
+    }
+    
+    private func pathForKernel(with name: String) -> URL? {
+        kernelFilenames[name]
+            .map { kernelsDirPath
+                .appendingPathComponent($0)
+                .appendingPathExtension(for: .json)
+            }
+    }
+    
+    internal func removeKernelInfo(with name: String, tagDecoder: TagDecoder) {
+        guard tagDecoder.kernels.contains(name),
+              let kernelInfoPath = pathForKernel(with: name),
+              FileManager.default.fileExists(atPath: kernelInfoPath.path)
+        else {
+            // Nothing to delete
+            return
+        }
+        
+        do {
+            try FileManager.default.removeItem(at: kernelInfoPath)
+            tagDecoder.removeKernelInfo(with: name)
+            tagDecoder.objectWillChange.send()
+        } catch {
+            // TODO: handle error
+        }
+    }
+    
 }

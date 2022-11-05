@@ -32,7 +32,7 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         self.tagDecoder = try? TagDecoder.defaultDecoder()
-        try? tagDecoder.map(loadSavedKernelInfo(for:))
+        tagDecoder.map { try? KernelInfoRepo.shared?.loadSavedKernelInfo(for: $0) }
         
         // Get notified when app is about to quit
         NotificationCenter.default.addObserver(

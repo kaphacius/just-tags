@@ -19,20 +19,7 @@ struct KernelsSettingsView: View {
             addNewInfo
         }
         .padding(commonPadding)
-        .onDrop(of: [.fileURL], isTargeted: nil) { providers in
-            guard let provider = providers.first else { return false }
-            _ = provider.loadObject(
-                ofClass: NSPasteboard.PasteboardType.self) { (pasteboardItem, error) in
-                    guard let pasteboardItem,
-                          let url = URL(string: pasteboardItem.rawValue) else {
-                        // TODO: handle error
-                        return
-                    }
-                    
-                    try? addNewKernelInfo(at: url, tagDecoder: tagDecoder)
-                }
-            return true
-        }
+        .onDrop(of: [.fileURL], isTargeted: nil, perform: handleDrop(_:))
     }
     
     private var addNewInfo: some View {
@@ -48,10 +35,48 @@ struct KernelsSettingsView: View {
                 HStack {
                     KernelInfoView(vm: vm)
                     Spacer()
-                }.frame(maxWidth: .infinity)
+                }
+                .frame(maxWidth: .infinity)
+                .overlay(alignment: .topTrailing) {
+                    deleteButtonOverlay(for: vm.name)
+                }
                 Divider()
             }
         }
+    }
+    
+    @ViewBuilder
+    private func deleteButtonOverlay(for name: String) -> some View {
+        if KernelInfoRepo.shared!.isKernelInfoSaved(with: name) {
+            Button(action: {
+                withAnimation {
+                    KernelInfoRepo.shared!.removeKernelInfo(
+                        with: name,
+                        tagDecoder: tagDecoder
+                    )
+                }
+            }) {
+                Label("Delete \(name)", systemImage: "xmark.bin.fill")
+                    .labelStyle(.iconOnly)
+            }.padding(.trailing, commonPadding)
+        }
+    }
+    
+    private func handleDrop(_ providers: [NSItemProvider]) -> Bool {
+        guard let provider = providers.first else { return false }
+        _ = provider.loadObject(
+            ofClass: NSPasteboard.PasteboardType.self
+        ) { (pasteboardItem, error) in
+            guard let pasteboardItem,
+                  let url = URL(string: pasteboardItem.rawValue) else {
+                // TODO: handle error
+                return
+            }
+            
+            try? KernelInfoRepo.shared?
+                .addNewKernelInfo(at: url, tagDecoder: tagDecoder)
+        }
+        return true
     }
     
     private var kernelInfoVMs: [KernelInfoVM] {
@@ -73,7 +98,8 @@ struct KernelsSettingsView: View {
             
             guard let infoURL = openPanel.url else { return }
             
-            try addNewKernelInfo(at: infoURL, tagDecoder: tagDecoder)
+            try KernelInfoRepo.shared?
+                .addNewKernelInfo(at: infoURL, tagDecoder: tagDecoder)
         } catch {
             // TODO: handle error
             print(error)
