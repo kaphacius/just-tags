@@ -40,6 +40,7 @@ internal struct JustTagsApp: App {
         Settings {
             SettingsView()
                 .environmentObject(appVM.tagDecoder!)
+                .environmentObject(appVM.kernelInfoRepo!)
         }
     }
 

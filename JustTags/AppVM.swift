@@ -17,6 +17,7 @@ internal final class AppVM: NSObject, ObservableObject {
     // Throwaway to avoid optionals
     @Published internal var activeVM: AnyWindowVM = MainVM()
     @Published internal var tagDecoder: TagDecoder?
+    @Published internal var kernelInfoRepo: KernelInfoRepo?
     @Environment(\.openURL) var openURL
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
@@ -32,7 +33,7 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         self.tagDecoder = try? TagDecoder.defaultDecoder()
-        tagDecoder.map { try? KernelInfoRepo.shared?.loadSavedKernelInfo(for: $0) }
+        self.kernelInfoRepo = self.tagDecoder.flatMap(KernelInfoRepo.init(tagDecoder:))
         
         // Get notified when app is about to quit
         NotificationCenter.default.addObserver(

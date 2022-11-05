@@ -9,15 +9,14 @@ import Foundation
 import SwiftUI
 import SwiftyEMVTags
 
-internal class KernelInfoRepo {
-    
-    internal static let shared: KernelInfoRepo? = KernelInfoRepo()
+internal class KernelInfoRepo: ObservableObject {
     
     private let kernelsDirPath: URL
+    private let tagDecoder: TagDecoder
     
-    internal var kernelFilenames: Dictionary<String, String> = [:]
+    private var kernelFilenames: Dictionary<String, String> = [:]
     
-    internal init?() {
+    internal init?(tagDecoder: TagDecoder) {
         guard let kernelsDirPath = NSSearchPathForDirectoriesInDomains(
             .applicationSupportDirectory, .userDomainMask, true
         )
@@ -28,13 +27,14 @@ internal class KernelInfoRepo {
         }
         
         self.kernelsDirPath = kernelsDirPath
+        self.tagDecoder = tagDecoder
     }
     
     internal func isKernelInfoSaved(with name: String) -> Bool {
         kernelFilenames.keys.contains(name)
     }
     
-    internal func loadSavedKernelInfo(for tagDecoder: TagDecoder) throws {
+    internal func loadSavedKernelInfo() throws {
         guard FileManager.default.fileExists(atPath: kernelsDirPath.path) else {
             // Nothing to load
             return
@@ -51,12 +51,12 @@ internal class KernelInfoRepo {
             .forEach(tagDecoder.addKernelInfo(newInfo:))
     }
     
-    internal func addNewKernelInfo(at url: URL, tagDecoder: TagDecoder) throws {
+    internal func addNewKernelInfo(at url: URL) throws {
         let data = try Data(contentsOf: url)
         let newKernelInfo = try JSONDecoder().decode(KernelInfo.self, from: data)
         try tagDecoder.addKernelInfo(newInfo: newKernelInfo)
         // TODO: check if kernel already exists
-        saveNewKernelInfo(at: url, name: newKernelInfo.name, tagDecoder: tagDecoder)
+        saveNewKernelInfo(at: url, name: newKernelInfo.name)
         Task { @MainActor in
             withAnimation {
                 tagDecoder.objectWillChange.send()
@@ -64,7 +64,7 @@ internal class KernelInfoRepo {
         }
     }
     
-    internal func saveNewKernelInfo(at url: URL, name: String, tagDecoder: TagDecoder) {
+    internal func saveNewKernelInfo(at url: URL, name: String) {
         do {
             if FileManager.default.fileExists(atPath: kernelsDirPath.path) == false {
                 try FileManager.default.createDirectory(
@@ -97,7 +97,7 @@ internal class KernelInfoRepo {
             }
     }
     
-    internal func removeKernelInfo(with name: String, tagDecoder: TagDecoder) {
+    internal func removeKernelInfo(with name: String) {
         guard tagDecoder.kernels.contains(name),
               let kernelInfoPath = pathForKernel(with: name),
               FileManager.default.fileExists(atPath: kernelInfoPath.path)
