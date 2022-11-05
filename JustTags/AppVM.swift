@@ -16,7 +16,7 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var setUpInProgress: Bool = true
     // Throwaway to avoid optionals
     @Published internal var activeVM: AnyWindowVM = MainVM()
-    @Published internal var tagDecoder: TagDecoder? = try? TagDecoder.defaultDecoder()
+    @Published internal var tagDecoder: TagDecoder?
     @Environment(\.openURL) var openURL
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
@@ -30,6 +30,9 @@ internal final class AppVM: NSObject, ObservableObject {
         if loadedState.isStateRestored {
             self.setUpInProgress = false
         }
+        
+        self.tagDecoder = try? TagDecoder.defaultDecoder()
+        try? tagDecoder.map(loadSavedKernelInfo(for:))
         
         // Get notified when app is about to quit
         NotificationCenter.default.addObserver(

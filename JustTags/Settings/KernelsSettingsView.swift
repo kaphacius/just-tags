@@ -29,7 +29,7 @@ struct KernelsSettingsView: View {
                         return
                     }
                     
-                    try? addNewKernelInfo(at: url)
+                    try? addNewKernelInfo(at: url, tagDecoder: tagDecoder)
                 }
             return true
         }
@@ -73,50 +73,13 @@ struct KernelsSettingsView: View {
             
             guard let infoURL = openPanel.url else { return }
             
-            try addNewKernelInfo(at: infoURL)
+            try addNewKernelInfo(at: infoURL, tagDecoder: tagDecoder)
         } catch {
             // TODO: handle error
             print(error)
         }
     }
     
-    private func addNewKernelInfo(at url: URL) throws {
-        let data = try Data(contentsOf: url)
-        try tagDecoder.addKernelInfo(data: data)
-        saveNewKernelInfo(url: url)
-        Task { @MainActor in
-            tagDecoder.objectWillChange.send()
-        }
-    }
-    
-    private func saveNewKernelInfo(url: URL) {
-        guard let supportFolder = NSSearchPathForDirectoriesInDomains(
-            .applicationSupportDirectory, .userDomainMask, true)
-            .first
-            .map(URL.init(fileURLWithPath:))
-        else {
-            return
-        }
-        
-        do {
-            let dirPath = supportFolder
-                .appendingPathComponent("KernelInfo", isDirectory: true)
-            if FileManager.default.fileExists(atPath: dirPath.path) == false {
-                try FileManager.default.createDirectory(
-                    at: dirPath,
-                    withIntermediateDirectories: false
-                )
-            }
-            
-            try FileManager.default.copyItem(
-                at: url,
-                to: dirPath.appendingPathComponent(url.lastPathComponent)
-            )
-        } catch {
-            // TODO: handle errors
-            print(error)
-        }
-    }
 }
 
 struct KernelsSettingsView_Previews: PreviewProvider {
