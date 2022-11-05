@@ -36,10 +36,11 @@ internal struct DecodedRowView: View {
         HStack(spacing: 0.0) {
             Group {
                 ForEach(
-                    (0..<UInt8.bitWidth).map(vm.value(at:)),
-                    id: \.self,
-                    content: element(with:)
-                )
+                    (0..<UInt8.bitWidth).map { ($0, vm.value(at: $0)) },
+                    id: \.0
+                ) {
+                    element(with: $0.1)
+                }
                 meaningView
             }
             .frame(height: Self.rowHeight)

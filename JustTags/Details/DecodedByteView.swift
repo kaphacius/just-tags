@@ -40,10 +40,11 @@ struct DecodedByteView: View {
                 VStack(spacing: 0.0) {
                     bitHeaderRow
                     ForEach(
-                        vm.rows,
-                        id:\.startIndex,
-                        content: DecodedRowView.init(vm:)
-                    )
+                        Array(vm.rows.enumerated()),
+                        id:\.offset
+                    ) {
+                        DecodedRowView(vm: $0.element)
+                    }
                 }
                 .border(Self.borderColor, width: 1.0)
             }
