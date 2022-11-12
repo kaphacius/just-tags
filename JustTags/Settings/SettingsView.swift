@@ -11,11 +11,12 @@ import SwiftyEMVTags
 struct SettingsView: View {
     
     @EnvironmentObject private var kernelInfoRepo: KernelInfoRepo
+    @EnvironmentObject private var tagMappingRepo: TagMappingRepo
     
     var body: some View {
         TabView {
-            general
             kernels
+            tagMappings
         }
         .navigationTitle("Settings")
         .padding(commonPadding)
@@ -44,6 +45,13 @@ struct SettingsView: View {
         page(
             vm: .init(repo: kernelInfoRepo),
             viewType: KernelInfoView.self
+        )
+    }
+    
+    private var tagMappings: some View {
+        page(
+            vm: .init(repo: tagMappingRepo),
+            viewType: TagMappingView.self
         )
     }
 }
