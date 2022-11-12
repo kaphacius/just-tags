@@ -33,7 +33,6 @@
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D76812916452B004CE28C /* CustomResourceRepo.swift */; };
 		5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */; };
-		5A90204228F9B87000CD7BDC /* KernelsSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */; };
 		5A90204428F9B91200CD7BDC /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */; };
 		5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */; };
 		5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */; };
@@ -105,7 +104,6 @@
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5A6D76812916452B004CE28C /* CustomResourceRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResourceRepo.swift; sourceTree = "<group>"; };
 		5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
-		5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelsSettingsView.swift; sourceTree = "<group>"; };
 		5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelInfoView.swift; sourceTree = "<group>"; };
 		5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedValues.swift; sourceTree = "<group>"; };
@@ -215,8 +213,8 @@
 		5A4FE246291C12DF0034217A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5ABC3F32291F85A100C0C217 /* KernelInfo */,
 				5A6D76812916452B004CE28C /* CustomResourceRepo.swift */,
-				5A4FE247291C12ED0034217A /* KernelInfoHandler.swift */,
 				5A4FE249291C13140034217A /* TagMappingHandler.swift */,
 				5A4FE244291C110C0034217A /* CustomResourceListView.swift */,
 				5A4FE24C291D6F940034217A /* CustomResourceListVM.swift */,
@@ -240,10 +238,17 @@
 			children = (
 				5A4FE246291C12DF0034217A /* Resources */,
 				5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */,
-				5A90204128F9B87000CD7BDC /* KernelsSettingsView.swift */,
-				5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */,
 			);
 			path = Settings;
+			sourceTree = "<group>";
+		};
+		5ABC3F32291F85A100C0C217 /* KernelInfo */ = {
+			isa = PBXGroup;
+			children = (
+				5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */,
+				5A4FE247291C12ED0034217A /* KernelInfoHandler.swift */,
+			);
+			path = KernelInfo;
 			sourceTree = "<group>";
 		};
 		5AE8BF4327E79BF000474AD0 = {
@@ -494,7 +499,6 @@
 				5A4FE245291C110C0034217A /* CustomResourceListView.swift in Sources */,
 				5A4FE248291C12ED0034217A /* KernelInfoHandler.swift in Sources */,
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
-				5A90204228F9B87000CD7BDC /* KernelsSettingsView.swift in Sources */,
 				5A4FE24A291C13140034217A /* TagMappingHandler.swift in Sources */,
 				5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */,
 				5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */,

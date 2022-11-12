@@ -6,6 +6,9 @@
 //
 
 import SwiftUI
+import SwiftyEMVTags
+
+extension TagDecoder: ObservableObject { }
 
 class CustomResourceListVM<
     R: CustomResource, H: CustomResourceHandler

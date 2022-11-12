@@ -18,6 +18,8 @@ extension KernelInfo: CustomResource {
     
 }
 
+typealias KernelInfoRepo = CustomResourceRepo<KernelInfoHandler>
+
 struct KernelInfoHandler: CustomResourceHandler {
     
     typealias P = KernelInfo

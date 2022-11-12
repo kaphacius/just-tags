@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 struct SettingsView: View {
     
-    @EnvironmentObject private var tagDecoder: TagDecoder
+    @EnvironmentObject private var kernelInfoRepo: KernelInfoRepo
     
     var body: some View {
         TabView {
@@ -41,7 +41,7 @@ struct SettingsView: View {
     
     private var kernels: some View {
         page(
-            vm: .init(repo: .init(handler: KernelInfoHandler(tagDecoder: tagDecoder))!)
+            vm: .init(repo: kernelInfoRepo)
         )
     }
 }
