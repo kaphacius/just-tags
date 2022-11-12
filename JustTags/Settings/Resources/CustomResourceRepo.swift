@@ -9,86 +9,16 @@ import Foundation
 import SwiftUI
 import SwiftyEMVTags
 
-internal struct JustTagsError: Error {
+internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
     
-    internal let message: String
-    
-}
-
-protocol CustomResource: Decodable {
-    
-    static var folderName: String { get }
-    var identifier: String { get }
-    
-}
-
-protocol CustomResourceHandler {
-    
-    associatedtype P: CustomResource
-    
-    func addCustomResource(_ resource: P) throws
-    func removeCustomResource(with identifier: String) throws
-    var identifiers: [String] { get }
-    
-}
-
-struct KernelInfoHandler: CustomResourceHandler {
-    
-    typealias P = KernelInfo
-    
-    var identifiers: [String] {
-        tagDecoder.kernels
-    }
-    
-    private let tagDecoder: TagDecoder
-    
-    init(tagDecoder: TagDecoder) {
-        self.tagDecoder = tagDecoder
-    }
-    
-    func addCustomResource(_ resource: KernelInfo) throws {
-        try tagDecoder.addKernelInfo(newInfo: resource)
-        Task { @MainActor in
-            withAnimation {
-                tagDecoder.objectWillChange.send()
-            }
-        }
-    }
-    
-    func removeCustomResource(with identifier: String) throws {
-        tagDecoder.removeKernelInfo(with: identifier)
-        Task { @MainActor in
-            withAnimation {
-                tagDecoder.objectWillChange.send()
-            }
-        }
-    }
-    
-}
-
-extension KernelInfo: CustomResource {
-    
-    
-    var identifier: String { name }
-    static let folderName = "KernelInfo"
-    
-}
-
-extension TagMapping: CustomResource {
-    
-    static let folderName = "TagMapping"
-    var identifier: String { tag.hexString }
-    
-}
-
-internal class CustomResourceRepo<T: CustomResourceHandler>: ObservableObject {
+    @Published var names: [String]
     
     private let resourcesDir: URL
-    private let handler: T
+    private let handler: H
     private var filenames: Dictionary<String, String> = [:]
-    internal var resources: [String] { Array(filenames.keys) }
+    internal var customIdentifiers: [String] { Array(filenames.keys) }
     
-    init?(handler: T) {
+    init?(handler: H) {
         self.handler = handler
         
         guard let resourcesDir = NSSearchPathForDirectoriesInDomains(
@@ -96,11 +26,12 @@ internal class CustomResourceRepo<T: CustomResourceHandler>: ObservableObject {
         )
             .first
             .map(URL.init(fileURLWithPath:))
-            .map({ $0.appendingPathComponent(T.P.folderName, isDirectory: true) }) else {
+            .map({ $0.appendingPathComponent(H.P.folderName, isDirectory: true) }) else {
             return nil
         }
         
         self.resourcesDir = resourcesDir
+        self.names = handler.identifiers
     }
     
     internal func loadSavedResources() throws {
@@ -112,7 +43,7 @@ internal class CustomResourceRepo<T: CustomResourceHandler>: ObservableObject {
         try FileManager.default.contentsOfDirectory(atPath: resourcesDir.path)
             .map(resourcesDir.appendingPathComponent)
             .map { (try Data(contentsOf: $0), $0.lastPathComponent) }
-            .map { (try JSONDecoder().decode(T.P.self, from: $0.0), $0.1) }
+            .map { (try JSONDecoder().decode(H.P.self, from: $0.0), $0.1) }
             .map { (resource, filename) in
                 self.filenames[resource.identifier] = filename
                 return resource
@@ -123,15 +54,10 @@ internal class CustomResourceRepo<T: CustomResourceHandler>: ObservableObject {
     
     internal func addNewResource(at url: URL) throws {
         let data = try Data(contentsOf: url)
-        let newResource = try JSONDecoder().decode(T.P.self, from: data)
+        let newResource = try JSONDecoder().decode(H.P.self, from: data)
         try handler.addCustomResource(newResource)
         // TODO: check if resource already exists
         try saveResource(at: url, identifier: newResource.identifier)
-        Task { @MainActor in
-            withAnimation {
-//                tagDecoder.objectWillChange.send()
-            }
-        }
     }
     
     private func saveResource(at url: URL, identifier: String) throws {

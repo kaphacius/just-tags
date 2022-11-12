@@ -9,6 +9,9 @@ import SwiftUI
 import SwiftyEMVTags
 
 struct SettingsView: View {
+    
+    @EnvironmentObject private var tagDecoder: TagDecoder
+    
     var body: some View {
         TabView {
             general
@@ -27,11 +30,19 @@ struct SettingsView: View {
             }
     }
     
-    private var kernels: some View {
-        KernelsSettingsView()
+    private func page<R: CustomResource, H: CustomResourceHandler>(
+        vm: CustomResourceListVM<R, H>
+    ) -> some View {
+        CustomResourceListView(vm: vm)
             .tabItem {
-                Label("Kernels", systemImage: "text.book.closed.fill")
+                Label(R.settingsPage, systemImage: R.iconName)
             }
+    }
+    
+    private var kernels: some View {
+        page(
+            vm: .init(repo: .init(handler: KernelInfoHandler(tagDecoder: tagDecoder))!)
+        )
     }
 }
 

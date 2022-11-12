@@ -1,18 +1,16 @@
 //
-//  KernelsInfo.swift
+//  CustomResourceList.swift
 //  JustTags
 //
-//  Created by Yurii Zadoianchuk on 14/10/2022.
+//  Created by Yurii Zadoianchuk on 09/11/2022.
 //
 
 import SwiftUI
-import SwiftyEMVTags
 
-extension TagDecoder: ObservableObject {}
-
-struct KernelsSettingsView: View {
-    @EnvironmentObject private var tagDecoder: TagDecoder
-    @EnvironmentObject private var repo: CustomResourceRepo<KernelInfoHandler>
+struct CustomResourceListView<
+    R: CustomResource, H: CustomResourceHandler
+>: View where H.P == R {
+    @ObservedObject internal var vm: CustomResourceListVM<R, H>
     
     var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
@@ -32,14 +30,15 @@ struct KernelsSettingsView: View {
     private var existingInfoList: some View {
         ScrollView {
             Divider()
-            ForEach(kernelInfoVMs, id: \.name) { vm in
+            ForEach(vm.lines, id: \.self) { vm in
                 HStack {
-                    KernelInfoView(vm: vm)
+                    Text(vm)
+//                    KernelInfoView(vm: vm)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .topTrailing) {
-                    deleteButtonOverlay(for: vm.name)
+                    deleteButtonOverlay(for: vm)
                 }
                 Divider()
             }
@@ -48,15 +47,15 @@ struct KernelsSettingsView: View {
     
     @ViewBuilder
     private func deleteButtonOverlay(for name: String) -> some View {
-        if repo.customIdentifiers.contains(name) {
-            Button(action: {
-                // TODO: Add confirmation to deletion
-                try! repo.removeResource(with: name)
-            }) {
-                Label("Delete \(name)", systemImage: "xmark.bin.fill")
-                    .labelStyle(.iconOnly)
-            }.padding(.trailing, commonPadding)
-        }
+//        if repo.customIdentifiers.contains(name) {
+//            Button(action: {
+//                // TODO: Add confirmation to deletion
+//                try! repo.removeResource(with: name)
+//            }) {
+//                Label("Delete \(name)", systemImage: "xmark.bin.fill")
+//                    .labelStyle(.iconOnly)
+//            }.padding(.trailing, commonPadding)
+//        }
     }
     
     private func handleDrop(_ providers: [NSItemProvider]) -> Bool {
@@ -71,19 +70,19 @@ struct KernelsSettingsView: View {
             }
             
             // TODO: handle error
-            try? repo.addNewResource(at: url)
+//            try? repo.addNewResource(at: url)
         }
         return true
     }
     
-    private var kernelInfoVMs: [KernelInfoVM] {
-        tagDecoder
-            .kernelsInfo
-            .values
-            .sorted(by: { (lhs, rhs) in
-                lhs.name < rhs.name
-            }).map(\.kernelInfoVM)
-    }
+//    private var kernelInfoVMs: [KernelInfoVM] {
+//        tagDecoder
+//            .kernelsInfo
+//            .values
+//            .sorted(by: { (lhs, rhs) in
+//                lhs.name < rhs.name
+//            }).map(\.kernelInfoVM)
+//    }
     
     private func toggleOpenPanel() {
         do {
@@ -95,23 +94,16 @@ struct KernelsSettingsView: View {
             
             guard let infoURL = openPanel.url else { return }
             
-            try repo.addNewResource(at: infoURL)
+//            try repo.addNewResource(at: infoURL)
         } catch {
             // TODO: handle error
             print(error)
         }
     }
-    
 }
 
-struct KernelsSettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        KernelsSettingsView()
-            .environmentObject(try! TagDecoder.defaultDecoder())
-            .environmentObject(
-                CustomResourceRepo(
-                    handler: KernelInfoHandler(tagDecoder: try! TagDecoder.defaultDecoder())
-                )!
-            )
-    }
-}
+//struct CustomResourceList_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CustomResourceList()
+//    }
+//}

@@ -10,6 +10,12 @@ import SwiftyEMVTags
 import SwiftyBERTLV
 import SwiftUI
 
+internal struct JustTagsError: Error {
+    
+    internal let message: String
+    
+}
+
 extension String {
     func split(by length: Int) -> [String] {
         var startIndex = self.startIndex
