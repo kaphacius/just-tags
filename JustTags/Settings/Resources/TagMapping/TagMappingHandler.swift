@@ -8,6 +8,8 @@
 import SwiftyEMVTags
 import SwiftUI
 
+typealias TagMappingRepo = CustomResourceRepo<TagMapper>
+
 extension TagMapping: CustomResource {
     
     static let folderName = "TagMapping"
@@ -18,26 +20,12 @@ extension TagMapping: CustomResource {
     
 }
 
-struct TagMappingHandler: CustomResourceHandler {
+extension TagMapper: CustomResourceHandler {
     
     typealias Resource = TagMapping
     
-    var identifiers: [String] {
-        tagDecoder.tagMapper.mappedTags
-    }
-    
-    var resources: [TagMapping] {
-        Array(tagDecoder.tagMapper.mappings.values)
-    }
-    
-    private let tagDecoder: TagDecoder
-    
-    init(tagDecoder: TagDecoder) {
-        self.tagDecoder = tagDecoder
-    }
-    
     func addCustomResource(_ resource: TagMapping) throws {
-        try tagDecoder.tagMapper.addTagMapping(newMapping: resource)
+        try addTagMapping(newMapping: resource)
     }
     
     func removeCustomResource(with identifier: String) throws {
@@ -45,7 +33,15 @@ struct TagMappingHandler: CustomResourceHandler {
             // TODO: handle error
             return
         }
-        try tagDecoder.tagMapper.removeTagMapping(tag: tag)
+        try removeTagMapping(tag: tag)
+    }
+    
+    var identifiers: [String] {
+        mappedTags
+    }
+    
+    var resources: [SwiftyEMVTags.TagMapping] {
+        Array(mappings.values)
     }
     
 }
