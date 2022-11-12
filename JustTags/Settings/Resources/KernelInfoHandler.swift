@@ -13,6 +13,7 @@ extension KernelInfo: CustomResource {
     static let folderName = "KernelInfo"
     static let iconName = "text.book.closed.fill"
     static let settingsPage = "Kernels"
+    static let displayName = "Kernel info"
     var identifier: String { name }
     
 }

@@ -13,6 +13,7 @@ extension TagMapping: CustomResource {
     static let folderName = "TagMapping"
     static let iconName = "books.vertical.fill"
     static let settingsPage = "Kernels"
+    static let displayName = "Tag Mapping"
     var identifier: String { tag.hexString }
     
 }

@@ -23,7 +23,7 @@ struct CustomResourceListView<
     
     private var addNewInfo: some View {
         Button(action: toggleOpenPanel) {
-            Label("Add custom kernel info...", systemImage: "plus")
+            Label("Add custom \(R.displayName)...", systemImage: "plus")
         }
     }
     
@@ -46,16 +46,16 @@ struct CustomResourceListView<
     }
     
     @ViewBuilder
-    private func deleteButtonOverlay(for name: String) -> some View {
-//        if repo.customIdentifiers.contains(name) {
-//            Button(action: {
-//                // TODO: Add confirmation to deletion
-//                try! repo.removeResource(with: name)
-//            }) {
-//                Label("Delete \(name)", systemImage: "xmark.bin.fill")
-//                    .labelStyle(.iconOnly)
-//            }.padding(.trailing, commonPadding)
-//        }
+    private func deleteButtonOverlay(for identifier: String) -> some View {
+        if vm.shouldShowDeleteButton(for: identifier) {
+            Button(action: {
+                // TODO: Add confirmation to deletion
+                try! vm.removeResource(with: identifier)
+            }) {
+                Label("Delete \(identifier)", systemImage: "xmark.bin.fill")
+                    .labelStyle(.iconOnly)
+            }.padding(.trailing, commonPadding)
+        }
     }
     
     private func handleDrop(_ providers: [NSItemProvider]) -> Bool {
@@ -70,7 +70,7 @@ struct CustomResourceListView<
             }
             
             // TODO: handle error
-//            try? repo.addNewResource(at: url)
+            try? vm.addNewResource(at: url)
         }
         return true
     }
@@ -94,7 +94,7 @@ struct CustomResourceListView<
             
             guard let infoURL = openPanel.url else { return }
             
-//            try repo.addNewResource(at: infoURL)
+            try vm.addNewResource(at: infoURL)
         } catch {
             // TODO: handle error
             print(error)

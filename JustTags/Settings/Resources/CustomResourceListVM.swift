@@ -30,4 +30,8 @@ class CustomResourceListVM<
         self.lines = repo.names
     }
     
+    internal func shouldShowDeleteButton(for identifier: String) -> Bool {
+        repo.customIdentifiers.contains(identifier)
+    }
+    
 }
