@@ -59,19 +59,21 @@ struct CustomResourceListView<
     }
     
     private func handleDrop(_ providers: [NSItemProvider]) -> Bool {
-        guard let provider = providers.first else { return false }
-        _ = provider.loadObject(
-            ofClass: NSPasteboard.PasteboardType.self
-        ) { (pasteboardItem, error) in
-            guard let pasteboardItem,
-                  let url = URL(string: pasteboardItem.rawValue) else {
+        providers.forEach { provider in
+            _ = provider.loadObject(
+                ofClass: NSPasteboard.PasteboardType.self
+            ) { (pasteboardItem, error) in
+                guard let pasteboardItem,
+                      let url = URL(string: pasteboardItem.rawValue) else {
+                    // TODO: handle error
+                    return
+                }
+                
                 // TODO: handle error
-                return
+                try? vm.addNewResource(at: url)
             }
-            
-            // TODO: handle error
-            try? vm.addNewResource(at: url)
         }
+        
         return true
     }
     
