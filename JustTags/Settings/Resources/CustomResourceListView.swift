@@ -80,14 +80,13 @@ struct CustomResourceListView<
     private func toggleOpenPanel() {
         do {
             let openPanel = NSOpenPanel()
-            openPanel.canChooseDirectories = true
+            openPanel.canChooseDirectories = false
             openPanel.canChooseFiles = true
+            openPanel.allowsMultipleSelection = true
             openPanel.allowedContentTypes = [.json]
             guard openPanel.runModal() == .OK else { return }
             
-            guard let infoURL = openPanel.url else { return }
-            
-            try vm.addNewResource(at: infoURL)
+            try openPanel.urls.forEach(vm.addNewResource(at:))
         } catch {
             // TODO: handle error
             print(error)
