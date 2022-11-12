@@ -46,11 +46,12 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
             .map { (try JSONDecoder().decode(H.Resource.self, from: $0.0), $0.1) }
             .map { (resource, filename) in
                 self.filenames[resource.identifier] = filename
-                self.resources = handler.resources
                 return resource
             }.forEach {
                 try handler.addCustomResource($0)
             }
+        
+        updateResources()
     }
     
     internal func addNewResource(at url: URL) throws {
@@ -76,7 +77,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
         try FileManager.default.copyItem(at: url, to: newPath)
         
         filenames[identifier] = newPath.lastPathComponent
-        self.resources = handler.resources
+        updateResources()
     }
     
     internal func removeResource(with identifier: String) throws {
@@ -90,7 +91,13 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
         
         try FileManager.default.removeItem(at: resourcePath)
         try handler.removeCustomResource(with: identifier)
-        self.resources = handler.resources
+        updateResources()
+    }
+    
+    private func updateResources() {
+        Task { @MainActor in
+            self.resources = handler.resources.sorted(by: { $0.identifier < $1.identifier })
+        }
     }
     
     private func pathForResource(with identifier: String) -> URL? {

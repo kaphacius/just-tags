@@ -51,6 +51,5 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
-            .environmentObject(try! TagDecoder.defaultDecoder())
     }
 }

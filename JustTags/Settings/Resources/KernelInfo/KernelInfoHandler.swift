@@ -40,20 +40,10 @@ struct KernelInfoHandler: CustomResourceHandler {
     
     func addCustomResource(_ resource: KernelInfo) throws {
         try tagDecoder.addKernelInfo(newInfo: resource)
-        Task { @MainActor in
-            withAnimation {
-                tagDecoder.objectWillChange.send()
-            }
-        }
     }
     
     func removeCustomResource(with identifier: String) throws {
         tagDecoder.removeKernelInfo(with: identifier)
-        Task { @MainActor in
-            withAnimation {
-                tagDecoder.objectWillChange.send()
-            }
-        }
     }
     
 }

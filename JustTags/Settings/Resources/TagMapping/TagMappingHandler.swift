@@ -38,11 +38,6 @@ struct TagMappingHandler: CustomResourceHandler {
     
     func addCustomResource(_ resource: TagMapping) throws {
         try tagDecoder.tagMapper.addTagMapping(newMapping: resource)
-        Task { @MainActor in
-            withAnimation {
-                tagDecoder.objectWillChange.send()
-            }
-        }
     }
     
     func removeCustomResource(with identifier: String) throws {
@@ -51,11 +46,6 @@ struct TagMappingHandler: CustomResourceHandler {
             return
         }
         try tagDecoder.tagMapper.removeTagMapping(tag: tag)
-        Task { @MainActor in
-            withAnimation {
-                tagDecoder.objectWillChange.send()
-            }
-        }
     }
     
 }

@@ -75,15 +75,6 @@ struct CustomResourceListView<
         return true
     }
     
-//    private var kernelInfoVMs: [KernelInfoVM] {
-//        tagDecoder
-//            .kernelsInfo
-//            .values
-//            .sorted(by: { (lhs, rhs) in
-//                lhs.name < rhs.name
-//            }).map(\.kernelInfoVM)
-//    }
-    
     private func toggleOpenPanel() {
         do {
             let openPanel = NSOpenPanel()
