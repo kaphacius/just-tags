@@ -20,6 +20,7 @@ struct CustomResourceListView<
         }
         .padding(commonPadding)
         .onDrop(of: [.fileURL], isTargeted: nil, perform: handleDrop(_:))
+        .animation(.default, value: vm.resources.map(\.id))
     }
     
     private var addNewInfo: some View {
