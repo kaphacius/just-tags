@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-protocol CustomResource: Decodable {
+protocol CustomResource: Decodable, Identifiable {
     
     static var folderName: String { get }
     static var iconName: String { get }
     static var settingsPage: String { get }
     static var displayName: String { get }
     
-    var identifier: String { get }
+    var id: String { get }
     
 }
 

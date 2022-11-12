@@ -45,7 +45,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
             .map { (try Data(contentsOf: $0), $0.lastPathComponent) }
             .map { (try JSONDecoder().decode(H.Resource.self, from: $0.0), $0.1) }
             .map { (resource, filename) in
-                self.filenames[resource.identifier] = filename
+                self.filenames[resource.id] = filename
                 return resource
             }.forEach {
                 try handler.addCustomResource($0)
@@ -59,7 +59,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
         let newResource = try JSONDecoder().decode(H.Resource.self, from: data)
         try handler.addCustomResource(newResource)
         // TODO: check if resource already exists
-        try saveResource(at: url, identifier: newResource.identifier)
+        try saveResource(at: url, identifier: newResource.id)
     }
     
     private func saveResource(at url: URL, identifier: String) throws {
@@ -96,7 +96,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
     
     private func updateResources() {
         Task { @MainActor in
-            self.resources = handler.resources.sorted(by: { $0.identifier < $1.identifier })
+            self.resources = handler.resources.sorted(by: { $0.id < $1.id })
         }
     }
     

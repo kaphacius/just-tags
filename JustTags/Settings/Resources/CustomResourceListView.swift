@@ -31,14 +31,14 @@ struct CustomResourceListView<
     private var existingInfoList: some View {
         ScrollView {
             Divider()
-            ForEach(vm.resources, id: \.identifier) { resource in
+            ForEach(vm.resources) { resource in
                 HStack {
                     ResourceView(resource: resource)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .topTrailing) {
-                    deleteButtonOverlay(for: resource.identifier)
+                    deleteButtonOverlay(for: resource.id)
                 }
                 Divider()
             }

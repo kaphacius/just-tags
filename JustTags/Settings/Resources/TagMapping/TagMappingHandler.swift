@@ -14,7 +14,7 @@ extension TagMapping: CustomResource {
     static let iconName = "books.vertical.fill"
     static let settingsPage = "Kernels"
     static let displayName = "Tag Mapping"
-    var identifier: String { tag.hexString }
+    public var id: String { tag.hexString }
     
 }
 
