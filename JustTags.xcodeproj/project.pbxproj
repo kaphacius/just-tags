@@ -213,9 +213,9 @@
 		5A4FE246291C12DF0034217A /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				5ABC3F33291F86BF00C0C217 /* TagMapping */,
 				5ABC3F32291F85A100C0C217 /* KernelInfo */,
 				5A6D76812916452B004CE28C /* CustomResourceRepo.swift */,
-				5A4FE249291C13140034217A /* TagMappingHandler.swift */,
 				5A4FE244291C110C0034217A /* CustomResourceListView.swift */,
 				5A4FE24C291D6F940034217A /* CustomResourceListVM.swift */,
 				5ABC3F2E291F759A00C0C217 /* CustomResource.swift */,
@@ -249,6 +249,14 @@
 				5A4FE247291C12ED0034217A /* KernelInfoHandler.swift */,
 			);
 			path = KernelInfo;
+			sourceTree = "<group>";
+		};
+		5ABC3F33291F86BF00C0C217 /* TagMapping */ = {
+			isa = PBXGroup;
+			children = (
+				5A4FE249291C13140034217A /* TagMappingHandler.swift */,
+			);
+			path = TagMapping;
 			sourceTree = "<group>";
 		};
 		5AE8BF4327E79BF000474AD0 = {
