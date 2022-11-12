@@ -20,7 +20,7 @@ extension TagMapping: CustomResource {
 
 struct TagMappingHandler: CustomResourceHandler {
     
-    typealias P = TagMapping
+    typealias Resource = TagMapping
     
     var identifiers: [String] {
         tagDecoder.kernels

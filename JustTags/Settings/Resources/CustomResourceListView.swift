@@ -8,9 +8,9 @@
 import SwiftUI
 
 struct CustomResourceListView<
-    R: CustomResource, H: CustomResourceHandler
->: View where H.P == R {
-    @ObservedObject internal var vm: CustomResourceListVM<R, H>
+    Handler: CustomResourceHandler
+>: View {
+    @ObservedObject internal var vm: CustomResourceListVM<Handler>
     
     var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
@@ -23,7 +23,7 @@ struct CustomResourceListView<
     
     private var addNewInfo: some View {
         Button(action: toggleOpenPanel) {
-            Label("Add custom \(R.displayName)...", systemImage: "plus")
+            Label("Add custom \(Handler.Resource.displayName)...", systemImage: "plus")
         }
     }
     

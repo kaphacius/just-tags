@@ -11,14 +11,14 @@ import SwiftyEMVTags
 extension TagDecoder: ObservableObject { }
 
 class CustomResourceListVM<
-    R: CustomResource, H: CustomResourceHandler
-> : ObservableObject where H.P == R  {
+    Handler: CustomResourceHandler
+> : ObservableObject {
     
     @Published var lines: [String] = []
     
-    private let repo: CustomResourceRepo<H>
+    private let repo: CustomResourceRepo<Handler>
     
-    init(repo: CustomResourceRepo<H>) {
+    init(repo: CustomResourceRepo<Handler>) {
         self.repo = repo
         self.lines = repo.names
     }

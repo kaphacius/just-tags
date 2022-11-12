@@ -20,9 +20,9 @@ protocol CustomResource: Decodable {
 
 protocol CustomResourceHandler {
     
-    associatedtype P: CustomResource
+    associatedtype Resource: CustomResource
     
-    func addCustomResource(_ resource: P) throws
+    func addCustomResource(_ resource: Resource) throws
     func removeCustomResource(with identifier: String) throws
     var identifiers: [String] { get }
     

@@ -22,7 +22,7 @@ typealias KernelInfoRepo = CustomResourceRepo<KernelInfoHandler>
 
 struct KernelInfoHandler: CustomResourceHandler {
     
-    typealias P = KernelInfo
+    typealias Resource = KernelInfo
     
     var identifiers: [String] {
         tagDecoder.kernels

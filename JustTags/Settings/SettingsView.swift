@@ -30,12 +30,12 @@ struct SettingsView: View {
             }
     }
     
-    private func page<R: CustomResource, H: CustomResourceHandler>(
-        vm: CustomResourceListVM<R, H>
+    private func page<H: CustomResourceHandler>(
+        vm: CustomResourceListVM<H>
     ) -> some View {
         CustomResourceListView(vm: vm)
             .tabItem {
-                Label(R.settingsPage, systemImage: R.iconName)
+                Label(H.Resource.settingsPage, systemImage: H.Resource.iconName)
             }
     }
     

@@ -26,7 +26,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
         )
             .first
             .map(URL.init(fileURLWithPath:))
-            .map({ $0.appendingPathComponent(H.P.folderName, isDirectory: true) }) else {
+            .map({ $0.appendingPathComponent(H.Resource.folderName, isDirectory: true) }) else {
             return nil
         }
         
@@ -43,7 +43,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
         try FileManager.default.contentsOfDirectory(atPath: resourcesDir.path)
             .map(resourcesDir.appendingPathComponent)
             .map { (try Data(contentsOf: $0), $0.lastPathComponent) }
-            .map { (try JSONDecoder().decode(H.P.self, from: $0.0), $0.1) }
+            .map { (try JSONDecoder().decode(H.Resource.self, from: $0.0), $0.1) }
             .map { (resource, filename) in
                 self.filenames[resource.identifier] = filename
                 self.names.append(resource.identifier)
@@ -57,7 +57,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
     
     internal func addNewResource(at url: URL) throws {
         let data = try Data(contentsOf: url)
-        let newResource = try JSONDecoder().decode(H.P.self, from: data)
+        let newResource = try JSONDecoder().decode(H.Resource.self, from: data)
         try handler.addCustomResource(newResource)
         // TODO: check if resource already exists
         try saveResource(at: url, identifier: newResource.identifier)
