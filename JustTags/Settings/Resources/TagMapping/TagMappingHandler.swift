@@ -23,7 +23,11 @@ struct TagMappingHandler: CustomResourceHandler {
     typealias Resource = TagMapping
     
     var identifiers: [String] {
-        tagDecoder.kernels
+        tagDecoder.tagMapper.mappedTags
+    }
+    
+    var resources: [TagMapping] {
+        Array(tagDecoder.tagMapper.mappings.values)
     }
     
     private let tagDecoder: TagDecoder

@@ -8,8 +8,9 @@
 import SwiftUI
 
 struct CustomResourceListView<
-    Handler: CustomResourceHandler
->: View {
+    Handler: CustomResourceHandler,
+    ResourceView: CustomResourceView
+>: View where Handler.Resource == ResourceView.Resource {
     @ObservedObject internal var vm: CustomResourceListVM<Handler>
     
     var body: some View {
@@ -30,15 +31,14 @@ struct CustomResourceListView<
     private var existingInfoList: some View {
         ScrollView {
             Divider()
-            ForEach(vm.lines, id: \.self) { vm in
+            ForEach(vm.resources, id: \.identifier) { resource in
                 HStack {
-                    Text(vm)
-//                    KernelInfoView(vm: vm)
+                    ResourceView(resource: resource)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
                 .overlay(alignment: .topTrailing) {
-                    deleteButtonOverlay(for: vm)
+                    deleteButtonOverlay(for: resource.identifier)
                 }
                 Divider()
             }

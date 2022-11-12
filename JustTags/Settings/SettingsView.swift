@@ -30,10 +30,11 @@ struct SettingsView: View {
             }
     }
     
-    private func page<H: CustomResourceHandler>(
-        vm: CustomResourceListVM<H>
-    ) -> some View {
-        CustomResourceListView(vm: vm)
+    private func page<H: CustomResourceHandler, V: CustomResourceView>(
+        vm: CustomResourceListVM<H>,
+        viewType: V.Type
+    ) -> some View where H.Resource == V.Resource {
+        CustomResourceListView<H, V>(vm: vm)
             .tabItem {
                 Label(H.Resource.settingsPage, systemImage: H.Resource.iconName)
             }
@@ -41,7 +42,8 @@ struct SettingsView: View {
     
     private var kernels: some View {
         page(
-            vm: .init(repo: kernelInfoRepo)
+            vm: .init(repo: kernelInfoRepo),
+            viewType: KernelInfoView.self
         )
     }
 }

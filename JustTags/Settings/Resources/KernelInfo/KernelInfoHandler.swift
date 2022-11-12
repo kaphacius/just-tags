@@ -28,6 +28,10 @@ struct KernelInfoHandler: CustomResourceHandler {
         tagDecoder.kernels
     }
     
+    var resources: [KernelInfo] {
+        Array(tagDecoder.kernelsInfo.values)
+    }
+    
     private let tagDecoder: TagDecoder
     
     init(tagDecoder: TagDecoder) {

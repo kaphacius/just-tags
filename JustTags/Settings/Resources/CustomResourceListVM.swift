@@ -14,23 +14,23 @@ class CustomResourceListVM<
     Handler: CustomResourceHandler
 > : ObservableObject {
     
-    @Published var lines: [String] = []
+    @Published var resources: [Handler.Resource]
     
     private let repo: CustomResourceRepo<Handler>
     
     init(repo: CustomResourceRepo<Handler>) {
         self.repo = repo
-        self.lines = repo.names
+        self.resources = repo.resources
     }
     
     internal func addNewResource(at url: URL) throws {
         try repo.addNewResource(at: url)
-        self.lines = repo.names
+        self.resources = repo.resources
     }
     
     internal func removeResource(with identifier: String) throws {
         try repo.removeResource(with: identifier)
-        self.lines = repo.names
+        self.resources = repo.resources
     }
     
     internal func shouldShowDeleteButton(for identifier: String) -> Bool {

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 protocol CustomResource: Decodable {
     
@@ -25,5 +26,14 @@ protocol CustomResourceHandler {
     func addCustomResource(_ resource: Resource) throws
     func removeCustomResource(with identifier: String) throws
     var identifiers: [String] { get }
+    var resources: [Resource] { get }
+    
+}
+
+protocol CustomResourceView: View {
+    
+    associatedtype Resource: CustomResource
+    
+    init(resource: Resource)
     
 }

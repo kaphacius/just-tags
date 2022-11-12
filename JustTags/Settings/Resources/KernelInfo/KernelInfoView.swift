@@ -28,9 +28,19 @@ extension KernelInfo {
     
 }
 
-struct KernelInfoView: View {
+struct KernelInfoView: CustomResourceView {
     
-    internal let vm: KernelInfoVM
+    typealias Resource = KernelInfo
+    
+    init(resource: KernelInfo) {
+        self.vm = resource.kernelInfoVM
+    }
+    
+    init(vm: KernelInfoVM) {
+        self.vm = vm
+    }
+    
+    private let vm: KernelInfoVM
     
     var body: some View {
         HStack {
