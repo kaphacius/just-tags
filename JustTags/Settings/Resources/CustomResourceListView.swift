@@ -101,12 +101,8 @@ struct CustomResourceListView<
 
 struct CustomResourceList_Previews: PreviewProvider {
     static var previews: some View {
-        CustomResourceListView<
-            TagDecoder, KernelInfoView
-        >(
-            vm: .init(
-                repo: KernelInfoRepo(handler: try! TagDecoder.defaultDecoder())!
-            )
+        CustomResourceListView<TagDecoder, KernelInfoView>(
+            vm: .init(repo: PreviewHelpers.kernelInfoRepo)
         )
     }
 }

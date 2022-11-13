@@ -61,5 +61,7 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         SettingsView()
+            .environmentObject(PreviewHelpers.kernelInfoRepo)
+            .environmentObject(PreviewHelpers.tagMappingRepo)
     }
 }

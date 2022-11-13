@@ -11,6 +11,13 @@ import SwiftyBERTLV
 
 private let tagDecoder = try! TagDecoder.defaultDecoder()
 
+internal enum PreviewHelpers {
+    
+    internal static let kernelInfoRepo: KernelInfoRepo = .init(handler: tagDecoder)!
+    internal static let tagMappingRepo: TagMappingRepo = .init(handler: tagDecoder.tagMapper)!
+    
+}
+
 extension BERTLV {
     
     internal static let mockTLV = try! BERTLV
