@@ -16,21 +16,24 @@ protocol CustomResource: Decodable, Identifiable, Comparable {
     static var displayName: String { get }
     
     var id: ID { get }
+
+    associatedtype View: CustomResourceView where View.Resource == Self
     
 }
 
-protocol CustomResourceHandler {
+protocol CustomResourceHandler<Resource, ResourceID> where Resource.ID == ResourceID {
     
     associatedtype Resource: CustomResource
+    associatedtype ResourceID: Hashable
     
     func addCustomResource(_ resource: Resource) throws
-    func removeCustomResource(with id: Resource.ID) throws
+    func removeCustomResource(with id: ResourceID) throws
     var identifiers: [Resource.ID] { get }
     var resources: [Resource] { get }
     
 }
 
-protocol CustomResourceView: View {
+protocol CustomResourceView<Resource>: View {
     
     associatedtype Resource: CustomResource
     

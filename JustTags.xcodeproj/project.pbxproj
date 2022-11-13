@@ -42,7 +42,6 @@
 		5AA64D2E2848083000F295A9 /* PlainTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D2D2848083000F295A9 /* PlainTagView.swift */; };
 		5ABC3F2F291F759A00C0C217 /* CustomResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F2E291F759A00C0C217 /* CustomResource.swift */; };
 		5ABC3F35291F94CA00C0C217 /* TagMappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F34291F94CA00C0C217 /* TagMappingView.swift */; };
-		5ABC3F372920E0C900C0C217 /* PreferenceKeys.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F362920E0C900C0C217 /* PreferenceKeys.swift */; };
 		5ABC3F3A2920F40900C0C217 /* PresentableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F392920F40900C0C217 /* PresentableAlert.swift */; };
 		5AE8BF5027E79BF000474AD0 /* JustTagsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF4F27E79BF000474AD0 /* JustTagsApp.swift */; };
 		5AE8BF5427E79BF100474AD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AE8BF5327E79BF100474AD0 /* Assets.xcassets */; };
@@ -115,7 +114,6 @@
 		5AA64D2D2848083000F295A9 /* PlainTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainTagView.swift; sourceTree = "<group>"; };
 		5ABC3F2E291F759A00C0C217 /* CustomResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResource.swift; sourceTree = "<group>"; };
 		5ABC3F34291F94CA00C0C217 /* TagMappingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMappingView.swift; sourceTree = "<group>"; };
-		5ABC3F362920E0C900C0C217 /* PreferenceKeys.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferenceKeys.swift; sourceTree = "<group>"; };
 		5ABC3F392920F40900C0C217 /* PresentableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentableAlert.swift; sourceTree = "<group>"; };
 		5AE8BF4C27E79BF000474AD0 /* JustTags.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustTags.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE8BF4F27E79BF000474AD0 /* JustTagsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustTagsApp.swift; sourceTree = "<group>"; };
@@ -186,7 +184,6 @@
 				5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */,
 				5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */,
 				5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */,
-				5ABC3F362920E0C900C0C217 /* PreferenceKeys.swift */,
 				5ABC3F392920F40900C0C217 /* PresentableAlert.swift */,
 			);
 			path = Utils;
@@ -535,7 +532,6 @@
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
 				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
 				5A4F646328F17C2F00FEC0C5 /* EMVTagSearch.swift in Sources */,
-				5ABC3F372920E0C900C0C217 /* PreferenceKeys.swift in Sources */,
 				5AE923EA28C33DF300BD6B3E /* DiffedTagValueView.swift in Sources */,
 				5AA64D07283547A800F295A9 /* MainVM.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,

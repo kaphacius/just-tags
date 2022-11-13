@@ -8,12 +8,9 @@
 import SwiftUI
 import SwiftyEMVTags
 
-struct CustomResourceListView<
-    Handler: CustomResourceHandler,
-    ResourceView: CustomResourceView
->: View where Handler.Resource == ResourceView.Resource {
+struct CustomResourceListView<Resource: CustomResource>: View {
     
-    @ObservedObject internal var vm: CustomResourceListVM<Handler>
+    @ObservedObject internal var vm: CustomResourceListVM<Resource>
     @State private var alert: PresentableAlert?
     
     var body: some View {
@@ -29,7 +26,7 @@ struct CustomResourceListView<
     
     private var addNewInfo: some View {
         Button(action: toggleOpenPanel) {
-            Label("Add custom \(Handler.Resource.displayName)...", systemImage: "plus")
+            Label("Add custom \(Resource.displayName)...", systemImage: "plus")
         }
     }
     
@@ -38,7 +35,7 @@ struct CustomResourceListView<
             Divider()
             ForEach(vm.resources) { resource in
                 HStack {
-                    ResourceView(resource: resource)
+                    Resource.View(resource: resource)
                     Spacer()
                 }
                 .frame(maxWidth: .infinity)
@@ -51,7 +48,7 @@ struct CustomResourceListView<
     }
     
     @ViewBuilder
-    private func deleteButtonOverlay(for identifier: Handler.Resource.ID) -> some View {
+    private func deleteButtonOverlay(for identifier: Resource.ID) -> some View {
         if vm.shouldShowDeleteButton(for: identifier) {
             Button(action: {
                 // TODO: Add confirmation to deletion
@@ -101,7 +98,7 @@ struct CustomResourceListView<
 
 struct CustomResourceList_Previews: PreviewProvider {
     static var previews: some View {
-        CustomResourceListView<TagDecoder, KernelInfoView>(
+        CustomResourceListView<KernelInfo>(
             vm: .init(repo: PreviewHelpers.kernelInfoRepo)
         )
     }

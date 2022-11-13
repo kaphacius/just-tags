@@ -12,17 +12,16 @@ struct SettingsView: View {
     
     @EnvironmentObject private var kernelInfoRepo: KernelInfoRepo
     @EnvironmentObject private var tagMappingRepo: TagMappingRepo
-    @State private var alert: PresentableAlert?
     
     var body: some View {
         TabView {
+            general
             kernels
             tagMappings
         }
         .navigationTitle("Settings")
         .padding(commonPadding)
         .frame(width: 600.0, height: 450.0)
-        .onPreferenceChange(AlertPreferenceKey.self) { self.alert = $0 }
     }
     
     private var general: some View {
@@ -33,28 +32,18 @@ struct SettingsView: View {
             }
     }
     
-    private func page<H: CustomResourceHandler, V: CustomResourceView>(
-        vm: CustomResourceListVM<H>,
-        viewType: V.Type
-    ) -> some View where H.Resource == V.Resource {
-        CustomResourceListView<H, V>(vm: vm)
+    private var kernels: some View {
+        CustomResourceListView(vm: .init(repo: kernelInfoRepo))
             .tabItem {
-                Label(H.Resource.settingsPage, systemImage: H.Resource.iconName)
+                Label(KernelInfo.settingsPage, systemImage: KernelInfo.iconName)
             }
     }
     
-    private var kernels: some View {
-        page(
-            vm: .init(repo: kernelInfoRepo),
-            viewType: KernelInfoView.self
-        )
-    }
-    
     private var tagMappings: some View {
-        page(
-            vm: .init(repo: tagMappingRepo),
-            viewType: TagMappingView.self
-        )
+        CustomResourceListView(vm: .init(repo: tagMappingRepo))
+            .tabItem {
+                Label(TagMapping.settingsPage, systemImage: TagMapping.iconName)
+            }
     }
 }
 

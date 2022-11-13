@@ -8,9 +8,12 @@
 import SwiftyEMVTags
 import SwiftUI
 
-typealias KernelInfoRepo = CustomResourceRepo<TagDecoder>
+typealias KernelInfoRepo = CustomResourceRepo<KernelInfo>
 
 extension KernelInfo: CustomResource {
+    
+    public typealias ID = String
+    typealias View = KernelInfoView
     
     static let folderName = "KernelInfo"
     static let iconName = "text.book.closed.fill"

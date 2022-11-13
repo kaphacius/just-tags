@@ -10,16 +10,16 @@ import SwiftyEMVTags
 import Combine
 
 class CustomResourceListVM<
-    Handler: CustomResourceHandler
+    Resource: CustomResource
 > : ObservableObject {
     
-    @Published var resources: [Handler.Resource]
+    @Published var resources: [Resource]
     
-    private let repo: CustomResourceRepo<Handler>
+    private let repo: CustomResourceRepo<Resource>
     
     private var cancellable: AnyCancellable?
     
-    init(repo: CustomResourceRepo<Handler>) {
+    init(repo: CustomResourceRepo<Resource>) {
         self.repo = repo
         self.resources = repo.resources
         self.cancellable = repo.$resources.receive(on: RunLoop.main).sink {
@@ -31,11 +31,11 @@ class CustomResourceListVM<
         try repo.addNewResource(at: url)
     }
     
-    internal func removeResource(with identifier: Handler.Resource.ID) throws {
+    internal func removeResource(with identifier: Resource.ID) throws {
         try repo.removeResource(with: identifier)
     }
     
-    internal func shouldShowDeleteButton(for identifier: Handler.Resource.ID) -> Bool {
+    internal func shouldShowDeleteButton(for identifier: Resource.ID) -> Bool {
         repo.customIdentifiers.contains(identifier)
     }
     

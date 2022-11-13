@@ -8,11 +8,12 @@
 import SwiftyEMVTags
 import SwiftUI
 
-typealias TagMappingRepo = CustomResourceRepo<TagMapper>
+typealias TagMappingRepo = CustomResourceRepo<TagMapping>
 
 extension TagMapping: CustomResource {
     
     public typealias ID = UInt64
+    internal typealias View = TagMappingView
     
     static let folderName = "TagMapping"
     static let iconName = "books.vertical.fill"
