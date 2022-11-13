@@ -16,6 +16,7 @@ struct MainView: View {
     @StateObject private var vm: MainVM = .init()
     @State private var searchItem: NSSearchToolbarItem?
     @State private var searchInProgress: Bool = false
+    @State private var alert: PresentableAlert?
     
     internal var body: some View {
         HStack(spacing: 0.0) {
@@ -23,11 +24,6 @@ struct MainView: View {
         }
         .background(shortcutButtons)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .alert(vm.errorTitle, isPresented: $vm.showsAlert, actions: {
-            Button("I'll do better next time") {}
-        }, message: {
-            Text(vm.errorMessage)
-        })
         .animation(.easeIn, value: vm.showsDetails)
         .environmentObject(vm)
         .background {
@@ -50,6 +46,7 @@ struct MainView: View {
         .focusedSceneValue(\.selectedTags, $vm.selectedTags)
         .focusedSceneValue(\.tabName, $vm.title)
         .focusedSceneValue(\.mainVM, .constant(vm))
+        .errorAlert($vm.alert)
     }
     
     @ToolbarContentBuilder

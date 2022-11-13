@@ -30,11 +30,6 @@ struct DiffView: View {
         .animation(.none, value: vm.showOnlyDifferent)
         .padding(.horizontal, commonPadding)
         .padding(.top, commonPadding)
-        .alert(vm.errorTitle, isPresented: $vm.showsAlert, actions: {
-            Button("I'll do better next time") {}
-        }, message: {
-            Text(vm.errorMessage)
-        })
         .background {
             HostingWindowFinder { window in
                 guard let window = window else { return }
@@ -44,6 +39,7 @@ struct DiffView: View {
         .environmentObject(vm as AnyWindowVM)
         .onAppear(perform: vm.setUp)
         .navigationTitle(vm.title)
+        .errorAlert($vm.alert)
     }
     
     @ViewBuilder

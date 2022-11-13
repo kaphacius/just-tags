@@ -11,11 +11,11 @@ import SwiftyEMVTags
 
 internal class AnyWindowVM: ObservableObject {
     
+    @Published internal var title = ""
+    @Published internal var alert: PresentableAlert?
+    
     internal var tagDecoder: TagDecoder?
     internal weak var appVM: AppVM?
-    
-    @Published internal var title = ""
-    @Published internal var showsAlert: Bool = false
     internal var errorTitle: String = ""
     internal var errorMessage: String = ""
     
@@ -46,21 +46,24 @@ internal class AnyWindowVM: ObservableObject {
     internal func diffSelectedTags() { }
     
     internal func showParsingAlert(with error: Error) {
-        showsAlert = true
-        errorTitle = "Error parsing tags"
-        errorMessage = "Unable to parse given string into BERTLV with error: \(error)"
+        self.alert = .init(
+            title: "Error parsing tags",
+            message: "Unable to parse given string into BERTLV with error: \(error)"
+        )
     }
     
     internal func showTooManyDiffAlert() {
-        showsAlert = true
-        errorTitle = "Unable to diff selected tags"
-        errorMessage = "Diffing is only available if there are 2 tags selected in the current tab. Please select less tags."
+        self.alert = .init(
+            title: "Unable to diff selected tags",
+            message: "Diffing is only available if there are 2 tags selected in the current tab. Please select less tags."
+        )
     }
     
     internal func showNotEnoughDiffAlert() {
-        showsAlert = true
-        errorTitle = "Unable to diff selected tags"
-        errorMessage = "Diffing is only available if there are 2 tags selected in the current tab. Please select more tags."
+        self.alert = .init(
+            title: "Unable to diff selected tags",
+            message: "Diffing is only available if there are 2 tags selected in the current tab. Please select more tags."
+        )
     }
     
     internal var isEmpty: Bool {
