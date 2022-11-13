@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+import SwiftyEMVTags
 
 struct CustomResourceListView<
     Handler: CustomResourceHandler,
     ResourceView: CustomResourceView
 >: View where Handler.Resource == ResourceView.Resource {
+    
     @ObservedObject internal var vm: CustomResourceListVM<Handler>
+    @State private var alert: PresentableAlert?
     
     var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
@@ -21,6 +24,7 @@ struct CustomResourceListView<
         .padding(commonPadding)
         .onDrop(of: [.fileURL], isTargeted: nil, perform: handleDrop(_:))
         .animation(.default, value: vm.resources.map(\.id))
+        .errorAlert($alert)
     }
     
     private var addNewInfo: some View {
@@ -64,14 +68,16 @@ struct CustomResourceListView<
             _ = provider.loadObject(
                 ofClass: NSPasteboard.PasteboardType.self
             ) { (pasteboardItem, error) in
-                guard let pasteboardItem,
-                      let url = URL(string: pasteboardItem.rawValue) else {
-                    // TODO: handle error
-                    return
+                do {
+                    guard let pasteboardItem,
+                          let url = URL(string: pasteboardItem.rawValue) else {
+                        throw JustTagsError(message: "Unable to extract file URL for dropped resource")
+                    }
+                    
+                    try vm.addNewResource(at: url)
+                } catch {
+                    self.alert = .init(error: error)
                 }
-                
-                // TODO: handle error
-                try? vm.addNewResource(at: url)
             }
         }
         
@@ -86,17 +92,21 @@ struct CustomResourceListView<
             openPanel.allowsMultipleSelection = true
             openPanel.allowedContentTypes = [.json]
             guard openPanel.runModal() == .OK else { return }
-            
             try openPanel.urls.forEach(vm.addNewResource(at:))
         } catch {
-            // TODO: handle error
-            print(error)
+            self.alert = .init(error: error)
         }
     }
 }
 
-//struct CustomResourceList_Previews: PreviewProvider {
-//    static var previews: some View {
-//        CustomResourceList()
-//    }
-//}
+struct CustomResourceList_Previews: PreviewProvider {
+    static var previews: some View {
+        CustomResourceListView<
+            TagDecoder, KernelInfoView
+        >(
+            vm: .init(
+                repo: KernelInfoRepo(handler: try! TagDecoder.defaultDecoder())!
+            )
+        )
+    }
+}

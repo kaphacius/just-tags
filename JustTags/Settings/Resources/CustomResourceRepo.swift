@@ -58,7 +58,6 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
         let data = try Data(contentsOf: url)
         let newResource = try JSONDecoder().decode(H.Resource.self, from: data)
         try handler.addCustomResource(newResource)
-        // TODO: check if resource already exists
         try saveResource(at: url, identifier: newResource.id)
     }
     

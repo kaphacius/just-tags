@@ -15,13 +15,21 @@ struct PresentableAlert: Equatable, Identifiable {
     let dismissButtonTitle: String
     
     init(
-        title: String,
+        title: String = "An Error!",
         message: String?,
         dismissButtonTitle: String = "I'll do better next time"
     ) {
         self.title = title
         self.message = message
         self.dismissButtonTitle = dismissButtonTitle
+    }
+    
+    init(error: Error) {
+        if let error = error as? JustTagsError {
+            self.init(title: error.title, message: error.message)
+        } else {
+            self.init(message: "\(error)")
+        }
     }
     
 }

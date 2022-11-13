@@ -12,7 +12,16 @@ import SwiftUI
 
 internal struct JustTagsError: Error {
     
+    internal let title: String
     internal let message: String
+    
+    init(
+        title: String = "An error!",
+        message: String
+    ) {
+        self.title = title
+        self.message = message
+    }
     
 }
 

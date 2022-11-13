@@ -12,6 +12,7 @@ struct SettingsView: View {
     
     @EnvironmentObject private var kernelInfoRepo: KernelInfoRepo
     @EnvironmentObject private var tagMappingRepo: TagMappingRepo
+    @State private var alert: PresentableAlert?
     
     var body: some View {
         TabView {
@@ -21,6 +22,7 @@ struct SettingsView: View {
         .navigationTitle("Settings")
         .padding(commonPadding)
         .frame(width: 600.0, height: 450.0)
+        .onPreferenceChange(AlertPreferenceKey.self) { self.alert = $0 }
     }
     
     private var general: some View {

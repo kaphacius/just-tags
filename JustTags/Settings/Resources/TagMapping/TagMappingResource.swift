@@ -30,8 +30,7 @@ extension TagMapper: CustomResourceHandler {
     
     func removeCustomResource(with identifier: String) throws {
         guard let tag = UInt64(identifier, radix: 16) else {
-            // TODO: handle error
-            return
+            throw JustTagsError(message: "Unable to parse number from hex string: \(identifier)")
         }
         try removeTagMapping(tag: tag)
     }
