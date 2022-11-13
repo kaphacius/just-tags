@@ -51,13 +51,13 @@ struct CustomResourceListView<
     }
     
     @ViewBuilder
-    private func deleteButtonOverlay(for identifier: String) -> some View {
+    private func deleteButtonOverlay(for identifier: Handler.Resource.ID) -> some View {
         if vm.shouldShowDeleteButton(for: identifier) {
             Button(action: {
                 // TODO: Add confirmation to deletion
                 try! vm.removeResource(with: identifier)
             }) {
-                Label("Delete \(identifier)", systemImage: "xmark.bin.fill")
+                Label("Delete", systemImage: "xmark.bin.fill")
                     .labelStyle(.iconOnly)
             }.padding(.trailing, commonPadding)
         }

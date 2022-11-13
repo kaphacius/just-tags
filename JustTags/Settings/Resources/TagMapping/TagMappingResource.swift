@@ -12,11 +12,21 @@ typealias TagMappingRepo = CustomResourceRepo<TagMapper>
 
 extension TagMapping: CustomResource {
     
+    public typealias ID = UInt64
+    
     static let folderName = "TagMapping"
     static let iconName = "books.vertical.fill"
     static let settingsPage = "Mappings"
     static let displayName = "Tag Mapping"
-    public var id: String { tag.hexString }
+    public var id: UInt64 { tag }
+    
+    public static func == (lhs: TagMapping, rhs: TagMapping) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    public static func < (lhs: TagMapping, rhs: TagMapping) -> Bool {
+        lhs.id < rhs.id
+    }
     
 }
 
@@ -28,15 +38,12 @@ extension TagMapper: CustomResourceHandler {
         try addTagMapping(newMapping: resource)
     }
     
-    func removeCustomResource(with identifier: String) throws {
-        guard let tag = UInt64(identifier, radix: 16) else {
-            throw JustTagsError(message: "Unable to parse number from hex string: \(identifier)")
-        }
-        try removeTagMapping(tag: tag)
+    func removeCustomResource(with id: Resource.ID) throws {
+        try removeTagMapping(tag: id)
     }
     
-    var identifiers: [String] {
-        mappedTags
+    var identifiers: [Resource.ID] {
+        Array(mappings.keys).sorted()
     }
     
     var resources: [SwiftyEMVTags.TagMapping] {

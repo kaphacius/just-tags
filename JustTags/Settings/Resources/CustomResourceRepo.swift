@@ -15,8 +15,8 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
     
     private let resourcesDir: URL
     private let handler: H
-    private var filenames: Dictionary<String, String> = [:]
-    internal var customIdentifiers: [String] { Array(filenames.keys) }
+    private var filenames: Dictionary<H.Resource.ID, String> = [:]
+    internal var customIdentifiers: [H.Resource.ID] { Array(filenames.keys) }
     
     init?(handler: H) {
         self.handler = handler
@@ -61,7 +61,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
         try saveResource(at: url, identifier: newResource.id)
     }
     
-    private func saveResource(at url: URL, identifier: String) throws {
+    private func saveResource(at url: URL, identifier: H.Resource.ID) throws {
         if FileManager.default.fileExists(atPath: resourcesDir.path) == false {
             try FileManager.default.createDirectory(
                 at: resourcesDir,
@@ -79,7 +79,7 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
         updateResources()
     }
     
-    internal func removeResource(with identifier: String) throws {
+    internal func removeResource(with identifier: H.Resource.ID) throws {
         guard handler.identifiers.contains(identifier),
               let resourcePath = pathForResource(with: identifier),
               FileManager.default.fileExists(atPath: resourcePath.path)
@@ -95,11 +95,11 @@ internal class CustomResourceRepo<H: CustomResourceHandler>: ObservableObject {
     
     private func updateResources() {
         Task { @MainActor in
-            self.resources = handler.resources.sorted(by: { $0.id < $1.id })
+            self.resources = handler.resources.sorted()
         }
     }
     
-    private func pathForResource(with identifier: String) -> URL? {
+    private func pathForResource(with identifier: H.Resource.ID) -> URL? {
         filenames[identifier]
             .map { resourcesDir
                 .appendingPathComponent($0)

@@ -8,14 +8,14 @@
 import Foundation
 import SwiftUI
 
-protocol CustomResource: Decodable, Identifiable {
+protocol CustomResource: Decodable, Identifiable, Comparable {
     
     static var folderName: String { get }
     static var iconName: String { get }
     static var settingsPage: String { get }
     static var displayName: String { get }
     
-    var id: String { get }
+    var id: ID { get }
     
 }
 
@@ -24,8 +24,8 @@ protocol CustomResourceHandler {
     associatedtype Resource: CustomResource
     
     func addCustomResource(_ resource: Resource) throws
-    func removeCustomResource(with identifier: String) throws
-    var identifiers: [String] { get }
+    func removeCustomResource(with id: Resource.ID) throws
+    var identifiers: [Resource.ID] { get }
     var resources: [Resource] { get }
     
 }

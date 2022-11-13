@@ -77,7 +77,7 @@ extension Int {
 extension Array where Self.Element == EMVTag {
 
     var sortedTags: Self {
-        self.sorted(by: <)
+        self.sorted()
     }
 
 }

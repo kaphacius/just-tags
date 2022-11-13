@@ -18,6 +18,14 @@ extension KernelInfo: CustomResource {
     static let displayName = "Kernel info"
     public var id: String { name }
     
+    public static func == (lhs: KernelInfo, rhs: KernelInfo) -> Bool {
+        lhs.name == rhs.name
+    }
+    
+    public static func < (lhs: KernelInfo, rhs: KernelInfo) -> Bool {
+        lhs.name < rhs.name
+    }
+    
 }
 
 extension TagDecoder: CustomResourceHandler {
