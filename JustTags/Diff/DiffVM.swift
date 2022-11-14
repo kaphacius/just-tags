@@ -52,20 +52,23 @@ internal final class DiffVM: AnyWindowVM {
         initialTags.allSatisfy(\.isEmpty)
     }
     
+    private var shouldDiff: Bool {
+        initialTags.contains([]) == false
+    }
+    
     internal func updateFocusedEditor(_ idx: Int?) {
         self.focusedEditorIdx = idx
     }
     
     internal func diffInitialTags() {
-        guard initialTags.contains([]) == false else {
-            return
-        }
+        guard shouldDiff else { return }
 
         showsDiff = true
-        diffResults = Diff.diff(tags: initialTags, onlyDifferent: false)
+        diffResults = Diff.diff(tags: initialTags, onlyDifferent: showOnlyDifferent)
     }
     
     private func toggleShowOnlyDifferent(_ value: Bool) {
+        guard shouldDiff else { return }
         diffResults = Diff.diff(tags: initialTags, onlyDifferent: value)
     }
     
@@ -98,6 +101,14 @@ internal final class DiffVM: AnyWindowVM {
         refreshState()
         initialTags = [tags.lhs, tags.rhs]
         diffInitialTags()
+    }
+    
+    internal func flipSides() {
+        let newZero = (texts[1], initialTags[1])
+        let newOne = (texts[0], initialTags[0])
+        texts = [newZero.0, newOne.0]
+        initialTags = [newZero.1, newOne.1]
+        toggleShowOnlyDifferent(showOnlyDifferent)
     }
     
 }

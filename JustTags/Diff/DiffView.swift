@@ -44,13 +44,19 @@ struct DiffView: View {
     
     @ViewBuilder
     private var header: some View {
-        if vm.showsDiff {
-            GroupBox {
-                HStack {
-                    Toggle("Show only different tags", isOn: $vm.showOnlyDifferent)
-                        .background(onlyDiffShortcut)
-                }
-                .frame(maxWidth: .infinity)
+        GroupBox {
+            HStack {
+                Toggle("Show only different tags", isOn: $vm.showOnlyDifferent)
+                    .background(onlyDiffShortcut)
+            }
+            .frame(maxWidth: .infinity)
+            .overlay(alignment: .trailing) {
+                Button(action: {
+                    vm.flipSides()
+                }, label: {
+                    Label("Flip sides", systemImage: "arrow.left.arrow.right.square.fill")
+                        .labelStyle(.iconOnly)
+                }).keyboardShortcut("f", modifiers: [.command, .shift])
             }
         }
     }
