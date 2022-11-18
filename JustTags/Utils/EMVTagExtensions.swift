@@ -88,8 +88,20 @@ extension EMVTag {
     var tagHeaderVM: TagHeaderVM {
         .init(
             tag: tag.tag.hexString,
-            name: name
+            name: name,
+            kernels: kernels
         )
+    }
+    
+    var kernels: [String] {
+        switch self.decodingResult {
+        case .unknown:
+            return []
+        case .singleKernel(let decodedTag):
+            return [decodedTag.kernelName]
+        case .multipleKernels(let decodedTags):
+            return decodedTags.map(\.kernelName)
+        }
     }
     
     var plainTagVM: PlainTagVM {

@@ -11,6 +11,7 @@ import SwiftyEMVTags
 internal struct TagHeaderVM: Equatable {
     internal let tag: String
     internal let name: String
+    internal let kernels: [String]
 }
 
 internal struct TagHeaderView: View {
@@ -28,14 +29,36 @@ internal struct TagHeaderView: View {
                 .font(.title3)
                 .fontWeight(.regular)
                 .minimumScaleFactor(0.5)
+            
+            kernels
+        }
+    }
+    
+    @ViewBuilder
+    private var kernels: some View {
+        if vm.kernels.count > 1 {
+            ForEach(
+                vm.kernels,
+                id: \.self,
+                content: kernelLabel(for:)
+            )
+        }
+    }
+    
+    private func kernelLabel(for kernel: String) -> some View {
+        GroupBox {
+            // TODO: make this a button?
+            Text(kernel)
+                .font(.subheadline.weight(.ultraLight))
+                .padding(-2)
         }
     }
 }
 
 struct TagHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        VStack {
-            TagHeaderView(vm: EMVTag.mockTag.tagHeaderVM)
+        VStack(alignment: .leading) {
+            TagHeaderView(vm: EMVTag.mockTagMultipleKernels.tagHeaderVM)
             TagHeaderView(vm: EMVTag.mockTagExtended.tagHeaderVM)
         }
     }

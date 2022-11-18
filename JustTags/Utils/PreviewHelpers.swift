@@ -33,7 +33,7 @@ extension BERTLV {
         .first!
     
     internal static let mockTLVMultipleKernels = try! BERTLV
-        .parse(bytes: [0x9f, 0x5c, 0x02, 0xff, 0xaa])
+        .parse(bytes: [0x5f, 0x34, 0x02, 0xff, 0xaa])
         .first!
     
     internal static let mockTLVDiffLeft = try! BERTLV
@@ -56,6 +56,7 @@ extension EMVTag {
     
     internal static let mockTag = tagDecoder.decodeBERTLV(.mockTLV)
     internal static let mockTagExtended = tagDecoder.decodeBERTLV(.mockTLVExtended)
+    internal static let mockTagMultipleKernels = tagDecoder.decodeBERTLV(.mockTLVMultipleKernels)
     internal static let mockTagConstructed = tagDecoder.decodeBERTLV(.mockTLVConstructed)
     internal static let mockDiffPair = (
         BERTLV.mockTLVDiffLeft.map(tagDecoder.decodeBERTLV(_:)),
