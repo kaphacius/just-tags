@@ -29,9 +29,12 @@
 		5A4FE24A291C13140034217A /* TagMappingResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FE249291C13140034217A /* TagMappingResource.swift */; };
 		5A4FE24D291D6F940034217A /* CustomResourceListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A4FE24C291D6F940034217A /* CustomResourceListVM.swift */; };
 		5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A51B17A2811D70E00F516F5 /* InputParser.swift */; };
+		5A597A7729276B54006AAD7F /* KernelSelectionListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A597A7629276B54006AAD7F /* KernelSelectionListVM.swift */; };
+		5A597A7829276C7F006AAD7F /* KernelSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4362B2922262D00C3A4CC /* KernelSelectionListView.swift */; };
 		5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffVM.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D76812916452B004CE28C /* CustomResourceRepo.swift */; };
+		5A6FE19729276E4800224070 /* KernelSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6FE19629276E4800224070 /* KernelSelectionRow.swift */; };
 		5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */; };
 		5A90204428F9B91200CD7BDC /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */; };
 		5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */; };
@@ -102,9 +105,11 @@
 		5A4FE249291C13140034217A /* TagMappingResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMappingResource.swift; sourceTree = "<group>"; };
 		5A4FE24C291D6F940034217A /* CustomResourceListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResourceListVM.swift; sourceTree = "<group>"; };
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
+		5A597A7629276B54006AAD7F /* KernelSelectionListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelSelectionListVM.swift; sourceTree = "<group>"; };
 		5A5B09FA285C493700705C35 /* DiffVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffVM.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5A6D76812916452B004CE28C /* CustomResourceRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResourceRepo.swift; sourceTree = "<group>"; };
+		5A6FE19629276E4800224070 /* KernelSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelSelectionRow.swift; sourceTree = "<group>"; };
 		5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelInfoView.swift; sourceTree = "<group>"; };
@@ -115,6 +120,7 @@
 		5ABC3F2E291F759A00C0C217 /* CustomResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResource.swift; sourceTree = "<group>"; };
 		5ABC3F34291F94CA00C0C217 /* TagMappingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMappingView.swift; sourceTree = "<group>"; };
 		5ABC3F392920F40900C0C217 /* PresentableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentableAlert.swift; sourceTree = "<group>"; };
+		5AE4362B2922262D00C3A4CC /* KernelSelectionListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelSelectionListView.swift; sourceTree = "<group>"; };
 		5AE8BF4C27E79BF000474AD0 /* JustTags.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = JustTags.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		5AE8BF4F27E79BF000474AD0 /* JustTagsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JustTagsApp.swift; sourceTree = "<group>"; };
 		5AE8BF5327E79BF100474AD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -238,6 +244,16 @@
 			path = Diff;
 			sourceTree = "<group>";
 		};
+		5A597A7529276B2F006AAD7F /* KernelSelection */ = {
+			isa = PBXGroup;
+			children = (
+				5AE4362B2922262D00C3A4CC /* KernelSelectionListView.swift */,
+				5A597A7629276B54006AAD7F /* KernelSelectionListVM.swift */,
+				5A6FE19629276E4800224070 /* KernelSelectionRow.swift */,
+			);
+			path = KernelSelection;
+			sourceTree = "<group>";
+		};
 		5A90203E28F9B69D00CD7BDC /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -293,6 +309,7 @@
 				5AE8BF7D27E79CF000474AD0 /* List */,
 				5A26FC5628C33A7A00334B20 /* TagRowView */,
 				5AE923ED28C33F7600BD6B3E /* DiffedTagRowView */,
+				5A597A7529276B2F006AAD7F /* KernelSelection */,
 				5AE8BF7C27E79CDF00474AD0 /* Details */,
 				5A90203E28F9B69D00CD7BDC /* Settings */,
 				5A51B17C2811F08500F516F5 /* Diff */,
@@ -519,6 +536,7 @@
 				5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */,
 				5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */,
 				5A4FE24D291D6F940034217A /* CustomResourceListVM.swift in Sources */,
+				5A597A7829276C7F006AAD7F /* KernelSelectionListView.swift in Sources */,
 				5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */,
 				5AE923E428C33C7D00BD6B3E /* DiffedTagRowView.swift in Sources */,
 				5AFC5F5C28F49595004DA503 /* DecodedRowView.swift in Sources */,
@@ -540,9 +558,11 @@
 				5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5AFC5F5828F19610004DA503 /* EMVTagDecoding.swift in Sources */,
+				5A597A7729276B54006AAD7F /* KernelSelectionListVM.swift in Sources */,
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,
 				5AA64D2E2848083000F295A9 /* PlainTagView.swift in Sources */,
 				5AE8BF7B27E79CC700474AD0 /* TagDetailsView.swift in Sources */,
+				5A6FE19729276E4800224070 /* KernelSelectionRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

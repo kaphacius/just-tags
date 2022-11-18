@@ -17,6 +17,7 @@ struct MainView: View {
     @State private var searchItem: NSSearchToolbarItem?
     @State private var searchInProgress: Bool = false
     @State private var alert: PresentableAlert?
+    @State private var showsKernelsPopover: Bool = false
     
     internal var body: some View {
         HStack(spacing: 0.0) {
@@ -61,6 +62,14 @@ struct MainView: View {
             Button(action: vm.toggleShowsDetails) {
                 Label("Details", systemImage: "sidebar.right")
             }
+            Button(action: {
+                showsKernelsPopover = true
+            }) {
+                Label("Kernels", systemImage: KernelInfo.iconName)
+            }.popover(
+                isPresented: $showsKernelsPopover,
+                content: kernelSelectionList
+            )
         }
     }
     
@@ -145,6 +154,12 @@ struct MainView: View {
             .frame(width: 0.0, height: 0.0)
             .keyboardShortcut(.cancelAction)
         }.hidden()
+    }
+    
+    private func kernelSelectionList() -> some View {
+        KernelSelectionListView(
+            vm: .init(tagDecoder: vm.tagDecoder!)
+        ).frame(minWidth: 250.0)
     }
     
 }
