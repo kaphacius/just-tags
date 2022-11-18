@@ -46,11 +46,27 @@ internal struct TagHeaderView: View {
     }
     
     private func kernelLabel(for kernel: String) -> some View {
-        GroupBox {
-            // TODO: make this a button?
-            Text(kernel)
-                .font(.subheadline.weight(.ultraLight))
-                .padding(-2)
+        // TODO: make this a button?
+        Text(kernel)
+            .font(.subheadline.weight(.ultraLight).monospaced())
+            .padding(4.0)
+            .foregroundColor(.secondary)
+            .background { kernelLabelBackground() }
+    }
+    
+    private static let cornerRadius: CGFloat = 8.0
+    
+    private func kernelLabelBackground() -> some View {
+        RoundedRectangle(
+            cornerRadius: Self.cornerRadius,
+            style: .continuous
+        )
+        .strokeBorder(.orange.opacity(0.9), lineWidth: 1.0)
+        .background {
+            RoundedRectangle(
+                cornerRadius: Self.cornerRadius,
+                style: .continuous
+            ).fill(.orange.opacity(0.3))
         }
     }
 }
