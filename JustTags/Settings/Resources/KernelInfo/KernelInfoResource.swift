@@ -38,7 +38,7 @@ extension TagDecoder: CustomResourceHandler {
     }
     
     var resources: [SwiftyEMVTags.KernelInfo] {
-        Array(kernelsInfo.values)
+        Array(kernelsInfo.values.sorted())
     }
     
     func publishChanges() {

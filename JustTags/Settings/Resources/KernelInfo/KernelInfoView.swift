@@ -11,6 +11,7 @@ import SwiftyEMVTags
 struct KernelInfoVM {
     
     internal let name: String
+    internal let id: String
     internal let type: String
     internal let description: String
     
@@ -21,6 +22,7 @@ extension KernelInfo {
     var kernelInfoVM: KernelInfoVM {
         .init(
             name: name,
+            id: id,
             type: category.rawValue,
             description: description
         )
@@ -48,6 +50,9 @@ struct KernelInfoView: CustomResourceView {
                 Text(vm.name)
                     .font(.title2)
                     .bold()
+                Text("Identifier: ").bold() + Text(vm.id)
+                    .italic()
+                    .foregroundColor(.secondary)
                 Text("Type: ").bold() + Text(vm.type)
                 Text(vm.description)
             }
@@ -60,6 +65,7 @@ struct KernelSettingsView_Previews: PreviewProvider {
         KernelInfoView(
             vm: .init(
                 name: "Kernel 2",
+                id: "kernel2",
                 type: "Scheme",
                 description: "EMVco C-2 Kernel 2 for MasterCards AIDs"
             )
