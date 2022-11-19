@@ -49,13 +49,13 @@ internal struct TagHeaderView: View {
         // TODO: make this a button?
         Text(kernel)
             .font(.subheadline.weight(.ultraLight).monospaced())
-            .padding(.horizontal, 4.0)
-            .padding(.vertical, 3.0)
+            .padding(.horizontal, 5.0)
+            .padding(.vertical, 2.0)
             .foregroundColor(.secondary)
             .background { kernelLabelBackground() }
     }
     
-    private static let cornerRadius: CGFloat = 8.0
+    private static let cornerRadius: CGFloat = 6.0
     
     private func kernelLabelBackground() -> some View {
         RoundedRectangle(
