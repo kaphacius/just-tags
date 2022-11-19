@@ -105,7 +105,6 @@ internal final class MainVM: AnyWindowVM {
         refreshState()
         initialTags = tagsByParsing(string: string)
         currentTags = initialTags
-        detailTag = currentTags.first
         populateSearch()
         showingTags = initialTags.isEmpty == false
     }
