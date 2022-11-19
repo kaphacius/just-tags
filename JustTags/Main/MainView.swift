@@ -153,6 +153,13 @@ struct MainView: View {
             )
             .frame(width: 0.0, height: 0.0)
             .keyboardShortcut(.cancelAction)
+            
+            Button(
+                "Toggle kernel selection",
+                action: { self.showsKernelsPopover.toggle() }
+            )
+            .frame(width: 0.0, height: 0.0)
+            .keyboardShortcut("k", modifiers: [.command, .shift])
         }.hidden()
     }
     
