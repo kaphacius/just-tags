@@ -14,7 +14,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kaphacius/swifty-emv-tags",
       "state" : {
-        "revision" : "c210a4cbce90a7cb9f6529112f1442114fd624c6"
+        "revision" : "07cf5a8e9f17890424fe466142d20c34382d5e32"
       }
     }
   ],

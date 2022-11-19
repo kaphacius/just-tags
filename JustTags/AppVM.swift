@@ -55,7 +55,7 @@ internal final class AppVM: NSObject, ObservableObject {
 
         window.delegate = self
         windows.append(window)
-        viewModel.tagDecoder = tagDecoder
+        viewModel.tagParser = .init(tagDecoder: tagDecoder)
         viewModel.appVM = self
         viewModels[window.windowNumber] = viewModel
         
@@ -163,9 +163,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     private func paste(string: String?, into viewModel: AnyWindowVM) {
-        if let string = string {
-            viewModel.parse(string: string)
-        }
+        string.map(viewModel.parse(string:))
     }
     
     internal func selectAll() {

@@ -158,7 +158,7 @@ struct MainView: View {
     
     private func kernelSelectionList() -> some View {
         KernelSelectionListView(
-            vm: .init(tagDecoder: vm.tagDecoder!)
+            vm: .init(tagParser: vm.tagParser)
         ).frame(minWidth: 250.0)
     }
     

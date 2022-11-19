@@ -21,7 +21,9 @@ protocol CustomResource: Decodable, Identifiable, Comparable {
     
 }
 
-protocol CustomResourceHandler<Resource, ResourceID> where Resource.ID == ResourceID {
+protocol CustomResourceHandler<
+    Resource, ResourceID
+>: ObservableObject where Resource.ID == ResourceID {
     
     associatedtype Resource: CustomResource
     associatedtype ResourceID: Hashable
@@ -30,6 +32,8 @@ protocol CustomResourceHandler<Resource, ResourceID> where Resource.ID == Resour
     func removeCustomResource(with id: ResourceID) throws
     var identifiers: [Resource.ID] { get }
     var resources: [Resource] { get }
+    
+    func publishChanges()
     
 }
 

@@ -51,4 +51,8 @@ extension TagMapper: CustomResourceHandler {
         Array(mappings.values)
     }
     
+    func publishChanges() {
+        self.objectWillChange.send()
+    }
+    
 }

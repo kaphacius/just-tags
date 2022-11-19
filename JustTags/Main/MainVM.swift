@@ -29,6 +29,7 @@ internal final class MainVM: AnyWindowVM {
     @Published internal var detailTag: EMVTag? = nil
     
     private var cancellables = Set<AnyCancellable>()
+    private var pastedString: String?
     
     override init() {
         super.init()
@@ -95,9 +96,13 @@ internal final class MainVM: AnyWindowVM {
         expandedConstructedTags = []
     }
     
+    internal override func reparse() {
+        pastedString.map(self.parse(string:))
+    }
+    
     internal override func parse(string: String) {
+        pastedString = string
         refreshState()
-        
         initialTags = tagsByParsing(string: string)
         currentTags = initialTags
         detailTag = currentTags.first

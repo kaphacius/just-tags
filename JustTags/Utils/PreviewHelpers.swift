@@ -111,13 +111,13 @@ extension TagRowVM {
 extension KernelSelectionRowVM {
     
     static var mockShortVM: KernelSelectionRowVM = .init(
-        kernelName: "Kernel 2 for MasterCards AIDs",
-        kernelId: "kernel2"
+        id: "Kernel 2 for MasterCards AIDs",
+        name: "kernel2"
     )
     
     static var mockLongVM: KernelSelectionRowVM = .init(
-        kernelName: "Some custom tags for configuration",
-        kernelId: "some_config"
+        id: "Some custom tags for configuration",
+        name: "some_config"
     )
     
 }

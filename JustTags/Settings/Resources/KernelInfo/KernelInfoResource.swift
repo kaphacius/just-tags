@@ -12,22 +12,12 @@ typealias KernelInfoRepo = CustomResourceRepo<KernelInfo>
 
 extension KernelInfo: CustomResource {
     
-    public typealias ID = String
     typealias View = KernelInfoView
     
     static let folderName = "KernelInfo"
     static let iconName = "text.book.closed.fill"
     static let settingsPage = "Kernels"
     static let displayName = "Kernel info"
-    public var id: String { name }
-    
-    public static func == (lhs: KernelInfo, rhs: KernelInfo) -> Bool {
-        lhs.name == rhs.name
-    }
-    
-    public static func < (lhs: KernelInfo, rhs: KernelInfo) -> Bool {
-        lhs.name < rhs.name
-    }
     
 }
 
@@ -44,11 +34,15 @@ extension TagDecoder: CustomResourceHandler {
     }
     
     var identifiers: [String] {
-        kernels
+        kernelIds
     }
     
     var resources: [SwiftyEMVTags.KernelInfo] {
         Array(kernelsInfo.values)
+    }
+    
+    func publishChanges() {
+        self.objectWillChange.send()
     }
     
 }

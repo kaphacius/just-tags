@@ -9,10 +9,8 @@ import SwiftUI
 
 struct KernelSelectionRowVM: Identifiable {
 
-    internal var id: String { kernelId }
-    
-    internal let kernelName: String
-    internal let kernelId: String
+    internal let id: String
+    internal let name: String
     
 }
 
@@ -24,11 +22,11 @@ struct KernelSelectionRow: View {
     var body: some View {
         HStack {
             VStack(alignment: .leading) {
-                Text(vm.kernelName)
+                Text(vm.name)
                     .minimumScaleFactor(0.75)
                     .font(.body)
                     .lineLimit(1)
-                Text(vm.kernelId)
+                Text(vm.id)
                     .font(.callout.italic())
                     .foregroundColor(.secondary)
             }

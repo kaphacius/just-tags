@@ -72,6 +72,10 @@ internal final class DiffVM: AnyWindowVM {
         diffResults = Diff.diff(tags: initialTags, onlyDifferent: value)
     }
     
+    override func reparse() {
+        // TODO: reparse both left and right side
+    }
+    
     override internal func parse(string: String) {
         guard let focusedEditorIdx = focusedEditorIdx else { return }
         

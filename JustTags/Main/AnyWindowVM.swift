@@ -8,13 +8,22 @@
 import Foundation
 import SwiftUI
 import SwiftyEMVTags
+import Combine
 
 internal class AnyWindowVM: ObservableObject {
     
     @Published internal var title = ""
     @Published internal var alert: PresentableAlert?
+    @Published internal var tagParser: TagParser! {
+        didSet {
+            self.cancellable = tagParser.objectWillChange
+                .sink { [weak self] in
+                    self?.reparse()
+                }
+        }
+    }
     
-    internal var tagDecoder: TagDecoder?
+    internal var cancellable: AnyCancellable?
     internal weak var appVM: AppVM?
     internal var errorTitle: String = ""
     internal var errorMessage: String = ""
@@ -23,18 +32,18 @@ internal class AnyWindowVM: ObservableObject {
         title = AppVM.tabName
     }
     
+    internal func reparse() {
+        assertionFailure("this should be overriden")
+    }
+    
     internal func parse(string: String) {
         assertionFailure("this should be overriden")
     }
     
     internal func tagsByParsing(string: String) -> [EMVTag] {
         do {
-            guard let tagDecoder = tagDecoder else {
-                return []
-            }
-            
             return try InputParser.parse(input: string)
-                .map(tagDecoder.decodeBERTLV(_:))
+                .map(tagParser.decodeBERTLV)
         } catch {
             showParsingAlert(with: error)
             return []

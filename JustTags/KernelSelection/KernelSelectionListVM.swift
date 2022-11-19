@@ -11,28 +11,29 @@ import SwiftUI
 
 final class KernelSelectionListVM: ObservableObject {
     
-    @Published internal var rowVMs: [KernelSelectionRowVM] = []
-    @Published internal var selectedKernels: Set<String>
+    @Published internal var rowVMs: [KernelSelectionRowVM]
+    @Published internal var tagParser: TagParser
     
-    init(tagDecoder: TagDecoder) {
-        self.selectedKernels = Set(tagDecoder.identifiers)
-        self.rowVMs = tagDecoder.kernelsInfo.values.map {
+    init(tagParser: TagParser) {
+        self.rowVMs = tagParser.initialKernels.map {
             .init(
-                kernelName: $0.description,
-                kernelId: $0.name
+                id: $0.id,
+                name: $0.name
             )
         }
+        self.tagParser = tagParser
     }
     
     internal func isOnBinding(for id: String) -> Binding<Bool> {
         .init(
-            get: { self.selectedKernels.contains(id) },
+            get: { self.tagParser.selectedKernelIds.contains(id) },
             set: { isExpanded in
                 if isExpanded {
-                    self.selectedKernels.insert(id)
+                    self.tagParser.selectedKernelIds.insert(id)
                 } else {
-                    self.selectedKernels.remove(id)
+                    self.tagParser.selectedKernelIds.remove(id)
                 }
+                self.objectWillChange.send()
             }
         )
     }

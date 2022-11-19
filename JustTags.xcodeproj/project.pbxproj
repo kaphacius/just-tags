@@ -35,6 +35,7 @@
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D76812916452B004CE28C /* CustomResourceRepo.swift */; };
 		5A6FE19729276E4800224070 /* KernelSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6FE19629276E4800224070 /* KernelSelectionRow.swift */; };
+		5A6FE1992928D52200224070 /* TagParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6FE1982928D52200224070 /* TagParser.swift */; };
 		5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */; };
 		5A90204428F9B91200CD7BDC /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */; };
 		5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */; };
@@ -110,6 +111,7 @@
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5A6D76812916452B004CE28C /* CustomResourceRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResourceRepo.swift; sourceTree = "<group>"; };
 		5A6FE19629276E4800224070 /* KernelSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelSelectionRow.swift; sourceTree = "<group>"; };
+		5A6FE1982928D52200224070 /* TagParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagParser.swift; sourceTree = "<group>"; };
 		5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelInfoView.swift; sourceTree = "<group>"; };
@@ -217,6 +219,7 @@
 				5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */,
 				5A301EE1284CC67500BBE844 /* MainViewCommands.swift */,
 				5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */,
+				5A6FE1982928D52200224070 /* TagParser.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -543,6 +546,7 @@
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
 				5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */,
 				5A1719B428BAB2A500D7894A /* About.swift in Sources */,
+				5A6FE1992928D52200224070 /* TagParser.swift in Sources */,
 				5A1719B028B9F7F000D7894A /* AppState.swift in Sources */,
 				5AFC5F5A28F49501004DA503 /* DecodedByteView.swift in Sources */,
 				5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */,
@@ -903,7 +907,7 @@
 			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
 				kind = revision;
-				revision = 096a94a9c189e3f8239519529d89cc2afc2c30a1;
+				revision = 07cf5a8e9f17890424fe466142d20c34382d5e32;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */

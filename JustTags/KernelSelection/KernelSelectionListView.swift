@@ -17,7 +17,7 @@ struct KernelSelectionListView: View {
                 GroupBox {
                     KernelSelectionRow(
                         vm: vm,
-                        isSelected: self.vm.isOnBinding(for: vm.kernelId)
+                        isSelected: self.vm.isOnBinding(for: vm.id)
                     )
                 }
             }
@@ -28,7 +28,7 @@ struct KernelSelectionListView: View {
     private func kernelRow(for kernel: String) -> some View {
         GroupBox {
             HStack {
-                let binding = isOnBinding(for: kernel)
+                let binding = vm.isOnBinding(for: kernel)
                 Text(kernel)
                 Toggle("isOn", isOn: binding)
                     .labelsHidden()
@@ -36,24 +36,14 @@ struct KernelSelectionListView: View {
         }
     }
     
-    private func isOnBinding(for id: String) -> Binding<Bool> {
-        .init(
-            get: { vm.selectedKernels.contains(id) },
-            set: { isExpanded in
-                if isExpanded {
-                    vm.selectedKernels.insert(id)
-                } else {
-                    vm.selectedKernels.remove(id)
-                }
-            }
-        )
-    }
 }
 
 struct KernelSelectionListView_Previews: PreviewProvider {
     static var previews: some View {
         KernelSelectionListView(
-            vm: .init(tagDecoder:  try! .defaultDecoder())
+            vm: .init(
+                tagParser: .init(tagDecoder: try! .defaultDecoder())
+            )
         )
     }
 }

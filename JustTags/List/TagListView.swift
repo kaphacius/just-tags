@@ -35,7 +35,7 @@ internal struct TagListView: View {
         LazyVStack(spacing: commonPadding) {
             ForEach(tags, content: TagRowView.init(vm:))
         }
-        .animation(.linear(duration: 0.1), value: tags)
+        .animation(.none, value: tags)
     }
     
 }
