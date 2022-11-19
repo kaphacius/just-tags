@@ -14,11 +14,14 @@ struct CustomResourceListView<Resource: CustomResource>: View {
     @State private var alert: PresentableAlert?
     
     var body: some View {
-        VStack(alignment: .leading, spacing: commonPadding) {
-            existingInfoList
+        VStack(alignment: .center, spacing: commonPadding) {
             addNewInfo
+            ScrollView {
+                VStack(alignment: .leading, spacing: commonPadding) {
+                    existingInfoList
+                }
+            }
         }
-        .padding(commonPadding)
         .onDrop(of: [.fileURL], isTargeted: nil, perform: handleDrop(_:))
         .animation(.default, value: vm.resources.map(\.id))
         .errorAlert($alert)
@@ -31,18 +34,13 @@ struct CustomResourceListView<Resource: CustomResource>: View {
     }
     
     private var existingInfoList: some View {
-        ScrollView {
-            Divider()
-            ForEach(vm.resources) { resource in
-                HStack {
-                    Resource.View(resource: resource)
-                    Spacer()
+        ForEach(vm.resources) { resource in
+            GroupBox {
+                Resource.View(resource: resource)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                    .overlay(alignment: .topTrailing) {
+                        deleteButtonOverlay(for: resource.id)
                 }
-                .frame(maxWidth: .infinity)
-                .overlay(alignment: .topTrailing) {
-                    deleteButtonOverlay(for: resource.id)
-                }
-                Divider()
             }
         }
     }
