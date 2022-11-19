@@ -22,16 +22,15 @@ internal struct TagHeaderView: View {
             Text(vm.tag)
                 .font(.title3.monospaced())
                 .fontWeight(.medium)
-                .minimumScaleFactor(0.5)
-                .lineLimit(1)
 
             Text(vm.name)
                 .font(.title3)
                 .fontWeight(.regular)
                 .minimumScaleFactor(0.5)
+                .lineLimit(1)
             
             kernels
-        }
+        }.padding(.trailing, 40.0)
     }
     
     @ViewBuilder
