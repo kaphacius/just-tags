@@ -98,9 +98,9 @@ extension EMVTag {
         case .unknown:
             return []
         case .singleKernel(let decodedTag):
-            return [decodedTag.kernelName]
+            return [decodedTag.kernel]
         case .multipleKernels(let decodedTags):
-            return decodedTags.map(\.kernelName)
+            return decodedTags.map(\.kernel)
         }
     }
     
@@ -155,7 +155,7 @@ extension EMVTag.DecodedTag {
             name: tagInfo.name,
             info: tagInfoVM,
             bytes: result.decodedByteVMs,
-            kernel: kernelName
+            kernel: kernel
         )
     }
     
@@ -163,7 +163,7 @@ extension EMVTag.DecodedTag {
         .init(
             source: tagInfo.source.rawValue,
             format: tagInfo.format,
-            kernel: kernelName,
+            kernel: kernel,
             description: tagInfo.description
         )
     }
