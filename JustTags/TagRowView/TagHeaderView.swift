@@ -49,7 +49,8 @@ internal struct TagHeaderView: View {
         // TODO: make this a button?
         Text(kernel)
             .font(.subheadline.weight(.ultraLight).monospaced())
-            .padding(4.0)
+            .padding(.horizontal, 4.0)
+            .padding(.vertical, 3.0)
             .foregroundColor(.secondary)
             .background { kernelLabelBackground() }
     }
