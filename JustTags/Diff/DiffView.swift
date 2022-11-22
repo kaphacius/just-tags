@@ -51,12 +51,26 @@ struct DiffView: View {
             }
             .frame(maxWidth: .infinity)
             .overlay(alignment: .trailing) {
-                Button(action: {
-                    vm.flipSides()
-                }, label: {
-                    Label("Flip sides", systemImage: "arrow.left.arrow.right.square.fill")
-                        .labelStyle(.iconOnly)
-                }).keyboardShortcut("f", modifiers: [.command, .shift])
+                HStack {
+                    Button(action: {
+                        vm.flipSides()
+                    }, label: {
+                        Label("Flip sides", systemImage: "arrow.left.arrow.right.square.fill")
+                            .labelStyle(.iconOnly)
+                    }).keyboardShortcut("f", modifiers: [.command, .shift])
+                    
+                    Button(action: {
+                        vm.showsKernelsPopover = true
+                    }) {
+                        Label("Kernels", systemImage: KernelInfo.iconName)
+                            .labelStyle(.iconOnly)
+                    }
+                    .keyboardShortcut("k", modifiers: [.command, .shift])
+                    .popover(
+                        isPresented: $vm.showsKernelsPopover,
+                        content: kernelSelectionList
+                    )
+                }
             }
         }
     }
@@ -135,6 +149,12 @@ struct DiffView: View {
             }.padding(.bottom, commonPadding)
         }
         .transition(.opacity)
+    }
+    
+    private func kernelSelectionList() -> some View {
+        KernelSelectionListView(
+            vm: .init(tagParser: vm.tagParser)
+        ).frame(minWidth: 250.0)
     }
     
     @ViewBuilder

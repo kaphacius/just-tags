@@ -74,6 +74,17 @@ internal final class DiffVM: AnyWindowVM {
     
     override func reparse() {
         // TODO: reparse both left and right side
+        texts.enumerated().forEach { (offset, string) in
+            guard string.isEmpty == false else { return }
+            
+            let tags = tagsByParsing(string: string)
+            guard tags.isEmpty == false else {
+                texts[offset] = ""
+                return
+            }
+            
+            apply(tags: tags, at: offset)
+        }
     }
     
     override internal func parse(string: String) {
@@ -84,6 +95,8 @@ internal final class DiffVM: AnyWindowVM {
             texts[focusedEditorIdx] = ""
             return
         }
+        
+        texts[focusedEditorIdx] = string
         
         apply(tags: tags, at: focusedEditorIdx)
     }
