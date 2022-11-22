@@ -15,21 +15,12 @@ struct SettingsView: View {
     
     var body: some View {
         TabView {
-            general
             kernels
             tagMappings
         }
         .navigationTitle("Settings")
         .padding(commonPadding)
         .frame(width: 600.0, height: 450.0)
-    }
-    
-    private var general: some View {
-        Text("Here be General settings")
-            .font(.largeTitle)
-            .tabItem {
-                Label("General", systemImage: "gear")
-            }
     }
     
     private var kernels: some View {
