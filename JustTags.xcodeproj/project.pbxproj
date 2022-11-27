@@ -32,6 +32,9 @@
 		5A597A7729276B54006AAD7F /* KernelSelectionListVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A597A7629276B54006AAD7F /* KernelSelectionListVM.swift */; };
 		5A597A7829276C7F006AAD7F /* KernelSelectionListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE4362B2922262D00C3A4CC /* KernelSelectionListView.swift */; };
 		5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A5B09FA285C493700705C35 /* DiffVM.swift */; };
+		5A65C99629336EB300EB577D /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A65C99529336EB300EB577D /* WhatsNewView.swift */; };
+		5A65C9982933826200EB577D /* UpdateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A65C9972933826200EB577D /* UpdateItem.swift */; };
+		5A65C99A293382B200EB577D /* WhatsNewVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A65C999293382B200EB577D /* WhatsNewVM.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D76812916452B004CE28C /* CustomResourceRepo.swift */; };
 		5A6FE19729276E4800224070 /* KernelSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6FE19629276E4800224070 /* KernelSelectionRow.swift */; };
@@ -108,6 +111,9 @@
 		5A51B17A2811D70E00F516F5 /* InputParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InputParser.swift; sourceTree = "<group>"; };
 		5A597A7629276B54006AAD7F /* KernelSelectionListVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelSelectionListVM.swift; sourceTree = "<group>"; };
 		5A5B09FA285C493700705C35 /* DiffVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffVM.swift; sourceTree = "<group>"; };
+		5A65C99529336EB300EB577D /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
+		5A65C9972933826200EB577D /* UpdateItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateItem.swift; sourceTree = "<group>"; };
+		5A65C999293382B200EB577D /* WhatsNewVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewVM.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5A6D76812916452B004CE28C /* CustomResourceRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResourceRepo.swift; sourceTree = "<group>"; };
 		5A6FE19629276E4800224070 /* KernelSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelSelectionRow.swift; sourceTree = "<group>"; };
@@ -257,6 +263,16 @@
 			path = KernelSelection;
 			sourceTree = "<group>";
 		};
+		5A65C99429336EA000EB577D /* Updates */ = {
+			isa = PBXGroup;
+			children = (
+				5A65C9972933826200EB577D /* UpdateItem.swift */,
+				5A65C99529336EB300EB577D /* WhatsNewView.swift */,
+				5A65C999293382B200EB577D /* WhatsNewVM.swift */,
+			);
+			path = Updates;
+			sourceTree = "<group>";
+		};
 		5A90203E28F9B69D00CD7BDC /* Settings */ = {
 			isa = PBXGroup;
 			children = (
@@ -315,6 +331,7 @@
 				5A597A7529276B2F006AAD7F /* KernelSelection */,
 				5AE8BF7C27E79CDF00474AD0 /* Details */,
 				5A90203E28F9B69D00CD7BDC /* Settings */,
+				5A65C99429336EA000EB577D /* Updates */,
 				5A51B17C2811F08500F516F5 /* Diff */,
 				5A1719AE28B9F7E300D7894A /* Persistence */,
 				5A1719B528BABD4E00D7894A /* Utils */,
@@ -521,8 +538,10 @@
 				5ABC3F3A2920F40900C0C217 /* PresentableAlert.swift in Sources */,
 				5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */,
 				5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */,
+				5A65C99629336EB300EB577D /* WhatsNewView.swift in Sources */,
 				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,
 				5A1CA02928F14BF2007672D4 /* PreviewHelpers.swift in Sources */,
+				5A65C99A293382B200EB577D /* WhatsNewVM.swift in Sources */,
 				5ABC3F2F291F759A00C0C217 /* CustomResource.swift in Sources */,
 				5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */,
 				5A31B178281D8032002B2D06 /* HintView.swift in Sources */,
@@ -537,6 +556,7 @@
 				5A51B17B2811D70E00F516F5 /* InputParser.swift in Sources */,
 				5A4FE24A291C13140034217A /* TagMappingResource.swift in Sources */,
 				5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */,
+				5A65C9982933826200EB577D /* UpdateItem.swift in Sources */,
 				5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */,
 				5A4FE24D291D6F940034217A /* CustomResourceListVM.swift in Sources */,
 				5A597A7829276C7F006AAD7F /* KernelSelectionListView.swift in Sources */,
