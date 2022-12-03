@@ -61,8 +61,9 @@ internal struct MainViewCommands: Commands {
     }
     
     private var helpCommands: some Commands {
-        CommandGroup(after: .help) {
+        CommandGroup(replacing: .help) {
             whatsNewButton
+            releaseNotesButton
         }
     }
     
@@ -176,9 +177,16 @@ internal struct MainViewCommands: Commands {
     
     private var whatsNewButton: some View {
         Button(
-            "What's new in JustTags",
+            "What's New in JustTags",
             action: vm.showWhatsNew
         )
+    }
+    
+    private var releaseNotesButton: some View {
+        Button("Release Notes") {
+            _ = URL(string: "https://github.com/kaphacius/just-tags/releases")
+                .map(NSWorkspace.shared.open(_:))
+        }
     }
     
 }
