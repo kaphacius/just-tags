@@ -16,6 +16,10 @@ struct WhatsNewVM {
 
 extension WhatsNewVM {
     
+    static let versions: [String: WhatsNewVM] = [
+        "1.1": oneOne
+    ]
+    
     static let oneOne: WhatsNewVM = .init(
         version: "1.1",
         items: [

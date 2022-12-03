@@ -27,6 +27,7 @@ internal final class MainVM: AnyWindowVM {
     @Published internal var expandedConstructedTags: Set<EMVTag.ID> = []
     @Published internal var showsDetails: Bool = true
     @Published internal var detailTag: EMVTag? = nil
+    @Published var presentingWhatsNew: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     private var pastedString: String?

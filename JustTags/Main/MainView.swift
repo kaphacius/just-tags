@@ -39,6 +39,11 @@ struct MainView: View {
                     }
             }.opacity(0.0)
         }
+        .sheet(isPresented: $vm.presentingWhatsNew) {
+            appVersion
+                .flatMap { WhatsNewVM.versions[$0] }
+                .map(WhatsNewView.init(vm:))
+        }
         .searchable(text: $vm.searchText)
         .onAppear(perform: vm.setUp)
         .navigationTitle(vm.title)

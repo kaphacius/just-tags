@@ -77,6 +77,7 @@ internal final class AppVM: NSObject, ObservableObject {
         guard let nextState = loadedState?.nextMainState(),
               let loadedState = self.loadedState else {
             print("No state to restore")
+            didRestoreState()
             return
         }
 
@@ -100,10 +101,9 @@ internal final class AppVM: NSObject, ObservableObject {
         // Time to select the last active tab and finish the state restoration.
         if let activeTab = activeTab {
             print("State restoration completed")
-            setUpInProgress = false
-            loadedState = nil
             print("Setting tab \(activeTab) as active")
             windows[activeTab].makeKeyAndOrderFront(nil)
+            didRestoreState()
         } else {
             // Open the next tab after a small delay
             DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
@@ -112,6 +112,12 @@ internal final class AppVM: NSObject, ObservableObject {
                 self.openNewTab()
             }
         }
+    }
+    
+    private func didRestoreState() {
+        setUpInProgress = false
+        loadedState = nil
+        activeMainVM?.presentingWhatsNew = shouldShowWhatsNew
     }
     
     fileprivate func setAsActive(window: NSWindow) {

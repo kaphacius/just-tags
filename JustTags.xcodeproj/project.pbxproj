@@ -35,6 +35,7 @@
 		5A65C99629336EB300EB577D /* WhatsNewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A65C99529336EB300EB577D /* WhatsNewView.swift */; };
 		5A65C9982933826200EB577D /* UpdateItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A65C9972933826200EB577D /* UpdateItem.swift */; };
 		5A65C99A293382B200EB577D /* WhatsNewVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A65C999293382B200EB577D /* WhatsNewVM.swift */; };
+		5A65C99C293673FE00EB577D /* UpdateHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A65C99B293673FE00EB577D /* UpdateHelpers.swift */; };
 		5A69A35E27ED89A20054B339 /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A69A35D27ED89A20054B339 /* Helpers.swift */; };
 		5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D76812916452B004CE28C /* CustomResourceRepo.swift */; };
 		5A6FE19729276E4800224070 /* KernelSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6FE19629276E4800224070 /* KernelSelectionRow.swift */; };
@@ -114,6 +115,7 @@
 		5A65C99529336EB300EB577D /* WhatsNewView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewView.swift; sourceTree = "<group>"; };
 		5A65C9972933826200EB577D /* UpdateItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateItem.swift; sourceTree = "<group>"; };
 		5A65C999293382B200EB577D /* WhatsNewVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WhatsNewVM.swift; sourceTree = "<group>"; };
+		5A65C99B293673FE00EB577D /* UpdateHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateHelpers.swift; sourceTree = "<group>"; };
 		5A69A35D27ED89A20054B339 /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		5A6D76812916452B004CE28C /* CustomResourceRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResourceRepo.swift; sourceTree = "<group>"; };
 		5A6FE19629276E4800224070 /* KernelSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelSelectionRow.swift; sourceTree = "<group>"; };
@@ -269,6 +271,7 @@
 				5A65C9972933826200EB577D /* UpdateItem.swift */,
 				5A65C99529336EB300EB577D /* WhatsNewView.swift */,
 				5A65C999293382B200EB577D /* WhatsNewVM.swift */,
+				5A65C99B293673FE00EB577D /* UpdateHelpers.swift */,
 			);
 			path = Updates;
 			sourceTree = "<group>";
@@ -566,6 +569,7 @@
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
 				5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */,
 				5A1719B428BAB2A500D7894A /* About.swift in Sources */,
+				5A65C99C293673FE00EB577D /* UpdateHelpers.swift in Sources */,
 				5A6FE1992928D52200224070 /* TagParser.swift in Sources */,
 				5A1719B028B9F7F000D7894A /* AppState.swift in Sources */,
 				5AFC5F5A28F49501004DA503 /* DecodedByteView.swift in Sources */,
