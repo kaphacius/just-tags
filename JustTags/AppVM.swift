@@ -290,6 +290,10 @@ internal final class AppVM: NSObject, ObservableObject {
             .map { $0.makeKeyAndOrderFront(self) }
     }
     
+    internal func showWhatsNew() {
+        activeMainVM?.presentingWhatsNew = true
+    }
+    
 }
 
 extension AppVM: NSWindowDelegate {

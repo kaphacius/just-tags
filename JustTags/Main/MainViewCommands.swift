@@ -22,6 +22,7 @@ internal struct MainViewCommands: Commands {
         fileCommands
         editCommands
         diffCommands
+        helpCommands
     }
     
     @CommandsBuilder
@@ -56,6 +57,12 @@ internal struct MainViewCommands: Commands {
     private var diffCommands: some Commands {
         CommandMenu("Diff") {
             diffSelectedTags
+        }
+    }
+    
+    private var helpCommands: some Commands {
+        CommandGroup(after: .help) {
+            whatsNewButton
         }
     }
     
@@ -165,6 +172,13 @@ internal struct MainViewCommands: Commands {
         if alert.runModal().rawValue == okButton.tag, textField.stringValue.isEmpty == false {
             tabName = textField.stringValue
         }
+    }
+    
+    private var whatsNewButton: some View {
+        Button(
+            "What's new in JustTags",
+            action: vm.showWhatsNew
+        )
     }
     
 }
