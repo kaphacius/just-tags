@@ -17,6 +17,7 @@ struct SettingsView: View {
         TabView {
             kernels
             tagMappings
+            keyBindings
         }
         .navigationTitle("Settings")
         .padding(commonPadding)
@@ -34,6 +35,13 @@ struct SettingsView: View {
         CustomResourceListView(vm: .init(repo: tagMappingRepo))
             .tabItem {
                 Label(TagMapping.settingsPage, systemImage: TagMapping.iconName)
+            }
+    }
+    
+    private var keyBindings: some View {
+        ShortcutListView(lines: shortcuts)
+            .tabItem {
+                Label("Key Bindings", systemImage: "keyboard")
             }
     }
 }
