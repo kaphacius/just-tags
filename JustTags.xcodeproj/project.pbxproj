@@ -310,13 +310,6 @@
 			path = TagMapping;
 			sourceTree = "<group>";
 		};
-		5ADC521E293B337F00DFEE0A /* Help */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Help;
-			sourceTree = "<group>";
-		};
 		5ADC5225293E512300DFEE0A /* Shortcuts */ = {
 			isa = PBXGroup;
 			children = (
@@ -361,7 +354,6 @@
 				5A65C99429336EA000EB577D /* Updates */,
 				5A51B17C2811F08500F516F5 /* Diff */,
 				5A1719AE28B9F7E300D7894A /* Persistence */,
-				5ADC521E293B337F00DFEE0A /* Help */,
 				5A1719B528BABD4E00D7894A /* Utils */,
 				5AE8BF4F27E79BF000474AD0 /* JustTagsApp.swift */,
 				5AE8BF5327E79BF100474AD0 /* Assets.xcassets */,

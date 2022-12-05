@@ -16,3 +16,11 @@ internal func doPoof(window: NSWindow) {
     NSAnimationEffect.poof
         .show(centeredAt: loc, size: .init(width: poofSize, height: poofSize))
 }
+
+internal func openSettings() {
+    if #available(macOS 13, *) {
+        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+    } else {
+        NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+    }
+}

@@ -64,6 +64,7 @@ internal struct MainViewCommands: Commands {
         CommandGroup(replacing: .help) {
             whatsNewButton
             releaseNotesButton
+            keyBindingsButton
         }
     }
     
@@ -187,6 +188,13 @@ internal struct MainViewCommands: Commands {
             _ = URL(string: "https://github.com/kaphacius/just-tags/releases")
                 .map(NSWorkspace.shared.open(_:))
         }
+    }
+    
+    private var keyBindingsButton: some View {
+        Button(
+            "Key Bindings",
+            action: openSettings
+        )
     }
     
 }
