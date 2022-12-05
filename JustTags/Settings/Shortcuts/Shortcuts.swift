@@ -21,5 +21,6 @@ internal let shortcuts: [ShortcutVM] = [
     .init(title: "Add Custom Kernel Info", key: "O", modifiers: [.command, .shift]),
     .init(title: "Toggle Active Kernels", key: "K", modifiers: [.command, .shift]),
     .init(title: "Diff Selected Tags", key: "D", modifiers: [.option, .shift]),
-    .init(title: "Toggle Show Only Different Tags", key: "T", modifiers: [.command, .shift])
+    .init(title: "Toggle Show Only Different Tags", key: "T", modifiers: [.command, .shift]),
+    .init(title: "Flip Diffed Tags", key: "F", modifiers: [.command, .shift])
 ]
