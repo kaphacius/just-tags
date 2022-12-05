@@ -38,7 +38,7 @@ internal struct JustTagsApp: App {
         }.handlesExternalEvents(matching: ["diff"])
         
         Settings {
-            SettingsView()
+            SettingsView(selectedTab: $appVM.selectedTab)
                 .environmentObject(appVM.kernelInfoRepo!)
                 .environmentObject(appVM.tagMappingRepo!)
         }

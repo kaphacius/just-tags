@@ -193,7 +193,7 @@ internal struct MainViewCommands: Commands {
     private var keyBindingsButton: some View {
         Button(
             "Key Bindings",
-            action: openSettings
+            action: vm.openKeyBindings
         )
     }
     

@@ -20,6 +20,7 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
     @Environment(\.openURL) var openURL
+    @Published internal var selectedTab: SettingsView.Tab = .kernels
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
     private var loadedState: AppState?
@@ -270,7 +271,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func addKernelInfo() {
-        openSettings()
+        openSettings(at: .kernels)
     }
     
     private func window(for vm: AnyWindowVM) -> NSWindow? {
@@ -288,6 +289,20 @@ internal final class AppVM: NSObject, ObservableObject {
     
     internal func showWhatsNew() {
         activeMainVM?.presentingWhatsNew = true
+    }
+    
+    internal func openKeyBindings() {
+        openSettings(at: .keyBindings)
+    }
+    
+    private func openSettings(at tab: SettingsView.Tab) {
+        if #available(macOS 13, *) {
+            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
+        } else {
+            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
+        }
+        
+        selectedTab = tab
     }
     
 }

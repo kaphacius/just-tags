@@ -10,14 +10,15 @@ import SwiftyEMVTags
 
 struct SettingsView: View {
     
+    @Binding var selectedTab: Tab
     @EnvironmentObject private var kernelInfoRepo: KernelInfoRepo
     @EnvironmentObject private var tagMappingRepo: TagMappingRepo
     
     var body: some View {
-        TabView {
-            kernels
-            tagMappings
-            keyBindings
+        TabView(selection: $selectedTab) {
+            kernels.tag(Tab.kernels)
+            tagMappings.tag(Tab.tagMappings)
+            keyBindings.tag(Tab.keyBindings)
         }
         .navigationTitle("Settings")
         .padding(commonPadding)
@@ -46,9 +47,21 @@ struct SettingsView: View {
     }
 }
 
+extension SettingsView {
+    
+    internal enum Tab: Hashable {
+        
+        case kernels
+        case tagMappings
+        case keyBindings
+        
+    }
+    
+}
+
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView()
+        SettingsView(selectedTab: .constant(.tagMappings))
             .environmentObject(PreviewHelpers.kernelInfoRepo)
             .environmentObject(PreviewHelpers.tagMappingRepo)
     }
