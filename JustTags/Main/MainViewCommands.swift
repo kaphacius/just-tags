@@ -98,7 +98,7 @@ internal struct MainViewCommands: Commands {
         Button(
             "Deselect",
             action: { mainVM?.deselectAll() }
-        ).keyboardShortcut("a", modifiers: [.command, .shift])
+        ).keyboardShortcut(.cancelAction)
     }
     
     private var paste: some View {
