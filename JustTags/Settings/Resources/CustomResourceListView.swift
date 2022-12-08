@@ -14,13 +14,14 @@ struct CustomResourceListView<Resource: CustomResource>: View {
     @State private var alert: PresentableAlert?
     
     var body: some View {
-        VStack(alignment: .center, spacing: commonPadding) {
-            addNewInfo
+        VStack(alignment: .leading, spacing: commonPadding) {
             ScrollView {
                 VStack(alignment: .leading, spacing: commonPadding) {
                     existingInfoList
                 }
             }
+            
+            addNewInfo
         }
         .onDrop(of: [.fileURL], isTargeted: nil, perform: handleDrop(_:))
         .animation(.default, value: vm.resources.map(\.id))
