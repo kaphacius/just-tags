@@ -25,7 +25,7 @@ extension WhatsNewVM {
         items: [
             .init(
                 iconName: "wand.and.stars.inverse",
-                title: "State resporation",
+                title: "State restoration",
                 description: "Parsed tags will be saved when the app is quit and restored on next launch."
             ),
             .init(
