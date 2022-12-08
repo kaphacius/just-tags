@@ -16,3 +16,9 @@ internal func doPoof(window: NSWindow) {
     NSAnimationEffect.poof
         .show(centeredAt: loc, size: .init(width: poofSize, height: poofSize))
 }
+
+internal func openReleaseNotes() {
+    NSWorkspace.shared.open(releaseNotesURL)
+}
+
+private let releaseNotesURL = URL(string: "https://github.com/kaphacius/just-tags/releases")!

@@ -184,10 +184,10 @@ internal struct MainViewCommands: Commands {
     }
     
     private var releaseNotesButton: some View {
-        Button("Release Notes") {
-            _ = URL(string: "https://github.com/kaphacius/just-tags/releases")
-                .map(NSWorkspace.shared.open(_:))
-        }
+        Button(
+            "Release Notes",
+            action: openReleaseNotes
+        )
     }
     
     private var keyBindingsButton: some View {

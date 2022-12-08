@@ -27,7 +27,16 @@ struct WhatsNewView: View {
             }
             .padding(.bottom, 30.0)
             
+            
             getStartedButton
+                .padding(.bottom, 10.0)
+            
+            Button(
+                "Full Release Notes",
+                action: openReleaseNotes
+            )
+            .buttonStyle(.link)
+            
         }
 
         .padding()
