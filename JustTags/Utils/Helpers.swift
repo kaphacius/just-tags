@@ -162,14 +162,40 @@ extension Optional where Wrapped == String {
     }
 }
 
+extension EMVTag {
+    
+    func matching(id: Self.ID) -> EMVTag? {
+        if self.id == id { return self }
+        
+        switch self.category {
+        case .constructed(let subtags):
+            return subtags
+                .lazy
+                .compactMap { $0.matching(id: id) }
+                .first
+        case .plain:
+            return nil
+        }
+        
+    }
+    
+}
+
+extension Array where Element == EMVTag {
+    
+    func first(with id: EMVTag.ID) -> Element? {
+        self
+            .lazy
+            .compactMap { $0.matching(id: id) }
+            .first
+    }
+    
+}
+
 extension Array where Element: Identifiable {
     
     func firstIndex(with id: Element.ID) -> Int? {
         firstIndex(where: { $0.id == id })
-    }
-    
-    func first(with id: Element.ID) -> Element? {
-        first(where: { $0.id == id })
     }
     
     @discardableResult

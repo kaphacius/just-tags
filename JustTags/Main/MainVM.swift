@@ -53,8 +53,7 @@ internal final class MainVM: AnyWindowVM {
         } else {
             selectedIds.insert(id)
             currentTags
-                .firstIndex(with: id)
-                .map { currentTags[$0] }
+                .first(with: id)
                 .map { selectedTags.append($0) }
         }
     }
