@@ -30,10 +30,10 @@ extension EMVTag {
         }
     }
     
-    internal var name: String {
+    internal var name: String? {
         switch self.decodingResult {
         case .unknown:
-            return ""
+            return nil
         case .singleKernel(let decodedTag):
             return decodedTag.tagInfo.name
         case .multipleKernels(let decodedTags):

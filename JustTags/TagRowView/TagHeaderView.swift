@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 internal struct TagHeaderVM: Equatable {
     internal let tag: String
-    internal let name: String
+    internal let name: String?
     internal let kernels: [String]
 }
 
@@ -23,14 +23,24 @@ internal struct TagHeaderView: View {
                 .font(.title3.monospaced())
                 .fontWeight(.medium)
 
-            Text(vm.name)
-                .font(.title3)
-                .fontWeight(.regular)
+            nameLabel
+                .font(.title3.weight(.regular))
                 .minimumScaleFactor(0.5)
                 .lineLimit(1)
             
             kernels
         }.padding(.trailing, 40.0)
+    }
+    
+    @ViewBuilder
+    private var nameLabel: some View {
+        if let name = vm.name {
+            Text(name)
+        } else {
+            Image(systemName: "questionmark.app.dashed")
+                .foregroundColor(.secondary)
+                .padding(.leading, -commonPadding)
+        }
     }
     
     @ViewBuilder
@@ -76,6 +86,7 @@ struct TagHeaderView_Previews: PreviewProvider {
         VStack(alignment: .leading) {
             TagHeaderView(vm: EMVTag.mockTagMultipleKernels.tagHeaderVM)
             TagHeaderView(vm: EMVTag.mockTagExtended.tagHeaderVM)
+            TagHeaderView(vm: EMVTag.mockTagConstructed.tagHeaderVM)
         }
     }
 }

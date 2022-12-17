@@ -12,7 +12,7 @@ internal struct ConstructedTagVM: Equatable {
     
     let id: UUID
     let tag: String
-    let name: String
+    let name: String?
     let headerVM: TagHeaderVM
     let valueVM: TagValueVM
     let subtags: [TagRowVM]

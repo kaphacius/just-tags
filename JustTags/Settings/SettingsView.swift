@@ -42,7 +42,7 @@ struct SettingsView: View {
     private var keyBindings: some View {
         ShortcutListView(lines: shortcuts)
             .tabItem {
-                Label("Key Bindings", systemImage: "keyboard")
+                Label("Key Bindings", systemImage: "keyboard.fill")
             }
     }
 }
