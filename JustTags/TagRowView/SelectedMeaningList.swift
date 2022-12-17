@@ -21,7 +21,7 @@ struct SelectedMeaningList: View {
                 }
             }
             Spacer()
-        }
+        }.padding(.bottom, commonPadding)
     }
 }
 
