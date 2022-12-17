@@ -54,11 +54,12 @@ internal struct DecodedRowView: View {
     
     private var meaningView: some View {
         HStack(spacing: 0.0) {
-            Spacer()
             Text(vm.meaning)
-                .lineLimit(0)
+                .lineLimit(2)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .multilineTextAlignment(.trailing)
                 .minimumScaleFactor(0.5)
-                .padding(4.0)
+                .padding(.trailing, commonPadding)
         }
         .frame(maxHeight: .infinity)
         .border(Self.borderColor, width: 0.5)
@@ -88,6 +89,6 @@ struct DecodedRowView_Previews: PreviewProvider {
                     .enumerated()
                 ), id: \.offset
             ) { DecodedRowView(vm: $0.element) }
-        }
+        }.frame(width: detailWidth)
     }
 }
