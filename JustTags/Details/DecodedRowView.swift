@@ -59,7 +59,8 @@ internal struct DecodedRowView: View {
                 .frame(maxWidth: .infinity, alignment: .trailing)
                 .multilineTextAlignment(.trailing)
                 .minimumScaleFactor(0.5)
-                .padding(.trailing, commonPadding)
+                .padding(.horizontal, commonPadding)
+                .padding(.vertical, commonPadding / 2.0)
         }
         .frame(maxHeight: .infinity)
         .border(Self.borderColor, width: 0.5)
