@@ -57,7 +57,13 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
     internal func addNewResource(at url: URL) throws {
         let data = try Data(contentsOf: url)
         let newResource = try JSONDecoder().decode(Resource.self, from: data)
-        try handler.addCustomResource(newResource)
+        do {
+            try handler.addCustomResource(newResource)
+        } catch EMVTagError.kernelInfoAlreadyExists, EMVTagError.tagMappingAlreadyExists {
+            // Replace the resource with never version
+            try handler.removeCustomResource(with: newResource.id)
+            try handler.addCustomResource(newResource)
+        }
         try saveResource(at: url, identifier: newResource.id)
         updateResources()
     }
