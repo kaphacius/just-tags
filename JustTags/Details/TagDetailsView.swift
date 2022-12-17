@@ -42,7 +42,7 @@ struct TagDetailsView: View {
     private var header: some View {
         GroupBox {
             VStack(spacing: 0.0) {
-                Text(vm.tag).font(.title).monospacedDigit()
+                Text(vm.tag).font(.largeTitle.monospaced())
                 Text(vm.name).font(.title2)
             }
             .frame(maxWidth: .infinity)
