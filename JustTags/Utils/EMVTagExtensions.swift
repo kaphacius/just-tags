@@ -16,7 +16,14 @@ extension EMVTag {
         case .unknown:
             return nil
         case .singleKernel(let decodedTag):
-            return decodedTag.extendedDescription
+            if let extendedDescription = decodedTag.extendedDescription {
+                return extendedDescription
+            } else if let firstMeaning = selectedMeanings.first,
+                      selectedMeanings.count == 1 {
+                return firstMeaning
+            } else {
+                return nil
+            }
         case .multipleKernels(let decodedTags):
             return Set(decodedTags.compactMap(\.extendedDescription))
                 .joined(separator: ", ")
@@ -109,7 +116,7 @@ extension EMVTag {
             id: id,
             headerVM: tagHeaderVM,
             valueVM: tagValueVM,
-            canExpand: selectedMeanings.isEmpty == false,
+            canExpand: selectedMeanings.count > 1,
             showsDetails: isUnknown == false,
             selectedMeanings: selectedMeanings
         )
