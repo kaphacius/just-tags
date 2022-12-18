@@ -41,7 +41,7 @@ struct MainView: View {
         }
         .sheet(isPresented: $vm.presentingWhatsNew) {
             appVersion
-                .flatMap { WhatsNewVM.versions[$0] }
+                .map(WhatsNewVM.vm(for:))
                 .map(WhatsNewView.init(vm:))
         }
         .searchable(text: $vm.searchText)

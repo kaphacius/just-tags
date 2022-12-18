@@ -14,13 +14,36 @@ struct WhatsNewVM {
     
 }
 
+extension WhatsNewVM: Equatable, Comparable {
+    
+    static func < (lhs: WhatsNewVM, rhs: WhatsNewVM) -> Bool {
+        lhs.version < rhs.version
+    }
+    
+}
+
 extension WhatsNewVM {
     
-    static let versions: [String: WhatsNewVM] = [
+    private func replacingVersion(with newVersion: String) -> WhatsNewVM {
+        .init(
+            version: newVersion,
+            items: self.items
+        )
+    }
+    
+    internal static func vm(for version: String) -> WhatsNewVM {
+        if let vm = versions[version] {
+            return vm
+        } else {
+            return versions.values.sorted().last!.replacingVersion(with: version)
+        }
+    }
+    
+    private static let versions: [String: WhatsNewVM] = [
         "1.1.0": oneOne
     ]
     
-    static let oneOne: WhatsNewVM = .init(
+    private static let oneOne: WhatsNewVM = .init(
         version: "1.1.0",
         items: [
             .init(
@@ -40,5 +63,7 @@ extension WhatsNewVM {
             )
         ]
     )
+    
+    internal static var previewVM: WhatsNewVM { .oneOne }
     
 }

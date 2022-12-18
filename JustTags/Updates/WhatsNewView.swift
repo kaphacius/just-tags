@@ -87,10 +87,10 @@ struct WhatsNewView: View {
 struct  WhatsNewView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            WhatsNewView(vm: .oneOne)
+            WhatsNewView(vm: .previewVM)
                 .frame(width: 800.0)
                 .preferredColorScheme(.dark)
-            WhatsNewView(vm: .oneOne)
+            WhatsNewView(vm: .previewVM)
                 .frame(width: 800.0)
                 .preferredColorScheme(.light)
         }

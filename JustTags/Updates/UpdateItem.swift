@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct UpdateItem: Identifiable {
+struct UpdateItem: Identifiable, Equatable {
     
     var id: String { title }
     
