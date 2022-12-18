@@ -16,6 +16,7 @@ internal struct ConstructedTagVM: Equatable {
     let headerVM: TagHeaderVM
     let valueVM: TagValueVM
     let subtags: [TagRowVM]
+    let showsDetails: Bool
     
 }
 
@@ -40,7 +41,7 @@ internal struct ConstructedTagView: View {
                 }
             }
             
-            if binding.wrappedValue == false {
+            if vm.showsDetails && binding.wrappedValue == false {
                 DetailsButton(id: vm.id)
             }
         }

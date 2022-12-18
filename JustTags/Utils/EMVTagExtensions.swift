@@ -133,7 +133,8 @@ extension EMVTag {
             name: name,
             headerVM: tagHeaderVM,
             valueVM: tagValueVM,
-            subtags: subtags.map(\.tagRowVM)
+            subtags: subtags.map(\.tagRowVM),
+            showsDetails: isUnknown == false
         )
     }
     
