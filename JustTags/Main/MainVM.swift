@@ -81,7 +81,7 @@ internal final class MainVM: AnyWindowVM {
     
     private func setUpSearch() {
         $searchText
-            .debounce(for: 0.2, scheduler: RunLoop.main, options: nil)
+            .debounce(for: 0.10, scheduler: RunLoop.main, options: nil)
             .removeDuplicates()
             .sink { [weak self] v in
                 self?.searchTags()
