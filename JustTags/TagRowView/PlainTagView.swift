@@ -33,14 +33,14 @@ internal struct PlainTagView: View {
     }
     
     internal var body: some View {
-        VStack(alignment: .leading, spacing: commonPadding) {
-            TagHeaderView(vm: vm.headerVM)
-            tagValueView
-        }
-        .frame(maxWidth: .infinity, alignment: .leading)
-        .overlay(alignment: .trailing) {
+        HStack(spacing: 0.0) {
+            VStack(alignment: .leading, spacing: commonPadding) {
+                TagHeaderView(vm: vm.headerVM)
+                tagValueView
+            }.frame(maxWidth: .infinity, alignment: .leading)
+            
             if vm.showsDetails {
-                detailsButton
+                DetailsButton(id: vm.id)
             }
         }
         .contentShape(Rectangle())
@@ -80,26 +80,6 @@ internal struct PlainTagView: View {
         )
         .padding(.horizontal, commonPadding)
         .animation(.none, value: isExpanded)
-    }
-    
-    private var detailsButton: some View {
-        Button(
-            action: {
-                windowVM.onDetailTagSelected(id: vm.id)
-            }, label: {
-                GroupBox {
-                    Label("Details", systemImage: buttonImage)
-                    .labelStyle(.iconOnly)
-                    .padding(.horizontal, commonPadding)
-                }
-            }
-        )
-        .padding(.horizontal, commonPadding)
-        .buttonStyle(.plain)
-    }
-    
-    private var buttonImage: String {
-        windowVM.detailTag?.id == vm.id ? "lessthan" : "greaterthan"
     }
 }
 

@@ -13,6 +13,7 @@
 		5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */; };
 		5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */; };
 		5A1CA02928F14BF2007672D4 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */; };
+		5A256BDE294F5EFF003EC026 /* DetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A256BDD294F5EFF003EC026 /* DetailsButton.swift */; };
 		5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDD284C976B00BBE844 /* AppVM.swift */; };
 		5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */; };
 		5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EE1284CC67500BBE844 /* MainViewCommands.swift */; };
@@ -96,6 +97,7 @@
 		5A1719B628BAC08A00D7894A /* AnyWindowVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnyWindowVM.swift; sourceTree = "<group>"; };
 		5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagExtensions.swift; sourceTree = "<group>"; };
 		5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHelpers.swift; sourceTree = "<group>"; };
+		5A256BDD294F5EFF003EC026 /* DetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsButton.swift; sourceTree = "<group>"; };
 		5A301EDD284C976B00BBE844 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
 		5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingWindowFinder.swift; sourceTree = "<group>"; };
 		5A301EE1284CC67500BBE844 /* MainViewCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCommands.swift; sourceTree = "<group>"; };
@@ -220,6 +222,7 @@
 				5AE923E728C33D8000BD6B3E /* TagHeaderView.swift */,
 				5AE923E528C33D5400BD6B3E /* TagValueView.swift */,
 				5A31B18028210BE8002B2D06 /* SelectedMeaningList.swift */,
+				5A256BDD294F5EFF003EC026 /* DetailsButton.swift */,
 			);
 			path = TagRowView;
 			sourceTree = "<group>";
@@ -558,6 +561,7 @@
 				5ABC3F3A2920F40900C0C217 /* PresentableAlert.swift in Sources */,
 				5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */,
 				5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */,
+				5A256BDE294F5EFF003EC026 /* DetailsButton.swift in Sources */,
 				5A65C99629336EB300EB577D /* WhatsNewView.swift in Sources */,
 				5A31B1662816FC31002B2D06 /* Diff.swift in Sources */,
 				5A1CA02928F14BF2007672D4 /* PreviewHelpers.swift in Sources */,

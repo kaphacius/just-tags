@@ -25,11 +25,10 @@ internal struct TagHeaderView: View {
 
             nameLabel
                 .font(.title3.weight(.regular))
-                .minimumScaleFactor(0.5)
                 .lineLimit(1)
             
             kernels
-        }.padding(.trailing, 40.0)
+        }
     }
     
     @ViewBuilder

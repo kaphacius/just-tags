@@ -21,26 +21,32 @@ internal struct ConstructedTagVM: Equatable {
 
 internal struct ConstructedTagView: View {
     
-    @EnvironmentObject private var mainVM: MainVM
+    @EnvironmentObject private var windowVM: MainVM
     
     internal let vm: ConstructedTagVM
     
     internal var body: some View {
-        let binding = mainVM.expandedBinding(for: vm.id)
+        let binding = windowVM.expandedBinding(for: vm.id)
         
-        return VStack(alignment: .leading) {
-            disclosureGroup(with: binding)
-            if binding.wrappedValue == false {
-                HStack(spacing: 0.0) {
-                    TagValueView(vm: vm.valueVM)
-                        .multilineTextAlignment(.leading)
-                        .padding(.top, -commonPadding)
+        return HStack {
+            VStack(alignment: .leading) {
+                disclosureGroup(with: binding)
+                if binding.wrappedValue == false {
+                    HStack(spacing: 0.0) {
+                        TagValueView(vm: vm.valueVM)
+                            .multilineTextAlignment(.leading)
+                            .padding(.top, -commonPadding)
+                    }
                 }
+            }
+            
+            if binding.wrappedValue == false {
+                DetailsButton(id: vm.id)
             }
         }
         .contentShape(Rectangle())
         .gesture(TapGesture().modifiers(.command).onEnded { _ in
-            mainVM.onTagSelected(id: vm.id)
+            windowVM.onTagSelected(id: vm.id)
         })
         .onTapGesture {
             binding.wrappedValue.toggle()
