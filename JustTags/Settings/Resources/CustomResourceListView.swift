@@ -21,16 +21,29 @@ struct CustomResourceListView<Resource: CustomResource>: View {
                 }
             }
             
-            addNewInfo
+            HStack {
+                addNew
+                Spacer()
+                clearAll
+            }
         }
         .onDrop(of: [.fileURL], isTargeted: nil, perform: handleDrop(_:))
         .animation(.default, value: vm.resources.map(\.id))
         .errorAlert($alert)
     }
     
-    private var addNewInfo: some View {
+    private var addNew: some View {
         Button(action: toggleOpenPanel) {
             Label("Add custom \(Resource.displayName)...", systemImage: "plus")
+        }
+    }
+    
+    private var clearAll: some View {
+        Button {
+            // TODO: handle error
+            try? vm.clearSavedResources()
+        } label: {
+            Label("Clear all \(Resource.displayName)s", systemImage: "trash.fill")
         }
     }
     

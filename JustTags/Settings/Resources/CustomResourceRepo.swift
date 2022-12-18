@@ -13,6 +13,7 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
     
     @Published var resources: [Resource]
     
+    private let fm: FileManager = .default
     private let resourcesDir: URL
     private let handler: any CustomResourceHandler<Resource, Resource.ID>
     private var filenames: Dictionary<Resource.ID, String> = [:]
@@ -34,13 +35,27 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
         self.resources = handler.resources
     }
     
+    internal func clearSavedResources() throws {
+        guard fm.fileExists(atPath: resourcesDir.path) else {
+            // Nothing to clear
+            return
+        }
+        
+        try customIdentifiers.forEach(removeResource(with:))
+        
+        try fm.contentsOfDirectory(atPath: resourcesDir.path)
+            .forEach { itemPath in
+                try fm.removeItem(atPath: itemPath)
+            }
+    }
+    
     internal func loadSavedResources() throws {
-        guard FileManager.default.fileExists(atPath: resourcesDir.path) else {
+        guard fm.fileExists(atPath: resourcesDir.path) else {
             // Nothing to load
             return
         }
 
-        try FileManager.default.contentsOfDirectory(atPath: resourcesDir.path)
+        try fm.contentsOfDirectory(atPath: resourcesDir.path)
             .map(resourcesDir.appendingPathComponent)
             .map { (try Data(contentsOf: $0), $0.lastPathComponent) }
             .map { (try JSONDecoder().decode(Resource.self, from: $0.0), $0.1) }
@@ -69,8 +84,8 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
     }
 
     private func saveResource(at url: URL, identifier: Resource.ID) throws {
-        if FileManager.default.fileExists(atPath: resourcesDir.path) == false {
-            try FileManager.default.createDirectory(
+        if fm.fileExists(atPath: resourcesDir.path) == false {
+            try fm.createDirectory(
                 at: resourcesDir,
                 withIntermediateDirectories: false
             )
@@ -80,7 +95,7 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
             .appendingPathComponent(UUID().uuidString)
             .appendingPathExtension(for: .json)
 
-        try FileManager.default.copyItem(at: url, to: newPath)
+        try fm.copyItem(at: url, to: newPath)
 
         filenames[identifier] = newPath.lastPathComponent
     }
@@ -88,13 +103,13 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
     internal func removeResource(with identifier: Resource.ID) throws {
         guard handler.identifiers.contains(identifier),
               let resourcePath = pathForResource(with: identifier),
-              FileManager.default.fileExists(atPath: resourcePath.path)
+              fm.fileExists(atPath: resourcePath.path)
         else {
             // Nothing to delete
             return
         }
 
-        try FileManager.default.removeItem(at: resourcePath)
+        try fm.removeItem(at: resourcePath)
         try handler.removeCustomResource(with: identifier)
         updateResources()
     }

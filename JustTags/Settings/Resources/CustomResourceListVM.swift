@@ -27,6 +27,10 @@ class CustomResourceListVM<
         }
     }
     
+    internal func clearSavedResources() throws {
+        try repo.clearSavedResources()
+    }
+    
     internal func addNewResource(at url: URL) throws {
         try repo.addNewResource(at: url)
     }
