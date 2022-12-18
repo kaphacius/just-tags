@@ -73,7 +73,6 @@ internal final class DiffVM: AnyWindowVM {
     }
     
     override func reparse() {
-        // TODO: reparse both left and right side
         texts.enumerated().forEach { (offset, string) in
             guard string.isEmpty == false else { return }
             
