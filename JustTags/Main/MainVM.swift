@@ -84,7 +84,7 @@ internal final class MainVM: AnyWindowVM {
             .debounce(for: 0.2, scheduler: RunLoop.main, options: nil)
             .removeDuplicates()
             .sink { [weak self] v in
-                self?.updateTags()
+                self?.searchTags()
             }.store(in: &cancellables)
     }
     
@@ -118,26 +118,24 @@ internal final class MainVM: AnyWindowVM {
     }
     
     private func populateSearch() {
-        let pairs = initialTags.map { tag in
-            (tag.id, tag.searchString)
-        }
-        tagDescriptions = .init(uniqueKeysWithValues: pairs)
+        tagDescriptions = .init(
+            uniqueKeysWithValues: initialTags.flatMap(\.searchPairs)
+        )
     }
     
-    private func updateTags() {
+    private func searchTags() {
         if searchText.count < 2 {
             currentTags = initialTags
             collapseAll()
         } else {
             let searchText = searchText.lowercased()
-            let matchingTags = Set(
-                tagDescriptions
-                    .filter { $0.value.contains(searchText) }
-                    .keys
-            )
             currentTags = initialTags
-                .filter { matchingTags.contains($0.id) }
-                .map { $0.filterSubtags(with: searchText) }
+                .compactMap { tag in
+                    tag.matching(
+                        searchText: searchText,
+                        tagDescriptions: tagDescriptions
+                    )
+                }
             expandAll()
         }
     }

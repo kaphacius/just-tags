@@ -14,6 +14,14 @@ private protocol Searchable {
 
 extension EMVTag: Searchable {
     
+    internal var searchPairs: [(Self.ID, String)] {
+        [searchPair] + category.searchPairs
+    }
+    
+    internal var searchPair: (Self.ID, String) {
+        (id, searchString)
+    }
+    
     fileprivate var searchComponents: [String] {
         [
             [tag.tag.hexString],
@@ -22,30 +30,41 @@ extension EMVTag: Searchable {
         ].flatMap { $0 }
     }
     
-    internal var searchString: String {
+    private var searchString: String {
         searchComponents
             .joined()
             .lowercased()
     }
     
-    internal func filterSubtags(with string: String) -> EMVTag {
-        guard case let .constructed(subtags) = category else {
-            return self
-        }
-        
-        let filteredSubtags = subtags
-            .filter { $0.searchString.contains(string) }
-            .map { $0.filterSubtags(with: string) }
-        
-        if filteredSubtags.isEmpty {
-            return self
-        } else {
-            return .init(
-                id: self.id,
-                tag: self.tag,
-                category: .constructed(subtags: filteredSubtags),
-                decodingResult: self.decodingResult
-            )
+    internal func matching(
+        searchText: String,
+        tagDescriptions: Dictionary<Self.ID, String>
+    ) -> EMVTag? {
+        tagDescriptions[id].flatMap { searchString in
+            guard searchString.contains(searchText) else {
+                return nil
+            }
+            
+            switch category {
+            case .plain:
+                return self
+            case .constructed(let subtags):
+                let matchingSubtags = subtags.compactMap { subtag in
+                    subtag.matching(
+                        searchText: searchText, tagDescriptions: tagDescriptions)
+                }
+                
+                if matchingSubtags.isEmpty {
+                    return self
+                } else {
+                    return .init(
+                        id: self.id,
+                        tag: self.tag,
+                        category: .constructed(subtags: matchingSubtags),
+                        decodingResult: self.decodingResult
+                    )
+                }
+            }
         }
     }
     
@@ -74,6 +93,15 @@ extension EMVTag.Category: Searchable {
             return []
         case .constructed(let subtags):
             return subtags.flatMap(\.searchComponents)
+        }
+    }
+    
+    fileprivate var searchPairs: [(EMVTag.ID, String)] {
+        switch self {
+        case .plain:
+            return []
+        case .constructed(let subtags):
+            return subtags.map(\.searchPair)
         }
     }
     
