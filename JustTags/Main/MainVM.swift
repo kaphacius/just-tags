@@ -97,7 +97,15 @@ internal final class MainVM: AnyWindowVM {
     }
     
     internal override func reparse() {
-        pastedString.map(self.parse(string:))
+        initialTags = tagParser.updateDecodingResults(for: initialTags)
+        currentTags = tagParser.updateDecodingResults(for: currentTags)
+        
+        populateSearch()
+        showingTags = initialTags.isEmpty == false
+        
+        detailTag = detailTag
+            .map(\.id)
+            .flatMap(currentTags.first(with:))
     }
     
     internal override func parse(string: String) {
