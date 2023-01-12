@@ -177,3 +177,16 @@ extension EMVTag.DecodedTag {
     }
     
 }
+
+extension TagInfo {
+    
+    var tagInfoVM: TagInfoVM {
+        .init(
+            source: source.rawValue,
+            format: format,
+            kernel: kernel,
+            description: description
+        )
+    }
+    
+}

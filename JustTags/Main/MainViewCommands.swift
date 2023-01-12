@@ -50,6 +50,7 @@ internal struct MainViewCommands: Commands {
             renameTabButton
             openMainViewButton
             openDiffViewButton
+            openTagLookupButton
             addKernelInfoButton
         }
     }
@@ -195,6 +196,13 @@ internal struct MainViewCommands: Commands {
             "Key Bindings",
             action: vm.openKeyBindings
         )
+    }
+    
+    private var openTagLookupButton: some View {
+        Button(
+            "Tag Lookup",
+            action: vm.openTagLookup
+        ).keyboardShortcut("l", modifiers: [.command, .shift])
     }
     
 }

@@ -177,7 +177,7 @@ extension EMVTag.DecodedByte.Group.MappingResult: Searchable {
 
 extension TagInfo: Searchable {
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         [
             name,
             description,

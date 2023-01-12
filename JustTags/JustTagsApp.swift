@@ -30,12 +30,18 @@ internal struct JustTagsApp: App {
         }
         .handlesExternalEvents(matching: ["main"])
         
-        
-        WindowGroup("Diff") {
+        WindowGroup {
             DiffView()
                 .environmentObject(appVM)
                 .handlesExternalEvents(preferring: ["diff"], allowing: ["diff"])
         }.handlesExternalEvents(matching: ["diff"])
+        
+        WindowGroup {
+            LookupRootView(
+                vm: .init(tagParser: TagParser(tagDecoder: AppVM().tagDecoder))
+            )
+            .handlesExternalEvents(preferring: ["lookup"], allowing: ["lookup"])
+        }.handlesExternalEvents(matching: ["lookup"])
         
         Settings {
             SettingsView(selectedTab: $appVM.selectedTab)

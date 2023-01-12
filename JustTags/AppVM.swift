@@ -295,6 +295,10 @@ internal final class AppVM: NSObject, ObservableObject {
         openSettings(at: .keyBindings)
     }
     
+    internal func openTagLookup() {
+        openURL(URL(string: "justtags://lookup")!)
+    }
+    
     private func openSettings(at tab: SettingsView.Tab) {
         if #available(macOS 13, *) {
             NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
