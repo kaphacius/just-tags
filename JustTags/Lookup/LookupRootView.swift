@@ -27,7 +27,7 @@ struct LookupRootView: View {
     
     @ViewBuilder
     private func sidebar() -> some View {
-        List(vm.kernelList, id: \.self, selection: $vm.selectedKernel) { kernel in
+        List(vm.kernelRows, id: \.self, selection: $vm.selectedKernel) { kernel in
             NavigationLink(value: kernel) {
                 Text(kernel)
             }

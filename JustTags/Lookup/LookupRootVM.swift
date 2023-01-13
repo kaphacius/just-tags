@@ -11,29 +11,24 @@ import Combine
 
 internal final class LookupRootVM: ObservableObject {
     
-    private static let allTags = "All Tags"
-    
     @Published internal var searchText = ""
-    @Published internal var kernelList: [String]
     @Published internal var selectedKernel: String
     @Published internal var title: String
     @Published internal var selectedTag: TagDecodingInfo?
     @Published internal var tagList: [TagDecodingInfo]
+    internal var kernelRows: [String] { kernels.map(\.id) }
     
-    private let allTags: [TagDecodingInfo]
     private let tagParser: TagParser
     private let kernels: [KernelInfo]
     private var cancellables: Set<AnyCancellable> = []
     
     init(tagParser: TagParser) {
-        self.kernels = tagParser.initialKernels.sorted(by: { $0.id < $1.id })
-        self.kernelList = [Self.allTags] + kernels.map(\.id)
-        self.allTags = tagParser.initialKernels
-            .flatMap(\.tags)
-            .sorted(by: { $0.info.tag.hexString < $1.info.tag.hexString })
-        self.tagList = allTags
-        self.selectedKernel = Self.allTags
-        self.title = Self.allTags
+        let sortedKernels = tagParser.initialKernels.sorted { $0.id < $1.id }
+        let allTagsKernel = KernelInfo.makeAllTagsKernel(with: sortedKernels)
+        self.kernels = [allTagsKernel] + sortedKernels
+        self.tagList = allTagsKernel.tags
+        self.selectedKernel = allTagsKernel.id
+        self.title = allTagsKernel.id
         self.tagParser = tagParser
         
         _selectedKernel.projectedValue
@@ -43,22 +38,17 @@ internal final class LookupRootVM: ObservableObject {
         self.setUpSearch()
     }
     
+    // This is for previews
     convenience init(tagParser: TagParser, selectedTagIdx: Int) {
         self.init(tagParser: tagParser)
         self.selectedTag = self.tagList[selectedTagIdx]
     }
     
     private func selectedKernelUpdated(_ newKernel: String) {
-        guard newKernel != Self.allTags else {
-            self.tagList = allTags
-            self.title = Self.allTags
-            return
-        }
-        
-        if let idx = kernelList.firstIndex(of: newKernel) {
+        if let idx = kernels.firstIndex(where: { $0.id == newKernel }) {
             // 0 is for All Tags
-            self.tagList = kernels[idx - 1].tags
-            self.title = kernels[idx - 1].name
+            self.tagList = kernels[idx].tags
+            self.title = kernels[idx].name
         }
     }
     
@@ -97,19 +87,43 @@ internal final class LookupRootVM: ObservableObject {
     
     private func searchTags(_ searchText: String) {
         if searchText.count < 2 {
-            selectedKernel = Self.allTags
+            selectedKernel = allTags
             selectedKernelUpdated(self.selectedKernel)
         } else {
             let sstr = searchText.lowercased()
-            selectedKernel = Self.allTags
+            selectedKernel = allTags
             selectedKernelUpdated(self.selectedKernel)
-            tagList = allTags.filter {
+            tagList = kernels[0].tags.filter {
                 $0.info.searchComponents.joined()
                     .appending($0.info.tag.hexString)
                     .lowercased()
                     .contains(sstr)
             }
         }
+    }
+    
+}
+
+fileprivate let allTags = "All Tags"
+
+extension TagDecodingInfo: Comparable {
+    
+    public static func < (lhs: TagDecodingInfo, rhs: TagDecodingInfo) -> Bool {
+        lhs.info.tag < rhs.info.tag
+    }
+    
+}
+
+fileprivate extension KernelInfo {
+    
+    static func makeAllTagsKernel(with kernels: [KernelInfo]) -> KernelInfo {
+        .init(
+            id: allTags,
+            name: allTags,
+            category: .scheme,
+            description: allTags,
+            tags: kernels.flatMap(\.tags).sorted()
+        )
     }
     
 }
