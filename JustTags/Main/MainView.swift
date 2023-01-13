@@ -109,6 +109,7 @@ struct MainView: View {
                 detailViews(vms: detailTag.tagDetailsVMs)
             } else {
                 tagSelectionHint
+                    .padding(commonPadding)
             }
         }
         .padding(commonPadding)
@@ -119,6 +120,7 @@ struct MainView: View {
     private func detailViews(vms: [TagDetailsVM]) -> some View {
         if let first = vms.first, vms.count == 1 {
             TagDetailsView(vm: first)
+                .padding(-commonPadding)
         } else {
             TabView {
                 ForEach(vms, id: \.kernel) { vm in

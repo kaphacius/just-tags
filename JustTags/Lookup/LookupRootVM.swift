@@ -58,6 +58,30 @@ internal final class LookupRootVM: ObservableObject {
         }
     }
     
+    internal func detailVM(for tag: TagDecodingInfo) -> TagDetailsVM {
+        let bytes = tag
+            .bytes.map { try? EMVTag.DecodedByte(byte: 0x00, info: $0) }
+            .enumerated()
+            .compactMap { pair in
+                if let element = pair.element {
+                    return (element: element, offset: pair.offset)
+                } else {
+                    return nil
+                }
+            }
+            .map { $0.element.decodedByteVM(idx: $0.offset) }
+
+        let vm: TagDetailsVM = .init(
+            tag: tag.info.tag.hexString,
+            name: tag.info.name,
+            info: tag.info.tagInfoVM,
+            bytes: bytes,
+            kernel: tag.info.kernel
+        )
+
+        return vm
+    }
+    
     private func setUpSearch() {
         _searchText.projectedValue
             .debounce(for: 0.10, scheduler: RunLoop.main, options: nil)

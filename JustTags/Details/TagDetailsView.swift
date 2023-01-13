@@ -35,8 +35,8 @@ struct TagDetailsView: View {
                 bytes
             }
             .frame(maxWidth: .infinity)
-            .padding(.trailing, commonPadding)
-        }.padding(.trailing, -commonPadding)
+            .padding(commonPadding)
+        }
     }
     
     private var header: some View {

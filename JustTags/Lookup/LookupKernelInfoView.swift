@@ -66,6 +66,7 @@ struct LookupKernelInfoView: View {
             }
             .padding(.top, tag == list.first ? commonPadding : 0.0)
         }
+        .padding(.trailing, -commonPadding / 2)
         .listStyle(.plain)
     }
     

@@ -30,7 +30,8 @@ struct LookupRootView: View {
             NavigationLink(value: kernel) {
                 Text(kernel)
             }
-        }.navigationSplitViewColumnWidth(150.0)
+        }
+        .navigationSplitViewColumnWidth(150.0)
     }
     
     @ViewBuilder
@@ -38,21 +39,16 @@ struct LookupRootView: View {
         LookupKernelInfoView(
             selectedTag: $vm.selectedTag,
             list: $vm.tagList
-        ).navigationSplitViewColumnWidth(min: detailWidth, ideal: detailWidth)
+        )
+        .navigationSplitViewColumnWidth(min: detailWidth, ideal: detailWidth)
     }
      
     @ViewBuilder
     private func detail() -> some View {
         if let selectedTag = vm.selectedTag {
             TagDetailsView(
-                vm: .init(
-                    tag: selectedTag.info.tag.hexString,
-                    name: selectedTag.info.name,
-                    info: selectedTag.info.tagInfoVM,
-                    bytes: [],
-                    kernel: selectedTag.info.kernel
-                )
-            ).padding(commonPadding)
+                vm: vm.detailVM(for: selectedTag)
+            )
         } else {
             Text("No Tag Selected")
                 .font(.largeTitle)
