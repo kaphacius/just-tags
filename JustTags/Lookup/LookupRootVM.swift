@@ -12,24 +12,30 @@ import Combine
 internal final class LookupRootVM: ObservableObject {
     
     @Published internal var searchText = ""
-    @Published internal var selectedKernel: String
-    @Published internal var title: String
+    @Published internal var selectedKernel: KernelInfo
     @Published internal var selectedTag: TagDecodingInfo?
     @Published internal var tagList: [TagDecodingInfo]
-    internal var kernelRows: [String] { kernels.map(\.id) }
+    internal let kernels: [KernelInfo]
     
-    private let tagParser: TagParser
-    private let kernels: [KernelInfo]
     private var cancellables: Set<AnyCancellable> = []
+    private let tagSearchStrings: [Int: String]
     
     init(tagParser: TagParser) {
         let sortedKernels = tagParser.initialKernels.sorted { $0.id < $1.id }
         let allTagsKernel = KernelInfo.makeAllTagsKernel(with: sortedKernels)
         self.kernels = [allTagsKernel] + sortedKernels
         self.tagList = allTagsKernel.tags
-        self.selectedKernel = allTagsKernel.id
-        self.title = allTagsKernel.id
-        self.tagParser = tagParser
+        self.selectedKernel = allTagsKernel
+        
+        self.tagSearchStrings = .init(
+            uniqueKeysWithValues: allTagsKernel.tags.map { tagInfo in
+                let searchString = tagInfo
+                    .info.searchComponents.joined()
+                    .appending(tagInfo.info.tag.hexString)
+                    .lowercased()
+                return (tagInfo.hashValue, searchString)
+            }
+        )
         
         _selectedKernel.projectedValue
             .sink(receiveValue: { [weak self] in self?.selectedKernelUpdated($0) })
@@ -44,26 +50,23 @@ internal final class LookupRootVM: ObservableObject {
         self.selectedTag = self.tagList[selectedTagIdx]
     }
     
-    private func selectedKernelUpdated(_ newKernel: String) {
-        if let idx = kernels.firstIndex(where: { $0.id == newKernel }) {
-            // 0 is for All Tags
-            self.tagList = kernels[idx].tags
-            self.title = kernels[idx].name
+    private func selectedKernelUpdated(_ newKernel: KernelInfo) {
+        self.tagList = newKernel.tags
+        
+        if shouldSearch(with: searchText) {
+            performSearch(searchText)
+        } else {
+            self.tagList = newKernel.tags
         }
+
     }
     
     internal func detailVM(for tag: TagDecodingInfo) -> TagDetailsVM {
         let bytes = tag
             .bytes.map { try? EMVTag.DecodedByte(byte: 0x00, info: $0) }
             .enumerated()
-            .compactMap { pair in
-                if let element = pair.element {
-                    return (element: element, offset: pair.offset)
-                } else {
-                    return nil
-                }
-            }
-            .map { $0.element.decodedByteVM(idx: $0.offset) }
+            .compactMap(t2FlatMap(_:))
+            .map { $0.1.decodedByteVM(idx: $0.0) }
 
         let vm: TagDetailsVM = .init(
             tag: tag.info.tag.hexString,
@@ -81,29 +84,32 @@ internal final class LookupRootVM: ObservableObject {
             .debounce(for: 0.10, scheduler: RunLoop.main, options: nil)
             .removeDuplicates()
             .eraseToAnyPublisher()
+            .map(\.localizedLowercase)
             .sink { [weak self] in self?.searchTags($0) }
             .store(in: &cancellables)
     }
     
     private func searchTags(_ searchText: String) {
-        if searchText.count < 2 {
-            selectedKernelUpdated(self.selectedKernel)
+        if shouldSearch(with: searchText) {
+            performSearch(searchText)
+        } else if selectedKernel.tags.count != tagList.count {
+            tagList = selectedKernel.tags
+        }
+    }
+    
+    private func shouldSearch(with searchText: String) -> Bool {
+        if searchText.count > 2 {
+            return true
         } else if searchText.count == 2 && UInt64(searchText, radix: 16) != nil {
-            performSearch(searchText)
+            return true
         } else {
-            performSearch(searchText)
+            return false
         }
     }
     
     private func performSearch(_ searchText: String) {
-        let sstr = searchText.lowercased()
-        selectedKernel = allTags
-        selectedKernelUpdated(self.selectedKernel)
-        tagList = kernels[0].tags.filter {
-            $0.info.searchComponents.joined()
-                .appending($0.info.tag.hexString)
-                .lowercased()
-                .contains(sstr)
+        tagList = selectedKernel.tags.filter {
+            tagSearchStrings[$0.hashValue]?.contains(searchText) ?? false
         }
     }
     
@@ -111,10 +117,10 @@ internal final class LookupRootVM: ObservableObject {
 
 fileprivate let allTags = "All Tags"
 
-extension TagDecodingInfo: Comparable {
+extension KernelInfo: Hashable {
     
-    public static func < (lhs: TagDecodingInfo, rhs: TagDecodingInfo) -> Bool {
-        lhs.info.tag < rhs.info.tag
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
     }
     
 }

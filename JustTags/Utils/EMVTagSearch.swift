@@ -8,7 +8,7 @@
 import Foundation
 import SwiftyEMVTags
 
-private protocol Searchable {
+internal protocol Searchable {
     var searchComponents: [String] { get }
 }
 
@@ -22,7 +22,7 @@ extension EMVTag: Searchable {
         (id, searchString)
     }
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         [
             [tag.tag.hexString],
             category.searchComponents,
@@ -72,7 +72,7 @@ extension EMVTag: Searchable {
 
 extension EMVTag.DecodingResult: Searchable {
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         switch self {
         case .unknown:
             return []
@@ -87,7 +87,7 @@ extension EMVTag.DecodingResult: Searchable {
 
 extension EMVTag.Category: Searchable {
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         switch self {
         case .plain:
             return []
@@ -96,7 +96,7 @@ extension EMVTag.Category: Searchable {
         }
     }
     
-    fileprivate var searchPairs: [(EMVTag.ID, String)] {
+    internal var searchPairs: [(EMVTag.ID, String)] {
         switch self {
         case .plain:
             return []
@@ -110,7 +110,7 @@ extension EMVTag.Category: Searchable {
 
 extension EMVTag.DecodedTag: Searchable {
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         [
             tagInfo.searchComponents,
             result.searchComponents,
@@ -122,7 +122,7 @@ extension EMVTag.DecodedTag: Searchable {
 
 extension Result: Searchable where Success == [EMVTag.DecodedByte] {
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         switch self {
         case .success(let bytes):
             return bytes.flatMap(\.searchComponents)
@@ -134,7 +134,7 @@ extension Result: Searchable where Success == [EMVTag.DecodedByte] {
 
 extension EMVTag.DecodedByte: Searchable {
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         [
             [name].compactMap { $0 },
             groups.map(\.searchComponents).flatMap { $0 }
@@ -145,7 +145,7 @@ extension EMVTag.DecodedByte: Searchable {
 
 extension EMVTag.DecodedByte.Group: Searchable {
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         [
             [name],
             type.searchComponents
@@ -156,7 +156,7 @@ extension EMVTag.DecodedByte.Group: Searchable {
 
 extension EMVTag.DecodedByte.Group.GroupType: Searchable {
     
-    fileprivate var searchComponents: [String] {
+    internal var searchComponents: [String] {
         switch self {
         case .bitmap(let mappingResult):
             return mappingResult.searchComponents
@@ -169,22 +169,8 @@ extension EMVTag.DecodedByte.Group.GroupType: Searchable {
 
 extension EMVTag.DecodedByte.Group.MappingResult: Searchable {
     
-    fileprivate var searchComponents: [String] {
-        mappings.map(\.meaning)
-    }
-    
-}
-
-extension TagInfo: Searchable {
-    
     internal var searchComponents: [String] {
-        [
-            name,
-            description,
-            source.rawValue,
-            format,
-            kernel
-        ]
+        mappings.map(\.meaning)
     }
     
 }

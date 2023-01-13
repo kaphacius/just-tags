@@ -24,7 +24,7 @@ struct LookupRootView: View {
             detail: detail
         )
         .searchable(text: $vm.searchText, placement: .toolbar)
-        .navigationTitle(vm.title)
+        .navigationTitle(vm.selectedKernel.name)
         .background {
             HostingWindowFinder { window in
                 self.searchItem = window
@@ -40,10 +40,10 @@ struct LookupRootView: View {
     
     @ViewBuilder
     private func sidebar() -> some View {
-        List(vm.kernelRows, id: \.self, selection: $vm.selectedKernel) { kernel in
+        List(vm.kernels, id: \.self, selection: $vm.selectedKernel) { kernel in
             NavigationLink(value: kernel) {
-                Text(kernel)
-            }
+                Text(kernel.id)
+            }.tag(kernel)
         }
         .navigationSplitViewColumnWidth(150.0)
     }
