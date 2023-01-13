@@ -49,24 +49,41 @@ struct LookupKernelInfoView: View {
     @Binding internal var list: [TagDecodingInfo]
     
     var body: some View {
-        List(list, id: \.self, selection: $selectedTag) { tag in
+        List(list, id: \.self) { tag in
             GroupBox {
-                HStack {
-                    Text(tag.info.tag.hexString)
-                        .font(.title2.monospaced())
-                        .tag(tag)
-                    Text(tag.info.name)
-                        .font(.title3)
-                        .foregroundStyle(.secondary)
-                        .lineLimit(1)
-                    Spacer()
-                    Text(tag.info.kernel)
-                        .foregroundStyle(.tertiary)
-                        .font(.body.italic())
+                tagRow(for: tag)
+            }.overlay(
+                RoundedRectangle(cornerRadius: 4.0, style: .continuous)
+                    .strokeBorder(lineWidth: 1.0, antialiased: true)
+                    .foregroundColor(selectedTag == tag ? .secondary : .clear)
+                    .animation(.easeOut(duration: 0.25), value: selectedTag)
+            ).onTapGesture {
+                if selectedTag == tag {
+                    selectedTag = nil
+                } else {
+                    selectedTag = tag
                 }
             }
+            .padding(.top, tag == list.first ? commonPadding : 0.0)
         }
         .listStyle(.plain)
+    }
+    
+    private func tagRow(for tag: TagDecodingInfo) -> some View {
+        HStack {
+            Text(tag.info.tag.hexString)
+                .font(.title2.monospaced())
+                .tag(tag)
+            Text(tag.info.name)
+                .font(.title3)
+                .foregroundStyle(.secondary)
+                .lineLimit(1)
+            Spacer()
+            Text(tag.info.kernel)
+                .foregroundStyle(.tertiary)
+                .font(.body.italic())
+                .padding(.trailing, commonPadding / 2)
+        }
     }
     
 }

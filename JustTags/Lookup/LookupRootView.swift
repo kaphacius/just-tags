@@ -12,10 +12,11 @@ import Combine
 struct LookupRootView: View {
     
     @ObservedObject internal var vm: LookupRootVM
+    @State private var columnVisibility: NavigationSplitViewVisibility = .all
     
     var body: some View {
         NavigationSplitView(
-            columnVisibility: .constant(.all),
+            columnVisibility: $columnVisibility,
             sidebar: sidebar,
             content: content,
             detail: detail
@@ -66,6 +67,6 @@ struct LookupRootView_Previews: PreviewProvider {
     static var previews: some View {
         LookupRootView(
             vm: .init(tagParser: TagParser(tagDecoder: AppVM().tagDecoder))
-        )
+        ).frame(width: 1000.0)
     }
 }
