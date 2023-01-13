@@ -87,18 +87,23 @@ internal final class LookupRootVM: ObservableObject {
     
     private func searchTags(_ searchText: String) {
         if searchText.count < 2 {
-            selectedKernel = allTags
             selectedKernelUpdated(self.selectedKernel)
+        } else if searchText.count == 2 && UInt64(searchText, radix: 16) != nil {
+            performSearch(searchText)
         } else {
-            let sstr = searchText.lowercased()
-            selectedKernel = allTags
-            selectedKernelUpdated(self.selectedKernel)
-            tagList = kernels[0].tags.filter {
-                $0.info.searchComponents.joined()
-                    .appending($0.info.tag.hexString)
-                    .lowercased()
-                    .contains(sstr)
-            }
+            performSearch(searchText)
+        }
+    }
+    
+    private func performSearch(_ searchText: String) {
+        let sstr = searchText.lowercased()
+        selectedKernel = allTags
+        selectedKernelUpdated(self.selectedKernel)
+        tagList = kernels[0].tags.filter {
+            $0.info.searchComponents.joined()
+                .appending($0.info.tag.hexString)
+                .lowercased()
+                .contains(sstr)
         }
     }
     
