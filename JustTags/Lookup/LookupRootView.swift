@@ -52,7 +52,7 @@ struct LookupRootView: View {
                     bytes: [],
                     kernel: selectedTag.info.kernel
                 )
-            )
+            ).padding(commonPadding)
         } else {
             Text("No Tag Selected")
                 .font(.largeTitle)
