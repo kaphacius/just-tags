@@ -22,6 +22,7 @@ struct LookupRootView: View {
             detail: detail
         )
         .searchable(text: $vm.searchText, placement: .toolbar)
+        .navigationTitle(vm.title)
     }
     
     @ViewBuilder

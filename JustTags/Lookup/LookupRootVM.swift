@@ -16,6 +16,7 @@ internal final class LookupRootVM: ObservableObject {
     @Published internal var searchText = ""
     @Published internal var kernelList: [String]
     @Published internal var selectedKernel: String
+    @Published internal var title: String
     @Published internal var selectedTag: TagDecodingInfo?
     @Published internal var tagList: [TagDecodingInfo]
     
@@ -32,6 +33,7 @@ internal final class LookupRootVM: ObservableObject {
             .sorted(by: { $0.info.tag.hexString < $1.info.tag.hexString })
         self.tagList = allTags
         self.selectedKernel = Self.allTags
+        self.title = Self.allTags
         self.tagParser = tagParser
         
         _selectedKernel.projectedValue
@@ -49,12 +51,14 @@ internal final class LookupRootVM: ObservableObject {
     private func selectedKernelUpdated(_ newKernel: String) {
         guard newKernel != Self.allTags else {
             self.tagList = allTags
+            self.title = Self.allTags
             return
         }
         
         if let idx = kernelList.firstIndex(of: newKernel) {
             // 0 is for All Tags
             self.tagList = kernels[idx - 1].tags
+            self.title = kernels[idx - 1].name
         }
     }
     
