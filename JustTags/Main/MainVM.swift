@@ -83,9 +83,8 @@ internal final class MainVM: AnyWindowVM {
         $searchText
             .debounce(for: 0.10, scheduler: RunLoop.main, options: nil)
             .removeDuplicates()
-            .sink { [weak self] v in
-                self?.searchTags()
-            }.store(in: &cancellables)
+            .sink { [weak self] v in self?.searchTags() }
+            .store(in: &cancellables)
     }
     
     internal override func refreshState() {

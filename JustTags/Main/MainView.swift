@@ -33,8 +33,7 @@ struct MainView: View {
                 self.searchItem = window.toolbar
                     .flatMap { $0.visibleItems }
                     .flatMap { items in
-                        items
-                            .compactMap { $0 as? NSSearchToolbarItem }
+                        items.compactMap { $0 as? NSSearchToolbarItem }
                             .first
                     }
             }.opacity(0.0)

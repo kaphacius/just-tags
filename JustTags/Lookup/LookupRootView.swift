@@ -13,8 +13,10 @@ struct LookupRootView: View {
     
     @ObservedObject internal var vm: LookupRootVM
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @State private var searchItem: NSSearchToolbarItem?
+    @State private var searchInProgress: Bool = false
     
-    var body: some View {
+    internal var body: some View {
         NavigationSplitView(
             columnVisibility: $columnVisibility,
             sidebar: sidebar,
@@ -23,6 +25,17 @@ struct LookupRootView: View {
         )
         .searchable(text: $vm.searchText, placement: .toolbar)
         .navigationTitle(vm.title)
+        .background {
+            HostingWindowFinder { window in
+                self.searchItem = window
+                    .flatMap(\.toolbar)
+                    .flatMap(\.visibleItems)
+                    .flatMap { items in
+                        items.compactMap { $0 as? NSSearchToolbarItem }.first
+                    }
+            }.opacity(0.0)
+        }
+        .background(searchButton)
     }
     
     @ViewBuilder
@@ -56,6 +69,25 @@ struct LookupRootView: View {
                 .fontWeight(.light)
                 .foregroundStyle(.tertiary)
         }
+    }
+    
+    private var searchButton: some View {
+        Button("Search") {
+            guard let searchItem = searchItem else {
+                return
+            }
+            
+            if searchInProgress {
+                searchItem.endSearchInteraction()
+                searchInProgress = false
+            } else {
+                searchItem.beginSearchInteraction()
+                searchInProgress = true
+            }
+        }
+        .frame(width: 0.0, height: 0.0)
+        .keyboardShortcut("f", modifiers: [.command])
+        .hidden()
     }
 
 }
