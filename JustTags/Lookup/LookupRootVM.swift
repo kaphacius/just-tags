@@ -41,6 +41,11 @@ internal final class LookupRootVM: ObservableObject {
         self.setUpSearch()
     }
     
+    convenience init(tagParser: TagParser, selectedTagIdx: Int) {
+        self.init(tagParser: tagParser)
+        self.selectedTag = self.tagList[selectedTagIdx]
+    }
+    
     private func selectedKernelUpdated(_ newKernel: String) {
         guard newKernel != Self.allTags else {
             self.tagList = allTags

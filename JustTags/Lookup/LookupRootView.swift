@@ -30,7 +30,7 @@ struct LookupRootView: View {
             NavigationLink(value: kernel) {
                 Text(kernel)
             }
-        }
+        }.navigationSplitViewColumnWidth(150.0)
     }
     
     @ViewBuilder
@@ -38,7 +38,7 @@ struct LookupRootView: View {
         LookupKernelInfoView(
             selectedTag: $vm.selectedTag,
             list: $vm.tagList
-        )
+        ).navigationSplitViewColumnWidth(min: detailWidth, ideal: detailWidth)
     }
      
     @ViewBuilder
@@ -64,9 +64,13 @@ struct LookupRootView: View {
 }
 
 struct LookupRootView_Previews: PreviewProvider {
+    
     static var previews: some View {
         LookupRootView(
-            vm: .init(tagParser: TagParser(tagDecoder: AppVM().tagDecoder))
+            vm: .init(
+                tagParser: TagParser(tagDecoder: AppVM().tagDecoder),
+                selectedTagIdx: 220
+            )
         ).frame(width: 1000.0)
     }
 }
