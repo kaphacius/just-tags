@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftyEMVTags
 
-struct TagMappingVM {
+struct TagMappingResourceVM {
     
     internal let tag: String
     internal let kernel: String
@@ -18,7 +18,7 @@ struct TagMappingVM {
 
 extension TagMapping {
     
-    var tagMappingVM: TagMappingVM {
+    var tagMappingResourceVM: TagMappingResourceVM {
         .init(
             tag: tag.hexString,
             kernel: kernel,
@@ -28,18 +28,18 @@ extension TagMapping {
     
 }
 
-struct TagMappingView: CustomResourceView {
+struct TagMappingResourceView: CustomResourceView {
     
     typealias Resource = TagMapping
     
-    private let vm: TagMappingVM
+    private let vm: TagMappingResourceVM
     
-    init(vm: TagMappingVM) {
+    init(vm: TagMappingResourceVM) {
         self.vm = vm
     }
     
     init(resource: TagMapping) {
-        self.init(vm: resource.tagMappingVM)
+        self.init(vm: resource.tagMappingResourceVM)
     }
     
     var body: some View {
@@ -59,7 +59,7 @@ struct TagMappingView: CustomResourceView {
 
 struct TagMappingView_Previews: PreviewProvider {
     static var previews: some View {
-        TagMappingView(
+        TagMappingResourceView(
             vm: .init(
                 tag: "9F33",
                 kernel: "general",
