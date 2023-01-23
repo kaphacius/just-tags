@@ -164,7 +164,7 @@ extension EMVTag.DecodedByte.Group.MappingResult {
         [.init(
             meaning: name,
             isSelected: false,
-            values: Array(repeating: "x", count: width),
+            values: Array(repeating: lookupSymbol, count: width),
             startIndex: startIndex
         )] + mappings
             .enumerated().map {
