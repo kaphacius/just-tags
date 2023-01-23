@@ -28,13 +28,7 @@ internal final class LookupRootVM: ObservableObject {
         self.selectedKernel = allTagsKernel
         
         self.tagSearchStrings = .init(
-            uniqueKeysWithValues: allTagsKernel.tags.map { tagInfo in
-                let searchString = tagInfo
-                    .info.searchComponents.joined()
-                    .appending(tagInfo.info.tag.hexString)
-                    .lowercased()
-                return (tagInfo.hashValue, searchString)
-            }
+            uniqueKeysWithValues: allTagsKernel.tags.map(\.searchPair)
         )
         
         _selectedKernel.projectedValue

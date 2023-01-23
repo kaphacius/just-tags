@@ -32,7 +32,7 @@ extension EMVTag: Searchable {
     
     private var searchString: String {
         searchComponents
-            .joined()
+            .joined(separator: " ")
             .lowercased()
     }
     

@@ -8,21 +8,6 @@
 import Foundation
 import SwiftyEMVTags
 
-extension TagInfo: Searchable {
-    
-    internal var searchComponents: [String] {
-        [
-            tag.hexString,
-            name,
-            description,
-            source.rawValue,
-            format,
-            kernel
-        ]
-    }
-    
-}
-
 extension TagInfo: Hashable {
     
     public static func == (lhs: TagInfo, rhs: TagInfo) -> Bool {
@@ -35,14 +20,6 @@ extension TagInfo: Hashable {
         hasher.combine(tag)
         hasher.combine(context)
         hasher.combine(kernel)
-    }
-    
-}
-
-extension TagDecodingInfo: Searchable {
-    
-    internal var searchComponents: [String] {
-        info.searchComponents
     }
     
 }

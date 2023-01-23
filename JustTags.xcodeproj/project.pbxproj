@@ -14,6 +14,7 @@
 		5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */; };
 		5A1CA02928F14BF2007672D4 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */; };
 		5A256BDE294F5EFF003EC026 /* DetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A256BDD294F5EFF003EC026 /* DetailsButton.swift */; };
+		5A2D15C1297EE1630000C0FB /* TagDecodingInfoSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2D15C0297EE1630000C0FB /* TagDecodingInfoSearch.swift */; };
 		5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDD284C976B00BBE844 /* AppVM.swift */; };
 		5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */; };
 		5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EE1284CC67500BBE844 /* MainViewCommands.swift */; };
@@ -102,6 +103,7 @@
 		5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagExtensions.swift; sourceTree = "<group>"; };
 		5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHelpers.swift; sourceTree = "<group>"; };
 		5A256BDD294F5EFF003EC026 /* DetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsButton.swift; sourceTree = "<group>"; };
+		5A2D15C0297EE1630000C0FB /* TagDecodingInfoSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDecodingInfoSearch.swift; sourceTree = "<group>"; };
 		5A301EDD284C976B00BBE844 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
 		5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingWindowFinder.swift; sourceTree = "<group>"; };
 		5A301EE1284CC67500BBE844 /* MainViewCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCommands.swift; sourceTree = "<group>"; };
@@ -218,6 +220,7 @@
 				5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */,
 				5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */,
 				5ABC3F392920F40900C0C217 /* PresentableAlert.swift */,
+				5A2D15C0297EE1630000C0FB /* TagDecodingInfoSearch.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -615,6 +618,7 @@
 				5A1719B428BAB2A500D7894A /* About.swift in Sources */,
 				5A65C99C293673FE00EB577D /* UpdateHelpers.swift in Sources */,
 				5A6FE1992928D52200224070 /* TagParser.swift in Sources */,
+				5A2D15C1297EE1630000C0FB /* TagDecodingInfoSearch.swift in Sources */,
 				5A1719B028B9F7F000D7894A /* AppState.swift in Sources */,
 				5AFC5F5A28F49501004DA503 /* DecodedByteView.swift in Sources */,
 				5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */,
