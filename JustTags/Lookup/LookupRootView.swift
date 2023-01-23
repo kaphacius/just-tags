@@ -60,9 +60,8 @@ struct LookupRootView: View {
     @ViewBuilder
     private func detail() -> some View {
         if let selectedTag = vm.selectedTag {
-            TagDetailsView(
-                vm: vm.detailVM(for: selectedTag)
-            )
+            TagDetailsView(vm: selectedTag.tagDetailsVM)
+                .environment(\.isLookup, true)
         } else {
             Text("No Tag Selected")
                 .font(.largeTitle)

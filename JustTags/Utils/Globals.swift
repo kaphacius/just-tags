@@ -22,3 +22,5 @@ internal func openReleaseNotes() {
 }
 
 private let releaseNotesURL = URL(string: "https://github.com/kaphacius/just-tags/releases")!
+
+internal let lookupSymbol = "*"

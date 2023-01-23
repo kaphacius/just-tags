@@ -61,24 +61,6 @@ internal final class LookupRootVM: ObservableObject {
 
     }
     
-    internal func detailVM(for tag: TagDecodingInfo) -> TagDetailsVM {
-        let bytes = tag
-            .bytes.map { try? EMVTag.DecodedByte(byte: 0x00, info: $0) }
-            .enumerated()
-            .compactMap(t2FlatMap(_:))
-            .map { $0.1.decodedByteVM(idx: $0.0) }
-
-        let vm: TagDetailsVM = .init(
-            tag: tag.info.tag.hexString,
-            name: tag.info.name,
-            info: tag.info.tagInfoVM,
-            bytes: bytes,
-            kernel: tag.info.kernel
-        )
-
-        return vm
-    }
-    
     private func setUpSearch() {
         _searchText.projectedValue
             .debounce(for: 0.10, scheduler: RunLoop.main, options: nil)
@@ -135,6 +117,27 @@ fileprivate extension KernelInfo {
             description: allTags,
             tags: kernels.flatMap(\.tags).sorted()
         )
+    }
+    
+}
+
+internal extension TagDecodingInfo {
+    
+    var tagDetailsVM: TagDetailsVM {
+        let bytes = bytes
+            .map { try? EMVTag.DecodedByte(byte: 0x00, info: $0) }
+            .enumerated()
+            .compactMap(t2FlatMap(_:))
+            .map { $0.1.decodedByteVM(idx: $0.0) }
+        
+        return .init(
+            tag: info.tag.hexString,
+            name: info.name,
+            info: info.tagInfoVM,
+            bytes: bytes,
+            kernel: info.kernel
+        )
+        
     }
     
 }
