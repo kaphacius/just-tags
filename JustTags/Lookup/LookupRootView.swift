@@ -59,15 +59,17 @@ struct LookupRootView: View {
      
     @ViewBuilder
     private func detail() -> some View {
-        if let selectedTag = vm.selectedTag {
-            TagDetailsView(vm: selectedTag.tagDetailsVM)
-                .environment(\.isLookup, true)
-        } else {
-            Text("No Tag Selected")
-                .font(.largeTitle)
-                .fontWeight(.light)
-                .foregroundStyle(.tertiary)
-        }
+        Group {
+            if let selectedTag = vm.selectedTag {
+                TagDetailsView(vm: selectedTag.tagDetailsVM)
+                    .environment(\.isLookup, true)
+            } else {
+                Text("No Tag Selected")
+                    .font(.largeTitle)
+                    .fontWeight(.light)
+                    .foregroundStyle(.tertiary)
+            }
+        }.frame(minWidth: detailWidth)
     }
     
     private var searchButton: some View {
