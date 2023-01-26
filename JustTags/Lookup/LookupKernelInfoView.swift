@@ -15,25 +15,27 @@ struct LookupKernelInfoView: View {
     @Binding internal var list: [TagDecodingInfo]
     
     var body: some View {
-        List(list, id: \.self) { tag in
-            GroupBox {
-                tagRow(for: tag)
-            }.overlay(
-                RoundedRectangle(cornerRadius: 4.0, style: .continuous)
-                    .strokeBorder(lineWidth: 1.0, antialiased: true)
-                    .foregroundColor(selectedTag == tag ? .secondary : .clear)
-                    .animation(.easeOut(duration: 0.25), value: selectedTag)
-            ).onTapGesture {
-                if selectedTag == tag {
-                    selectedTag = nil
-                } else {
-                    selectedTag = tag
+        ScrollView {
+            LazyVStack {
+                ForEach(list, id: \.self) { tag in
+                    GroupBox {
+                        tagRow(for: tag)
+                    }.overlay(
+                        RoundedRectangle(cornerRadius: 4.0, style: .continuous)
+                            .strokeBorder(lineWidth: 1.0, antialiased: true)
+                            .foregroundColor(selectedTag == tag ? .secondary : .clear)
+                            .animation(.easeOut(duration: 0.25), value: selectedTag)
+                    ).onTapGesture {
+                        if selectedTag == tag {
+                            selectedTag = nil
+                        } else {
+                            selectedTag = tag
+                        }
+                    }
+                    .padding(.horizontal, commonPadding * 2)
                 }
-            }
-            .padding(.top, tag == list.first ? commonPadding : 0.0)
-        }
-        .padding(.trailing, -commonPadding / 2)
-        .listStyle(.plain)
+            }.padding(.top, commonPadding * 2)
+        }.background(.background)
     }
     
     private func tagRow(for tag: TagDecodingInfo) -> some View {

@@ -28,15 +28,13 @@ struct TagDetailsView: View {
     @State var infoOpen = true
     
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: commonPadding) {
-                header
-                info
-                bytes
-            }
-            .frame(maxWidth: .infinity)
-            .padding(commonPadding)
+        VStack(alignment: .leading, spacing: commonPadding) {
+            header
+            info
+            bytes
         }
+        .frame(maxWidth: .infinity)
+        .padding(commonPadding)
     }
     
     private var header: some View {

@@ -84,7 +84,7 @@ struct MainView: View {
     @ViewBuilder
     internal var mainView: some View {
         if vm.showingTags {
-            VStack(spacing: 0.0) {
+            ScrollView {
                 TagListView(
                     tags: $vm.currentTagVMs,
                     searchInProgress: $searchInProgress
@@ -105,14 +105,16 @@ struct MainView: View {
     private var details: some View {
         GroupBox {
             if let detailTag = vm.detailTag {
-                detailViews(vms: detailTag.tagDetailsVMs)
+                ScrollView {
+                    detailViews(vms: detailTag.tagDetailsVMs)
+                }
             } else {
                 tagSelectionHint
                     .padding(commonPadding)
             }
         }
-        .padding(commonPadding)
         .transition(.move(edge: .trailing))
+        .padding(commonPadding)
     }
     
     @ViewBuilder

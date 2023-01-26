@@ -16,6 +16,7 @@ internal final class LookupRootVM: ObservableObject {
     @Published internal var selectedTag: TagDecodingInfo?
     @Published internal var tagList: [TagDecodingInfo]
     internal let kernels: [KernelInfo]
+    internal let tagMappings: [UInt64: TagMapping]
     
     private var cancellables: Set<AnyCancellable> = []
     private let tagSearchStrings: [Int: String]
@@ -26,6 +27,7 @@ internal final class LookupRootVM: ObservableObject {
         self.kernels = [allTagsKernel] + sortedKernels
         self.tagList = allTagsKernel.tags
         self.selectedKernel = allTagsKernel
+        self.tagMappings = tagParser.tagMapper.mappings
         
         self.tagSearchStrings = .init(
             uniqueKeysWithValues: allTagsKernel.tags.map(\.searchPair)

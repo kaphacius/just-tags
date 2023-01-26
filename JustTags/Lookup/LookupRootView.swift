@@ -61,8 +61,16 @@ struct LookupRootView: View {
     private func detail() -> some View {
         Group {
             if let selectedTag = vm.selectedTag {
-                TagDetailsView(vm: selectedTag.tagDetailsVM)
-                    .environment(\.isLookup, true)
+                ScrollView {
+                    VStack(spacing: 0.0) {
+                        TagDetailsView(vm: selectedTag.tagDetailsVM)
+                            .environment(\.isLookup, true)
+                        if let mapping = vm.tagMappings[selectedTag.info.tag] {
+                            TagMappingView(listVMs: mapping.tagMappingListVMs)
+                                .padding(.top, -commonPadding)
+                        }
+                    }
+                }
             } else {
                 Text("No Tag Selected")
                     .font(.largeTitle)

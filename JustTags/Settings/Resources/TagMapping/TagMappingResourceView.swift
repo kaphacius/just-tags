@@ -26,6 +26,11 @@ extension TagMapping {
         )
     }
     
+    var tagMappingListVMs: [TagMappingRowVM] {
+        self.values.sorted(by: { $0.key < $1.key })
+            .map { .init(value: $0.key, meaning: $0.value) }
+    }
+    
 }
 
 struct TagMappingResourceView: CustomResourceView {
@@ -57,7 +62,7 @@ struct TagMappingResourceView: CustomResourceView {
     }
 }
 
-struct TagMappingView_Previews: PreviewProvider {
+struct TagMappingResourceView_Previews: PreviewProvider {
     static var previews: some View {
         TagMappingResourceView(
             vm: .init(

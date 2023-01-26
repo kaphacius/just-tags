@@ -19,16 +19,12 @@ internal struct TagListView: View {
     @Environment(\.isSearching) internal var isSearching
     
     internal var body: some View {
-        VStack(spacing: commonPadding) {
-            ScrollView {
-                tagList
+        tagList
+            .frame(maxWidth: .infinity)
+            .padding([.top, .leading, .bottom], commonPadding)
+            .onChange(of: isSearching) { newValue in
+                searchInProgress = newValue
             }
-        }
-        .frame(maxWidth: .infinity)
-        .padding([.top, .leading, .bottom], commonPadding)
-        .onChange(of: isSearching) { newValue in
-            searchInProgress = newValue
-        }
     }
     
     private var tagList: some View {
