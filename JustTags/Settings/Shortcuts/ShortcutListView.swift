@@ -19,7 +19,7 @@ struct ShortcutListView: View {
                         ShortcutView(vm: line)
                     }
                 }
-            }
+            }.padding(commonPadding)
         }
     }
 }

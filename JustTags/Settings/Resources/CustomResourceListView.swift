@@ -14,18 +14,16 @@ struct CustomResourceListView<Resource: CustomResource>: View {
     @State private var alert: PresentableAlert?
     
     var body: some View {
-        VStack(alignment: .leading, spacing: commonPadding) {
-            ScrollView {
-                VStack(alignment: .leading, spacing: commonPadding) {
-                    existingInfoList
+        ScrollView {
+            VStack(alignment: .leading, spacing: commonPadding * 2) {
+                HStack {
+                    addNew
+                    Spacer()
+                    clearAll
                 }
+                existingInfoList
             }
-            
-            HStack {
-                addNew
-                Spacer()
-                clearAll
-            }
+            .padding(commonPadding)
         }
         .onDrop(of: [.fileURL], isTargeted: nil, perform: handleDrop(_:))
         .animation(.default, value: vm.resources.map(\.id))
@@ -54,7 +52,7 @@ struct CustomResourceListView<Resource: CustomResource>: View {
                     .frame(maxWidth: .infinity, alignment: .leading)
                     .overlay(alignment: .topTrailing) {
                         deleteButtonOverlay(for: resource.id)
-                }
+                    }
             }
         }
     }
@@ -112,6 +110,9 @@ struct CustomResourceList_Previews: PreviewProvider {
     static var previews: some View {
         CustomResourceListView<KernelInfo>(
             vm: .init(repo: PreviewHelpers.kernelInfoRepo)
+        )
+        CustomResourceListView<TagMapping>(
+            vm: .init(repo: PreviewHelpers.tagMappingRepo)
         )
     }
 }

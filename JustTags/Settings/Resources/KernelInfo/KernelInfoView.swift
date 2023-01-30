@@ -49,7 +49,6 @@ struct KernelInfoView: CustomResourceView {
             VStack(alignment: .leading, spacing: commonPadding) {
                 Text(vm.name)
                     .font(.title2)
-                    .bold()
                 Text("Identifier: ").bold() + Text(vm.id)
                     .italic()
                     .foregroundColor(.secondary)

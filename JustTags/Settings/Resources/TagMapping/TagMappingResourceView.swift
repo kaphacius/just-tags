@@ -48,17 +48,18 @@ struct TagMappingResourceView: CustomResourceView {
     }
     
     var body: some View {
-        HStack {
-            VStack(alignment: .leading, spacing: commonPadding) {
+        VStack(alignment: .leading, spacing: commonPadding) {
+            HStack {
                 Text(vm.tag)
-                    .font(.title2)
-                    .bold()
-                Text("Kernel: ").bold() + Text(vm.kernel)
-                    .italic()
-                    .foregroundColor(.secondary)
+                    .font(.title2.monospaced())
                 Text(vm.description)
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
             }
-        }
+            Text("Kernel: ").bold() + Text(vm.kernel)
+                .italic()
+                .foregroundColor(.secondary)
+            }
     }
 }
 
