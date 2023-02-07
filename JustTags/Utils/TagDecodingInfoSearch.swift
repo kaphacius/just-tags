@@ -8,30 +8,59 @@
 import Foundation
 import SwiftyEMVTags
 
-extension TagDecodingInfo: Searchable {
+extension TagDecodingInfo: PrioritySearchable {
     
-    internal var searchPair: (Int, String) {
-        (hashValue, searchString)
+    var searchPair: (hash: Int, comps: PrioritySearchComponents) {
+        (
+            hash: hashValue,
+            comps: .init(
+                primary: primarySearchComponents,
+                secondary: secondarySearhComponents
+            )
+        )
     }
     
-    internal var searchComponents: [String] {
-        [
-            info.searchComponents,
-            bytes.flatMap(\.searchComponents)
-        ].flatMap { $0 }
+    private var primarySearchComponents: Set<String> {
+        Set([info.tag.hexString, info.name])
+            .asFlattenedSearchComponents()
     }
     
-    internal var searchString: String {
-        searchComponents
-            .joined(separator: " ")
-            .lowercased()
+    private var secondarySearhComponents: Set<String> {
+        [[info.searchComponents], bytes.map(\.searchComponents)]
+            .flatMap { $0 }
+            .foldToSet()
+            .asFlattenedSearchComponents()
     }
     
 }
 
-extension TagInfo: Searchable {
+extension TagDecodingInfo: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
+        [
+            [info.searchComponents],
+            bytes.map(\.searchComponents)
+        ]
+            .flatMap { $0 }
+            .foldToSet()
+    }
+    
+}
+
+extension TagInfo: SearchComponentsAware {
+    
+    internal var searchComponents2: [String] {
+        [
+            tag.hexString,
+            name,
+            description,
+            source.rawValue,
+            format,
+            kernel
+        ]
+    }
+    
+    internal var searchComponents: Set<String> {
         [
             tag.hexString,
             name,
@@ -44,44 +73,41 @@ extension TagInfo: Searchable {
     
 }
 
-extension ByteInfo: Searchable {
+extension ByteInfo: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
-        [
-            [name].compactMap { $0 },
-            groups.flatMap(\.searchComponents)
-        ].flatMap { $0 }
+    internal var searchComponents: Set<String> {
+        groups
+            .map(\.searchComponents)
+            .foldToSet()
+            .union([name].compactMap {$0} )
     }
     
 }
 
-extension ByteInfo.Group: Searchable {
+extension ByteInfo.Group: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
-        [
-            [name],
-            type.searchComponents
-        ].flatMap { $0 }
+    internal var searchComponents: Set<String> {
+        type.searchComponents.union([name])
     }
     
 }
 
-extension ByteInfo.Group.MappingType: Searchable {
+extension ByteInfo.Group.MappingType: SearchComponentsAware {
     
-    var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
         switch self {
         case .RFU, .hex, .bool:
             return []
         case .bitmap(let mappings):
-            return mappings.flatMap(\.searchComponents)
+            return Set(mappings.flatMap(\.searchComponents))
         }
     }
     
 }
 
-extension ByteInfo.Group.Mapping: Searchable {
+extension ByteInfo.Group.Mapping: SearchComponentsAware {
     
-    var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
         [meaning]
     }
     

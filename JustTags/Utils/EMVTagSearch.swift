@@ -112,7 +112,7 @@ extension EMVTag.DecodedTag: Searchable {
     
     internal var searchComponents: [String] {
         [
-            tagInfo.searchComponents,
+            tagInfo.searchComponents2,
             result.searchComponents,
             [extendedDescription].compactMap { $0 }
         ].flatMap { $0 }

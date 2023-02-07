@@ -52,7 +52,7 @@ struct LookupRootView: View {
     private func content() -> some View {
         LookupKernelInfoView(
             selectedTag: $vm.selectedTag,
-            list: $vm.tagList
+            sections: vm.tagListSections
         )
         .navigationSplitViewColumnWidth(min: detailWidth, ideal: detailWidth)
     }
