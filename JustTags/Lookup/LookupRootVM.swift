@@ -19,7 +19,7 @@ internal final class LookupRootVM: ObservableObject {
     internal let tagMappings: [UInt64: TagMapping]
     
     private var cancellables: Set<AnyCancellable> = []
-    private let tagSearchTerms: [Int: PrioritySearchComponents]
+    private let tagSearchComponents: [Int: PrioritySearchComponents]
     
     init(tagParser: TagParser) {
         let sortedKernels = tagParser.initialKernels.sorted { $0.id < $1.id }
@@ -29,7 +29,7 @@ internal final class LookupRootVM: ObservableObject {
         self.selectedKernel = allTagsKernel
         self.tagMappings = tagParser.tagMapper.mappings
         
-        self.tagSearchTerms = .init(
+        self.tagSearchComponents = .init(
             uniqueKeysWithValues: allTagsKernel.tags.map(\.searchPair)
         )
         
@@ -94,7 +94,7 @@ internal final class LookupRootVM: ObservableObject {
             .filter { $0.count > 1 }
         let filtered = filterPrioritySearchable(
             initial: selectedKernel.tags,
-            components: tagSearchTerms,
+            components: tagSearchComponents,
             words: words
         )
         tagListSections = [

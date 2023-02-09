@@ -48,9 +48,20 @@ protocol PrioritySearchable: Comparable, Hashable {
     
 }
 
-protocol SimpleSearchable: Comparable, Hashable {
+protocol SimpleSearchable: Comparable, Identifiable {
     
-    var searchPair: (has: Int, comps: Set<String>) { get }
+    var searchPair: (id: Self.ID, comps: Set<String>) { get }
+    
+}
+
+protocol NestedSearchable: SimpleSearchable {
+    
+    var searchPairs: [(id: Self.ID, comps: Set<String>)] { get }
+    
+    func filterNested(
+        using words: Set<String>,
+        components: [Self.ID: Set<String>]
+    ) -> Self
     
 }
 
@@ -82,12 +93,25 @@ func filterPrioritySearchable<P: PrioritySearchable>(
 
 func filterSimpleSearchable<S: SimpleSearchable>(
     initial: [S],
-    components: [Int: Set<String>],
+    components: [S.ID: Set<String>],
     words: Set<String>
 ) -> [S] {
     initial.filter { searchable in
-        guard let comps = components[searchable.hashValue] else { return false }
+        guard let comps = components[searchable.id] else { return false }
         return words.isPartialMatchSubset(of: comps)
+    }
+}
+
+func filterNestedSearchable<N: NestedSearchable>(
+    initial: [N],
+    components: [N.ID: Set<String>],
+    words: Set<String>
+) -> [N] {
+    initial.filter { searchable in
+        guard let comps = components[searchable.id] else { return false }
+        return words.isPartialMatchSubset(of: comps)
+    }.map { searchable in
+        searchable.filterNested(using: words, components: components)
     }
 }
 

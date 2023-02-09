@@ -12,91 +12,85 @@ internal protocol Searchable {
     var searchComponents: [String] { get }
 }
 
-extension EMVTag: Searchable {
+extension EMVTag: SimpleSearchable, NestedSearchable {
+
+    var searchPair: (id: UUID, comps: Set<String>) {
+        (id: self.id, comps: searchComponents)
+    }
     
-    internal var searchPairs: [(Self.ID, String)] {
+    var searchPairs: [(id: UUID, comps: Set<String>)] {
         [searchPair] + category.searchPairs
     }
     
-    internal var searchPair: (Self.ID, String) {
-        (id, searchString)
-    }
-    
-    internal var searchComponents: [String] {
-        [
-            [tag.tag.hexString],
-            category.searchComponents,
-            decodingResult.searchComponents
-        ].flatMap { $0 }
-    }
-    
-    private var searchString: String {
-        searchComponents
-            .joined(separator: " ")
-            .lowercased()
-    }
-    
-    internal func matching(
-        searchText: String,
-        tagDescriptions: Dictionary<Self.ID, String>
-    ) -> EMVTag? {
-        tagDescriptions[id].flatMap { searchString in
-            guard searchString.contains(searchText) else {
-                return nil
-            }
-            
-            switch category {
-            case .plain:
+    func filterNested(
+        using words: Set<String>,
+        components: [Self.ID: Set<String>]
+    ) -> Self {
+        switch category {
+        case .plain:
+            return self
+        case .constructed(let subtags):
+            let matchingSubtags = filterNestedSearchable(
+                initial: subtags,
+                components: components,
+                words: words
+            )
+            if matchingSubtags.isEmpty {
                 return self
-            case .constructed(let subtags):
-                let matchingSubtags = subtags.compactMap { subtag in
-                    subtag.matching(
-                        searchText: searchText, tagDescriptions: tagDescriptions)
-                }
-                
-                if matchingSubtags.isEmpty {
-                    return self
-                } else {
-                    return .init(
-                        id: self.id,
-                        tag: self.tag,
-                        category: .constructed(subtags: matchingSubtags),
-                        decodingResult: self.decodingResult
-                    )
-                }
+            } else {
+                return .init(
+                    id: self.id,
+                    tag: self.tag,
+                    category: .constructed(subtags: matchingSubtags),
+                    decodingResult: self.decodingResult
+                )
             }
         }
     }
     
 }
 
-extension EMVTag.DecodingResult: Searchable {
+extension EMVTag: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
+        [
+            [tag.tag.hexString],
+            category.searchComponents,
+            decodingResult.searchComponents
+        ]
+            .foldToSet()
+            .asFlattenedSearchComponents()
+    }
+    
+}
+
+extension EMVTag.DecodingResult: SearchComponentsAware {
+    
+    internal var searchComponents: Set<String> {
         switch self {
         case .unknown:
             return []
         case .singleKernel(let decodedTag):
             return decodedTag.searchComponents
         case .multipleKernels(let decodedTags):
-            return decodedTags.flatMap(\.searchComponents)
+            return decodedTags.map(\.searchComponents).foldToSet()
         }
     }
     
 }
 
-extension EMVTag.Category: Searchable {
-    
-    internal var searchComponents: [String] {
+extension EMVTag.Category: SearchComponentsAware {
+
+    internal var searchComponents: Set<String> {
         switch self {
         case .plain:
             return []
         case .constructed(let subtags):
-            return subtags.flatMap(\.searchComponents)
+            return subtags.map(\.searchComponents).foldToSet()
         }
     }
     
-    internal var searchPairs: [(EMVTag.ID, String)] {
+    internal var searchPairs: [(id: EMVTag.ID, comps: Set<String>)] {
         switch self {
         case .plain:
             return []
@@ -104,59 +98,58 @@ extension EMVTag.Category: Searchable {
             return subtags.map(\.searchPair)
         }
     }
-    
+
 }
 
-
-extension EMVTag.DecodedTag: Searchable {
+extension EMVTag.DecodedTag: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
         [
-            tagInfo.searchComponents2,
+            tagInfo.searchComponents,
             result.searchComponents,
-            [extendedDescription].compactMap { $0 }
-        ].flatMap { $0 }
+            Set([extendedDescription].compactMap { $0 })
+        ].foldToSet()
     }
     
 }
 
-extension Result: Searchable where Success == [EMVTag.DecodedByte] {
+extension Result: SearchComponentsAware where Success == [EMVTag.DecodedByte] {
     
-    internal var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
         switch self {
         case .success(let bytes):
-            return bytes.flatMap(\.searchComponents)
+            return bytes.map(\.searchComponents).foldToSet()
         case .failure:
             return []
         }
     }
 }
 
-extension EMVTag.DecodedByte: Searchable {
+extension EMVTag.DecodedByte: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
         [
-            [name].compactMap { $0 },
-            groups.map(\.searchComponents).flatMap { $0 }
-        ].flatMap { $0 }
+            Set([name].compactMap { $0 }),
+            groups.map(\.searchComponents).foldToSet()
+        ].foldToSet()
     }
     
 }
 
-extension EMVTag.DecodedByte.Group: Searchable {
+extension EMVTag.DecodedByte.Group: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
         [
-            [name],
+            Set([name]),
             type.searchComponents
-        ].flatMap { $0 }
+        ].foldToSet()
     }
     
 }
 
-extension EMVTag.DecodedByte.Group.GroupType: Searchable {
+extension EMVTag.DecodedByte.Group.GroupType: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
+    internal var searchComponents: Set<String> {
         switch self {
         case .bitmap(let mappingResult):
             return mappingResult.searchComponents
@@ -167,10 +160,10 @@ extension EMVTag.DecodedByte.Group.GroupType: Searchable {
     
 }
 
-extension EMVTag.DecodedByte.Group.MappingResult: Searchable {
+extension EMVTag.DecodedByte.Group.MappingResult: SearchComponentsAware {
     
-    internal var searchComponents: [String] {
-        mappings.map(\.meaning)
+    internal var searchComponents: Set<String> {
+        Set(mappings.map(\.meaning))
     }
     
 }

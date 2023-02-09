@@ -19,7 +19,7 @@ internal final class MainVM: AnyWindowVM {
         }
     }
     @Published internal var currentTagVMs: [TagRowVM] = []
-    @Published internal var tagDescriptions: Dictionary<EMVTag.ID, String> = [:]
+    @Published internal var tagSearchComponents: Dictionary<EMVTag.ID, Set<String>> = [:]
     @Published internal var searchText: String = ""
     @Published internal var showingTags: Bool = false
     @Published internal var selectedTags = [EMVTag]()
@@ -117,7 +117,7 @@ internal final class MainVM: AnyWindowVM {
     }
     
     private func populateSearch() {
-        tagDescriptions = .init(
+        tagSearchComponents = .init(
             uniqueKeysWithValues: initialTags.flatMap(\.searchPairs)
         )
     }
@@ -127,14 +127,12 @@ internal final class MainVM: AnyWindowVM {
             currentTags = initialTags
             collapseAll()
         } else {
-            let searchText = searchText.lowercased()
-            currentTags = initialTags
-                .compactMap { tag in
-                    tag.matching(
-                        searchText: searchText,
-                        tagDescriptions: tagDescriptions
-                    )
-                }
+            let searchText = searchText.lowercased().toFlattenedSearchComponents
+            currentTags = filterNestedSearchable(
+                initial: initialTags,
+                components: tagSearchComponents,
+                words: Set(searchText)
+            )
             expandAll()
         }
     }
