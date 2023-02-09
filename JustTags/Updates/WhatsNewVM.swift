@@ -40,7 +40,8 @@ extension WhatsNewVM {
     }
     
     private static let versions: [String: WhatsNewVM] = [
-        "1.1.0": oneOne
+        "1.1.0": oneOne,
+        "1.2.0": oneTwo
     ]
     
     private static let oneOne: WhatsNewVM = .init(
@@ -60,6 +61,22 @@ extension WhatsNewVM {
                 iconName: "books.vertical.fill",
                 title: "Custom TagMappings Info",
                 description: "Add custom tag mapping in Settings to be used during tag parsing"
+            )
+        ]
+    )
+    
+    private static let oneTwo: WhatsNewVM = .init(
+        version: "1.2.0",
+        items: [
+            .init(
+                iconName: "magnifyingglass.circle.fill",
+                title: "Tag Lookup",
+                description: "Look up any tag in the Tag Library based on name, description, hex value etc"
+            ),
+            .init(
+                iconName: "text.book.closed.fill",
+                title: "Improved tag decoding",
+                description: "Added decoding for new tags, including 9F66, 9F40, 95, 9F1D, DFC001, DFC002 DFC003"
             )
         ]
     )
