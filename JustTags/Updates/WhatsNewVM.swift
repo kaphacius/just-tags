@@ -44,7 +44,7 @@ extension WhatsNewVM {
         "1.2.0": oneTwo
     ]
     
-    private static let oneOne: WhatsNewVM = .init(
+    internal static let oneOne: WhatsNewVM = .init(
         version: "1.1.0",
         items: [
             .init(
@@ -55,32 +55,30 @@ extension WhatsNewVM {
             .init(
                 iconName: "text.book.closed.fill",
                 title: "Custom Kernel Info",
-                description: "Add custom kernel info in Settings to be used during tag parsing"
+                description: "Add custom kernel info in Settings to be used during tag parsing."
             ),
             .init(
                 iconName: "books.vertical.fill",
-                title: "Custom TagMappings Info",
-                description: "Add custom tag mapping in Settings to be used during tag parsing"
+                title: "Custom tag mappings",
+                description: "Add custom tag mapping in Settings to be used during tag parsing."
             )
         ]
     )
     
-    private static let oneTwo: WhatsNewVM = .init(
+    internal static let oneTwo: WhatsNewVM = .init(
         version: "1.2.0",
         items: [
             .init(
                 iconName: "magnifyingglass.circle.fill",
-                title: "Tag Lookup",
-                description: "Look up any tag in the Tag Library based on name, description, hex value etc"
+                title: "Tag Library",
+                description: "Look up any tag in the Tag Library based on name, description, hex value etc."
             ),
             .init(
                 iconName: "text.book.closed.fill",
                 title: "Improved tag decoding",
-                description: "Added decoding for new tags, including 9F66, 9F40, 95, 9F1D, DFC001, DFC002 DFC003"
+                description: "Added decoding for new tags, including 9F66, 9F40, 95, 9F1D, DFC001 among others."
             )
         ]
     )
-    
-    internal static var previewVM: WhatsNewVM { .oneOne }
     
 }

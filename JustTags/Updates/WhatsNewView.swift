@@ -22,7 +22,7 @@ struct WhatsNewView: View {
                 .foregroundStyle(.secondary)
                 .padding(.bottom, 30.0)
             
-            HStack(alignment: .top, spacing: 40) {
+            VStack(alignment: .leading, spacing: 40) {
                 ForEach(vm.items, content: itemView(for:))
             }
             .padding(.bottom, 30.0)
@@ -40,7 +40,7 @@ struct WhatsNewView: View {
         }
 
         .padding()
-        .frame(width: 800.0)
+        .frame(width: 400)
     }
     
     private var getStartedButton: some View {
@@ -69,30 +69,29 @@ struct WhatsNewView: View {
     }
     
     private func itemView(for item: UpdateItem) -> some View {
-        VStack {
+        HStack {
             Image(systemName: item.iconName)
                 .font(.largeTitle)
                 .foregroundStyle(.secondary)
-                .frame(height: 50.0)
-            Text(item.title)
-                .font(.body.bold())
-                .padding(.bottom, commonPadding)
-            Text(item.description)
-                .font(.body)
-                .multilineTextAlignment(.center)
-        }.frame(maxWidth: 200.0, alignment: .top)
+                .frame(width: 50.0, height: 50.0)
+            VStack(alignment: .leading, spacing: 0.0) {
+                Text(item.title)
+                    .font(.body.bold())
+                Text(item.description)
+                    .font(.body)
+                    .foregroundColor(.secondary)
+                    .lineLimit(2)
+            }
+        }
+        .frame(maxHeight: .infinity)
     }
 }
 
 struct  WhatsNewView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            WhatsNewView(vm: .previewVM)
-                .frame(width: 800.0)
-                .preferredColorScheme(.dark)
-            WhatsNewView(vm: .previewVM)
-                .frame(width: 800.0)
-                .preferredColorScheme(.light)
-        }
+        WhatsNewView(vm: .oneOne)
+            .frame(width: 400.0)
+        WhatsNewView(vm: .oneTwo)
+            .frame(width: 400.0)
     }
 }
