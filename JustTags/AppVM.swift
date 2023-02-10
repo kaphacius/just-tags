@@ -295,7 +295,7 @@ internal final class AppVM: NSObject, ObservableObject {
         openSettings(at: .keyBindings)
     }
     
-    internal func openTagLookup() {
+    internal func openTagLibrary() {
         openURL(URL(string: "justtags://lookup")!)
     }
     

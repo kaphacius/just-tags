@@ -200,8 +200,8 @@ internal struct MainViewCommands: Commands {
     
     private var openTagLookupButton: some View {
         Button(
-            "Tag Lookup",
-            action: vm.openTagLookup
+            "Tag Library",
+            action: vm.openTagLibrary
         ).keyboardShortcut("l", modifiers: [.command, .shift])
     }
     
