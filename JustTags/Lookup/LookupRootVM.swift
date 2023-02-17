@@ -94,7 +94,7 @@ internal final class LookupRootVM: ObservableObject {
             .filter { $0.count > 1 }
         let filtered = filterPrioritySearchable(
             initial: selectedKernel.tags,
-            components: tagSearchComponents,
+            allSearchComponents: tagSearchComponents,
             words: words
         )
         tagListSections = [
