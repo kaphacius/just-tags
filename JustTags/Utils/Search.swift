@@ -158,11 +158,13 @@ fileprivate struct MatchResult: Equatable, Comparable {
 
     fileprivate let partial: Int
     fileprivate let full: Int
+    fileprivate let total: Int
     fileprivate let isAnyMatch: Bool
     
     fileprivate init(partial: Int, full: Int) {
         self.partial = partial
         self.full = full
+        self.total = partial + full
         self.isAnyMatch = partial != 0 || full != 0
     }
     
@@ -185,6 +187,9 @@ fileprivate struct MatchResult: Equatable, Comparable {
         case (true, false):
             // Only lhs has matches - lhs comes first
             return true
+        case (true, true) where lhs.total != rhs.total:
+            // whichever has more total matches comes first
+            return lhs.total > rhs.total
         case (true, true) where lhs.full > rhs.full:
             // Lhs has more full matches - comes first
             return true
