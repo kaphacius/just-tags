@@ -144,7 +144,7 @@ extension Set<String> {
         self.reduce(MatchResult(partial: 0, full: 0)) { (result, word) in
             if rhs.contains(word) {
                 return result.bumpingFull()
-            } else if rhs.contains(where: { rElement in rElement.contains(word) }) {
+            } else if rhs.contains(where: { rElement in rElement.hasPrefix(word) }) {
                 return result.bumpingPartial()
             } else {
                 return result
