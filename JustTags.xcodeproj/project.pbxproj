@@ -77,6 +77,7 @@
 		5AE8BF7B27E79CC700474AD0 /* TagDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7A27E79CC700474AD0 /* TagDetailsView.swift */; };
 		5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7E27E79D0200474AD0 /* TagListView.swift */; };
 		5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF8427E7AA4D00474AD0 /* MainView.swift */; };
+		5AE906C029A8947F0068CD9C /* BuilderByteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE906BF29A8947F0068CD9C /* BuilderByteView.swift */; };
 		5AE923E428C33C7D00BD6B3E /* DiffedTagRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E328C33C7D00BD6B3E /* DiffedTagRowView.swift */; };
 		5AE923E628C33D5400BD6B3E /* TagValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E528C33D5400BD6B3E /* TagValueView.swift */; };
 		5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE923E728C33D8000BD6B3E /* TagHeaderView.swift */; };
@@ -178,6 +179,7 @@
 		5AE8BF7A27E79CC700474AD0 /* TagDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailsView.swift; sourceTree = "<group>"; };
 		5AE8BF7E27E79D0200474AD0 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		5AE8BF8427E7AA4D00474AD0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
+		5AE906BF29A8947F0068CD9C /* BuilderByteView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderByteView.swift; sourceTree = "<group>"; };
 		5AE923E328C33C7D00BD6B3E /* DiffedTagRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffedTagRowView.swift; sourceTree = "<group>"; };
 		5AE923E528C33D5400BD6B3E /* TagValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagValueView.swift; sourceTree = "<group>"; };
 		5AE923E728C33D8000BD6B3E /* TagHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagHeaderView.swift; sourceTree = "<group>"; };
@@ -427,6 +429,7 @@
 				5A90203E28F9B69D00CD7BDC /* Settings */,
 				5A65C99429336EA000EB577D /* Updates */,
 				5A51B17C2811F08500F516F5 /* Diff */,
+				5AE906BC29A8944E0068CD9C /* Builder */,
 				5A1719AE28B9F7E300D7894A /* Persistence */,
 				5A1719B528BABD4E00D7894A /* Utils */,
 				5A306B3E2B13603A00B73902 /* Resources */,
@@ -481,6 +484,14 @@
 				5AE8BF7E27E79D0200474AD0 /* TagListView.swift */,
 			);
 			path = List;
+			sourceTree = "<group>";
+		};
+		5AE906BC29A8944E0068CD9C /* Builder */ = {
+			isa = PBXGroup;
+			children = (
+				5AE906BF29A8947F0068CD9C /* BuilderByteView.swift */,
+			);
+			path = Builder;
 			sourceTree = "<group>";
 		};
 		5AE923ED28C33F7600BD6B3E /* DiffedTagRowView */ = {
@@ -677,6 +688,7 @@
 				5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */,
 				5AA1B546295F230D000F14BD /* LibraryView.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
+				5AE906C029A8947F0068CD9C /* BuilderByteView.swift in Sources */,
 				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
 				5A4F646328F17C2F00FEC0C5 /* EMVTagSearch.swift in Sources */,
 				5AE923EA28C33DF300BD6B3E /* DiffedTagValueView.swift in Sources */,
