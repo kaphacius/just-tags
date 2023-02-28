@@ -65,6 +65,7 @@
 		5ABC3F35291F94CA00C0C217 /* TagMappingResourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F34291F94CA00C0C217 /* TagMappingResourceView.swift */; };
 		5ABC3F3A2920F40900C0C217 /* PresentableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F392920F40900C0C217 /* PresentableAlert.swift */; };
 		5AC5ACFF29FD466500C59D84 /* WindowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACFE29FD466500C59D84 /* WindowType.swift */; };
+		5AD97B3D29A9263D00FB1C5E /* BuilderByteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */; };
 		5ADC5220293B33A300DFEE0A /* ShortcutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC521F293B33A300DFEE0A /* ShortcutListView.swift */; };
 		5ADC5222293CF4DE00DFEE0A /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC5221293CF4DE00DFEE0A /* Shortcuts.swift */; };
 		5ADC5224293DE06400DFEE0A /* ShortcutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC5223293DE06400DFEE0A /* ShortcutView.swift */; };
@@ -162,6 +163,7 @@
 		5ABC3F34291F94CA00C0C217 /* TagMappingResourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMappingResourceView.swift; sourceTree = "<group>"; };
 		5ABC3F392920F40900C0C217 /* PresentableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentableAlert.swift; sourceTree = "<group>"; };
 		5AC5ACFE29FD466500C59D84 /* WindowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowType.swift; sourceTree = "<group>"; };
+		5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderByteList.swift; sourceTree = "<group>"; };
 		5ADC521F293B33A300DFEE0A /* ShortcutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutListView.swift; sourceTree = "<group>"; };
 		5ADC5221293CF4DE00DFEE0A /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
 		5ADC5223293DE06400DFEE0A /* ShortcutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutView.swift; sourceTree = "<group>"; };
@@ -490,6 +492,7 @@
 			isa = PBXGroup;
 			children = (
 				5AE906BF29A8947F0068CD9C /* BuilderByteView.swift */,
+				5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */,
 			);
 			path = Builder;
 			sourceTree = "<group>";
@@ -659,6 +662,7 @@
 				5AE8BF5027E79BF000474AD0 /* JustTagsApp.swift in Sources */,
 				5ABC3F35291F94CA00C0C217 /* TagMappingResourceView.swift in Sources */,
 				5AA64D2C2848079100F295A9 /* ConstructedTagView.swift in Sources */,
+				5AD97B3D29A9263D00FB1C5E /* BuilderByteList.swift in Sources */,
 				5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */,
 				5A7A946829634CFA002097F3 /* LibraryKernelInfoView.swift in Sources */,
 				5ADC5222293CF4DE00DFEE0A /* Shortcuts.swift in Sources */,

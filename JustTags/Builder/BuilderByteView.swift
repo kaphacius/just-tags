@@ -10,7 +10,7 @@ import SwiftyBERTLV
 
 internal struct BuilderByteView: View {
     
-    @State var byte: UInt8 = 0xAB
+    @Binding var byte: UInt8
 
     var body: some View {
         let byteBits = byte.bits
@@ -27,7 +27,7 @@ internal struct BuilderByteView: View {
                 hexDigit: byteHexDigits[1],
                 startIdx: 4
             )
-        }.padding(commonPadding * 2)
+        }
     }
     
     @ViewBuilder
@@ -50,7 +50,7 @@ internal struct BuilderByteView: View {
             VStack {
                 bits(nibbleBits, startIdx: startIdx)
                 Text(hexDigit)
-                    .font(.title.monospaced())
+                    .font(.title2.monospaced())
             }
         }
     }
@@ -83,6 +83,6 @@ extension UInt8 {
 
 struct BuilderByteView_Previews: PreviewProvider {
     static var previews: some View {
-        BuilderByteView()
+        BuilderByteView(byte: .constant(0xAB))
     }
 }
