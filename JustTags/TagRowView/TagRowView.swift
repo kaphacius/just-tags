@@ -19,6 +19,13 @@ internal struct TagRowVM: Equatable, Identifiable {
         case plain(PlainTagVM)
         case constructed(ConstructedTagVM)
         
+        fileprivate var isPlain: Bool {
+            switch self {
+            case .plain: return true
+            case .constructed: return false
+            }
+        }
+        
         static func category(
             with tag: EMVTag
         ) -> Category {
@@ -60,11 +67,15 @@ internal struct TagRowView: View {
     
     @EnvironmentObject private var windowVM: MainVM
     @State private var isExpanded: Bool = false
+    private let borderThickness: Double
+    private let deselectedBorderColor: Color
     
     internal let vm: TagRowVM
 
     internal init(vm: TagRowVM) {
         self.vm = vm
+        self.borderThickness = vm.category.isPlain ? 1.0 : 2.0
+        self.deselectedBorderColor = vm.category.isPlain ? .clear : .init(nsColor: .quaternaryLabelColor)
     }
     
     internal var body: some View {
@@ -80,8 +91,8 @@ internal struct TagRowView: View {
         .contentShape(Rectangle())
         .overlay(
             RoundedRectangle(cornerRadius: 4.0, style: .continuous)
-                .strokeBorder(lineWidth: 1.0, antialiased: true)
-                .foregroundColor(windowVM.isTagSelected(id: vm.id) ? .secondary : .clear)
+                .strokeBorder(lineWidth: borderThickness, antialiased: true)
+                .foregroundColor(windowVM.isTagSelected(id: vm.id) ? .secondary : deselectedBorderColor)
                 .animation(.easeOut(duration: 0.25), value: windowVM.isTagSelected(id: vm.id))
         )
     }
