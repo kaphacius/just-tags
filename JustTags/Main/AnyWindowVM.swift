@@ -53,8 +53,6 @@ internal class AnyWindowVM: ObservableObject {
     
     internal func refreshState() { }
     
-    internal func diffSelectedTags() { }
-    
     internal func showParsingAlert(with error: Error) {
         self.alert = .init(
             title: "Error parsing tags",

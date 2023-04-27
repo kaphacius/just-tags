@@ -147,7 +147,7 @@ internal final class MainVM: AnyWindowVM {
         selectedIds = []
     }
     
-    override internal func diffSelectedTags() {
+    internal func diffSelectedTags() {
         if selectedTags.count < 2 {
             showNotEnoughDiffAlert()
         } else if selectedTags.count > 2 {
