@@ -67,6 +67,7 @@
 		5ABC3F35291F94CA00C0C217 /* TagMappingResourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F34291F94CA00C0C217 /* TagMappingResourceView.swift */; };
 		5ABC3F3A2920F40900C0C217 /* PresentableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F392920F40900C0C217 /* PresentableAlert.swift */; };
 		5AC5ACFF29FD466500C59D84 /* WindowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACFE29FD466500C59D84 /* WindowType.swift */; };
+		5AC5ACF529FA5F4100C59D84 /* BuilderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACF429FA5F4100C59D84 /* BuilderButton.swift */; };
 		5AD97B3D29A9263D00FB1C5E /* BuilderByteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */; };
 		5ADC5220293B33A300DFEE0A /* ShortcutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC521F293B33A300DFEE0A /* ShortcutListView.swift */; };
 		5ADC5222293CF4DE00DFEE0A /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC5221293CF4DE00DFEE0A /* Shortcuts.swift */; };
@@ -167,6 +168,7 @@
 		5ABC3F34291F94CA00C0C217 /* TagMappingResourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMappingResourceView.swift; sourceTree = "<group>"; };
 		5ABC3F392920F40900C0C217 /* PresentableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentableAlert.swift; sourceTree = "<group>"; };
 		5AC5ACFE29FD466500C59D84 /* WindowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowType.swift; sourceTree = "<group>"; };
+		5AC5ACF429FA5F4100C59D84 /* BuilderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderButton.swift; sourceTree = "<group>"; };
 		5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderByteList.swift; sourceTree = "<group>"; };
 		5ADC521F293B33A300DFEE0A /* ShortcutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutListView.swift; sourceTree = "<group>"; };
 		5ADC5221293CF4DE00DFEE0A /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
@@ -499,6 +501,7 @@
 				5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */,
 				5AB9C75829ADDBD800B153E1 /* BuilderRootView.swift */,
 				5AB9C75A29ADDC2E00B153E1 /* BuilderRootVM.swift */,
+				5AC5ACF429FA5F4100C59D84 /* BuilderButton.swift */,
 			);
 			path = Builder;
 			sourceTree = "<group>";
@@ -714,6 +717,7 @@
 				5A25CFB52B14F488004423D3 /* PostButton.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
 				5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */,
+				5AC5ACF529FA5F4100C59D84 /* BuilderButton.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5A4918F52971BE38008DC658 /* TagInfoExtensions.swift in Sources */,
 				5A11BD442B13899C0091E520 /* MainWindow.swift in Sources */,

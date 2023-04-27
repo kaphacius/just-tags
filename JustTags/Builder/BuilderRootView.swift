@@ -12,7 +12,6 @@ struct BuilderRootView: View {
     @ObservedObject internal var vm: BuilderRootVM
     
     var body: some View {
-        let _ = Self._printChanges()
         HStack(alignment: .top, spacing: 0.0) {
             ScrollView {
                 BuilderByteList(bytes: $vm.bytes)
