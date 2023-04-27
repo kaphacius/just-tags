@@ -34,12 +34,33 @@ internal struct BuilderByteView: View {
     private func bits(_ bits: [UInt8], startIdx: Int) -> some View {
         HStack {
             ForEach(Array(bits.enumerated()), id: \.offset) { (offset, bit) in
-                Button(action: {
-                    onBitFlip(idx: startIdx + offset)
-                }) {
-                    Text(bit == 1 ? "1" : "0")
-                        .font(.body.monospaced())
-                }
+                Text(bit == 1 ? "1" : "0")
+                    .font(.body.monospaced())
+                    .padding(.horizontal, commonPadding * 2)
+                    .padding(.vertical, commonPadding / 2)
+                    .padding(2)
+                    .background(
+                        RoundedRectangle(cornerRadius: 5.0)
+                            .fill(
+                                Color(nsColor: .controlColor)
+                                    .gradient
+                                    .shadow(.inner(color: .white, radius: 1.0, x: 0, y: 1.75))
+                                    .shadow(.inner(color: .white, radius: 1.0, x: 0, y: 1.75))
+                                    .shadow(.inner(color: .white, radius: 1.0, x: 0, y: 1.75))
+                                    .shadow(.inner(color: .white, radius: 1.0, x: 0, y: 1.75))
+                                    .shadow(.inner(color: .white, radius: 1.0, x: 0, y: 1.75))
+                                    .shadow(.inner(color: .white, radius: 1.0, x: 0, y: 1.75))
+                                    .shadow(.inner(color: .white, radius: 1.0, x: 0, y: 1.75))
+                                    .shadow(.inner(color: .white, radius: 1.0, x: 0, y: 1.75))
+                            )
+                    )
+                    .padding(-2)
+                    .cornerRadius(5.0)
+                    .onTapGesture {
+                        onBitFlip(idx: startIdx + offset)
+                    }
+                    .contentShape(Rectangle())
+                    .shadow(color: .black, radius: 1.0, x: 0, y: 2.5)
             }
         }
     }

@@ -9,7 +9,7 @@ import SwiftUI
 
 struct BuilderByteList: View {
     
-    @State var bytes: [UInt8] = [0xAA, 0xBB, 0xCC]
+    @Binding var bytes: [UInt8]
     
     var body: some View {
         ScrollView {
@@ -23,7 +23,7 @@ struct BuilderByteList: View {
     private func byteView(idx: Int) -> some View {
         GroupBox {
             VStack(spacing: commonPadding) {
-                Text("Byte \(idx)")
+                Text("Byte \(idx + 1)")
                     .font(.title).monospaced()
                 BuilderByteView(byte: $bytes[idx])
             }
@@ -33,6 +33,6 @@ struct BuilderByteList: View {
 
 struct BuilderByteList_Previews: PreviewProvider {
     static var previews: some View {
-        BuilderByteList()
+        BuilderByteList(bytes: .constant([0xAA, 0xBB, 0xCC]))
     }
 }
