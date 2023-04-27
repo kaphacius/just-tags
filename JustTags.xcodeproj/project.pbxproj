@@ -56,7 +56,6 @@
 		5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */; };
 		5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */; };
 		5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A9BC832282C3528000C05F7 /* SwiftyEMVTags */; };
-		5AA1B546295F230D000F14BD /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA1B545295F230D000F14BD /* LibraryView.swift */; };
 		5AA64D07283547A800F295A9 /* MainVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D06283547A800F295A9 /* MainVM.swift */; };
 		5AA64D2C2848079100F295A9 /* ConstructedTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D2B2848079100F295A9 /* ConstructedTagView.swift */; };
 		5AA64D2E2848083000F295A9 /* PlainTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D2D2848083000F295A9 /* PlainTagView.swift */; };
@@ -66,8 +65,9 @@
 		5ABC3F2F291F759A00C0C217 /* CustomResource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F2E291F759A00C0C217 /* CustomResource.swift */; };
 		5ABC3F35291F94CA00C0C217 /* TagMappingResourceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F34291F94CA00C0C217 /* TagMappingResourceView.swift */; };
 		5ABC3F3A2920F40900C0C217 /* PresentableAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ABC3F392920F40900C0C217 /* PresentableAlert.swift */; };
-		5AC5ACFF29FD466500C59D84 /* WindowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACFE29FD466500C59D84 /* WindowType.swift */; };
 		5AC5ACF529FA5F4100C59D84 /* BuilderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACF429FA5F4100C59D84 /* BuilderButton.swift */; };
+		5AC5ACF729FA9B4800C59D84 /* BuilderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACF629FA9B4800C59D84 /* BuilderTextField.swift */; };
+		5AC5ACFF29FD466500C59D84 /* WindowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACFE29FD466500C59D84 /* WindowType.swift */; };
 		5AD97B3D29A9263D00FB1C5E /* BuilderByteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */; };
 		5ADC5220293B33A300DFEE0A /* ShortcutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC521F293B33A300DFEE0A /* ShortcutListView.swift */; };
 		5ADC5222293CF4DE00DFEE0A /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC5221293CF4DE00DFEE0A /* Shortcuts.swift */; };
@@ -167,8 +167,9 @@
 		5ABC3F2E291F759A00C0C217 /* CustomResource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResource.swift; sourceTree = "<group>"; };
 		5ABC3F34291F94CA00C0C217 /* TagMappingResourceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMappingResourceView.swift; sourceTree = "<group>"; };
 		5ABC3F392920F40900C0C217 /* PresentableAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresentableAlert.swift; sourceTree = "<group>"; };
-		5AC5ACFE29FD466500C59D84 /* WindowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowType.swift; sourceTree = "<group>"; };
 		5AC5ACF429FA5F4100C59D84 /* BuilderButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderButton.swift; sourceTree = "<group>"; };
+		5AC5ACF629FA9B4800C59D84 /* BuilderTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderTextField.swift; sourceTree = "<group>"; };
+		5AC5ACFE29FD466500C59D84 /* WindowType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WindowType.swift; sourceTree = "<group>"; };
 		5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuilderByteList.swift; sourceTree = "<group>"; };
 		5ADC521F293B33A300DFEE0A /* ShortcutListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShortcutListView.swift; sourceTree = "<group>"; };
 		5ADC5221293CF4DE00DFEE0A /* Shortcuts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shortcuts.swift; sourceTree = "<group>"; };
@@ -502,6 +503,7 @@
 				5AB9C75829ADDBD800B153E1 /* BuilderRootView.swift */,
 				5AB9C75A29ADDC2E00B153E1 /* BuilderRootVM.swift */,
 				5AC5ACF429FA5F4100C59D84 /* BuilderButton.swift */,
+				5AC5ACF629FA9B4800C59D84 /* BuilderTextField.swift */,
 			);
 			path = Builder;
 			sourceTree = "<group>";
@@ -652,6 +654,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A1719B228BA1D7A00D7894A /* AppVM+Persistence.swift in Sources */,
+				5AC5ACF729FA9B4800C59D84 /* BuilderTextField.swift in Sources */,
 				5ABC3F3A2920F40900C0C217 /* PresentableAlert.swift in Sources */,
 				5A5B09FB285C493700705C35 /* DiffVM.swift in Sources */,
 				5A1719B728BAC08A00D7894A /* AnyWindowVM.swift in Sources */,
@@ -700,9 +703,7 @@
 				5AFC5F5A28F49501004DA503 /* DecodedByteView.swift in Sources */,
 				5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */,
 				5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */,
-				5AA1B546295F230D000F14BD /* LibraryView.swift in Sources */,
 				5AB9C75929ADDBD800B153E1 /* BuilderRootView.swift in Sources */,
-				5AA1B546295F230D000F14BD /* LookupRootView.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
 				5AE906C029A8947F0068CD9C /* BuilderByteView.swift in Sources */,
 				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
