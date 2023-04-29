@@ -1,5 +1,5 @@
 //
-//  LookupRootVM.swift
+//  LibraryVM.swift
 //  JustTags
 //
 //  Created by Yurii Zadoianchuk on 04/01/2023.
@@ -9,12 +9,12 @@ import SwiftyEMVTags
 import SwiftUI
 import Combine
 
-internal final class LookupRootVM: ObservableObject {
+internal final class LibraryVM: ObservableObject {
     
     @Published internal var searchText = ""
     @Published internal var selectedKernel: KernelInfo
     @Published internal var selectedTag: TagDecodingInfo?
-    @Published internal var tagListSections: [LookupKernelInfoView.Section]
+    @Published internal var tagListSections: [LibraryKernelInfoView.Section]
     internal let kernels: [KernelInfo]
     internal let tagMappings: [UInt64: TagMapping]
     
@@ -127,7 +127,7 @@ fileprivate extension KernelInfo {
         )
     }
     
-    var singleSection: [LookupKernelInfoView.Section] {
+    var singleSection: [LibraryKernelInfoView.Section] {
         [.init(title: nil, items: tags)]
     }
     

@@ -46,14 +46,14 @@
 		5A6D76822916452B004CE28C /* CustomResourceRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6D76812916452B004CE28C /* CustomResourceRepo.swift */; };
 		5A6FE19729276E4800224070 /* KernelSelectionRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6FE19629276E4800224070 /* KernelSelectionRow.swift */; };
 		5A6FE1992928D52200224070 /* TagParser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A6FE1982928D52200224070 /* TagParser.swift */; };
-		5A7A946829634CFA002097F3 /* LookupKernelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A946729634CFA002097F3 /* LookupKernelInfoView.swift */; };
-		5A7A946D2965F3C0002097F3 /* LookupRootVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A946C2965F3C0002097F3 /* LookupRootVM.swift */; };
+		5A7A946829634CFA002097F3 /* LibraryKernelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A946729634CFA002097F3 /* LibraryKernelInfoView.swift */; };
+		5A7A946D2965F3C0002097F3 /* LibraryVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A7A946C2965F3C0002097F3 /* LibraryVM.swift */; };
 		5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */; };
 		5A90204428F9B91200CD7BDC /* EnvironmentValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */; };
 		5A90204628FAAF5700CD7BDC /* KernelInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */; };
 		5A97EF4B28C29A3000933FB2 /* FocusedValues.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */; };
 		5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A9BC832282C3528000C05F7 /* SwiftyEMVTags */; };
-		5AA1B546295F230D000F14BD /* LookupRootView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA1B545295F230D000F14BD /* LookupRootView.swift */; };
+		5AA1B546295F230D000F14BD /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA1B545295F230D000F14BD /* LibraryView.swift */; };
 		5AA64D07283547A800F295A9 /* MainVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D06283547A800F295A9 /* MainVM.swift */; };
 		5AA64D2C2848079100F295A9 /* ConstructedTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D2B2848079100F295A9 /* ConstructedTagView.swift */; };
 		5AA64D2E2848083000F295A9 /* PlainTagView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA64D2D2848083000F295A9 /* PlainTagView.swift */; };
@@ -138,13 +138,13 @@
 		5A6D76812916452B004CE28C /* CustomResourceRepo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomResourceRepo.swift; sourceTree = "<group>"; };
 		5A6FE19629276E4800224070 /* KernelSelectionRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelSelectionRow.swift; sourceTree = "<group>"; };
 		5A6FE1982928D52200224070 /* TagParser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagParser.swift; sourceTree = "<group>"; };
-		5A7A946729634CFA002097F3 /* LookupKernelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupKernelInfoView.swift; sourceTree = "<group>"; };
-		5A7A946C2965F3C0002097F3 /* LookupRootVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupRootVM.swift; sourceTree = "<group>"; };
+		5A7A946729634CFA002097F3 /* LibraryKernelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryKernelInfoView.swift; sourceTree = "<group>"; };
+		5A7A946C2965F3C0002097F3 /* LibraryVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryVM.swift; sourceTree = "<group>"; };
 		5A90203F28F9B6AA00CD7BDC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EnvironmentValues.swift; sourceTree = "<group>"; };
 		5A90204528FAAF5700CD7BDC /* KernelInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KernelInfoView.swift; sourceTree = "<group>"; };
 		5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FocusedValues.swift; sourceTree = "<group>"; };
-		5AA1B545295F230D000F14BD /* LookupRootView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LookupRootView.swift; sourceTree = "<group>"; };
+		5AA1B545295F230D000F14BD /* LibraryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LibraryView.swift; sourceTree = "<group>"; };
 		5AA64D06283547A800F295A9 /* MainVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainVM.swift; sourceTree = "<group>"; };
 		5AA64D2B2848079100F295A9 /* ConstructedTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstructedTagView.swift; sourceTree = "<group>"; };
 		5AA64D2D2848083000F295A9 /* PlainTagView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlainTagView.swift; sourceTree = "<group>"; };
@@ -314,14 +314,14 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		5AA1B544295F22F6000F14BD /* Lookup */ = {
+		5AA1B544295F22F6000F14BD /* Library */ = {
 			isa = PBXGroup;
 			children = (
-				5AA1B545295F230D000F14BD /* LookupRootView.swift */,
-				5A7A946C2965F3C0002097F3 /* LookupRootVM.swift */,
-				5A7A946729634CFA002097F3 /* LookupKernelInfoView.swift */,
+				5AA1B545295F230D000F14BD /* LibraryView.swift */,
+				5A7A946C2965F3C0002097F3 /* LibraryVM.swift */,
+				5A7A946729634CFA002097F3 /* LibraryKernelInfoView.swift */,
 			);
-			path = Lookup;
+			path = Library;
 			sourceTree = "<group>";
 		};
 		5ABC3F32291F85A100C0C217 /* KernelInfo */ = {
@@ -376,7 +376,7 @@
 			isa = PBXGroup;
 			children = (
 				5A4FDDB027F42B3B00603D99 /* Main */,
-				5AA1B544295F22F6000F14BD /* Lookup */,
+				5AA1B544295F22F6000F14BD /* Library */,
 				5AE8BF7D27E79CF000474AD0 /* List */,
 				5A26FC5628C33A7A00334B20 /* TagRowView */,
 				5AE923ED28C33F7600BD6B3E /* DiffedTagRowView */,
@@ -609,7 +609,7 @@
 				5ABC3F35291F94CA00C0C217 /* TagMappingResourceView.swift in Sources */,
 				5AA64D2C2848079100F295A9 /* ConstructedTagView.swift in Sources */,
 				5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */,
-				5A7A946829634CFA002097F3 /* LookupKernelInfoView.swift in Sources */,
+				5A7A946829634CFA002097F3 /* LibraryKernelInfoView.swift in Sources */,
 				5ADC5222293CF4DE00DFEE0A /* Shortcuts.swift in Sources */,
 				5A4FE245291C110C0034217A /* CustomResourceListView.swift in Sources */,
 				5A4FE248291C12ED0034217A /* KernelInfoResource.swift in Sources */,
@@ -634,7 +634,7 @@
 				5AFC5F5A28F49501004DA503 /* DecodedByteView.swift in Sources */,
 				5AE923E828C33D8000BD6B3E /* TagHeaderView.swift in Sources */,
 				5A90204028F9B6AA00CD7BDC /* SettingsView.swift in Sources */,
-				5AA1B546295F230D000F14BD /* LookupRootView.swift in Sources */,
+				5AA1B546295F230D000F14BD /* LibraryView.swift in Sources */,
 				5A31B18128210BE8002B2D06 /* SelectedMeaningList.swift in Sources */,
 				5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */,
 				5A4F646328F17C2F00FEC0C5 /* EMVTagSearch.swift in Sources */,
@@ -653,7 +653,7 @@
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,
 				5AA64D2E2848083000F295A9 /* PlainTagView.swift in Sources */,
 				5AE8BF7B27E79CC700474AD0 /* TagDetailsView.swift in Sources */,
-				5A7A946D2965F3C0002097F3 /* LookupRootVM.swift in Sources */,
+				5A7A946D2965F3C0002097F3 /* LibraryVM.swift in Sources */,
 				5A6FE19729276E4800224070 /* KernelSelectionRow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

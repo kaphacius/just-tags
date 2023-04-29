@@ -38,11 +38,11 @@ internal struct JustTagsApp: App {
         }.handlesExternalEvents(matching: ["diff"])
         
         WindowGroup {
-            LookupRootView(
+            LibraryView(
                 vm: .init(tagParser: TagParser(tagDecoder: appVM.tagDecoder))
             )
-            .handlesExternalEvents(preferring: ["lookup"], allowing: ["lookup"])
-        }.handlesExternalEvents(matching: ["lookup"])
+            .handlesExternalEvents(preferring: ["library"], allowing: ["library"])
+        }.handlesExternalEvents(matching: ["library"])
         
         Settings {
             SettingsView(selectedTab: $appVM.selectedTab)

@@ -1,5 +1,5 @@
 //
-//  LookupKernelInfoView.swift
+//  LibraryKernelInfoView.swift
 //  JustTags
 //
 //  Created by Yurii Zadoianchuk on 02/01/2023.
@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftyEMVTags
 import Combine
 
-struct LookupKernelInfoView: View {
+struct LibraryKernelInfoView: View {
     
     struct Section: Identifiable, Equatable {
         let id = UUID()
@@ -93,9 +93,9 @@ struct LookupKernelInfoView: View {
     
 }
 
-struct LookupKernelInfoView_Previews: PreviewProvider {
+struct LibraryKernelInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        LookupKernelInfoView(
+        LibraryKernelInfoView(
             selectedTag: .constant(nil),
             sections: [
                 .init(title: "First section", items: []),

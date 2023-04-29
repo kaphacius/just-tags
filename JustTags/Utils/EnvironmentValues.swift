@@ -12,7 +12,7 @@ internal struct SelectedTag: EnvironmentKey {
     static let defaultValue: Binding<EMVTag?> = .constant(nil)
 }
 
-internal struct IsLookup: EnvironmentKey {
+internal struct IsLibrary: EnvironmentKey {
     static let defaultValue: Bool = false
 }
 
@@ -22,8 +22,8 @@ extension EnvironmentValues {
         set { self[SelectedTag.self] = newValue }
     }
     
-    internal var isLookup: Bool {
-        get { self[IsLookup.self] }
-        set { self[IsLookup.self] = newValue }
+    internal var isLibrary: Bool {
+        get { self[IsLibrary.self] }
+        set { self[IsLibrary.self] = newValue }
     }
 }

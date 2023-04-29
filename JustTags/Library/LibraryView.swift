@@ -1,5 +1,5 @@
 //
-//  LookupRootView.swift
+//  LibraryView.swift
 //  JustTags
 //
 //  Created by Yurii Zadoianchuk on 30/12/2022.
@@ -9,9 +9,9 @@ import SwiftUI
 import SwiftyEMVTags
 import Combine
 
-struct LookupRootView: View {
+struct LibraryView: View {
     
-    @ObservedObject internal var vm: LookupRootVM
+    @ObservedObject internal var vm: LibraryVM
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var searchItem: NSSearchToolbarItem?
     @State private var searchInProgress: Bool = false
@@ -50,7 +50,7 @@ struct LookupRootView: View {
     
     @ViewBuilder
     private func content() -> some View {
-        LookupKernelInfoView(
+        LibraryKernelInfoView(
             selectedTag: $vm.selectedTag,
             sections: vm.tagListSections
         )
@@ -64,7 +64,7 @@ struct LookupRootView: View {
                 ScrollView {
                     VStack(spacing: 0.0) {
                         TagDetailsView(vm: selectedTag.tagDetailsVM)
-                            .environment(\.isLookup, true)
+                            .environment(\.isLibrary, true)
                         if let mapping = vm.tagMappings[selectedTag.info.tag] {
                             TagMappingView(listVMs: mapping.tagMappingListVMs)
                                 .padding(.top, -commonPadding)
@@ -101,10 +101,10 @@ struct LookupRootView: View {
 
 }
 
-struct LookupRootView_Previews: PreviewProvider {
+struct LibraryView_Previews: PreviewProvider {
     
     static var previews: some View {
-        LookupRootView(
+        LibraryView(
             vm: .init(
                 tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder),
                 selectedTagIdx: 220

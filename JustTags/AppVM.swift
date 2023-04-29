@@ -296,7 +296,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func openTagLibrary() {
-        openURL(URL(string: "justtags://lookup")!)
+        openURL(URL(string: "justtags://library")!)
     }
     
     private func openSettings(at tab: SettingsView.Tab) {

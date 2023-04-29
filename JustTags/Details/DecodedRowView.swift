@@ -27,7 +27,7 @@ struct DecodedRowVM: Equatable {
 
 internal struct DecodedRowView: View {
     
-    @Environment(\.isLookup) private var isLookup
+    @Environment(\.isLibrary) private var isLibrary
     
     private static let rowHeight = 25.0
     private static let borderColor: Color = Color(nsColor: .tertiaryLabelColor)
@@ -74,7 +74,7 @@ internal struct DecodedRowView: View {
             .border(Self.borderColor, width: 0.5)
             .frame(width: Self.rowHeight)
             .overlay {
-                text.map { Text(isLookup ? lookupSymbol : $0) }
+                text.map { Text(isLibrary ? lookupSymbol : $0) }
             }
     }
     

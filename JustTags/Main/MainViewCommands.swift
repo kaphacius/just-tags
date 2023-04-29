@@ -50,7 +50,7 @@ internal struct MainViewCommands: Commands {
             renameTabButton
             openMainViewButton
             openDiffViewButton
-            openTagLookupButton
+            openTagLibraryButton
             addKernelInfoButton
         }
     }
@@ -198,7 +198,7 @@ internal struct MainViewCommands: Commands {
         )
     }
     
-    private var openTagLookupButton: some View {
+    private var openTagLibraryButton: some View {
         Button(
             "Tag Library",
             action: vm.openTagLibrary
