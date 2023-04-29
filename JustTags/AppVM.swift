@@ -25,7 +25,7 @@ internal final class AppVM: NSObject, ObservableObject {
     private var newVMSetup: ((AnyWindowVM) -> Void)?
     private var loadedState: AppState?
     
-    internal override init() {
+    private override init() {
         super.init()
 
         let loadedState = AppState.loadState()

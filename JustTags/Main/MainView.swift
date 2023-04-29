@@ -69,7 +69,7 @@ struct MainView: View {
             }
             
             Button(action: {
-                vm.showsKernelsPopover = true
+                vm.showsKernelsPopover.toggle()
             }) {
                 Label("Kernels", systemImage: KernelInfo.iconName)
             }

@@ -60,7 +60,7 @@ struct DiffView: View {
                     }).keyboardShortcut("f", modifiers: [.command, .shift])
                     
                     Button(action: {
-                        vm.showsKernelsPopover = true
+                        vm.showsKernelsPopover.toggle()
                     }) {
                         Label("Kernels", systemImage: KernelInfo.iconName)
                             .labelStyle(.iconOnly)
