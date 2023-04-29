@@ -19,11 +19,12 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var tagDecoder: TagDecoder!
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
-    @Environment(\.openURL) var openURL
     @Published internal var selectedTab: SettingsView.Tab = .kernels
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
     private var loadedState: AppState?
+    
+    internal var onOpenUrl: ((URL) -> Void)?
     
     private override init() {
         super.init()
@@ -256,7 +257,7 @@ internal final class AppVM: NSObject, ObservableObject {
             // No need to open a new Diff window if it is already the active one
             anyDiffWindow.makeKeyAndOrderFront(self)
         } else {
-            openURL(URL(string: "justtags://diff")!)
+            onOpenUrl?(WindowType.diff.url)
         }
     }
     
@@ -266,7 +267,7 @@ internal final class AppVM: NSObject, ObservableObject {
             // No need to open a new Main window if it is already the active one
             window.makeKeyAndOrderFront(self)
         } else {
-            openURL(URL(string: "justtags://main")!)
+            onOpenUrl?(WindowType.main.url)
         }
     }
     
@@ -296,7 +297,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func openTagLibrary() {
-        openURL(URL(string: "justtags://library")!)
+        onOpenUrl?(WindowType.library.url)
     }
     
     private func openSettings(at tab: SettingsView.Tab) {

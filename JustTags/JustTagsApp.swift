@@ -24,25 +24,36 @@ internal struct JustTagsApp: App {
                     }
                 }
                 .environmentObject(appVM)
-                .handlesExternalEvents(preferring: ["main"], allowing: ["main"])
+                .handlesExternalEvents(
+                    preferring: [WindowType.main.eventIdentifier],
+                    allowing: [WindowType.main.eventIdentifier]
+                )
         }
         .commands {
             MainViewCommands(vm: appVM)
         }
-        .handlesExternalEvents(matching: ["main"])
+        .handlesExternalEvents(matching: [WindowType.main.eventIdentifier])
         
         WindowGroup {
             DiffView()
                 .environmentObject(appVM)
-                .handlesExternalEvents(preferring: ["diff"], allowing: ["diff"])
-        }.handlesExternalEvents(matching: ["diff"])
+                .handlesExternalEvents(
+                    preferring: [WindowType.diff.eventIdentifier],
+                    allowing: [WindowType.diff.eventIdentifier]
+                )
+        }
+        .handlesExternalEvents(matching: [WindowType.diff.eventIdentifier])
         
         WindowGroup {
             LibraryView(
                 vm: .init(tagParser: TagParser(tagDecoder: appVM.tagDecoder))
             )
-            .handlesExternalEvents(preferring: ["library"], allowing: ["library"])
-        }.handlesExternalEvents(matching: ["library"])
+            .handlesExternalEvents(
+                preferring: [WindowType.library.eventIdentifier],
+                allowing: [WindowType.library.eventIdentifier]
+            )
+        }
+        .handlesExternalEvents(matching: [WindowType.library.eventIdentifier])
         
         Settings {
             SettingsView(selectedTab: $appVM.selectedTab)

@@ -13,9 +13,13 @@ internal struct MainViewCommands: Commands {
     @FocusedBinding(\.selectedTags) private var selectedTags
     @FocusedBinding(\.tabName) private var tabName
     @FocusedBinding(\.mainVM) private var mainVM
-    @Environment(\.openURL) private  var openURL
+    @Environment(\.openURL) private var openURL
     
     @ObservedObject internal var vm: AppVM
+    
+    private func onOpenUrl(url: URL) {
+        openURL(url)
+    }
     
     internal var body: some Commands {
         aboutCommands
@@ -29,6 +33,10 @@ internal struct MainViewCommands: Commands {
     private var aboutCommands: some Commands {
         CommandGroup(replacing: .appInfo) {
             aboutAppButton
+                .onAppear {
+                    // Hack to pass openURL to AppVM
+                    self.vm.onOpenUrl = self.onOpenUrl(url:)
+                }
         }
     }
     
