@@ -346,3 +346,9 @@ extension AppVM {
     }
     
 }
+
+extension AppVM {
+    
+    internal static let shared: AppVM = .init()
+    
+}

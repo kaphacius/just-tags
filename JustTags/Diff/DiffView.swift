@@ -205,6 +205,6 @@ struct DiffView_Previews: PreviewProvider {
 
     static var previews: some View {
         DiffView(vm: viewModel)
-            .environmentObject(AppVM())
+            .environmentObject(AppVM.shared)
     }
 }

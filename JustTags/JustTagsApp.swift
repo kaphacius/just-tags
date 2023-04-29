@@ -11,7 +11,8 @@ import SwiftyEMVTags
 @main
 internal struct JustTagsApp: App {
     
-    @StateObject private var appVM = AppVM()
+    @StateObject private var appVM: AppVM = .shared
+    @FocusedObject private var mainVM: MainVM?
     
     internal var body: some Scene {
         WindowGroup {
@@ -38,7 +39,7 @@ internal struct JustTagsApp: App {
         
         WindowGroup {
             LookupRootView(
-                vm: .init(tagParser: TagParser(tagDecoder: AppVM().tagDecoder))
+                vm: .init(tagParser: TagParser(tagDecoder: appVM.tagDecoder))
             )
             .handlesExternalEvents(preferring: ["lookup"], allowing: ["lookup"])
         }.handlesExternalEvents(matching: ["lookup"])

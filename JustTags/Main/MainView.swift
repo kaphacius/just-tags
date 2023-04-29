@@ -180,6 +180,6 @@ struct MainView_Previews: PreviewProvider {
     static var previews: some View {
         MainView()
             .frame(width: 1000, height: 600)
-            .environmentObject(AppVM())
+            .environmentObject(AppVM.shared)
     }
 }

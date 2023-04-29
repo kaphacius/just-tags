@@ -106,7 +106,7 @@ struct LookupRootView_Previews: PreviewProvider {
     static var previews: some View {
         LookupRootView(
             vm: .init(
-                tagParser: TagParser(tagDecoder: AppVM().tagDecoder),
+                tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder),
                 selectedTagIdx: 220
             )
         ).frame(width: 1000.0)
