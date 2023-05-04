@@ -72,6 +72,7 @@ internal final class LibraryVM: ObservableObject {
             performSearch(searchText)
         } else if selectedKernel.singleSection != tagListSections {
             tagListSections = selectedKernel.singleSection
+            selectedTag = nil
         }
     }
     
@@ -101,6 +102,19 @@ internal final class LibraryVM: ObservableObject {
             .init(title: "Best matches", items: filtered.bestMatches),
             .init(title: "More...", items: filtered.more)
         ]
+        
+        selectSingleResultIfNeeded()
+    }
+    
+    private func selectSingleResultIfNeeded() {
+        if let bestMatches = tagListSections.first,
+           let bestMatch = bestMatches.items.first,
+           bestMatches.items.count == 1,
+           tagListSections.count == 2,
+           let moreMatches = tagListSections.last,
+           moreMatches.items.count == 0 {
+            selectedTag = bestMatch
+        }
     }
     
 }
