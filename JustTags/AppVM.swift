@@ -24,7 +24,7 @@ internal final class AppVM: NSObject, ObservableObject {
     private var newVMSetup: ((AnyWindowVM) -> Void)?
     private var loadedState: AppState?
     
-    internal var onOpenUrl: ((URL) -> Void)?
+    internal var onOpenWindow: ((WindowType) -> Void)?
     
     private override init() {
         super.init()
@@ -257,7 +257,7 @@ internal final class AppVM: NSObject, ObservableObject {
             // No need to open a new Diff window if it is already the active one
             anyDiffWindow.makeKeyAndOrderFront(self)
         } else {
-            onOpenUrl?(WindowType.diff.url)
+            onOpenWindow?(WindowType.diff)
         }
     }
     
@@ -267,7 +267,7 @@ internal final class AppVM: NSObject, ObservableObject {
             // No need to open a new Main window if it is already the active one
             window.makeKeyAndOrderFront(self)
         } else {
-            onOpenUrl?(WindowType.main.url)
+            onOpenWindow?(WindowType.main)
         }
     }
     
@@ -297,7 +297,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func openTagLibrary() {
-        onOpenUrl?(WindowType.library.url)
+        onOpenWindow?(WindowType.library)
     }
     
     private func openSettings(at tab: SettingsView.Tab) {

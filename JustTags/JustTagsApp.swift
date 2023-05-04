@@ -15,7 +15,7 @@ internal struct JustTagsApp: App {
     @FocusedObject private var mainVM: MainVM?
     
     internal var body: some Scene {
-        WindowGroup {
+        WindowGroup("Main", id: WindowType.main.rawValue) {
             MainView()
                 .blur(radius: appVM.setUpInProgress ? 30.0 : 0.0)
                 .overlay {
@@ -24,36 +24,21 @@ internal struct JustTagsApp: App {
                     }
                 }
                 .environmentObject(appVM)
-                .handlesExternalEvents(
-                    preferring: [WindowType.main.eventIdentifier],
-                    allowing: [WindowType.main.eventIdentifier]
-                )
         }
         .commands {
             MainViewCommands(vm: appVM)
         }
-        .handlesExternalEvents(matching: [WindowType.main.eventIdentifier])
         
-        WindowGroup {
+        Window("Diff", id: WindowType.diff.rawValue) {
             DiffView()
                 .environmentObject(appVM)
-                .handlesExternalEvents(
-                    preferring: [WindowType.diff.eventIdentifier],
-                    allowing: [WindowType.diff.eventIdentifier]
-                )
         }
-        .handlesExternalEvents(matching: [WindowType.diff.eventIdentifier])
         
-        WindowGroup {
+        Window("TagLibrary", id: WindowType.library.rawValue) {
             LibraryView(
                 vm: .init(tagParser: TagParser(tagDecoder: appVM.tagDecoder))
             )
-            .handlesExternalEvents(
-                preferring: [WindowType.library.eventIdentifier],
-                allowing: [WindowType.library.eventIdentifier]
-            )
         }
-        .handlesExternalEvents(matching: [WindowType.library.eventIdentifier])
         
         Settings {
             SettingsView(selectedTab: $appVM.selectedTab)

@@ -9,24 +9,10 @@ import Foundation
 
 private let scheme = "justtags"
 
-enum WindowType {
+enum WindowType: String {
     
     case main
     case diff
     case library
-    
-    var eventIdentifier: String {
-        switch self {
-        case .main:
-            return "main"
-        case .diff:
-            return "diff"
-        case .library:
-            return "lookup"
-        }
-    }
-    
-    var url: URL {
-        URL(string: "\(scheme)://\(eventIdentifier)")!
-    }
+
 }
