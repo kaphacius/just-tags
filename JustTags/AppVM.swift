@@ -11,15 +11,15 @@ import Combine
 
 internal final class AppVM: NSObject, ObservableObject {
     
-    @Published internal var windows: [NSWindow] = []
-    @Published internal var viewModels = [Int: AnyWindowVM]()
     @Published internal var setUpInProgress: Bool = true
-    // Throwaway to avoid optionals
-    internal var activeVM: AnyWindowVM = MainVM()
     @Published internal var tagDecoder: TagDecoder!
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
-    @Published internal var selectedTab: SettingsView.Tab = .kernels
+    internal var windows: [NSWindow] = []
+    internal var viewModels = [Int: AnyWindowVM]()
+    // Throwaway to avoid optionals
+    internal var activeVM: AnyWindowVM = MainVM()
+    internal var selectedTab: SettingsView.Tab = .kernels
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
     private var loadedState: AppState?
