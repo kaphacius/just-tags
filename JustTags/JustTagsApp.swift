@@ -36,7 +36,7 @@ internal struct JustTagsApp: App {
         
         Window("TagLibrary", id: WindowType.library.rawValue) {
             LibraryView(
-                vm: .init(tagParser: TagParser(tagDecoder: appVM.tagDecoder))
+                tagParser:  TagParser(tagDecoder: AppVM.shared.tagDecoder)
             )
         }
         

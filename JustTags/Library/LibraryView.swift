@@ -11,10 +11,22 @@ import Combine
 
 struct LibraryView: View {
     
-    @ObservedObject internal var vm: LibraryVM
+    @StateObject private var vm: LibraryVM
+    
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var searchItem: NSSearchToolbarItem?
     @State private var searchInProgress: Bool = false
+    
+    init(tagParser: TagParser) {
+        self._vm = .init(wrappedValue: .init(tagParser: tagParser))
+    }
+    
+    // This is for previews
+    init(tagParser: TagParser, selectedTagIdx: Int) {
+        self._vm = .init(
+            wrappedValue: .init(tagParser: tagParser, selectedTagIdx: selectedTagIdx)
+        )
+    }
     
     internal var body: some View {
         NavigationSplitView(
@@ -105,10 +117,8 @@ struct LibraryView_Previews: PreviewProvider {
     
     static var previews: some View {
         LibraryView(
-            vm: .init(
-                tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder),
-                selectedTagIdx: 220
-            )
+            tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder),
+            selectedTagIdx: 220
         ).frame(width: 1000.0)
     }
 }
