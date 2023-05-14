@@ -7,15 +7,15 @@
 
 import SwiftUI
 import SwiftyEMVTags
+import Combine
 
 internal final class AppVM: NSObject, ObservableObject {
     
     @Published internal var windows: [NSWindow] = []
     @Published internal var viewModels = [Int: AnyWindowVM]()
-    @Published internal var activeWindow: NSWindow?
     @Published internal var setUpInProgress: Bool = true
     // Throwaway to avoid optionals
-    @Published internal var activeVM: AnyWindowVM = MainVM()
+    internal var activeVM: AnyWindowVM = MainVM()
     @Published internal var tagDecoder: TagDecoder!
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
@@ -127,7 +127,6 @@ internal final class AppVM: NSObject, ObservableObject {
             assertionFailure("Unable to find a VM for window \(window.windowNumber)")
             return
         }
-        activeWindow = window
         activeVM = vm
     }
     
@@ -179,7 +178,6 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func deselectAll() {
-        activeWindow.map(doPoof(window:))
         activeMainVM?.deselectAll()
     }
     
