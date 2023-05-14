@@ -13,8 +13,8 @@ internal struct MainViewCommands: Commands {
     @FocusedBinding(\.selectedTags) private var selectedTags
     @FocusedBinding(\.tabName) private var tabName
     @FocusedBinding(\.mainVM) private var mainVM
-    @Environment(\.openURL) private var openURL
     @Environment(\.openWindow) private var openWindow
+    @FocusedBinding(\.currentWindow) private var currentWindow
     
     @ObservedObject internal var vm: AppVM
     
@@ -22,16 +22,22 @@ internal struct MainViewCommands: Commands {
         openWindow(id: type.rawValue)
     }
     
-    private func onOpenUrl(url: URL) {
-        openURL(url)
+    internal var body: some Commands {
+        commandGroup(for: .about)
+        commandGroup(for: .file)
+        commandGroup(for: .edit)
+        commandGroup(for: .diff)
+        commandGroup(for: .help)
+        commandGroup(for: .undoRedo)
     }
     
-    internal var body: some Commands {
-        aboutCommands
-        fileCommands
-        editCommands
-        diffCommands
-        helpCommands
+    @CommandsBuilder
+    internal func commandGroup(for group: Command.Group) -> some Commands {
+        CommandGroup(replacing: group.replacing) {
+            ForEach(group.commands, id: \.self) { command in
+                commandView(for: command)
+            }
+        }
     }
     
     @CommandsBuilder
@@ -54,7 +60,6 @@ internal struct MainViewCommands: Commands {
             selectAll
             deselectAll
         }
-        CommandGroup(replacing: .undoRedo) {}
     }
     
     private var fileCommands: some Commands {
@@ -168,7 +173,10 @@ internal struct MainViewCommands: Commands {
         Button(
             "About JustTags",
             action: showAboutApp
-        )
+        ).onAppear {
+            // Hack to pass openURL to AppVM
+            self.vm.onOpenWindow = self.onOpenWindow(type:)
+        }
     }
     
     private func renameTab() {
@@ -216,6 +224,47 @@ internal struct MainViewCommands: Commands {
             "Tag Library",
             action: vm.openTagLibrary
         ).keyboardShortcut("l", modifiers: [.command, .shift])
+    }
+    
+    @ViewBuilder
+    private func commandView(for command: Command) -> some View {
+        Group {
+            switch command {
+            case .about:
+                aboutAppButton
+            case .copySelectedTags:
+                copySelectedTags
+            case .paste:
+                paste
+            case .pasteIntoNewTab:
+                pasteIntoNewTab
+            case .selectAll:
+                selectAll
+            case .deselectAll:
+                deselectAll
+            case .newTabButton:
+                newTabButton
+            case .renameTab:
+                renameTabButton
+            case .openMainView:
+                openMainViewButton
+            case .openDiffView:
+                openDiffViewButton
+            case .openTagLibrary:
+                openTagLibraryButton
+            case .addKernelInfo:
+                addKernelInfoButton
+            case .diffSelectedTags:
+                diffSelectedTags
+            case .whatsNew:
+                whatsNewButton
+            case .releaseNotes:
+                releaseNotesButton
+            case .keyBindings:
+                keyBindingsButton
+            }
+        }
+        .disabled(currentWindow?.commands.contains(command) == false)
     }
     
 }

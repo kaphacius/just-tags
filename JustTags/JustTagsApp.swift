@@ -12,7 +12,7 @@ import SwiftyEMVTags
 internal struct JustTagsApp: App {
     
     @StateObject private var appVM: AppVM = .shared
-    @FocusedObject private var mainVM: MainVM?
+    @FocusedBinding(\.currentWindow) private var currentWindow
     
     internal var body: some Scene {
         WindowGroup("Main", id: WindowType.main.rawValue) {

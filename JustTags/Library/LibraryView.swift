@@ -48,6 +48,7 @@ struct LibraryView: View {
             }.opacity(0.0)
         }
         .background(searchButton)
+        .focusedSceneValue(\.currentWindow, .constant(.library))
     }
     
     @ViewBuilder

@@ -10,6 +10,11 @@ import SwiftyEMVTags
 
 extension FocusedValues {
     
+    internal var currentWindow: Binding<WindowType>? {
+        get { self[WindowTypeKey.self] }
+        set { self[WindowTypeKey.self] = newValue }
+    }
+    
     internal var selectedTags: Binding<[EMVTag]>? {
         get { self[SelectedTagsKey.self] }
         set { self[SelectedTagsKey.self] = newValue }
@@ -35,6 +40,10 @@ extension FocusedValues {
     
     private struct MainVMKey: FocusedValueKey {
         typealias Value = Binding<MainVM>
+    }
+    
+    private struct WindowTypeKey: FocusedValueKey {
+        typealias Value = Binding<WindowType>
     }
     
 }

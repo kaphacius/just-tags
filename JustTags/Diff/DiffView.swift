@@ -40,6 +40,7 @@ struct DiffView: View {
         .onAppear(perform: vm.setUp)
         .navigationTitle(vm.title)
         .errorAlert($vm.alert)
+        .focusedSceneValue(\.currentWindow, .constant(.diff))
     }
     
     @ViewBuilder
