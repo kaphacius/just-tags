@@ -70,11 +70,7 @@ extension EMVTag {
     }
     
     internal var fullHexString: String {
-        [
-            tag.tag.hexString,
-            tag.lengthBytes.hexString,
-            tag.value.hexString
-        ].joined()
+        tag.bytes.hexString
     }
     
     internal var valueHexString: String {
