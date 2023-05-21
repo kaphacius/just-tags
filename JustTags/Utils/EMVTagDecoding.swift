@@ -132,7 +132,7 @@ extension EMVTag.DecodedByte.Group {
                 .init(
                     meaning: name,
                     isSelected: false,
-                    values: pattern.stringBits(startIndex: startIndex, width: width),
+                    values: pattern.stringBits(startIndex: UInt8.bitWidth - width, width: width),
                     startIndex: startIndex
                 )
             ]
