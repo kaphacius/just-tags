@@ -114,6 +114,15 @@ internal final class MainVM: AnyWindowVM {
         currentTags = initialTags
         populateSearch()
         showingTags = initialTags.isEmpty == false
+        selectSingleTagIfNeeded()
+    }
+    
+    private func selectSingleTagIfNeeded() {
+        // Select the tag automatically if only one was parsed
+        if currentTags.count == 1,
+           let first = currentTags.first {
+            detailTag = first
+        }
     }
     
     private func populateSearch() {
@@ -134,6 +143,7 @@ internal final class MainVM: AnyWindowVM {
                 words: Set(searchText)
             )
             expandAll()
+            selectSingleTagIfNeeded()
         }
     }
     
