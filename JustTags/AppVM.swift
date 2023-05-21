@@ -19,7 +19,7 @@ internal final class AppVM: NSObject, ObservableObject {
     internal var viewModels = [Int: AnyWindowVM]()
     // Throwaway to avoid optionals
     internal var activeVM: AnyWindowVM = MainVM()
-    internal var selectedTab: SettingsView.Tab = .kernels
+    @Published internal var selectedTab: SettingsView.Tab = .kernels
     
     private var newVMSetup: ((AnyWindowVM) -> Void)?
     private var loadedState: AppState?
