@@ -1009,7 +1009,7 @@
 			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
 				kind = revision;
-				revision = 579a7a654343e34fc570c7048a3169d09b2c9b9c;
+				revision = 790ca3f6b456ab0c44b5c781b9201d1ac6f9896f;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
