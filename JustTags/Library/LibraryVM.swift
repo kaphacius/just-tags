@@ -20,13 +20,19 @@ internal final class LibraryVM: ObservableObject {
     
     private var cancellables: Set<AnyCancellable> = []
     private let tagSearchComponents: [Int: PrioritySearchComponents]
+    private let generalKernel: KernelInfo
+    private var initialSections: [LibraryKernelInfoView.Section]
     
     init(tagParser: TagParser) {
         let sortedKernels = tagParser.initialKernels.sorted { $0.id < $1.id }
         let allTagsKernel = KernelInfo.makeAllTagsKernel(with: sortedKernels)
         self.kernels = [allTagsKernel] + sortedKernels
-        self.tagListSections = allTagsKernel.singleSection
+        // TODO: do not use force unwrap
+        self.generalKernel = sortedKernels.first(where: { $0.id == generalKernelId })!
         self.selectedKernel = allTagsKernel
+        let allTagsSections = [allTagsKernel.singleSection]
+        self.tagListSections = allTagsSections
+        self.initialSections = allTagsSections
         self.tagMappings = tagParser.tagMapper.mappings
         
         self.tagSearchComponents = .init(
@@ -46,15 +52,24 @@ internal final class LibraryVM: ObservableObject {
         self.selectedTag = self.tagListSections[0].items[selectedTagIdx]
     }
     
+    // Sections without applying any search
+    private func initialSections(for kernel: KernelInfo) -> [LibraryKernelInfoView.Section] {
+        if kernel.needsGeneralKernelTags {
+            // Combine selected kernel and general tags
+            return [kernel.singleSection, generalKernel.singleSection]
+        } else {
+            return [kernel.singleSection]
+        }
+    }
+    
     private func selectedKernelUpdated(_ newKernel: KernelInfo) {
-        self.tagListSections = newKernel.singleSection
+        self.tagListSections = initialSections(for: newKernel)
+        self.initialSections = tagListSections
         
         if shouldSearch(with: searchText) {
+            // Filter tags if searchText is present
             performSearch(searchText)
-        } else {
-            self.tagListSections = newKernel.singleSection
         }
-
     }
     
     private func setUpSearch() {
@@ -69,9 +84,13 @@ internal final class LibraryVM: ObservableObject {
     
     private func searchTags(_ searchText: String) {
         if shouldSearch(with: searchText) {
+            // Search tags if the searchText is valid
             performSearch(searchText)
-        } else if selectedKernel.singleSection != tagListSections {
-            tagListSections = selectedKernel.singleSection
+        } else if initialSections != tagListSections {
+            // If current sections do not match initialSections,
+            // we are coming back from searched state
+            // Reset sections to initial values
+            tagListSections = initialSections
             selectedTag = nil
         }
     }
@@ -94,7 +113,7 @@ internal final class LibraryVM: ObservableObject {
                 .components(separatedBy: .whitespaces))
             .filter { $0.count > 1 }
         let filtered = filterPrioritySearchable(
-            initial: selectedKernel.tags,
+            initial: initialSections.flatMap(\.items),
             allSearchComponents: tagSearchComponents,
             words: words
         )
@@ -120,6 +139,8 @@ internal final class LibraryVM: ObservableObject {
 }
 
 fileprivate let allTags = "All Tags"
+fileprivate let allTagsKernelId = "All tags"
+fileprivate let generalKernelId = "general"
 
 extension KernelInfo: Hashable {
     
@@ -133,7 +154,7 @@ fileprivate extension KernelInfo {
     
     static func makeAllTagsKernel(with kernels: [KernelInfo]) -> KernelInfo {
         .init(
-            id: allTags,
+            id: allTagsKernelId,
             name: allTags,
             category: .scheme,
             description: allTags,
@@ -141,8 +162,12 @@ fileprivate extension KernelInfo {
         )
     }
     
-    var singleSection: [LibraryKernelInfoView.Section] {
-        [.init(title: nil, items: tags)]
+    var needsGeneralKernelTags: Bool {
+        self.id != generalKernelId && self.id != allTagsKernelId
+    }
+    
+    var singleSection: LibraryKernelInfoView.Section {
+        .init(title: id, items: tags)
     }
     
 }

@@ -13,7 +13,7 @@ struct LibraryKernelInfoView: View {
     
     struct Section: Identifiable, Equatable {
         let id = UUID()
-        let title: String?
+        let title: String
         let items: [TagDecodingInfo]
     }
     
@@ -52,8 +52,8 @@ struct LibraryKernelInfoView: View {
     }
     
     @ViewBuilder
-    private func sectionHeader(for title: String?) -> some View {
-        if let title {
+    private func sectionHeader(for title: String) -> some View {
+        if sections.count > 1 {
             sectionTitle(for: title)
         } else {
             Rectangle()
