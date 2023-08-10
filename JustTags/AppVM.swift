@@ -329,6 +329,7 @@ extension AppVM: NSWindowDelegate {
             .map(\.windowNumber)
             .firstIndex(of: window.windowNumber) {
             windows.remove(at: idx)
+            window.delegate = nil
             viewModels[window.windowNumber] = nil
         }
     }
