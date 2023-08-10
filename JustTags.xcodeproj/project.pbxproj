@@ -68,6 +68,7 @@
 		5AC5ACF529FA5F4100C59D84 /* BuilderButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACF429FA5F4100C59D84 /* BuilderButton.swift */; };
 		5AC5ACF729FA9B4800C59D84 /* BuilderTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACF629FA9B4800C59D84 /* BuilderTextField.swift */; };
 		5AC5ACFF29FD466500C59D84 /* WindowType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AC5ACFE29FD466500C59D84 /* WindowType.swift */; };
+		5ACEDF682A7BCC7F00EF37A9 /* LibraryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AA1B545295F230D000F14BD /* LibraryView.swift */; };
 		5AD97B3D29A9263D00FB1C5E /* BuilderByteList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AD97B3C29A9263D00FB1C5E /* BuilderByteList.swift */; };
 		5ADC5220293B33A300DFEE0A /* ShortcutListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC521F293B33A300DFEE0A /* ShortcutListView.swift */; };
 		5ADC5222293CF4DE00DFEE0A /* Shortcuts.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5ADC5221293CF4DE00DFEE0A /* Shortcuts.swift */; };
@@ -712,6 +713,7 @@
 				5AB55A3C2A10C591003E2356 /* Command.swift in Sources */,
 				5AA64D07283547A800F295A9 /* MainVM.swift in Sources */,
 				5ADC5220293B33A300DFEE0A /* ShortcutListView.swift in Sources */,
+				5ACEDF682A7BCC7F00EF37A9 /* LibraryView.swift in Sources */,
 				5A2D15C3297EF50C0000C0FB /* TagMappingView.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5AE923E628C33D5400BD6B3E /* TagValueView.swift in Sources */,
