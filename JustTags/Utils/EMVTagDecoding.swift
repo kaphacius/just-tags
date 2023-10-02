@@ -188,7 +188,7 @@ extension EMVTag.DecodedByte.Group.MappingResult.SingleMapping {
         .init(
             meaning: meaning,
             isSelected: isSelected,
-            values: pattern.stringBits(startIndex: startIndex, width: width),
+            values: pattern.stringBits(startIndex: UInt8.bitWidth - width, width: width),
             startIndex: startIndex
         )
     }
@@ -201,7 +201,7 @@ extension UInt8 {
         Array(stringBits[startIndex..<startIndex + width])
     }
     
-    internal var stringBits: [String] {
+    fileprivate var stringBits: [String] {
         String(self, radix: 2)
             .pad(with: "0", toLength: UInt8.bitWidth)
             .map { String($0) }
