@@ -188,9 +188,28 @@ extension EMVTag.DecodedByte.Group.MappingResult.SingleMapping {
         .init(
             meaning: meaning,
             isSelected: isSelected,
-            values: pattern.stringBits(startIndex: UInt8.bitWidth - width, width: width),
+            values: pattern.stringBits(
+                startIndex: UInt8.bitWidth - width,
+                width: width,
+                isSelected: isSelected
+            ),
             startIndex: startIndex
         )
+    }
+    
+}
+
+extension EMVTag.DecodedByte.Group.MappingResult.SingleMapping.Pattern {
+    
+    internal func stringBits(startIndex: Int, width: Int, isSelected: Bool) -> [String] {
+        switch self {
+        case .concrete(let pattern):
+            return pattern.stringBits(startIndex: startIndex, width: width)
+        case .allOtherValues(let value) where isSelected:
+            return value.stringBits(startIndex: startIndex, width: width)
+        case .allOtherValues:
+            return Array(repeating: "x", count: width)
+        }
     }
     
 }
