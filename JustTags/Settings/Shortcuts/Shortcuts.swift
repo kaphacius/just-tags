@@ -12,6 +12,7 @@ internal let shortcuts: [ShortcutVM] = [
     .init(title: "Open Current Tab", key: "W", modifiers: .command),
     .init(title: "Open Main Window", key: "M", modifiers: [.command, .shift]),
     .init(title: "Open Diff Window", key: "D", modifiers: [.command, .shift]),
+    .init(title: "Open Builder Window", key: "B", modifiers: [.command, .shift]),
     .init(title: "Open Tag Library", key: "L", modifiers: [.command, .shift]),
     .init(title: "Open Preferences", key: ",", modifiers: [.command]),
     .init(title: "Rename Tab", key: "R", modifiers: [.command, .shift]),

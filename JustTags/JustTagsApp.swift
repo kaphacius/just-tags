@@ -66,6 +66,18 @@ internal struct JustTagsApp: App {
             )
         }.keyboardShortcut("L", modifiers: [.command, .shift])
         
+        Window(
+            WindowType.Case.builder.title,
+            id: WindowType.builder.type.id
+        ) {
+            BuilderRootView(
+                vm: .init(
+                    tagDecoder: appVM.tagDecoder,
+                    decodedTag: .mockTag
+                )
+            )
+        }
+        
         Settings {
             SettingsView(selectedTab: $appVM.selectedTab)
                 .environmentObject(appVM.kernelInfoRepo!)

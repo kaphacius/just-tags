@@ -83,7 +83,7 @@ internal final class AppVM: NSObject, ObservableObject {
             onOpenWindow?(id: WindowType.Case.main.id)
         case .diff:
             onOpenWindow?(id: WindowType.Case.diff.id)
-        case .library:
+        case .library, .builder:
             break
         }
     }
@@ -121,7 +121,7 @@ internal final class AppVM: NSObject, ObservableObject {
             let newVM = createNewDiffVM()
             NSPasteboard.string.map(newVM.parse(string:))
             onOpenWindow?(id: WindowType.Case.diff.id, value: newVM.id)
-        case .library:
+        case .library, .builder:
             break
         case nil:
             break
@@ -197,7 +197,7 @@ internal final class AppVM: NSObject, ObservableObject {
                 return createNewMainVM().id
             case .diff:
                 return createNewDiffVM().id
-            case .library:
+            case .library, .builder:
                 // We should not be here
                 return .init()
             }
@@ -217,8 +217,16 @@ internal final class AppVM: NSObject, ObservableObject {
         openSettings(at: .keyBindings)
     }
     
+    internal func openTagBuilder() {
+        onOpenWindow?(id: WindowType.builder.type.id)
+    }
+    
     private func openSettings(at tab: SettingsView.Tab) {
         selectedTab = tab
+    }
+    
+    internal func buildTag(tag: EMVTag) {
+        
     }
     
 }

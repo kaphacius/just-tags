@@ -121,6 +121,13 @@ internal struct MainViewCommands: Commands {
         ).keyboardShortcut("d", modifiers: [.command, .shift])
     }
     
+    private var openTagBuilderButton: some View {
+        Button(
+            "Builder view",
+            action: vm.openTagBuilder
+        ).keyboardShortcut("b", modifiers: [.command, .shift])
+    }
+    
     private var aboutAppButton: some View {
         Button(
             "About JustTags",
@@ -194,6 +201,8 @@ internal struct MainViewCommands: Commands {
                 openMainViewButton
             case .openDiffView:
                 openDiffViewButton
+            case .openTagBuilder:
+                openTagBuilderButton
             case .addKernelInfo:
                 addKernelInfoButton
             case .diffSelectedTags:

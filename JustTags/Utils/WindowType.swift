@@ -13,12 +13,14 @@ enum WindowType: Equatable, CustomStringConvertible {
         case main
         case diff
         case library
+        case builder
         
         var id: String {
             switch self {
             case .main: "main"
             case .diff: "diff"
             case .library: "library"
+            case .builder: "builder"
             }
         }
         
@@ -27,6 +29,7 @@ enum WindowType: Equatable, CustomStringConvertible {
             case .main: "Tag parsing"
             case .diff: "Tag diffing"
             case .library: "Tag library"
+            case .builder: "Tag builder"
             }
         }
     }
@@ -34,12 +37,14 @@ enum WindowType: Equatable, CustomStringConvertible {
     case main(MainVM)
     case diff(WNS<DiffVM>)
     case library
+    case builder
     
     var type: Case {
         switch self {
         case .main: return .main
         case .diff: return .diff
         case .library: return .library
+        case .builder: return .builder
         }
     }
     
@@ -52,6 +57,8 @@ enum WindowType: Equatable, CustomStringConvertible {
             return "Diff: \(diffVM.title), diffed tags: \(diffVM.initialTags[0].count), \(diffVM.initialTags[1].count)"
         case .library:
             return "Library"
+        case .builder:
+            return "Builder"
         }
     }
     
@@ -60,6 +67,7 @@ enum WindowType: Equatable, CustomStringConvertible {
         case .main(let mainVM): mainVM.title
         case .diff(let diffVM): diffVM.value?.title
         case .library: nil
+        case .builder: nil
         }
     }
     
@@ -69,7 +77,7 @@ enum WindowType: Equatable, CustomStringConvertible {
             mainVM.title = title
         case .diff(let diffVM):
             diffVM.value?.title = title
-        case .library:
+        case .library, .builder:
             // We should not be here
             break
         }
@@ -80,6 +88,7 @@ enum WindowType: Equatable, CustomStringConvertible {
         case .main(let mainVM): mainVM
         case .diff: nil
         case .library: nil
+        case .builder: nil
         }
     }
     
@@ -88,6 +97,7 @@ enum WindowType: Equatable, CustomStringConvertible {
         case .main(let mainVM): mainVM.canPaste
         case .diff(let diffVM): diffVM.value?.canPaste ?? false
         case .library: false
+        case .builder: false
         }
     }
     
@@ -98,6 +108,8 @@ enum WindowType: Equatable, CustomStringConvertible {
         case .diff(let diffVM):
             diffVM.value?.parse(string: string)
         case .library:
+            break
+        case .builder:
             break
         }
     }
@@ -121,9 +133,12 @@ enum WindowType: Equatable, CustomStringConvertible {
             return llhs === rrhs
         case (.library, .library):
             return true
+        case (.builder, .builder):
+            return true
         case (.library, _),
             (.diff, _),
-            (.main, _):
+            (.main, _),
+            (.builder, _):
             return false
         }
     }
