@@ -106,23 +106,39 @@ extension EMVTag.DecodedTag: SearchComponentsAware {
     internal var searchComponents: Set<String> {
         [
             tagInfo.searchComponents,
-            result.searchComponents,
-            Set([extendedDescription].compactMap { $0 })
+            result.searchComponents
         ].foldToSet()
     }
     
 }
 
-extension Result: SearchComponentsAware where Success == [EMVTag.DecodedByte] {
+extension EMVTag.DecodedTag.DecodingResult: SearchComponentsAware {
     
-    internal var searchComponents: Set<String> {
+    var searchComponents: Set<String> {
         switch self {
-        case .success(let bytes):
+        case .bytes(let bytes):
             return bytes.map(\.searchComponents).foldToSet()
-        case .failure:
+        case .mapping(let string):
+            return [string]
+        case .asciiValue(let value):
+            return [value]
+        case .dol(let decodedDOL):
+            return decodedDOL.map(\.searchComponents).foldToSet()
+        case .error:
+            return []
+        case .noDecodingInfo:
             return []
         }
     }
+    
+}
+
+extension DecodedDataObject: SearchComponentsAware {
+    
+    var searchComponents: Set<String> {
+        [tag.hexString, name]
+    }
+    
 }
 
 extension EMVTag.DecodedByte: SearchComponentsAware {

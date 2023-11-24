@@ -16,7 +16,7 @@ extension EMVTag {
         case .unknown:
             return nil
         case .singleKernel(let decodedTag):
-            if let extendedDescription = decodedTag.extendedDescription {
+            if let extendedDescription = decodedTag.result.extendedDescription {
                 return extendedDescription
             } else if let firstMeaning = selectedMeanings.first,
                       selectedMeanings.count == 1 {
@@ -25,7 +25,7 @@ extension EMVTag {
                 return nil
             }
         case .multipleKernels(let decodedTags):
-            return Set(decodedTags.compactMap(\.extendedDescription))
+            return Set(decodedTags.compactMap(\.result.extendedDescription))
                 .joined(separator: ", ")
         }
     }

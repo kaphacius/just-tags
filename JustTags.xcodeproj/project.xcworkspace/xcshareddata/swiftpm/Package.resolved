@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kaphacius/swifty-ber-tlv",
       "state" : {
-        "revision" : "b730bc2b510239ac730ab45256e9598a94973dab",
-        "version" : "0.4.5"
+        "revision" : "d65f4ec88c73d2376bdda74209d690fca8671704",
+        "version" : "0.4.7"
       }
     },
     {
@@ -14,7 +14,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kaphacius/swifty-emv-tags",
       "state" : {
-        "revision" : "3b1034b897c89586be1e10183e7cb4af1a4bf794"
+        "revision" : "9d58e201bbdbc1c6694f1420046dfdcc0f2be84b"
       }
     }
   ],

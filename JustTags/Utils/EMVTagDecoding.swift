@@ -34,9 +34,12 @@ extension EMVTag.DecodingResult {
         case .unknown:
             return []
         case .singleKernel(let decodedTag):
-            if let result = try? decodedTag.result.get() {
-                return result.flatMap(\.selectedMeanings)
-            } else {
+            switch decodedTag.result {
+            case .bytes(let bytes):
+                return bytes.flatMap(\.selectedMeanings)
+            case .dol(let decodedDOL):
+                return decodedDOL.map(\.description)
+            case .asciiValue, .error, .noDecodingInfo, .mapping:
                 return []
             }
         case .multipleKernels:
@@ -57,16 +60,26 @@ extension EMVTag.DecodingResult {
     
 }
 
-extension Result where Success == [EMVTag.DecodedByte] {
+extension EMVTag.DecodedTag.DecodingResult {
+    
+    internal var extendedDescription: String? {
+        switch self {
+        case .bytes, .dol, .noDecodingInfo:
+            return nil
+        case .mapping(let string),
+                .asciiValue(let string), 
+                .error(let string):
+            return string
+        }
+    }
     
     internal var decodedByteVMs: [DecodedByteVM] {
         switch self {
-        case .success(let decodedBytes):
-            return decodedBytes
+        case .bytes(let bytes):
+            return bytes
                 .enumerated()
                 .map { $0.element.decodedByteVM(idx: $0.offset) }
-        case .failure:
-            // TODO: handle error
+        case .asciiValue, .dol, .error, .mapping, .noDecodingInfo:
             return []
         }
     }
@@ -224,6 +237,16 @@ extension UInt8 {
         String(self, radix: 2)
             .pad(with: "0", toLength: UInt8.bitWidth)
             .map { String($0) }
+    }
+    
+}
+
+extension DecodedDataObject: CustomStringConvertible {
+    
+    public var description: String {
+        
+        "\(tag.hexString) - \(name), \(expectedLength)"
+        
     }
     
 }
