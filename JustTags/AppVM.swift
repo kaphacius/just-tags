@@ -173,10 +173,6 @@ internal final class AppVM: NSObject, ObservableObject {
         string.map(viewModel.parse(string:))
     }
     
-    internal func selectAll() {
-        activeMainVM?.selectAll()
-    }
-    
     internal func deselectAll() {
         activeMainVM?.deselectAll()
     }
