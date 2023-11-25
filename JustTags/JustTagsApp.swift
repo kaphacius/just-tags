@@ -33,11 +33,11 @@ internal struct JustTagsApp: App {
                 .environmentObject(appVM)
         }
         
-        Window("TagLibrary", id: WindowType.library.rawValue) {
+        Window("Tag Library", id: WindowType.library.rawValue) {
             LibraryView(
                 tagParser:  TagParser(tagDecoder: AppVM.shared.tagDecoder)
             )
-        }
+        }.keyboardShortcut("L", modifiers: [.command, .shift])
         
         Settings {
             SettingsView(selectedTab: $appVM.selectedTab)

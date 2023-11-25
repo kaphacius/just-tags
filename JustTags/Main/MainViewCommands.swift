@@ -250,8 +250,6 @@ internal struct MainViewCommands: Commands {
                 openMainViewButton
             case .openDiffView:
                 openDiffViewButton
-            case .openTagLibrary:
-                openTagLibraryButton
             case .addKernelInfo:
                 addKernelInfoButton
             case .diffSelectedTags:
