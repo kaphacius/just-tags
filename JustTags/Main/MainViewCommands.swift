@@ -68,7 +68,6 @@ internal struct MainViewCommands: Commands {
             renameTabButton
             openMainViewButton
             openDiffViewButton
-            openTagLibraryButton
             addKernelInfoButton
         }
     }
@@ -217,13 +216,6 @@ internal struct MainViewCommands: Commands {
             "Key Bindings",
             action: vm.openKeyBindings
         )
-    }
-    
-    private var openTagLibraryButton: some View {
-        Button(
-            "Tag Library",
-            action: vm.openTagLibrary
-        ).keyboardShortcut("l", modifiers: [.command, .shift])
     }
     
     @ViewBuilder

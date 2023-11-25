@@ -290,10 +290,6 @@ internal final class AppVM: NSObject, ObservableObject {
         openSettings(at: .keyBindings)
     }
     
-    internal func openTagLibrary() {
-        onOpenWindow?(WindowType.library)
-    }
-    
     private func openSettings(at tab: SettingsView.Tab) {
         if #available(macOS 13, *) {
             NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
