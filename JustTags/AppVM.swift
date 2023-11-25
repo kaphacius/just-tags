@@ -217,7 +217,7 @@ internal final class AppVM: NSObject, ObservableObject {
                 }
                 newVM.diff(tags: toDiff)
             }
-            openDiffView()
+            onOpenWindow?(WindowType.diff)
             // If the diff window was already in place - open
             if anyDiffWindow != nil {
                 openNewTab()
@@ -244,15 +244,6 @@ internal final class AppVM: NSObject, ObservableObject {
     
     internal var activeMainVM: MainVM? {
         activeVM as? MainVM
-    }
-    
-    internal func openDiffView() {
-        if let anyDiffWindow = anyDiffWindow {
-            // No need to open a new Diff window if it is already the active one
-            anyDiffWindow.makeKeyAndOrderFront(self)
-        } else {
-            onOpenWindow?(WindowType.diff)
-        }
     }
     
     internal func openMainView() {

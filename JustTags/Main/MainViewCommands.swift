@@ -40,52 +40,6 @@ internal struct MainViewCommands: Commands {
         }
     }
     
-    @CommandsBuilder
-    private var aboutCommands: some Commands {
-        CommandGroup(replacing: .appInfo) {
-            aboutAppButton
-                .onAppear {
-                    // Hack to pass openURL to AppVM
-                    self.vm.onOpenWindow = self.onOpenWindow(type:)
-                }
-        }
-    }
-    
-    @CommandsBuilder
-    private var editCommands: some Commands {
-        CommandGroup(replacing: .pasteboard) {
-            copySelectedTags
-            paste
-            pasteIntoNewTab
-            selectAll
-            deselectAll
-        }
-    }
-    
-    private var fileCommands: some Commands {
-        CommandGroup(replacing: .newItem) {
-            newTabButton
-            renameTabButton
-            openMainViewButton
-            openDiffViewButton
-            addKernelInfoButton
-        }
-    }
-    
-    private var diffCommands: some Commands {
-        CommandMenu("Diff") {
-            diffSelectedTags
-        }
-    }
-    
-    private var helpCommands: some Commands {
-        CommandGroup(replacing: .help) {
-            whatsNewButton
-            releaseNotesButton
-            keyBindingsButton
-        }
-    }
-    
     private var diffSelectedTags: some View {
         Button(
             "Diff selected tags",
@@ -153,14 +107,7 @@ internal struct MainViewCommands: Commands {
             action: vm.addKernelInfo
         ).keyboardShortcut("o", modifiers: [.command, .shift])
     }
-    
-    private var openDiffViewButton: some View {
-        Button(
-            "Diff view",
-            action: vm.openDiffView
-        ).keyboardShortcut("d", modifiers: [.command, .shift])
-    }
-    
+
     private var openMainViewButton: some View {
         Button(
             "Main view",
@@ -240,8 +187,6 @@ internal struct MainViewCommands: Commands {
                 renameTabButton
             case .openMainView:
                 openMainViewButton
-            case .openDiffView:
-                openDiffViewButton
             case .addKernelInfo:
                 addKernelInfoButton
             case .diffSelectedTags:

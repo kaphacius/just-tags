@@ -17,7 +17,6 @@ enum Command {
     case newTabButton
     case renameTab
     case openMainView
-    case openDiffView
     case addKernelInfo
     case diffSelectedTags
     case whatsNew
@@ -41,7 +40,6 @@ enum Command {
                     .newTabButton,
                     .renameTab,
                     .openMainView,
-                    .openDiffView,
                     .addKernelInfo
                 ]
             case .edit:
@@ -94,7 +92,6 @@ extension WindowType {
                 .newTabButton,
                 .renameTab,
                 .openMainView,
-                .openDiffView,
                 .addKernelInfo,
                 .diffSelectedTags,
                 .whatsNew,
@@ -109,7 +106,6 @@ extension WindowType {
                 .newTabButton,
                 .renameTab,
                 .openMainView,
-                .openDiffView,
                 .addKernelInfo,
                 .whatsNew,
                 .releaseNotes,
@@ -119,7 +115,6 @@ extension WindowType {
             return [
                 .about,
                 .openMainView,
-                .openDiffView,
                 .addKernelInfo,
                 .whatsNew,
                 .releaseNotes,
