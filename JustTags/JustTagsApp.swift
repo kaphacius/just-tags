@@ -12,6 +12,7 @@ import SwiftyEMVTags
 internal struct JustTagsApp: App {
     
     @StateObject private var appVM: AppVM = .shared
+    @FocusedBinding(\.currentWindow) private var currentWindow
     
     internal var body: some Scene {
         WindowGroup("Main", id: WindowType.main.rawValue) {
@@ -26,6 +27,8 @@ internal struct JustTagsApp: App {
         }
         .commands {
             MainViewCommands(vm: appVM)
+        }.onChange(of: currentWindow) { _, newValue in
+            appVM.currentWindow = newValue
         }
         
         WindowGroup("Diff", id: WindowType.diff.rawValue, for: DiffVM.ID.self) { $vmId in

@@ -26,7 +26,7 @@ struct DiffView: View {
         .background {
             HostingWindowFinder { window in
                 guard let window = window else { return }
-                self.appVM.addWindow(window, viewModel: vm)
+                self.appVM.addWindow(window, diffVM: vm)
             }.opacity(0.0)
         }
         .environmentObject(vm as AnyWindowVM)

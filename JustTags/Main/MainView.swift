@@ -29,7 +29,7 @@ struct MainView: View {
         .background {
             HostingWindowFinder { window in
                 guard let window = window else { return }
-                self.appVM.addWindow(window, viewModel: vm)
+                self.appVM.addWindow(window, mainVM: vm)
                 self.searchItem = window.toolbar
                     .flatMap { $0.visibleItems }
                     .flatMap { items in

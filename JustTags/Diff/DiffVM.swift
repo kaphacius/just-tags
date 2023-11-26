@@ -18,7 +18,7 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
     @Published internal var showOnlyDifferent: Bool
     @Published internal var showsDiff: Bool
     
-    internal let id: UUID
+    internal let id: UUID = .init()
     
     private var focusedEditorIdx: Int?
     

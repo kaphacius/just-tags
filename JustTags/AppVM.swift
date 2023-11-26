@@ -24,10 +24,11 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
     internal var activeVM: AnyWindowVM = MainVM()
     @Published internal var selectedTab: SettingsView.Tab = .kernels
     
-    private var newVMSetup: ((AnyWindowVM) -> Void)?
+    private var newVMSetup: ((MainVM) -> Void)?
     private var loadedState: AppState?
     
     internal var onOpenWindow: OpenWindowAction?
+    internal var currentWindow: WindowType?
     
     private override init() {
         super.init()
@@ -53,24 +54,28 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
         ) { notification in
             self.saveAppState()
         }
+        
+        NotificationCenter.default.addObserver(
+            forName: NSWindow.didBecomeKeyNotification,
+            object: nil,
+            queue: nil
+        ) { notification in
+            // Need to do this in this notification, otherwise it is too late
+            if let w = notification.object as? NSWindow {
+                w.tabbingMode = .preferred
+            }
+        }
     }
     
-    internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
-        print("Adding a new window")
-
-        window.delegate = self
-        window.tabbingMode = .preferred
-        windows.append(window)
-        viewModel.tagParser = .init(tagDecoder: tagDecoder)
-        viewModel.appVM = self
-        viewModels[window.windowNumber] = viewModel
-        
-        // Window is already key and active, but we just became its delegate.
-        // Need to update our internal state to reflect that
-        setAsActive(window: window)
+    internal func addWindow(_ window: NSWindow, diffVM: DiffVM) {
+        addWindow(window, viewModel: diffVM)
+    }
+    
+    internal func addWindow(_ window: NSWindow, mainVM: MainVM) {
+        addWindow(window, viewModel: mainVM)
         
         if let newVMSetup = newVMSetup {
-            newVMSetup(viewModel)
+            newVMSetup(mainVM)
             self.newVMSetup = nil
         }
         
@@ -93,6 +98,21 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
             to: mainVM,
             activeTab: loadedState.isStateRestored ? loadedState.activeTab : nil
         )
+    }
+    
+    internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
+        print("Adding a new window")
+
+        window.delegate = self
+        window.tabbingMode = .preferred
+        windows.append(window)
+        viewModel.tagParser = .init(tagDecoder: tagDecoder)
+        viewModel.appVM = self
+        viewModels[window.windowNumber] = viewModel
+        
+        // Window is already key and active, but we just became its delegate.
+        // Need to update our internal state to reflect that
+        setAsActive(window: window)
     }
     
     private func applyLoadedState(
@@ -135,6 +155,11 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
     }
     
     internal func openNewTab() {
+        if let currentWindow, currentWindow == .diff {
+            onOpenWindow?(id: WindowType.diff.rawValue, value: createNewDiffVM().id)
+            return
+        }
+        
         if let currentWindow = NSApp.keyWindow,
            let windowController = currentWindow.windowController {
             windowController.newWindowForTab(nil)
