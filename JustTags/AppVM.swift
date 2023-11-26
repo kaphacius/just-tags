@@ -63,6 +63,8 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
             // Need to do this in this notification, otherwise it is too late
             if let w = notification.object as? NSWindow {
                 w.tabbingMode = .preferred
+                w.isRestorable = false
+                w.disableSnapshotRestoration()
             }
         }
     }
@@ -105,6 +107,8 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
 
         window.delegate = self
         window.tabbingMode = .preferred
+        window.isRestorable = false
+        window.disableSnapshotRestoration()
         windows.append(window)
         viewModel.tagParser = .init(tagDecoder: tagDecoder)
         viewModel.appVM = self
