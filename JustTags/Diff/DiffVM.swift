@@ -9,13 +9,16 @@ import Foundation
 import SwiftyEMVTags
 import Combine
 
-internal final class DiffVM: AnyWindowVM {
+internal final class DiffVM: AnyWindowVM, Identifiable {
+    
     @Published internal var columns: Int
     @Published internal var texts: [String]
     @Published internal var initialTags: [[EMVTag]]
     @Published internal var diffResults: [DiffedTagPair]
     @Published internal var showOnlyDifferent: Bool
     @Published internal var showsDiff: Bool
+    
+    internal let id: UUID
     
     private var focusedEditorIdx: Int?
     

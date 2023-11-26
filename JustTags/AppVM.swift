@@ -9,12 +9,15 @@ import SwiftUI
 import SwiftyEMVTags
 import Combine
 
-internal final class AppVM: NSObject, ObservableObject {
-    
+internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
+
     @Published internal var setUpInProgress: Bool = true
     @Published internal var tagDecoder: TagDecoder!
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
+    
+    private var diffVMs: [DiffVM] = []
+
     internal var windows: [NSWindow] = []
     internal var viewModels = [Int: AnyWindowVM]()
     // Throwaway to avoid optionals
@@ -24,7 +27,7 @@ internal final class AppVM: NSObject, ObservableObject {
     private var newVMSetup: ((AnyWindowVM) -> Void)?
     private var loadedState: AppState?
     
-    internal var onOpenWindow: ((WindowType) -> Void)?
+    internal var onOpenWindow: OpenWindowAction?
     
     private override init() {
         super.init()
@@ -56,6 +59,7 @@ internal final class AppVM: NSObject, ObservableObject {
         print("Adding a new window")
 
         window.delegate = self
+        window.tabbingMode = .preferred
         windows.append(window)
         viewModel.tagParser = .init(tagDecoder: tagDecoder)
         viewModel.appVM = self
@@ -204,55 +208,46 @@ internal final class AppVM: NSObject, ObservableObject {
             toDiff = tags
         }
         
+        let vm: DiffVM
+        
         if let emptyDiffVM = emptyDiffVM {
             // An empty diff vm is available, use it
-            emptyDiffVM.diff(tags: toDiff)
-            makeKeyAndActive(vm: emptyDiffVM)
+            vm = emptyDiffVM
         } else {
             // No empty diff vms available, we will get a new one
-            newVMSetup = { newVM in
-                guard let newVM = newVM as? DiffVM else {
-                    assertionFailure("New VM is not DiffWindowVM")
-                    return
-                }
-                newVM.diff(tags: toDiff)
-            }
-            onOpenWindow?(WindowType.diff)
-            // If the diff window was already in place - open
-            if anyDiffWindow != nil {
-                openNewTab()
-            }
+            vm = createNewDiffVM()
         }
+        
+        vm.diff(tags: toDiff)
+        onOpenWindow?(id: WindowType.diff.rawValue, value: vm.id)
+    }
+    
+    subscript(vm id: DiffVM.ID) -> DiffVM? {
+        diffVMs.first(where: { $0.id == id })
+    }
+    
+    internal func createNewDiffVM() -> DiffVM {
+        let newVM = DiffVM()
+        diffVMs.append(newVM)
+        return newVM
     }
     
     private var emptyDiffVM: DiffVM? {
-        viewModels
-            .values
+        diffVMs
             .filter(\.isEmpty)
-            .compactMap { $0 as? DiffVM }
             .first
     }
     
-    private var anyDiffWindow: NSWindow? {
-        viewModels
-            .first(where: { $0.value is DiffVM })
-            .map(\.key)
-            .flatMap({ (key: Int) -> NSWindow? in
-                windows.first(where: { window in window.windowNumber == key })
-            })
+    internal func openDiffView() {
+        if let last = diffVMs.last {
+            onOpenWindow?(id: WindowType.diff.rawValue, value: last.id)
+        } else {
+            onOpenWindow?(id: WindowType.diff.rawValue)
+        }
     }
     
     internal var activeMainVM: MainVM? {
         activeVM as? MainVM
-    }
-    
-    internal func openDiffView() {
-        if let anyDiffWindow = anyDiffWindow {
-            // No need to open a new Diff window if it is already the active one
-            anyDiffWindow.makeKeyAndOrderFront(self)
-        } else {
-            onOpenWindow?(WindowType.diff)
-        }
     }
     
     internal func openMainView() {
@@ -261,7 +256,7 @@ internal final class AppVM: NSObject, ObservableObject {
             // No need to open a new Main window if it is already the active one
             window.makeKeyAndOrderFront(self)
         } else {
-            onOpenWindow?(WindowType.main)
+            onOpenWindow?(id: WindowType.main.rawValue)
         }
     }
     
@@ -291,11 +286,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     private func openSettings(at tab: SettingsView.Tab) {
-        if #available(macOS 13, *) {
-            NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        } else {
-            NSApp.sendAction(Selector(("showPreferencesWindow:")), to: nil, from: nil)
-        }
+        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
         
         selectedTab = tab
     }
@@ -322,6 +313,11 @@ extension AppVM: NSWindowDelegate {
             .firstIndex(of: window.windowNumber) {
             windows.remove(at: idx)
             window.delegate = nil
+            
+            if let diffVM = viewModels[window.windowNumber] as? DiffVM {
+                diffVMs.removeFirst(with: diffVM.id)
+            }
+            
             viewModels[window.windowNumber] = nil
         }
     }

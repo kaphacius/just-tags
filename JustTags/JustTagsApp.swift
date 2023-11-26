@@ -28,9 +28,13 @@ internal struct JustTagsApp: App {
             MainViewCommands(vm: appVM)
         }
         
-        Window("Diff", id: WindowType.diff.rawValue) {
-            DiffView()
-                .environmentObject(appVM)
+        WindowGroup("Diff", id: WindowType.diff.rawValue, for: DiffVM.ID.self) { $vmId in
+            DiffWindow(
+                vmProvider: appVM,
+                vmId: $vmId
+            ).environmentObject(appVM)
+        } defaultValue: {
+            appVM.createNewDiffVM().id
         }
         
         Window("Tag Library", id: WindowType.library.rawValue) {

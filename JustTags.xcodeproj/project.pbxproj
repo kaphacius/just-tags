@@ -20,6 +20,7 @@
 		5A301EDE284C976B00BBE844 /* AppVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDD284C976B00BBE844 /* AppVM.swift */; };
 		5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */; };
 		5A301EE2284CC67500BBE844 /* MainViewCommands.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A301EE1284CC67500BBE844 /* MainViewCommands.swift */; };
+		5A306B3D2B12002300B73902 /* DiffWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A306B3C2B12002300B73902 /* DiffWindow.swift */; };
 		5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B1632812F308002B2D06 /* TagRowView.swift */; };
 		5A31B1662816FC31002B2D06 /* Diff.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B1652816FC31002B2D06 /* Diff.swift */; };
 		5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A31B16E281BC225002B2D06 /* DiffView.swift */; };
@@ -114,6 +115,7 @@
 		5A301EDD284C976B00BBE844 /* AppVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppVM.swift; sourceTree = "<group>"; };
 		5A301EDF284CBEA700BBE844 /* HostingWindowFinder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HostingWindowFinder.swift; sourceTree = "<group>"; };
 		5A301EE1284CC67500BBE844 /* MainViewCommands.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewCommands.swift; sourceTree = "<group>"; };
+		5A306B3C2B12002300B73902 /* DiffWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DiffWindow.swift; sourceTree = "<group>"; };
 		5A31B1632812F308002B2D06 /* TagRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagRowView.swift; sourceTree = "<group>"; };
 		5A31B1652816FC31002B2D06 /* Diff.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Diff.swift; sourceTree = "<group>"; };
 		5A31B16D281BBAA0002B2D06 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -285,6 +287,7 @@
 				5A31B16E281BC225002B2D06 /* DiffView.swift */,
 				5A31B1652816FC31002B2D06 /* Diff.swift */,
 				5A5B09FA285C493700705C35 /* DiffVM.swift */,
+				5A306B3C2B12002300B73902 /* DiffWindow.swift */,
 			);
 			path = Diff;
 			sourceTree = "<group>";
@@ -526,7 +529,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1400;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					5AE8BF4B27E79BF000474AD0 = {
 						CreatedOnToolsVersion = 13.2;
@@ -630,6 +633,7 @@
 				5AE923E428C33C7D00BD6B3E /* DiffedTagRowView.swift in Sources */,
 				5A36C520298C18BF00254906 /* Search.swift in Sources */,
 				5AFC5F5C28F49595004DA503 /* DecodedRowView.swift in Sources */,
+				5A306B3D2B12002300B73902 /* DiffWindow.swift in Sources */,
 				5A31B16F281BC225002B2D06 /* DiffView.swift in Sources */,
 				5A301EE0284CBEA700BBE844 /* HostingWindowFinder.swift in Sources */,
 				5A1719B428BAB2A500D7894A /* About.swift in Sources */,
@@ -737,6 +741,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -799,6 +804,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -841,7 +847,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.kaphacius.JustTags;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -875,7 +881,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MACOSX_DEPLOYMENT_TARGET = 14.0;
 				MARKETING_VERSION = 1.2.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.kaphacius.JustTags;
 				PRODUCT_NAME = "$(TARGET_NAME)";

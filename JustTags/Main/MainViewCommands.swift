@@ -128,7 +128,7 @@ internal struct MainViewCommands: Commands {
             action: showAboutApp
         ).onAppear {
             // Hack to pass openURL to AppVM
-            self.vm.onOpenWindow = self.onOpenWindow(type:)
+            self.vm.onOpenWindow = self.openWindow
         }
     }
     

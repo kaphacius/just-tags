@@ -10,23 +10,16 @@ import SwiftyEMVTags
 
 struct DiffView: View {
     
-    @StateObject private var vm: DiffVM = .init()
+    @ObservedObject internal var vm: DiffVM
     @EnvironmentObject private var appVM: AppVM
     @FocusState internal var focusedEditor: Int?
-    
-    // For preview purposes
-    fileprivate init(vm: DiffVM) {
-        self._vm = .init(wrappedValue: vm)
-    }
-    
-    internal init() {}
     
     internal var body: some View {
         VStack(spacing: commonPadding) {
             header
             main
         }
-        .onChange(of: focusedEditor, perform: vm.updateFocusedEditor)
+        .onChange(of: focusedEditor) { (_, newValue) in vm.updateFocusedEditor(newValue) }
         .animation(.none, value: vm.showOnlyDifferent)
         .padding(.horizontal, commonPadding)
         .padding(.top, commonPadding)
@@ -121,7 +114,7 @@ struct DiffView: View {
         TextEditor(text: $vm.texts[idx])
             .font(.largeTitle.monospaced())
             .focused($focusedEditor, equals: idx)
-            .onChange(of: vm.texts[idx]) { text in
+            .onChange(of: vm.texts[idx]) { (_, text) in
                 vm.parse(string: text)
             }
             .overlay(HintView())

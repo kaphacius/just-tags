@@ -17,6 +17,7 @@ extension AppVM {
             .map(\.windowNumber)
             .compactMap { t2FlatMap(($0, viewModels[$0])) }
             .compactMap { t2FlatMap(($0.0, $0.1 as? MainVM)) }
+            .filter { $0.1.isEmpty == false }
             .enumerated()
             .map { ($0.offset, $0.element.1) }
             .forEach { (windowIdx: Int, vm: MainVM) in
