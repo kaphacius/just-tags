@@ -12,6 +12,7 @@ struct DiffView: View {
     
     @ObservedObject internal var vm: DiffVM
     @EnvironmentObject private var appVM: AppVM
+    @State private var showsKernelsPopover: Bool = false
     @FocusState internal var focusedEditor: Int?
     
     internal var body: some View {
@@ -53,14 +54,14 @@ struct DiffView: View {
                     }).keyboardShortcut("f", modifiers: [.command, .shift])
                     
                     Button(action: {
-                        vm.showsKernelsPopover.toggle()
+                        showsKernelsPopover.toggle()
                     }) {
                         Label("Kernels", systemImage: KernelInfo.iconName)
                             .labelStyle(.iconOnly)
                     }
                     .keyboardShortcut("k", modifiers: [.command, .shift])
                     .popover(
-                        isPresented: $vm.showsKernelsPopover,
+                        isPresented: $showsKernelsPopover,
                         content: kernelSelectionList
                     )
                 }

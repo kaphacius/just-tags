@@ -14,7 +14,6 @@ struct LibraryView: View {
     @StateObject private var vm: LibraryVM
     
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
-    @State private var searchItem: NSSearchToolbarItem?
     @State private var searchInProgress: Bool = false
     
     init(tagParser: TagParser) {
@@ -35,18 +34,8 @@ struct LibraryView: View {
             content: content,
             detail: detail
         )
-        .searchable(text: $vm.searchText, placement: .toolbar)
+        .searchable(text: $vm.searchText, isPresented: $searchInProgress)
         .navigationTitle(vm.selectedKernel.name)
-        .background {
-            HostingWindowFinder { window in
-                self.searchItem = window
-                    .flatMap(\.toolbar)
-                    .flatMap(\.visibleItems)
-                    .flatMap { items in
-                        items.compactMap { $0 as? NSSearchToolbarItem }.first
-                    }
-            }.opacity(0.0)
-        }
         .background(searchButton)
         .focusedSceneValue(\.currentWindow, .constant(.library))
     }
@@ -95,17 +84,7 @@ struct LibraryView: View {
     
     private var searchButton: some View {
         Button("Search") {
-            guard let searchItem = searchItem else {
-                return
-            }
-            
-            if searchInProgress {
-                searchItem.endSearchInteraction()
-                searchInProgress = false
-            } else {
-                searchItem.beginSearchInteraction()
-                searchInProgress = true
-            }
+            searchInProgress.toggle()
         }
         .frame(width: 0.0, height: 0.0)
         .keyboardShortcut("f", modifiers: [.command])

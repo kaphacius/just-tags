@@ -14,7 +14,6 @@ internal class AnyWindowVM: ObservableObject {
     
     @Published internal var title = ""
     @Published internal var alert: PresentableAlert?
-    @Published internal var showsKernelsPopover: Bool = false
     @Published internal var tagParser: TagParser! {
         didSet {
             self.cancellable = tagParser.objectWillChange

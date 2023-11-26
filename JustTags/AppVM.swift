@@ -77,8 +77,6 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
-        print("Adding a new window")
-
         window.delegate = self
         window.tabbingMode = .preferred
         window.isRestorable = false
@@ -319,13 +317,13 @@ extension AppVM: MainVMProvider {
             
             if self.loadedState?.isStateRestored ?? true {
                 // If no more state left to restore - finish set up
-                DispatchQueue.main.async {
+                onMain {
                     // Has to be async to avoid updating view state from rendering
                     self.setUpInProgress = false
                 }
             } else {
                 // If there is state left to restore - open a new main tab after a small delay
-                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                onMain(seconds: 0.1) {
                     guard self.loadedState != nil else { return }
                     self.onOpenWindow?(id: WindowType.main.rawValue)
                 }

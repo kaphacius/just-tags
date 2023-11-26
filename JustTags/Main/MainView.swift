@@ -13,7 +13,7 @@ import SwiftyBERTLV
 struct MainView: View {
     
     @EnvironmentObject private var appVM: AppVM
-    @State private var searchItem: NSSearchToolbarItem?
+    @State private var showsKernelsPopover: Bool = false
     @State private var searchInProgress: Bool = false
     @State private var alert: PresentableAlert?
     
@@ -31,12 +31,6 @@ struct MainView: View {
             HostingWindowFinder { window in
                 guard let window = window else { return }
                 self.appVM.addWindow(window, mainVM: vm)
-                self.searchItem = window.toolbar
-                    .flatMap { $0.visibleItems }
-                    .flatMap { items in
-                        items.compactMap { $0 as? NSSearchToolbarItem }
-                            .first
-                    }
             }.opacity(0.0)
         }
         .sheet(isPresented: $vm.presentingWhatsNew) {
@@ -44,14 +38,22 @@ struct MainView: View {
                 .map(WhatsNewVM.vm(for:))
                 .map(WhatsNewView.init(vm:))
         }
-        .searchable(text: $vm.searchText)
+        .searchable(text: $vm.searchText, isPresented: $searchInProgress)
         .navigationTitle(vm.title)
         .toolbar { toolbarItems }
         .focusedSceneValue(\.currentWindow, .constant(.main))
         .focusedSceneValue(\.selectedTags, $vm.selectedTags)
         .focusedSceneValue(\.tabName, $vm.title)
         .focusedSceneValue(\.mainVM, .constant(vm))
-        .errorAlert($vm.alert)
+        .onChange(of: showsKernelsPopover) { oldValue, newValue in
+            if oldValue == true, newValue == false {
+                onMain {
+                    // WWDC 2024
+                    // Need to set search to inactive after the popover is hidden for some reason
+                    self.searchInProgress = false
+                }
+            }
+        }.errorAlert($vm.alert)
     }
     
     @ToolbarContentBuilder
@@ -70,13 +72,13 @@ struct MainView: View {
             }
             
             Button(action: {
-                vm.showsKernelsPopover.toggle()
+                showsKernelsPopover.toggle()
             }) {
                 Label("Kernels", systemImage: KernelInfo.iconName)
             }
             .keyboardShortcut("k", modifiers: [.command, .shift])
             .popover(
-                isPresented: $vm.showsKernelsPopover,
+                isPresented: $showsKernelsPopover,
                 content: kernelSelectionList
             )
         }
@@ -146,17 +148,7 @@ struct MainView: View {
     private var shortcutButtons: some View {
         Group {
             Button("Search") {
-                guard let searchItem = searchItem else {
-                    return
-                }
-                
-                if searchInProgress {
-                    searchItem.endSearchInteraction()
-                    searchInProgress = false
-                } else {
-                    searchItem.beginSearchInteraction()
-                    searchInProgress = true
-                }
+                searchInProgress.toggle()
             }.frame(width: 0.0, height: 0.0)
                 .keyboardShortcut("f", modifiers: [.command])
             
