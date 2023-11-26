@@ -25,6 +25,8 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
     private var cancellables: Set<AnyCancellable> = []
     
     internal init(
+        appVM: AppVM,
+        tagParser: TagParser,
         columns: Int = 2,
         texts: [String] = ["", ""],
         initialTags: [[EMVTag]] = [[], []],
@@ -44,6 +46,9 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
         _showsDiff = .init(initialValue: initialTags.contains([]) == false)
         
         super.init()
+        
+        self.tagParser = tagParser
+        self.appVM = appVM
         
         $showOnlyDifferent
             .sink { [weak self] newValue in

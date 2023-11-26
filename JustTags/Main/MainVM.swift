@@ -10,7 +10,15 @@ import SwiftyEMVTags
 import SwiftUI
 import Combine
 
-internal final class MainVM: AnyWindowVM {
+protocol MainVMProvider: ObservableObject {
+    
+    subscript(vm id: MainVM.ID) -> MainVM? { get }
+    
+    func createNewMainVM() -> MainVM
+    
+}
+
+internal final class MainVM: AnyWindowVM, Identifiable {
     
     @Published internal var initialTags: [EMVTag] = []
     @Published internal var currentTags: [EMVTag] = [] {
@@ -32,8 +40,17 @@ internal final class MainVM: AnyWindowVM {
     private var cancellables = Set<AnyCancellable>()
     private var pastedString: String?
     
-    override init() {
+    internal let id = UUID()
+    
+    internal init(
+        appVM: AppVM = .shared,
+        tagParser: TagParser = .init(tagDecoder: try! .defaultDecoder())
+    ) {
         super.init()
+        
+        self.appVM = appVM
+        self.tagParser = tagParser
+        
         setUpSearch()
     }
     

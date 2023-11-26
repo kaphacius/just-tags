@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		5A11BD442B13899C0091E520 /* MainWindow.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A11BD432B13899C0091E520 /* MainWindow.swift */; };
 		5A1719B028B9F7F000D7894A /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719AF28B9F7F000D7894A /* AppState.swift */; };
 		5A1719B228BA1D7A00D7894A /* AppVM+Persistence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B128BA1D7A00D7894A /* AppVM+Persistence.swift */; };
 		5A1719B428BAB2A500D7894A /* About.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1719B328BAB2A500D7894A /* About.swift */; };
@@ -102,6 +103,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		5A11BD432B13899C0091E520 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
 		5A1719AF28B9F7F000D7894A /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
 		5A1719B128BA1D7A00D7894A /* AppVM+Persistence.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "AppVM+Persistence.swift"; sourceTree = "<group>"; };
 		5A1719B328BAB2A500D7894A /* About.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = About.swift; sourceTree = "<group>"; };
@@ -267,6 +269,7 @@
 		5A4FDDB027F42B3B00603D99 /* Main */ = {
 			isa = PBXGroup;
 			children = (
+				5A11BD432B13899C0091E520 /* MainWindow.swift */,
 				5AE8BF8427E7AA4D00474AD0 /* MainView.swift */,
 				5A31B177281D8032002B2D06 /* HintView.swift */,
 				5AA64D06283547A800F295A9 /* MainVM.swift */,
@@ -668,6 +671,7 @@
 				5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,
 				5A4918F52971BE38008DC658 /* TagInfoExtensions.swift in Sources */,
+				5A11BD442B13899C0091E520 /* MainWindow.swift in Sources */,
 				5AFC5F5828F19610004DA503 /* EMVTagDecoding.swift in Sources */,
 				5A597A7729276B54006AAD7F /* KernelSelectionListVM.swift in Sources */,
 				5A31B176281D37BA002B2D06 /* Globals.swift in Sources */,

@@ -10,26 +10,13 @@ import Foundation
 extension AppVM {
     
     internal func saveAppState() {
-        var mains: [MainVM] = []
-        var activeTab: Int?
-        
-        windows
-            .map(\.windowNumber)
-            .compactMap { t2FlatMap(($0, viewModels[$0])) }
-            .compactMap { t2FlatMap(($0.0, $0.1 as? MainVM)) }
-            .filter { $0.1.isEmpty == false }
-            .enumerated()
-            .map { ($0.offset, $0.element.1) }
-            .forEach { (windowIdx: Int, vm: MainVM) in
-                mains.append(vm)
-                if activeTab == nil && activeVM === vm {
-                    activeTab = windowIdx
-                }
-            }
+        let mainStates: [MainWindowState] = mainVMs
+            .filter { $0.isEmpty == false }
+            .map(MainWindowState.init)
         
         let appState = AppState(
-            mains: mains.map(MainWindowState.init(windowVM:)),
-            activeTab: activeTab ?? 0
+            mains: mainStates,
+            activeTab: mainVMs.firstIndex(where: { $0 === activeVM }) ?? 0
         )
         
         AppState.save(state: appState)

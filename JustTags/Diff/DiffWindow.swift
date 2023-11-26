@@ -23,9 +23,6 @@ struct DiffWindow<Provider: DiffVMProvider>: View {
     var body: some View {
         if let vm = vmProvider[vm: vmId] {
             DiffView(vm: vm)
-                .onDisappear {
-                    print("disappear")
-                }
         } else {
             // We really should not be here
             Text("Something went wrong")

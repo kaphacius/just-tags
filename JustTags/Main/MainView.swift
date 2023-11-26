@@ -13,10 +13,11 @@ import SwiftyBERTLV
 struct MainView: View {
     
     @EnvironmentObject private var appVM: AppVM
-    @StateObject private var vm: MainVM = .init()
     @State private var searchItem: NSSearchToolbarItem?
     @State private var searchInProgress: Bool = false
     @State private var alert: PresentableAlert?
+    
+    @ObservedObject internal var vm: MainVM
     
     internal var body: some View {
         HStack(spacing: 0.0) {
@@ -44,7 +45,6 @@ struct MainView: View {
                 .map(WhatsNewView.init(vm:))
         }
         .searchable(text: $vm.searchText)
-        .onAppear(perform: vm.setUp)
         .navigationTitle(vm.title)
         .toolbar { toolbarItems }
         .focusedSceneValue(\.currentWindow, .constant(.main))
@@ -179,7 +179,7 @@ struct MainView: View {
     
 struct MainView_Previews: PreviewProvider {
     static var previews: some View {
-        MainView()
+        MainView(vm: MainVM())
             .frame(width: 1000, height: 600)
             .environmentObject(AppVM.shared)
     }

@@ -30,7 +30,6 @@ struct DiffView: View {
             }.opacity(0.0)
         }
         .environmentObject(vm as AnyWindowVM)
-        .onAppear(perform: vm.setUp)
         .navigationTitle(vm.title)
         .errorAlert($vm.alert)
         .focusedSceneValue(\.currentWindow, .constant(.diff))
@@ -190,6 +189,8 @@ struct DiffView: View {
 
 struct DiffView_Previews: PreviewProvider {
     private static let viewModel = DiffVM(
+        appVM: .shared,
+        tagParser: .init(tagDecoder: try! .defaultDecoder()),
         columns: 2,
         texts: [],
         initialTags: [EMVTag.mockDiffPair.0, EMVTag.mockDiffPair.1],

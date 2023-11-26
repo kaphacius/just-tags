@@ -22,7 +22,7 @@ internal struct TagListView: View {
         tagList
             .frame(maxWidth: .infinity)
             .padding([.top, .leading, .bottom], commonPadding)
-            .onChange(of: isSearching) { newValue in
+            .onChange(of: isSearching) { _, newValue in
                 searchInProgress = newValue
             }
     }

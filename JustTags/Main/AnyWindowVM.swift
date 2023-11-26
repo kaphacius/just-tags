@@ -29,7 +29,7 @@ internal class AnyWindowVM: ObservableObject {
     internal var errorTitle: String = ""
     internal var errorMessage: String = ""
     
-    internal func setUp() {
+    internal init() {
         title = AppVM.tabName
     }
     

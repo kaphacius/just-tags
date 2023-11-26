@@ -15,15 +15,20 @@ internal struct JustTagsApp: App {
     @FocusedBinding(\.currentWindow) private var currentWindow
     
     internal var body: some Scene {
-        WindowGroup("Main", id: WindowType.main.rawValue) {
-            MainView()
-                .blur(radius: appVM.setUpInProgress ? 30.0 : 0.0)
-                .overlay {
-                    if appVM.setUpInProgress {
-                        ProgressView().progressViewStyle(.circular)
-                    }
+        WindowGroup("Main", id: WindowType.main.rawValue, for: MainVM.ID.self) { $vmId in
+            MainWindow(
+                vmProvider: appVM,
+                vmId: $vmId
+            )
+            .blur(radius: appVM.setUpInProgress ? 30.0 : 0.0)
+            .overlay {
+                if appVM.setUpInProgress {
+                    ProgressView().progressViewStyle(.circular)
                 }
-                .environmentObject(appVM)
+            }
+            .environmentObject(appVM)
+        } defaultValue: {
+            appVM.createNewMainVM().id
         }
         .commands {
             MainViewCommands(vm: appVM)

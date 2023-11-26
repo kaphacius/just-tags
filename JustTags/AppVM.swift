@@ -9,23 +9,22 @@ import SwiftUI
 import SwiftyEMVTags
 import Combine
 
-internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
+internal final class AppVM: NSObject, ObservableObject {
 
     @Published internal var setUpInProgress: Bool = true
     @Published internal var tagDecoder: TagDecoder!
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
     
-    private var diffVMs: [DiffVM] = []
+    private(set) var diffVMs: [DiffVM] = []
+    private(set) var mainVMs: [MainVM] = []
 
     internal var windows: [NSWindow] = []
     internal var viewModels = [Int: AnyWindowVM]()
-    // Throwaway to avoid optionals
-    internal var activeVM: AnyWindowVM = MainVM()
+    internal var activeVM: AnyWindowVM!
     @Published internal var selectedTab: SettingsView.Tab = .kernels
     
-    private var newVMSetup: ((MainVM) -> Void)?
-    private var loadedState: AppState?
+    fileprivate var loadedState: AppState?
     
     internal var onOpenWindow: OpenWindowAction?
     internal var currentWindow: WindowType?
@@ -75,31 +74,6 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
     
     internal func addWindow(_ window: NSWindow, mainVM: MainVM) {
         addWindow(window, viewModel: mainVM)
-        
-        if let newVMSetup = newVMSetup {
-            newVMSetup(mainVM)
-            self.newVMSetup = nil
-        }
-        
-        // No need to set up the diffVM
-        guard let mainVM = activeMainVM else {
-            return
-        }
-        
-        // Need to it this way because `nextMainState` is mutating
-        guard let nextState = loadedState?.nextMainState(),
-              let loadedState = self.loadedState else {
-            print("No state to restore")
-            didRestoreState()
-            return
-        }
-
-        print("Restoring state")
-        applyLoadedState(
-            nextState,
-            to: mainVM,
-            activeTab: loadedState.isStateRestored ? loadedState.activeTab : nil
-        )
     }
     
     internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
@@ -110,38 +84,11 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
         window.isRestorable = false
         window.disableSnapshotRestoration()
         windows.append(window)
-        viewModel.tagParser = .init(tagDecoder: tagDecoder)
-        viewModel.appVM = self
         viewModels[window.windowNumber] = viewModel
         
         // Window is already key and active, but we just became its delegate.
         // Need to update our internal state to reflect that
         setAsActive(window: window)
-    }
-    
-    private func applyLoadedState(
-        _ state: MainWindowState,
-        to mainVM: MainVM,
-        activeTab: Int?
-    ) {
-        mainVM.title = state.title
-        mainVM.parse(string: state.tagsHexString)
-        
-        // If activeTab is passed - all tabs have been restored.
-        // Time to select the last active tab and finish the state restoration.
-        if let activeTab = activeTab {
-            print("State restoration completed")
-            print("Setting tab \(activeTab) as active")
-            windows[activeTab].makeKeyAndOrderFront(nil)
-            didRestoreState()
-        } else {
-            // Open the next tab after a small delay
-            DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
-                guard self.loadedState != nil else { return }
-                print("Opening a new tab, current tabs", self.windows.count)
-                self.openNewTab()
-            }
-        }
     }
     
     private func didRestoreState() {
@@ -159,25 +106,19 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
     }
     
     internal func openNewTab() {
-        if let currentWindow, currentWindow == .diff {
-            onOpenWindow?(id: WindowType.diff.rawValue, value: createNewDiffVM().id)
-            return
-        }
+        guard let currentWindow else { return }
         
-        if let currentWindow = NSApp.keyWindow,
-           let windowController = currentWindow.windowController {
-            windowController.newWindowForTab(nil)
-            if let newWindow = NSApp.keyWindow, currentWindow != newWindow {
-                currentWindow.addTabbedWindow(newWindow, ordered: .above)
-            }
+        if currentWindow == .diff {
+            onOpenWindow?(id: WindowType.diff.rawValue, value: createNewDiffVM().id)
+        } else if currentWindow == .main {
+            onOpenWindow?(id: WindowType.main.rawValue)
         }
     }
     
     internal func pasteIntoNewTab() {
-        newVMSetup = { [weak self] in
-            self?.paste(string: NSPasteboard.string, into: $0)
-        }
-        openNewTab()
+        let newVM = createNewMainVM()
+        NSPasteboard.string.map(newVM.parse(string:))
+        onOpenWindow?(id: WindowType.main.rawValue, value: newVM.id)
     }
     
     internal func pasteIntoCurrentTab() {
@@ -251,16 +192,6 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
         onOpenWindow?(id: WindowType.diff.rawValue, value: vm.id)
     }
     
-    subscript(vm id: DiffVM.ID) -> DiffVM? {
-        diffVMs.first(where: { $0.id == id })
-    }
-    
-    internal func createNewDiffVM() -> DiffVM {
-        let newVM = DiffVM()
-        diffVMs.append(newVM)
-        return newVM
-    }
-    
     private var emptyDiffVM: DiffVM? {
         diffVMs
             .filter(\.isEmpty)
@@ -280,10 +211,8 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
     }
     
     internal func openMainView() {
-        if let existingMainWindow = viewModels.first(where: { $0.value is MainVM } ),
-           let window = windows.first(where: { $0.windowNumber == existingMainWindow.key }) {
-            // No need to open a new Main window if it is already the active one
-            window.makeKeyAndOrderFront(self)
+        if let last = mainVMs.last {
+            onOpenWindow?(id: WindowType.main.rawValue, value: last.id)
         } else {
             onOpenWindow?(id: WindowType.main.rawValue)
         }
@@ -299,11 +228,6 @@ internal final class AppVM: NSObject, ObservableObject, DiffVMProvider {
             .flatMap({ (key: Int) -> NSWindow? in
                 windows.first(where: { window in window.windowNumber == key })
             })
-    }
-    
-    private func makeKeyAndActive(vm: AnyWindowVM) {
-        window(for: vm)
-            .map { $0.makeKeyAndOrderFront(self) }
     }
     
     internal func showWhatsNew() {
@@ -345,10 +269,70 @@ extension AppVM: NSWindowDelegate {
             
             if let diffVM = viewModels[window.windowNumber] as? DiffVM {
                 diffVMs.removeFirst(with: diffVM.id)
+            } else if let mainVM = viewModels[window.windowNumber] as? MainVM {
+                mainVMs.removeFirst(with: mainVM.id)
             }
             
             viewModels[window.windowNumber] = nil
         }
+    }
+    
+}
+
+extension AppVM: DiffVMProvider {
+    
+    subscript(vm id: DiffVM.ID) -> DiffVM? {
+        diffVMs.first(where: { $0.id == id })
+    }
+    
+    internal func createNewDiffVM() -> DiffVM {
+        let newVM = DiffVM(
+            appVM: self,
+            tagParser: .init(tagDecoder: tagDecoder)
+        )
+        diffVMs.append(newVM)
+        return newVM
+    }
+    
+}
+
+extension AppVM: MainVMProvider {
+    
+    subscript(vm id: MainVM.ID) -> MainVM? {
+        mainVMs.first(where: { $0.id == id })
+    }
+    
+    internal func createNewMainVM() -> MainVM {
+        // Create new main VM and add it to the list
+        let newVM = MainVM(
+            appVM: self,
+            tagParser: .init(tagDecoder: tagDecoder)
+        )
+        mainVMs.append(newVM)
+        
+        // Restore main VM state if needed
+        if setUpInProgress,
+           let nextMainState = self.loadedState?.nextMainState() {
+            // Restore saved state
+            newVM.title = nextMainState.title
+            newVM.parse(string: nextMainState.tagsHexString)
+            
+            if self.loadedState?.isStateRestored ?? true {
+                // If no more state left to restore - finish set up
+                DispatchQueue.main.async {
+                    // Has to be async to avoid updating view state from rendering
+                    self.setUpInProgress = false
+                }
+            } else {
+                // If there is state left to restore - open a new main tab after a small delay
+                DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(100)) {
+                    guard self.loadedState != nil else { return }
+                    self.onOpenWindow?(id: WindowType.main.rawValue)
+                }
+            }
+        }
+        
+        return newVM
     }
     
 }
