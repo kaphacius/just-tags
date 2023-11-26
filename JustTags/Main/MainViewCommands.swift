@@ -18,10 +18,6 @@ internal struct MainViewCommands: Commands {
     
     @ObservedObject internal var vm: AppVM
     
-    private func onOpenWindow(type: WindowType) {
-        openWindow(id: type.rawValue)
-    }
-    
     internal var body: some Commands {
         commandGroup(for: .about)
         commandGroup(for: .file)

@@ -9,10 +9,21 @@ import Foundation
 
 private let scheme = "justtags"
 
-enum WindowType: String {
+enum WindowType {
     
     case main
     case diff
     case library
+    
+    var id: String {
+        switch self {
+        case .main:
+            return "main"
+        case .diff:
+            return "diff"
+        case .library:
+            return "library"
+        }
+    }
 
 }

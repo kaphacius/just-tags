@@ -15,7 +15,7 @@ internal struct JustTagsApp: App {
     @FocusedBinding(\.currentWindow) private var currentWindow
     
     internal var body: some Scene {
-        WindowGroup("Main", id: WindowType.main.rawValue, for: MainVM.ID.self) { $vmId in
+        WindowGroup("Main", id: WindowType.main.id, for: MainVM.ID.self) { $vmId in
             MainWindow(
                 vmProvider: appVM,
                 vmId: $vmId
@@ -36,7 +36,7 @@ internal struct JustTagsApp: App {
             appVM.currentWindow = newValue
         }
         
-        WindowGroup("Diff", id: WindowType.diff.rawValue, for: DiffVM.ID.self) { $vmId in
+        WindowGroup("Diff", id: WindowType.diff.id, for: DiffVM.ID.self) { $vmId in
             DiffWindow(
                 vmProvider: appVM,
                 vmId: $vmId
@@ -45,7 +45,7 @@ internal struct JustTagsApp: App {
             appVM.createNewDiffVM().id
         }
         
-        Window("Tag Library", id: WindowType.library.rawValue) {
+        Window("Tag Library", id: WindowType.library.id) {
             LibraryView(
                 tagParser:  TagParser(tagDecoder: AppVM.shared.tagDecoder)
             )
