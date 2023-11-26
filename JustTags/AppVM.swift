@@ -246,6 +246,15 @@ internal final class AppVM: NSObject, ObservableObject {
         activeVM as? MainVM
     }
     
+    internal func openDiffView() {
+        if let anyDiffWindow = anyDiffWindow {
+            // No need to open a new Diff window if it is already the active one
+            anyDiffWindow.makeKeyAndOrderFront(self)
+        } else {
+            onOpenWindow?(WindowType.diff)
+        }
+    }
+    
     internal func openMainView() {
         if let existingMainWindow = viewModels.first(where: { $0.value is MainVM } ),
            let window = windows.first(where: { $0.windowNumber == existingMainWindow.key }) {

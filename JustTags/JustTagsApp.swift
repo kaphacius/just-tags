@@ -31,7 +31,7 @@ internal struct JustTagsApp: App {
         Window("Diff", id: WindowType.diff.rawValue) {
             DiffView()
                 .environmentObject(appVM)
-        }.keyboardShortcut("D", modifiers: [.command, .shift])
+        }
         
         Window("Tag Library", id: WindowType.library.rawValue) {
             LibraryView(
