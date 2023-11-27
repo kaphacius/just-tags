@@ -10,10 +10,8 @@ import SwiftyEMVTags
 
 internal struct MainViewCommands: Commands {
     
-    @FocusedBinding(\.selectedTags) private var selectedTags
-    @Environment(\.openWindow) private var openWindow
     @FocusedValue(\.currentWindow) private var currentWindow
-    
+    @Environment(\.openWindow) private var openWindow
     @ObservedObject internal var vm: AppVM
     
     internal var body: some Commands {
@@ -51,6 +49,12 @@ internal struct MainViewCommands: Commands {
         })
         .disabled(selectedTags.isEmptyO)
         .keyboardShortcut("c", modifiers: [.command])
+    }
+    
+    private var selectedTags: [EMVTag]? {
+        currentWindow
+            .flatMap(\.asMainVM)
+            .map(\.selectedTags)
     }
     
     private var selectAll: some View {

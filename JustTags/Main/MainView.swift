@@ -42,7 +42,6 @@ struct MainView: View {
         .navigationTitle(vm.title)
         .toolbar { toolbarItems }
         .focusedSceneValue(\.currentWindow, .main(vm))
-        .focusedSceneValue(\.selectedTags, $vm.selectedTags)
         .onChange(of: showsKernelsPopover) { oldValue, newValue in
             if oldValue == true, newValue == false {
                 onMain {

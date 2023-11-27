@@ -85,7 +85,18 @@ enum WindowType: Equatable, CustomStringConvertible {
     static func == (lhs: WindowType, rhs: WindowType) -> Bool {
         switch (lhs, rhs) {
         case let (.main(llhs), .main(rrhs)):
-            return llhs === rrhs
+            if llhs === rrhs {
+                if llhs.didChange {
+                    // If VM changed - need to redraw commands
+                    onMain { llhs.didChange = false }
+                    // Return false to force redraw
+                    return false
+                } else {
+                    return true
+                }
+            } else {
+                return false
+            }
         case let (.diff(llhs), .diff(rrhs)):
             return llhs === rrhs
         case (.library, .library):

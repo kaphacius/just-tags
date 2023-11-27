@@ -36,6 +36,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     @Published internal var showsDetails: Bool = true
     @Published internal var detailTag: EMVTag? = nil
     @Published var presentingWhatsNew: Bool = false
+    @Published internal var didChange: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     private var pastedString: String?
@@ -102,6 +103,13 @@ internal final class MainVM: AnyWindowVM, Identifiable {
             .removeDuplicates()
             .sink { [weak self] v in self?.searchTags() }
             .store(in: &cancellables)
+        
+        $selectedTags
+            .removeDuplicates()
+            .sink { [weak self] _ in
+                // Need to catch this to update the commands
+                self?.didChange = true
+            }.store(in: &cancellables)
     }
     
     internal override func refreshState() {

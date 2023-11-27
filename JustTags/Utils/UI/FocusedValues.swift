@@ -15,15 +15,6 @@ extension FocusedValues {
         set { self[WindowTypeKey.self] = newValue }
     }
     
-    internal var selectedTags: Binding<[EMVTag]>? {
-        get { self[SelectedTagsKey.self] }
-        set { self[SelectedTagsKey.self] = newValue }
-    }
-    
-    private struct SelectedTagsKey: FocusedValueKey {
-        typealias Value = Binding<[EMVTag]>
-    }
-    
     private struct WindowTypeKey: FocusedValueKey {
         typealias Value = WindowType
     }
