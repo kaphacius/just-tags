@@ -60,6 +60,10 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
         initialTags.allSatisfy(\.isEmpty)
     }
     
+    internal var canPaste: Bool {
+        initialTags.contains([])
+    }
+    
     private var shouldDiff: Bool {
         initialTags.contains([]) == false
     }

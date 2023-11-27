@@ -146,15 +146,9 @@ struct MainView: View {
         Group {
             Button("Search") {
                 searchInProgress.toggle()
-            }.frame(width: 0.0, height: 0.0)
-                .keyboardShortcut("f", modifiers: [.command])
-            
-            Button(
-                "Deselect all",
-                action: appVM.deselectAll
-            )
+            }
             .frame(width: 0.0, height: 0.0)
-            .keyboardShortcut(.cancelAction)
+            .keyboardShortcut("f", modifiers: [.command])
         }.hidden()
     }
     

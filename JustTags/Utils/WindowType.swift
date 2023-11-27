@@ -82,6 +82,25 @@ enum WindowType: Equatable, CustomStringConvertible {
         }
     }
     
+    var canPaste: Bool {
+        switch self {
+        case .main(let mainVM): mainVM.canPaste
+        case .diff(let diffVM): diffVM.canPaste
+        case .library: false
+        }
+    }
+    
+    func paste(_ string: String) {
+        switch self {
+        case .main(let mainVM):
+            mainVM.parse(string: string)
+        case .diff(let diffVM):
+            diffVM.parse(string: string)
+        case .library:
+            break
+        }
+    }
+    
     static func == (lhs: WindowType, rhs: WindowType) -> Bool {
         switch (lhs, rhs) {
         case let (.main(llhs), .main(rrhs)):

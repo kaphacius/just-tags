@@ -77,8 +77,4 @@ internal class AnyWindowVM: ObservableObject {
         false
     }
     
-    internal var canPaste: Bool {
-        true
-    }
-    
 }

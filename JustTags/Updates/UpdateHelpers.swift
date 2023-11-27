@@ -14,6 +14,7 @@ internal let appVersion: String? = Bundle
 fileprivate var didShowWhatsNew = false
 
 var shouldShowWhatsNew: Bool {
+    
     guard didShowWhatsNew == false else {
         return false
     }

@@ -93,7 +93,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         initialTags.isEmpty
     }
     
-    override var canPaste: Bool {
+    var canPaste: Bool {
         initialTags.isEmpty
     }
     
@@ -188,7 +188,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         } else if selectedTags.count > 2 {
             showTooManyDiffAlert()
         } else {
-            appVM?.diffTags(([selectedTags[0]], [selectedTags[1]]))
+            appVM?.diffSelectedTags()
         }
     }
     

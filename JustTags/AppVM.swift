@@ -11,7 +11,7 @@ import Combine
 
 internal final class AppVM: NSObject, ObservableObject {
 
-    @Published internal var setUpInProgress: Bool = true
+    @Published internal var setUpInProgress: Bool = false
     @Published internal var tagDecoder: TagDecoder!
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
@@ -21,7 +21,6 @@ internal final class AppVM: NSObject, ObservableObject {
 
     internal var windows: [NSWindow] = []
     internal var viewModels = [Int: AnyWindowVM]()
-    internal var activeVM: AnyWindowVM!
     @Published internal var selectedTab: SettingsView.Tab = .kernels
     
     fileprivate var loadedState: AppState?
@@ -36,6 +35,8 @@ internal final class AppVM: NSObject, ObservableObject {
         self.loadedState = loadedState
         if loadedState.isStateRestored {
             self.setUpInProgress = false
+        } else {
+            self.setUpInProgress = true
         }
         
         self.tagDecoder = try? TagDecoder.defaultDecoder()
@@ -83,24 +84,12 @@ internal final class AppVM: NSObject, ObservableObject {
         window.disableSnapshotRestoration()
         windows.append(window)
         viewModels[window.windowNumber] = viewModel
-        
-        // Window is already key and active, but we just became its delegate.
-        // Need to update our internal state to reflect that
-        setAsActive(window: window)
     }
     
     private func didRestoreState() {
         setUpInProgress = false
         loadedState = nil
-        activeMainVM?.presentingWhatsNew = shouldShowWhatsNew
-    }
-    
-    fileprivate func setAsActive(window: NSWindow) {
-        guard let vm = viewModels[window.windowNumber] else {
-            assertionFailure("Unable to find a VM for window \(window.windowNumber)")
-            return
-        }
-        activeVM = vm
+        currentWindow?.asMainVM?.presentingWhatsNew = shouldShowWhatsNew
     }
     
     internal func openNewTab() {
@@ -116,15 +105,10 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
-    internal func pasteIntoNewTab() {
-        let newVM = createNewMainVM()
-        NSPasteboard.string.map(newVM.parse(string:))
-        onOpenWindow?(id: WindowType.Case.main.id, value: newVM.id)
-    }
-    
     internal func pasteIntoCurrentTab() {
-        if activeVM.canPaste {
-            paste(string: NSPasteboard.string, into: activeVM)
+        guard let currentWindow else { return }
+        if currentWindow.canPaste {
+            NSPasteboard.string.map(currentWindow.paste)
         } else {
             let alert = NSAlert()
             alert.messageText = "Are you sure you want to replace tags in the current tab?"
@@ -137,23 +121,32 @@ internal final class AppVM: NSObject, ObservableObject {
             alert.alertStyle = .warning
             let result = alert.runModal().rawValue
             if result == okButton.tag {
-                paste(string: NSPasteboard.string, into: activeVM)
+                NSPasteboard.string.map(currentWindow.paste)
             } else if result == newTabButton.tag {
                 pasteIntoNewTab()
             }
         }
     }
     
-    private func paste(string: String?, into viewModel: AnyWindowVM) {
-        string.map(viewModel.parse(string:))
-    }
-    
-    internal func deselectAll() {
-        activeMainVM?.deselectAll()
+    internal func pasteIntoNewTab() {
+        switch currentWindow {
+        case .main:
+            let newVM = createNewMainVM()
+            NSPasteboard.string.map(newVM.parse(string:))
+            onOpenWindow?(id: WindowType.Case.main.id, value: newVM.id)
+        case .diff:
+            let newVM = createNewDiffVM()
+            NSPasteboard.string.map(newVM.parse(string:))
+            onOpenWindow?(id: WindowType.Case.diff.id, value: newVM.id)
+        case .library:
+            break
+        case nil:
+            break
+        }
     }
     
     internal func diffSelectedTags() {
-        guard let activeMainVM = activeMainVM else {
+        guard let activeMainVM = currentWindow.flatMap(\.asMainVM) else {
             // Don't diff tags when DiffView is active
             return
         }
@@ -168,7 +161,7 @@ internal final class AppVM: NSObject, ObservableObject {
         diffTags(toDiff)
     }
     
-    internal func diffTags(_ tags: TagPair) {
+    private func diffTags(_ tags: TagPair) {
         let toDiff: TagPair
         
         // If two constructed tags are selected - diff the subtags
@@ -181,7 +174,7 @@ internal final class AppVM: NSObject, ObservableObject {
         
         let vm: DiffVM
         
-        if let emptyDiffVM = emptyDiffVM {
+        if let emptyDiffVM = diffVMs.filter(\.isEmpty).first {
             // An empty diff vm is available, use it
             vm = emptyDiffVM
         } else {
@@ -193,22 +186,12 @@ internal final class AppVM: NSObject, ObservableObject {
         onOpenWindow?(id: WindowType.Case.diff.id, value: vm.id)
     }
     
-    private var emptyDiffVM: DiffVM? {
-        diffVMs
-            .filter(\.isEmpty)
-            .first
-    }
-    
     internal func openDiffView() {
         if let last = diffVMs.last {
             onOpenWindow?(id: WindowType.Case.diff.id, value: last.id)
         } else {
             onOpenWindow?(id: WindowType.Case.diff.id)
         }
-    }
-    
-    internal var activeMainVM: MainVM? {
-        activeVM as? MainVM
     }
     
     internal func openMainView() {
@@ -223,16 +206,9 @@ internal final class AppVM: NSObject, ObservableObject {
         openSettings(at: .kernels)
     }
     
-    private func window(for vm: AnyWindowVM) -> NSWindow? {
-        viewModels.first(where: { $0.value === vm })
-            .map(\.key)
-            .flatMap({ (key: Int) -> NSWindow? in
-                windows.first(where: { window in window.windowNumber == key })
-            })
-    }
-    
     internal func showWhatsNew() {
-        activeMainVM?.presentingWhatsNew = true
+        openMainView()
+        currentWindow?.asMainVM?.presentingWhatsNew = true
     }
     
     internal func openKeyBindings() {
@@ -246,14 +222,6 @@ internal final class AppVM: NSObject, ObservableObject {
 }
 
 extension AppVM: NSWindowDelegate {
-    
-    func windowDidBecomeKey(_ notification: Notification) {
-        guard let window = notification.object as? NSWindow else {
-            return
-        }
-        
-        setAsActive(window: window)
-    }
     
     func windowWillClose(_ notification: Notification) {
         guard let window = notification.object as? NSWindow else {

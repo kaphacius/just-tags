@@ -16,7 +16,7 @@ extension AppVM {
         
         let appState = AppState(
             mains: mainStates,
-            activeTab: mainVMs.firstIndex(where: { $0 === activeVM }) ?? 0
+            activeTab: mainVMs.firstIndex(where: { $0 === currentWindow?.asMainVM }) ?? 0
         )
         
         AppState.save(state: appState)
