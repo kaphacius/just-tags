@@ -15,6 +15,7 @@
 		5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */; };
 		5A1CA02928F14BF2007672D4 /* PreviewHelpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */; };
 		5A256BDE294F5EFF003EC026 /* DetailsButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A256BDD294F5EFF003EC026 /* DetailsButton.swift */; };
+		5A25CFB52B14F488004423D3 /* PostButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A25CFB42B14F488004423D3 /* PostButton.swift */; };
 		5A2D15C1297EE1630000C0FB /* TagDecodingInfoSearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2D15C0297EE1630000C0FB /* TagDecodingInfoSearch.swift */; };
 		5A2D15C3297EF50C0000C0FB /* TagMappingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2D15C2297EF50C0000C0FB /* TagMappingView.swift */; };
 		5A2D15C5297EF53F0000C0FB /* TagMappingRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5A2D15C4297EF53F0000C0FB /* TagMappingRowView.swift */; };
@@ -111,6 +112,7 @@
 		5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagExtensions.swift; sourceTree = "<group>"; };
 		5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHelpers.swift; sourceTree = "<group>"; };
 		5A256BDD294F5EFF003EC026 /* DetailsButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailsButton.swift; sourceTree = "<group>"; };
+		5A25CFB42B14F488004423D3 /* PostButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostButton.swift; sourceTree = "<group>"; };
 		5A2D15C0297EE1630000C0FB /* TagDecodingInfoSearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDecodingInfoSearch.swift; sourceTree = "<group>"; };
 		5A2D15C2297EF50C0000C0FB /* TagMappingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMappingView.swift; sourceTree = "<group>"; };
 		5A2D15C4297EF53F0000C0FB /* TagMappingRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagMappingRowView.swift; sourceTree = "<group>"; };
@@ -238,6 +240,7 @@
 				5A2D15C0297EE1630000C0FB /* TagDecodingInfoSearch.swift */,
 				5A36C51F298C18BF00254906 /* Search.swift */,
 				5AC5ACFE29FD466500C59D84 /* WindowType.swift */,
+				5A25CFB42B14F488004423D3 /* PostButton.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -667,6 +670,7 @@
 				5A2D15C3297EF50C0000C0FB /* TagMappingView.swift in Sources */,
 				5A4FDD9227F21CF700603D99 /* TagInfoView.swift in Sources */,
 				5AE923E628C33D5400BD6B3E /* TagValueView.swift in Sources */,
+				5A25CFB52B14F488004423D3 /* PostButton.swift in Sources */,
 				5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */,
 				5A1CA02728F14B49007672D4 /* EMVTagExtensions.swift in Sources */,
 				5A31B1642812F308002B2D06 /* TagRowView.swift in Sources */,

@@ -240,8 +240,6 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     private func openSettings(at tab: SettingsView.Tab) {
-        NSApp.sendAction(Selector(("showSettingsWindow:")), to: nil, from: nil)
-        
         selectedTab = tab
     }
     

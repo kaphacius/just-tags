@@ -98,10 +98,11 @@ internal struct MainViewCommands: Commands {
     }
     
     private var addKernelInfoButton: some View {
-        Button(
-            "Add custom kernel info",
-            action: vm.addKernelInfo
-        ).keyboardShortcut("o", modifiers: [.command, .shift])
+        SettingsLink {
+            Text("Add Kernel Info")
+        }
+        .buttonStyle(PostButtonStyle(postAction: vm.addKernelInfo))
+        .keyboardShortcut("o", modifiers: [.command, .shift])
     }
 
     private var openMainViewButton: some View {
@@ -162,10 +163,9 @@ internal struct MainViewCommands: Commands {
     }
     
     private var keyBindingsButton: some View {
-        Button(
-            "Key Bindings",
-            action: vm.openKeyBindings
-        )
+        SettingsLink {
+            Text("Key Bindings")
+        }.buttonStyle(PostButtonStyle(postAction: vm.openKeyBindings))
     }
     
     @ViewBuilder
