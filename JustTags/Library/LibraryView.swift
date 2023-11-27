@@ -37,7 +37,7 @@ struct LibraryView: View {
         .searchable(text: $vm.searchText, isPresented: $searchInProgress)
         .navigationTitle(vm.selectedKernel.name)
         .background(searchButton)
-        .focusedSceneValue(\.currentWindow, .constant(.library))
+        .focusedSceneValue(\.currentWindow, .library)
     }
     
     @ViewBuilder

@@ -10,7 +10,7 @@ import SwiftyEMVTags
 
 extension FocusedValues {
     
-    internal var currentWindow: Binding<WindowType>? {
+    internal var currentWindow: WindowType? {
         get { self[WindowTypeKey.self] }
         set { self[WindowTypeKey.self] = newValue }
     }
@@ -43,7 +43,7 @@ extension FocusedValues {
     }
     
     private struct WindowTypeKey: FocusedValueKey {
-        typealias Value = Binding<WindowType>
+        typealias Value = WindowType
     }
     
 }

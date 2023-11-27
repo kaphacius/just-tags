@@ -14,7 +14,7 @@ internal struct MainViewCommands: Commands {
     @FocusedBinding(\.tabName) private var tabName
     @FocusedBinding(\.mainVM) private var mainVM
     @Environment(\.openWindow) private var openWindow
-    @FocusedBinding(\.currentWindow) private var currentWindow
+    @FocusedValue(\.currentWindow) private var currentWindow
     
     @ObservedObject internal var vm: AppVM
     

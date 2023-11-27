@@ -106,17 +106,20 @@ internal final class AppVM: NSObject, ObservableObject {
     internal func openNewTab() {
         guard let currentWindow else { return }
         
-        if currentWindow == .diff {
-            onOpenWindow?(id: WindowType.diff.id, value: createNewDiffVM().id)
-        } else if currentWindow == .main {
-            onOpenWindow?(id: WindowType.main.id)
+        switch currentWindow.type {
+        case .main:
+            onOpenWindow?(id: WindowType.Case.main.id)
+        case .diff:
+            onOpenWindow?(id: WindowType.Case.diff.id, value: createNewDiffVM().id)
+        case .library:
+            break
         }
     }
     
     internal func pasteIntoNewTab() {
         let newVM = createNewMainVM()
         NSPasteboard.string.map(newVM.parse(string:))
-        onOpenWindow?(id: WindowType.main.id, value: newVM.id)
+        onOpenWindow?(id: WindowType.Case.main.id, value: newVM.id)
     }
     
     internal func pasteIntoCurrentTab() {
@@ -187,7 +190,7 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         vm.diff(tags: toDiff)
-        onOpenWindow?(id: WindowType.diff.id, value: vm.id)
+        onOpenWindow?(id: WindowType.Case.diff.id, value: vm.id)
     }
     
     private var emptyDiffVM: DiffVM? {
@@ -198,9 +201,9 @@ internal final class AppVM: NSObject, ObservableObject {
     
     internal func openDiffView() {
         if let last = diffVMs.last {
-            onOpenWindow?(id: WindowType.diff.id, value: last.id)
+            onOpenWindow?(id: WindowType.Case.diff.id, value: last.id)
         } else {
-            onOpenWindow?(id: WindowType.diff.id)
+            onOpenWindow?(id: WindowType.Case.diff.id)
         }
     }
     
@@ -210,9 +213,9 @@ internal final class AppVM: NSObject, ObservableObject {
     
     internal func openMainView() {
         if let last = mainVMs.last {
-            onOpenWindow?(id: WindowType.main.id, value: last.id)
+            onOpenWindow?(id: WindowType.Case.main.id, value: last.id)
         } else {
-            onOpenWindow?(id: WindowType.main.id)
+            onOpenWindow?(id: WindowType.Case.main.id)
         }
     }
     
@@ -325,7 +328,7 @@ extension AppVM: MainVMProvider {
                 // If there is state left to restore - open a new main tab after a small delay
                 onMain(seconds: 0.1) {
                     guard self.loadedState != nil else { return }
-                    self.onOpenWindow?(id: WindowType.main.id)
+                    self.onOpenWindow?(id: WindowType.Case.main.id)
                 }
             }
         }

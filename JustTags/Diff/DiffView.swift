@@ -33,7 +33,7 @@ struct DiffView: View {
         .environmentObject(vm as AnyWindowVM)
         .navigationTitle(vm.title)
         .errorAlert($vm.alert)
-        .focusedSceneValue(\.currentWindow, .constant(.diff))
+        .focusedSceneValue(\.currentWindow, .diff(vm))
     }
     
     @ViewBuilder

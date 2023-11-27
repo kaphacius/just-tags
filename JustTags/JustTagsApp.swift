@@ -12,10 +12,14 @@ import SwiftyEMVTags
 internal struct JustTagsApp: App {
     
     @StateObject private var appVM: AppVM = .shared
-    @FocusedBinding(\.currentWindow) private var currentWindow
+    @FocusedValue(\.currentWindow) private var currentWindow
     
     internal var body: some Scene {
-        WindowGroup("Main", id: WindowType.main.id, for: MainVM.ID.self) { $vmId in
+        WindowGroup(
+            WindowType.Case.main.title,
+            id: WindowType.Case.main.id,
+            for: MainVM.ID.self
+        ) { $vmId in
             MainWindow(
                 vmProvider: appVM,
                 vmId: $vmId
@@ -36,7 +40,11 @@ internal struct JustTagsApp: App {
             appVM.currentWindow = newValue
         }
         
-        WindowGroup("Diff", id: WindowType.diff.id, for: DiffVM.ID.self) { $vmId in
+        WindowGroup(
+            WindowType.Case.diff.title,
+            id: WindowType.Case.diff.id,
+            for: DiffVM.ID.self
+        ) { $vmId in
             DiffWindow(
                 vmProvider: appVM,
                 vmId: $vmId
@@ -45,7 +53,10 @@ internal struct JustTagsApp: App {
             appVM.createNewDiffVM().id
         }
         
-        Window("Tag Library", id: WindowType.library.id) {
+        Window(
+            WindowType.Case.library.title,
+            id: WindowType.Case.library.id
+        ) {
             LibraryView(
                 tagParser:  TagParser(tagDecoder: AppVM.shared.tagDecoder)
             )

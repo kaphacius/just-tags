@@ -41,7 +41,7 @@ struct MainView: View {
         .searchable(text: $vm.searchText, isPresented: $searchInProgress)
         .navigationTitle(vm.title)
         .toolbar { toolbarItems }
-        .focusedSceneValue(\.currentWindow, .constant(.main))
+        .focusedSceneValue(\.currentWindow, .main(vm))
         .focusedSceneValue(\.selectedTags, $vm.selectedTags)
         .focusedSceneValue(\.tabName, $vm.title)
         .focusedSceneValue(\.mainVM, .constant(vm))
