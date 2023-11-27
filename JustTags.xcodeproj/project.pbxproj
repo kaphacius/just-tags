@@ -225,24 +225,40 @@
 		5A1719B528BABD4E00D7894A /* Utils */ = {
 			isa = PBXGroup;
 			children = (
+				5A25CFB72B150556004423D3 /* UI */,
+				5A25CFB62B150537004423D3 /* EMVTag */,
 				5A51B17A2811D70E00F516F5 /* InputParser.swift */,
 				5A69A35D27ED89A20054B339 /* Helpers.swift */,
 				5A31B175281D37BA002B2D06 /* Globals.swift */,
 				5A1719B328BAB2A500D7894A /* About.swift */,
-				5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */,
-				5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */,
-				5A4918F42971BE38008DC658 /* TagInfoExtensions.swift */,
-				5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */,
-				5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */,
-				5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */,
-				5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */,
-				5ABC3F392920F40900C0C217 /* PresentableAlert.swift */,
-				5A2D15C0297EE1630000C0FB /* TagDecodingInfoSearch.swift */,
 				5A36C51F298C18BF00254906 /* Search.swift */,
 				5AC5ACFE29FD466500C59D84 /* WindowType.swift */,
-				5A25CFB42B14F488004423D3 /* PostButton.swift */,
 			);
 			path = Utils;
+			sourceTree = "<group>";
+		};
+		5A25CFB62B150537004423D3 /* EMVTag */ = {
+			isa = PBXGroup;
+			children = (
+				5A1CA02628F14B49007672D4 /* EMVTagExtensions.swift */,
+				5A4918F42971BE38008DC658 /* TagInfoExtensions.swift */,
+				5A4F646228F17C2F00FEC0C5 /* EMVTagSearch.swift */,
+				5AFC5F5728F19610004DA503 /* EMVTagDecoding.swift */,
+				5A2D15C0297EE1630000C0FB /* TagDecodingInfoSearch.swift */,
+			);
+			path = EMVTag;
+			sourceTree = "<group>";
+		};
+		5A25CFB72B150556004423D3 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				5A97EF4A28C29A3000933FB2 /* FocusedValues.swift */,
+				5A1CA02828F14BF2007672D4 /* PreviewHelpers.swift */,
+				5A90204328F9B91200CD7BDC /* EnvironmentValues.swift */,
+				5ABC3F392920F40900C0C217 /* PresentableAlert.swift */,
+				5A25CFB42B14F488004423D3 /* PostButton.swift */,
+			);
+			path = UI;
 			sourceTree = "<group>";
 		};
 		5A26FC5628C33A7A00334B20 /* TagRowView */ = {

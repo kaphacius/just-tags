@@ -74,6 +74,14 @@ enum WindowType: Equatable, CustomStringConvertible {
         }
     }
     
+    var asMainVM: MainVM? {
+        switch self {
+        case .main(let mainVM): mainVM
+        case .diff: nil
+        case .library: nil
+        }
+    }
+    
     static func == (lhs: WindowType, rhs: WindowType) -> Bool {
         switch (lhs, rhs) {
         case let (.main(llhs), .main(rrhs)):

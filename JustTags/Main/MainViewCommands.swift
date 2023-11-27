@@ -11,7 +11,6 @@ import SwiftyEMVTags
 internal struct MainViewCommands: Commands {
     
     @FocusedBinding(\.selectedTags) private var selectedTags
-    @FocusedBinding(\.mainVM) private var mainVM
     @Environment(\.openWindow) private var openWindow
     @FocusedValue(\.currentWindow) private var currentWindow
     
@@ -57,14 +56,14 @@ internal struct MainViewCommands: Commands {
     private var selectAll: some View {
         Button(
             "Select all",
-            action: { mainVM?.selectAll() }
+            action: { currentWindow.flatMap(\.asMainVM)?.selectAll() }
         ).keyboardShortcut("a", modifiers: [.command])
     }
     
     private var deselectAll: some View {
         Button(
             "Deselect",
-            action: { mainVM?.deselectAll() }
+            action: { currentWindow.flatMap(\.asMainVM)?.deselectAll() }
         ).keyboardShortcut(.cancelAction)
     }
     
