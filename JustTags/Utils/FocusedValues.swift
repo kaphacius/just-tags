@@ -20,11 +20,6 @@ extension FocusedValues {
         set { self[SelectedTagsKey.self] = newValue }
     }
     
-    internal var tabName: Binding<String>? {
-        get { self[TabNameKey.self] }
-        set { self[TabNameKey.self] = newValue }
-    }
-    
     internal var mainVM: Binding<MainVM>? {
         get { self[MainVMKey.self] }
         set { self[MainVMKey.self] = newValue }
@@ -32,10 +27,6 @@ extension FocusedValues {
     
     private struct SelectedTagsKey: FocusedValueKey {
         typealias Value = Binding<[EMVTag]>
-    }
-    
-    private struct TabNameKey: FocusedValueKey {
-        typealias Value = Binding<String>
     }
     
     private struct MainVMKey: FocusedValueKey {

@@ -54,6 +54,26 @@ enum WindowType: Equatable, CustomStringConvertible {
         }
     }
     
+    var title: String? {
+        switch self {
+        case .main(let mainVM): mainVM.title
+        case .diff(let diffVM): diffVM.title
+        case .library: nil
+        }
+    }
+    
+    func update(title: String) {
+        switch self {
+        case .main(let mainVM):
+            mainVM.title = title
+        case .diff(let diffVM):
+            diffVM.title = title
+        case .library:
+            // We should not be here
+            break
+        }
+    }
+    
     static func == (lhs: WindowType, rhs: WindowType) -> Bool {
         switch (lhs, rhs) {
         case let (.main(llhs), .main(rrhs)):

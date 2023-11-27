@@ -11,7 +11,6 @@ import SwiftyEMVTags
 internal struct MainViewCommands: Commands {
     
     @FocusedBinding(\.selectedTags) private var selectedTags
-    @FocusedBinding(\.tabName) private var tabName
     @FocusedBinding(\.mainVM) private var mainVM
     @Environment(\.openWindow) private var openWindow
     @FocusedValue(\.currentWindow) private var currentWindow
@@ -134,7 +133,7 @@ internal struct MainViewCommands: Commands {
             frame: .init(origin: .zero, size: .init(width: 200.0, height: 20.0))
         )
         textField.placeholderString = "Tab name"
-        textField.stringValue = tabName.getOrEmpty()
+        textField.stringValue = currentWindow.flatMap(\.title).getOrEmpty()
         let alert = NSAlert()
         alert.messageText = "Enter custom name for this tab"
         let okButton = alert.addButton(withTitle: "OK")
@@ -144,7 +143,7 @@ internal struct MainViewCommands: Commands {
         alert.accessoryView = textField
         alert.window.initialFirstResponder = textField
         if alert.runModal().rawValue == okButton.tag, textField.stringValue.isEmpty == false {
-            tabName = textField.stringValue
+            currentWindow?.update(title: textField.stringValue)
         }
     }
     
