@@ -16,7 +16,7 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
     
-    private(set) var diffVMs: [DiffVM] = []
+    private(set) var diffVMs: [WNS<DiffVM>] = []
     private(set) var mainVMs: [MainVM] = []
 
     internal var windows: [NSWindow] = []
@@ -69,10 +69,6 @@ internal final class AppVM: NSObject, ObservableObject {
         }
     }
     
-    internal func addWindow(_ window: NSWindow, diffVM: DiffVM) {
-        addWindow(window, viewModel: diffVM)
-    }
-    
     internal func addWindow(_ window: NSWindow, mainVM: MainVM) {
         addWindow(window, viewModel: mainVM)
     }
@@ -99,7 +95,7 @@ internal final class AppVM: NSObject, ObservableObject {
         case .main:
             onOpenWindow?(id: WindowType.Case.main.id)
         case .diff:
-            onOpenWindow?(id: WindowType.Case.diff.id, value: createNewDiffVM().id)
+            onOpenWindow?(id: WindowType.Case.diff.id)
         case .library:
             break
         }
@@ -174,7 +170,7 @@ internal final class AppVM: NSObject, ObservableObject {
         
         let vm: DiffVM
         
-        if let emptyDiffVM = diffVMs.filter(\.isEmpty).first {
+        if let emptyDiffVM = diffVMs.compactMap(\.value).first(where: \.isEmpty) {
             // An empty diff vm is available, use it
             vm = emptyDiffVM
         } else {
@@ -234,9 +230,7 @@ extension AppVM: NSWindowDelegate {
             windows.remove(at: idx)
             window.delegate = nil
             
-            if let diffVM = viewModels[window.windowNumber] as? DiffVM {
-                diffVMs.removeFirst(with: diffVM.id)
-            } else if let mainVM = viewModels[window.windowNumber] as? MainVM {
+            if let mainVM = viewModels[window.windowNumber] as? MainVM {
                 mainVMs.removeFirst(with: mainVM.id)
             }
             
@@ -250,14 +244,17 @@ extension AppVM: DiffVMProvider {
     
     subscript(vm id: DiffVM.ID) -> DiffVM? {
         diffVMs.first(where: { $0.id == id })
+            .flatMap { $0.getWithSwap() }
     }
     
     internal func createNewDiffVM() -> DiffVM {
+        // Filter existing empty WNSs
+        diffVMs = diffVMs.filter { $0.shouldBeDiscared == false }
         let newVM = DiffVM(
             appVM: self,
             tagParser: .init(tagDecoder: tagDecoder)
         )
-        diffVMs.append(newVM)
+        diffVMs.append(.init(newVM))
         return newVM
     }
     

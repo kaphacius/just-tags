@@ -24,16 +24,10 @@ struct DiffView: View {
         .animation(.none, value: vm.showOnlyDifferent)
         .padding(.horizontal, commonPadding)
         .padding(.top, commonPadding)
-        .background {
-            HostingWindowFinder { window in
-                guard let window = window else { return }
-                self.appVM.addWindow(window, diffVM: vm)
-            }.opacity(0.0)
-        }
         .environmentObject(vm as AnyWindowVM)
         .navigationTitle(vm.title)
         .errorAlert($vm.alert)
-        .focusedSceneValue(\.currentWindow, .diff(vm))
+        .focusedSceneValue(\.currentWindow, .diff(.init(weakValue: vm)))
     }
     
     @ViewBuilder

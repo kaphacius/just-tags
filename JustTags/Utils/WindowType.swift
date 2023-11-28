@@ -32,7 +32,7 @@ enum WindowType: Equatable, CustomStringConvertible {
     }
     
     case main(MainVM)
-    case diff(DiffVM)
+    case diff(WNS<DiffVM>)
     case library
     
     var type: Case {
@@ -46,18 +46,19 @@ enum WindowType: Equatable, CustomStringConvertible {
     var description: String {
         switch self {
         case .main(let mainVM):
-            "Main: \(mainVM.title), parsed tags: \(mainVM.initialTags.count)"
+            return "Main: \(mainVM.title), parsed tags: \(mainVM.initialTags.count)"
         case .diff(let diffVM):
-            "Diff: \(diffVM.title), diffed tags: \(diffVM.initialTags[0].count), \(diffVM.initialTags[1].count)"
+            guard let diffVM = diffVM.value else { return "VM Missing for \(diffVM.id)" }
+            return "Diff: \(diffVM.title), diffed tags: \(diffVM.initialTags[0].count), \(diffVM.initialTags[1].count)"
         case .library:
-            "Library"
+            return "Library"
         }
     }
     
     var title: String? {
         switch self {
         case .main(let mainVM): mainVM.title
-        case .diff(let diffVM): diffVM.title
+        case .diff(let diffVM): diffVM.value?.title
         case .library: nil
         }
     }
@@ -67,7 +68,7 @@ enum WindowType: Equatable, CustomStringConvertible {
         case .main(let mainVM):
             mainVM.title = title
         case .diff(let diffVM):
-            diffVM.title = title
+            diffVM.value?.title = title
         case .library:
             // We should not be here
             break
@@ -85,7 +86,7 @@ enum WindowType: Equatable, CustomStringConvertible {
     var canPaste: Bool {
         switch self {
         case .main(let mainVM): mainVM.canPaste
-        case .diff(let diffVM): diffVM.canPaste
+        case .diff(let diffVM): diffVM.value?.canPaste ?? false
         case .library: false
         }
     }
@@ -95,7 +96,7 @@ enum WindowType: Equatable, CustomStringConvertible {
         case .main(let mainVM):
             mainVM.parse(string: string)
         case .diff(let diffVM):
-            diffVM.parse(string: string)
+            diffVM.value?.parse(string: string)
         case .library:
             break
         }
