@@ -61,11 +61,11 @@ internal final class AppVM: NSObject, ObservableObject {
             queue: nil
         ) { notification in
             // Need to do this in this notification, otherwise it is too late
-            if let w = notification.object as? NSWindow {
-                w.tabbingMode = .preferred
-                w.isRestorable = false
-                w.disableSnapshotRestoration()
-            }
+            guard let w = notification.object as? NSWindow else { return }
+            
+            w.tabbingMode = .preferred
+            w.isRestorable = false
+            w.disableSnapshotRestoration()
         }
     }
     
