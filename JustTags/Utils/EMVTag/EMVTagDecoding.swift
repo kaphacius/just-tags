@@ -245,7 +245,7 @@ extension DecodedDataObject: CustomStringConvertible {
     
     public var description: String {
         
-        "\(tag.hexString) - \(name), \(expectedLength)"
+        "\(tag.hexString) - \(name), \(expectedLength) byte\(expectedLength == 1 ? "" : "s")"
         
     }
     
