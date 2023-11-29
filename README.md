@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="256" height="256" src="https://github.com/kaphacius/just-tags/blob/main/JustTags/Assets.xcassets/AppIcon.appiconset/icon_512_256x2.png?raw=true">
+  <img width="256" height="256" src="https://github.com/kaphacius/just-tags/blob/main/JustTags/Resources/Assets.xcassets/AppIcon.appiconset/icon_512_256x2.png?raw=true">
 </p>
 
 # JustTags
