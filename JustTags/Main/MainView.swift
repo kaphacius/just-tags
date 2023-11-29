@@ -27,12 +27,6 @@ struct MainView: View {
         .frame(maxWidth: .infinity, maxHeight: .infinity)
         .animation(.easeIn, value: vm.showsDetails)
         .environmentObject(vm)
-        .background {
-            HostingWindowFinder { window in
-                guard let window = window else { return }
-                self.appVM.addWindow(window, mainVM: vm)
-            }.opacity(0.0)
-        }
         .sheet(isPresented: $vm.presentingWhatsNew) {
             appVersion
                 .map(WhatsNewVM.vm(for:))

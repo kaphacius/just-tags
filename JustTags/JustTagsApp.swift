@@ -32,7 +32,9 @@ internal struct JustTagsApp: App {
             }
             .environmentObject(appVM)
         } defaultValue: {
-            appVM.createNewMainVM().id
+            // WWDC 2024
+            // Why is this called when id passed in?
+            appVM.vmIdToOpen(for: .main)
         }
         .commands {
             MainViewCommands(vm: appVM)
@@ -50,7 +52,9 @@ internal struct JustTagsApp: App {
                 vmId: $vmId
             ).environmentObject(appVM)
         } defaultValue: {
-            appVM.createNewDiffVM().id
+            // WWDC 2024
+            // Why is this called when id passed in?
+            appVM.vmIdToOpen(for: .diff)
         }
         
         Window(

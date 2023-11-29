@@ -15,15 +15,13 @@ internal final class AppVM: NSObject, ObservableObject {
     @Published internal var tagDecoder: TagDecoder!
     @Published internal var kernelInfoRepo: KernelInfoRepo!
     @Published internal var tagMappingRepo: TagMappingRepo!
-    
-    private(set) var diffVMs: [WNS<DiffVM>] = []
-    private(set) var mainVMs: [MainVM] = []
-
-    internal var windows: [NSWindow] = []
-    internal var viewModels = [Int: AnyWindowVM]()
     @Published internal var selectedTab: SettingsView.Tab = .kernels
     
+    private(set) var diffVMs: [WNS<DiffVM>] = []
+    private(set) var mainVMs: [WNS<MainVM>] = []
+    
     fileprivate var loadedState: AppState?
+    private var vmIdToOpen: UUID?
     
     internal var onOpenWindow: OpenWindowAction?
     internal var currentWindow: WindowType?
@@ -63,23 +61,12 @@ internal final class AppVM: NSObject, ObservableObject {
             // Need to do this in this notification, otherwise it is too late
             guard let w = notification.object as? NSWindow else { return }
             
+            // WWDC 2024
+            // How to set tabbing mode in SwiftUI
             w.tabbingMode = .preferred
             w.isRestorable = false
             w.disableSnapshotRestoration()
         }
-    }
-    
-    internal func addWindow(_ window: NSWindow, mainVM: MainVM) {
-        addWindow(window, viewModel: mainVM)
-    }
-    
-    internal func addWindow(_ window: NSWindow, viewModel: AnyWindowVM) {
-        window.delegate = self
-        window.tabbingMode = .preferred
-        window.isRestorable = false
-        window.disableSnapshotRestoration()
-        windows.append(window)
-        viewModels[window.windowNumber] = viewModel
     }
     
     private func didRestoreState() {
@@ -184,6 +171,7 @@ internal final class AppVM: NSObject, ObservableObject {
     
     internal func openDiffView() {
         if let last = diffVMs.last {
+            vmIdToOpen = last.id
             onOpenWindow?(id: WindowType.Case.diff.id, value: last.id)
         } else {
             onOpenWindow?(id: WindowType.Case.diff.id)
@@ -192,9 +180,27 @@ internal final class AppVM: NSObject, ObservableObject {
     
     internal func openMainView() {
         if let last = mainVMs.last {
+            vmIdToOpen = last.id
             onOpenWindow?(id: WindowType.Case.main.id, value: last.id)
         } else {
             onOpenWindow?(id: WindowType.Case.main.id)
+        }
+    }
+    
+    internal func vmIdToOpen(for type: WindowType.Case) -> UUID {
+        if let vmIdToOpen {
+            self.vmIdToOpen = nil
+            return vmIdToOpen
+        } else {
+            switch type {
+            case .main:
+                return createNewMainVM().id
+            case .diff:
+                return createNewDiffVM().id
+            case .library:
+                // We should not be here
+                return .init()
+            }
         }
     }
     
@@ -217,29 +223,6 @@ internal final class AppVM: NSObject, ObservableObject {
     
 }
 
-extension AppVM: NSWindowDelegate {
-    
-    func windowWillClose(_ notification: Notification) {
-        guard let window = notification.object as? NSWindow else {
-            return
-        }
-        
-        if let idx = windows
-            .map(\.windowNumber)
-            .firstIndex(of: window.windowNumber) {
-            windows.remove(at: idx)
-            window.delegate = nil
-            
-            if let mainVM = viewModels[window.windowNumber] as? MainVM {
-                mainVMs.removeFirst(with: mainVM.id)
-            }
-            
-            viewModels[window.windowNumber] = nil
-        }
-    }
-    
-}
-
 extension AppVM: DiffVMProvider {
     
     subscript(vm id: DiffVM.ID) -> DiffVM? {
@@ -248,8 +231,8 @@ extension AppVM: DiffVMProvider {
     }
     
     internal func createNewDiffVM() -> DiffVM {
-        // Filter existing empty WNSs
-        diffVMs = diffVMs.filter { $0.shouldBeDiscared == false }
+        // Filter existing empty or unclaimed (strong) WNSs
+        diffVMs = diffVMs.pruned()
         let newVM = DiffVM(
             appVM: self,
             tagParser: .init(tagDecoder: tagDecoder)
@@ -264,6 +247,7 @@ extension AppVM: MainVMProvider {
     
     subscript(vm id: MainVM.ID) -> MainVM? {
         mainVMs.first(where: { $0.id == id })
+            .flatMap { $0.getWithSwap() }
     }
     
     internal func createNewMainVM() -> MainVM {
@@ -272,7 +256,7 @@ extension AppVM: MainVMProvider {
             appVM: self,
             tagParser: .init(tagDecoder: tagDecoder)
         )
-        mainVMs.append(newVM)
+        mainVMs.append(.init(newVM))
         
         // Restore main VM state if needed
         if setUpInProgress,

@@ -11,6 +11,7 @@ extension AppVM {
     
     internal func saveAppState() {
         let mainStates: [MainWindowState] = mainVMs
+            .compactMap(\.value)
             .filter { $0.isEmpty == false }
             .map(MainWindowState.init)
         

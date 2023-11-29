@@ -93,7 +93,6 @@ extension WindowType {
                 .deselectAll,
                 .newTabButton,
                 .renameTab,
-                .openMainView,
                 .openDiffView,
                 .addKernelInfo,
                 .diffSelectedTags,

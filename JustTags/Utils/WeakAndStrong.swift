@@ -53,20 +53,8 @@ class WNS<T: AnyObject>: Identifiable where T: Identifiable {
 
 extension Array {
     
-    func wnsFirst<T>(with id: T.ID) -> T? where Element == WNS<T> {
-        self.first(where: { $0.id == id }).flatMap { $0.getWithSwap() }
-    }
-    
-    func wnsFilter<T>(
-        _ predicate: Predicate<T>
-    ) throws -> [Element] where Element == WNS<T> {
-        try self.filter { wns in
-            try wns.value.map { try predicate.evaluate($0) } ?? false
-        }
-    }
-    
-    mutating func wnsFirst<T>(_ newElement: T) where Element == WNS<T> {
-        self.append(.init(newElement))
+    func pruned<T>() -> Self where Element == WNS<T> {
+        self.filter { $0.shouldBeDiscared == false }
     }
     
 }
