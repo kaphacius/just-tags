@@ -147,9 +147,10 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     }
     
     private func selectSingleTagIfNeeded() {
-        // Select the tag automatically if only one was parsed
+        // Select the tag automatically if only one was parsed and decoded
         if currentTags.count == 1,
-           let first = currentTags.first {
+           let first = currentTags.first,
+           first.decodingResult.tagDetailsVMs.isEmpty == false {
             detailTag = first
         }
     }
