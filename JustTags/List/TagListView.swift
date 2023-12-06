@@ -14,7 +14,7 @@ let detailWidth: CGFloat = 500.0
 
 internal struct TagListView: View {
 
-    @Binding internal var tags: [TagRowVM]
+    internal var tags: [TagRowVM]
     @Binding internal var searchInProgress: Bool
     @Environment(\.isSearching) internal var isSearching
     
@@ -39,10 +39,9 @@ internal struct TagListView: View {
 struct EMVTagListView_Previews: PreviewProvider {
     static var previews: some View {
         TagListView(
-            tags: .constant(
-                [.mockTag, .mockTagExtended, .mockTagConstructed]
-                    .map(TagRowVM.make(with:))
-            ), searchInProgress: .constant(true)
+            tags: [.mockTag, .mockTagExtended, .mockTagConstructed]
+                .map(TagRowVM.make(with:)),
+            searchInProgress: .constant(true)
         ).environmentObject(MainVM())
     }
 }

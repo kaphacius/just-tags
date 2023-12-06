@@ -21,12 +21,6 @@ protocol MainVMProvider: ObservableObject {
 internal final class MainVM: AnyWindowVM, Identifiable {
     
     @Published internal var initialTags: [EMVTag] = []
-    @Published internal var currentTags: [EMVTag] = [] {
-        didSet {
-            currentTagVMs = currentTags.map(TagRowVM.init(tag:))
-        }
-    }
-    @Published internal var currentTagVMs: [TagRowVM] = []
     @Published internal var tagSearchComponents: Dictionary<EMVTag.ID, Set<String>> = [:]
     @Published internal var searchText: String = ""
     @Published internal var showingTags: Bool = false
@@ -35,13 +29,26 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     @Published internal var expandedConstructedTags: Set<EMVTag.ID> = []
     @Published internal var showsDetails: Bool = true
     @Published internal var detailTag: EMVTag? = nil
-    @Published var presentingWhatsNew: Bool = false
+    @Published internal var presentingWhatsNew: Bool = false
     @Published internal var didChange: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
     private var pastedString: String?
     
     internal let id = UUID()
+    
+    internal var currentTags: [EMVTag] {
+        if searchText.count < 2 {
+            return initialTags
+        } else {
+            let words = searchText.lowercased().toFlattenedSearchComponents
+            return filterNestedSearchable(
+                initial: initialTags,
+                components: tagSearchComponents,
+                words: Set(words)
+            )
+        }
+    }
     
     internal init(
         appVM: AppVM = .shared,
@@ -70,14 +77,14 @@ internal final class MainVM: AnyWindowVM, Identifiable {
                 .removeFirst(with: id)
         } else {
             selectedIds.insert(id)
-            currentTags
+            initialTags
                 .first(with: id)
                 .map { selectedTags.append($0) }
         }
     }
     
     internal func onDetailTagSelected(id: EMVTag.ID) {
-        guard let tag = currentTags.first(with: id) else {
+        guard let tag = initialTags.first(with: id) else {
             return
         }
         
@@ -99,9 +106,8 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     
     private func setUpSearch() {
         $searchText
-            .debounce(for: 0.10, scheduler: RunLoop.main, options: nil)
             .removeDuplicates()
-            .sink { [weak self] v in self?.searchTags() }
+            .sink { [weak self] in self?.searchTags(text: $0) }
             .store(in: &cancellables)
         
         $selectedTags
@@ -122,21 +128,19 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     
     internal override func reparse() {
         initialTags = tagParser.updateDecodingResults(for: initialTags)
-        currentTags = tagParser.updateDecodingResults(for: currentTags)
         
         populateSearch()
         showingTags = initialTags.isEmpty == false
         
         detailTag = detailTag
             .map(\.id)
-            .flatMap(currentTags.first(with:))
+            .flatMap(initialTags.first(with:))
     }
     
     internal override func parse(string: String) {
         pastedString = string
         refreshState()
         initialTags = tagsByParsing(string: string)
-        currentTags = initialTags
         populateSearch()
         showingTags = initialTags.isEmpty == false
         selectSingleTagIfNeeded()
@@ -156,17 +160,10 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         )
     }
     
-    private func searchTags() {
-        if searchText.count < 2 {
-            currentTags = initialTags
+    private func searchTags(text: String) {
+        if text.count < 2 {
             collapseAll()
         } else {
-            let searchText = searchText.lowercased().toFlattenedSearchComponents
-            currentTags = filterNestedSearchable(
-                initial: initialTags,
-                components: tagSearchComponents,
-                words: Set(searchText)
-            )
             expandAll()
             selectSingleTagIfNeeded()
         }
@@ -198,7 +195,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     
     internal func expandAll() {
         expandedConstructedTags = Set(
-            currentTags
+            initialTags
             .flatMap(\.constructedIds)
         )
     }

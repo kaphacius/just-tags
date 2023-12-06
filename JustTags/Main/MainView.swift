@@ -80,7 +80,7 @@ struct MainView: View {
         if vm.showingTags {
             ScrollView {
                 TagListView(
-                    tags: $vm.currentTagVMs,
+                    tags: vm.currentTags.map(TagRowVM.init),
                     searchInProgress: $searchInProgress
                 )
             }
@@ -143,6 +143,11 @@ struct MainView: View {
             }
             .frame(width: 0.0, height: 0.0)
             .keyboardShortcut("f", modifiers: [.command])
+            
+            Button(
+                "Deselect",
+                action: vm.deselectAll
+            ).keyboardShortcut(.cancelAction)
         }.hidden()
     }
     
