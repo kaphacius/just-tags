@@ -20,17 +20,17 @@ internal final class AppVM: NSObject, ObservableObject {
     private(set) var diffVMs: [WNS<DiffVM>] = []
     private(set) var mainVMs: [WNS<MainVM>] = []
     
-    fileprivate var loadedState: AppState?
+    private var loadedState: AppState
     private var vmIdToOpen: UUID?
     
     internal var onOpenWindow: OpenWindowAction?
     internal var currentWindow: WindowType?
     
     private override init() {
+        self.loadedState = AppState.loadState()
+        
         super.init()
-
-        let loadedState = AppState.loadState()
-        self.loadedState = loadedState
+        
         if loadedState.isStateRestored {
             self.setUpInProgress = false
         } else {
@@ -67,12 +67,6 @@ internal final class AppVM: NSObject, ObservableObject {
             w.isRestorable = false
             w.disableSnapshotRestoration()
         }
-    }
-    
-    private func didRestoreState() {
-        setUpInProgress = false
-        loadedState = nil
-        currentWindow?.asMainVM?.presentingWhatsNew = shouldShowWhatsNew
     }
     
     internal func openNewTab() {
@@ -257,24 +251,25 @@ extension AppVM: MainVMProvider {
             tagParser: .init(tagDecoder: tagDecoder)
         )
         mainVMs.append(.init(newVM))
+        newVM.presentingWhatsNew = shouldShowWhatsNew
         
         // Restore main VM state if needed
         if setUpInProgress,
-           let nextMainState = self.loadedState?.nextMainState() {
+           let nextMainState = self.loadedState.nextMainState() {
             // Restore saved state
             newVM.title = nextMainState.title
             newVM.parse(string: nextMainState.tagsHexString)
             
-            if self.loadedState?.isStateRestored ?? true {
+            if self.loadedState.isStateRestored  {
                 // If no more state left to restore - finish set up
                 onMain {
                     // Has to be async to avoid updating view state from rendering
                     self.setUpInProgress = false
+                    self.currentWindow?.asMainVM?.presentingWhatsNew = shouldShowWhatsNew
                 }
             } else {
                 // If there is state left to restore - open a new main tab after a small delay
                 onMain(seconds: 0.1) {
-                    guard self.loadedState != nil else { return }
                     self.onOpenWindow?(id: WindowType.Case.main.id)
                 }
             }
