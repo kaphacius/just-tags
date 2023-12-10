@@ -11,8 +11,6 @@ import SwiftUI
 protocol CustomResource: Decodable, Identifiable, Comparable {
     
     static var folderName: String { get }
-    static var iconName: String { get }
-    static var settingsPage: String { get }
     static var displayName: String { get }
     
     var id: ID { get }

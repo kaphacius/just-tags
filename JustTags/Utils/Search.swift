@@ -56,8 +56,6 @@ protocol PrioritySearchable: Comparable, Hashable {
 
 protocol NestedSearchable: SimpleSearchable {
     
-    var searchPairs: [(id: Self.ID, comps: Set<String>)] { get }
-    
     func filterNested(
         using words: Set<String>,
         components: [Self.ID: Set<String>]

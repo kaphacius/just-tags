@@ -12,7 +12,6 @@ import SwiftyBERTLV
 
 struct MainView: View {
     
-    @EnvironmentObject private var appVM: AppVM
     @State private var showsKernelsPopover: Bool = false
     @State private var searchInProgress: Bool = false
     @State private var alert: PresentableAlert?

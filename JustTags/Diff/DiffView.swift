@@ -11,7 +11,6 @@ import SwiftyEMVTags
 struct DiffView: View {
     
     @ObservedObject internal var vm: DiffVM
-    @EnvironmentObject private var appVM: AppVM
     @State private var showsKernelsPopover: Bool = false
     @FocusState internal var focusedEditor: Int?
     
@@ -189,7 +188,6 @@ struct DiffView_Previews: PreviewProvider {
         columns: 2,
         texts: [],
         initialTags: [EMVTag.mockDiffPair.0, EMVTag.mockDiffPair.1],
-        diffResults: [],
         showOnlyDifferent: false
     )
 

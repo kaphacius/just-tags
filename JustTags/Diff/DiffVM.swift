@@ -30,7 +30,6 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
         columns: Int = 2,
         texts: [String] = ["", ""],
         initialTags: [[EMVTag]] = [[], []],
-        diffResults: [TagDiffResult] = [],
         showOnlyDifferent: Bool = false
     ) {
         _columns = .init(initialValue: columns)

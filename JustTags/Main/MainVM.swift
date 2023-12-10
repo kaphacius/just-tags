@@ -14,8 +14,6 @@ protocol MainVMProvider: ObservableObject {
     
     subscript(vm id: MainVM.ID) -> MainVM? { get }
     
-    func createNewMainVM() -> MainVM
-    
 }
 
 internal final class MainVM: AnyWindowVM, Identifiable {
@@ -33,7 +31,6 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     @Published internal var didChange: Bool = false
     
     private var cancellables = Set<AnyCancellable>()
-    private var pastedString: String?
     
     internal let id = UUID()
     
@@ -138,7 +135,6 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     }
     
     internal override func parse(string: String) {
-        pastedString = string
         refreshState()
         initialTags = tagsByParsing(string: string)
         populateSearch()
