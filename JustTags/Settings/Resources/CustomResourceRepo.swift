@@ -45,7 +45,7 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
         
         try fm.contentsOfDirectory(atPath: resourcesDir.path)
             .forEach { itemPath in
-                try fm.removeItem(atPath: itemPath)
+                try fm.removeItem(at: resourcesDir.appending(path: itemPath))
             }
     }
     

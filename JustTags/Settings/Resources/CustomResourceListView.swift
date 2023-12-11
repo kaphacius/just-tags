@@ -38,8 +38,12 @@ struct CustomResourceListView<Resource: CustomResource>: View {
     
     private var clearAll: some View {
         Button {
-            // TODO: handle error
-            try? vm.clearSavedResources()
+            // TODO: Add confirmation to deletion
+            do {
+                try vm.clearSavedResources()
+            } catch {
+                self.alert = .init(error: error)
+            }
         } label: {
             Label("Clear all \(Resource.displayName)s", systemImage: "trash.fill")
         }
@@ -62,7 +66,11 @@ struct CustomResourceListView<Resource: CustomResource>: View {
         if vm.shouldShowDeleteButton(for: identifier) {
             Button(action: {
                 // TODO: Add confirmation to deletion
-                try! vm.removeResource(with: identifier)
+                do {
+                    try vm.removeResource(with: identifier)
+                } catch {
+                    self.alert = .init(error: error)
+                }
             }) {
                 Label("Delete", systemImage: "xmark.bin.fill")
                     .labelStyle(.iconOnly)

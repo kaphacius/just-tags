@@ -27,7 +27,6 @@ internal final class LibraryVM: ObservableObject {
         let sortedKernels = tagParser.initialKernels.sorted { $0.id < $1.id }
         let allTagsKernel = KernelInfo.makeAllTagsKernel(with: sortedKernels)
         self.kernels = [allTagsKernel] + sortedKernels
-        // TODO: do not use force unwrap
         self.generalKernel = sortedKernels.first(where: { $0.id == generalKernelId })!
         self.selectedKernel = allTagsKernel
         let allTagsSections = [allTagsKernel.singleSection]
