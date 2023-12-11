@@ -19,11 +19,6 @@ internal struct DiffedTag {
     internal let tag: EMVTag
     internal let results: [DiffResult]
     
-    var diffedBytes: [DiffedByte] {
-        zip(tag.tag.value, results)
-            .map(DiffedByte.init)
-    }
-    
     var diffedTagRowVM: DiffedTagRowVM {
         .init(
             id: tag.id,

@@ -20,9 +20,6 @@ struct TagDetailsVM {
 
 struct TagDetailsView: View {
     
-    private static let borderColor: Color = Color(nsColor: .tertiaryLabelColor)
-    private static let rowHeight = 25.0
-    
     internal let vm: TagDetailsVM
     
     @State var infoOpen = true

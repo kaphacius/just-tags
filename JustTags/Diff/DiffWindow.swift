@@ -11,8 +11,6 @@ protocol DiffVMProvider: ObservableObject {
     
     subscript(vm id: DiffVM.ID) -> DiffVM? { get }
     
-    func createNewDiffVM() -> DiffVM
-    
 }
 
 struct DiffWindow<Provider: DiffVMProvider>: View {
