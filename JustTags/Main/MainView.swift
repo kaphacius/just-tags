@@ -14,7 +14,6 @@ struct MainView: View {
     
     @State private var showsKernelsPopover: Bool = false
     @State private var searchInProgress: Bool = false
-    @State private var alert: PresentableAlert?
     
     @ObservedObject internal var vm: MainVM
     

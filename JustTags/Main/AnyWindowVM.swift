@@ -25,7 +25,6 @@ internal class AnyWindowVM: ObservableObject {
     
     internal var cancellable: AnyCancellable?
     internal weak var appVM: AppVM?
-    internal var errorTitle: String = ""
     internal var errorMessage: String = ""
     
     internal init() {
@@ -33,10 +32,6 @@ internal class AnyWindowVM: ObservableObject {
     }
     
     internal func reparse() {
-        assertionFailure("this should be overriden")
-    }
-    
-    internal func parse(string: String) {
         assertionFailure("this should be overriden")
     }
     

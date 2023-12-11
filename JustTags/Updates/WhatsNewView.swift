@@ -57,14 +57,6 @@ struct WhatsNewView: View {
         }.buttonStyle(.borderedProminent)
     }
     
-    private var buttonGradient: some View {
-        LinearGradient(
-            gradient: Gradient(colors: [.blue, .blue.opacity(0.5)]),
-            startPoint: .top,
-            endPoint: .bottom
-        )
-    }
-    
     private func itemView(for item: UpdateItem) -> some View {
         HStack(spacing: 15.0) {
             VStack {

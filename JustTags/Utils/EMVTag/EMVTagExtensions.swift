@@ -51,15 +51,6 @@ extension EMVTag {
         }
     }
     
-    internal var isConstructed: Bool {
-        switch category {
-        case .plain:
-            return false
-        case .constructed:
-            return true
-        }
-    }
-    
     internal var constructedIds: [EMVTag.ID] {
         switch category {
         case .plain:

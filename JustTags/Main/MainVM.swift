@@ -134,7 +134,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
             .flatMap(initialTags.first(with:))
     }
     
-    internal override func parse(string: String) {
+    internal func parse(string: String) {
         refreshState()
         initialTags = tagsByParsing(string: string)
         populateSearch()

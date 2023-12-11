@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct PostButtonStyle: PrimitiveButtonStyle {
-    public let postAction: (() -> Void)
+    internal let postAction: (() -> Void)
 
-    public init(postAction: @escaping () -> Void) {
+    internal init(postAction: @escaping () -> Void) {
         self.postAction = postAction
     }
     
-    public func makeBody(configuration: Configuration) -> some View {
+    internal func makeBody(configuration: Configuration) -> some View {
         return Button(role: configuration.role) {
             configuration.trigger()
             postAction()

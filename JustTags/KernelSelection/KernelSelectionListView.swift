@@ -24,18 +24,6 @@ struct KernelSelectionListView: View {
         }.padding(commonPadding)
     }
     
-    @ViewBuilder
-    private func kernelRow(for kernel: String) -> some View {
-        GroupBox {
-            HStack {
-                let binding = vm.isOnBinding(for: kernel)
-                Text(kernel)
-                Toggle("isOn", isOn: binding)
-                    .labelsHidden()
-            }
-        }
-    }
-    
 }
 
 struct KernelSelectionListView_Previews: PreviewProvider {

@@ -97,7 +97,7 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
         }
     }
     
-    override internal func parse(string: String) {
+    internal func parse(string: String) {
         guard let focusedEditorIdx = focusedEditorIdx else { return }
         
         let tags = tagsByParsing(string: string)
