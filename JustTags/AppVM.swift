@@ -37,12 +37,15 @@ internal final class AppVM: NSObject, ObservableObject {
             self.setUpInProgress = true
         }
         
-        self.tagDecoder = try? TagDecoder.defaultDecoder()
-        self.kernelInfoRepo = .init(handler: tagDecoder)
-        try? self.kernelInfoRepo.loadSavedResources()
-        
-        self.tagMappingRepo = .init(handler: tagDecoder.tagMapper)
-        try? self.tagMappingRepo.loadSavedResources()
+        do {
+            self.tagDecoder = try TagDecoder.defaultDecoder()
+            self.kernelInfoRepo = .init(handler: tagDecoder)
+            try self.kernelInfoRepo.loadSavedResources()
+            self.tagMappingRepo = .init(handler: tagDecoder.tagMapper)
+            try self.tagMappingRepo.loadSavedResources()
+        } catch {
+            print(String(describing: error))
+        }
         
         // Get notified when app is about to quit
         NotificationCenter.default.addObserver(

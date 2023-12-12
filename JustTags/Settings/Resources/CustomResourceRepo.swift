@@ -76,7 +76,7 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
             try handler.addCustomResource(newResource)
         } catch EMVTagError.kernelInfoAlreadyExists, EMVTagError.tagMappingAlreadyExists {
             // Replace the resource with never version
-            try handler.removeCustomResource(with: newResource.id)
+            try removeResource(with: newResource.id)
             try handler.addCustomResource(newResource)
         }
         try saveResource(at: url, identifier: newResource.id)
@@ -101,6 +101,9 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
     }
 
     internal func removeResource(with identifier: Resource.ID) throws {
+        try handler.removeCustomResource(with: identifier)
+        updateResources()
+        
         guard handler.identifiers.contains(identifier),
               let resourcePath = pathForResource(with: identifier),
               fm.fileExists(atPath: resourcePath.path)
@@ -110,8 +113,6 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
         }
 
         try fm.removeItem(at: resourcePath)
-        try handler.removeCustomResource(with: identifier)
-        updateResources()
     }
 
     private func updateResources() {
