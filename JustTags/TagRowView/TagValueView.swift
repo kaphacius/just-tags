@@ -18,6 +18,8 @@ internal struct TagValueView: View {
     
     internal var body: some View {
         HStack(spacing: commonPadding * 2) {
+            // WWDC 2024
+            // Why is the string split between D and F
             Text(vm.value)
                 .font(.title3.monospaced())
             if let extendedDescription = vm.extendedDescription {
