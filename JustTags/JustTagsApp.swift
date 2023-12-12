@@ -62,14 +62,16 @@ internal struct JustTagsApp: App {
             id: WindowType.Case.library.id
         ) {
             LibraryView(
-                tagParser:  TagParser(tagDecoder: AppVM.shared.tagDecoder)
+                tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder!)
             )
         }.keyboardShortcut("L", modifiers: [.command, .shift])
         
         Settings {
-            SettingsView(selectedTab: $appVM.selectedTab)
-                .environmentObject(appVM.kernelInfoRepo!)
-                .environmentObject(appVM.tagMappingRepo!)
+            SettingsView(
+                selectedTab: $appVM.selectedTab,
+                kernelInfoRepo: appVM.kernelInfoRepo,
+                tagMappingRepo: appVM.tagMappingRepo
+            )
         }
     }
 

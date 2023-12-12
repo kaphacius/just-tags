@@ -97,7 +97,7 @@ struct LibraryView_Previews: PreviewProvider {
     
     static var previews: some View {
         LibraryView(
-            tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder),
+            tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder!),
             selectedTagIdx: 220
         ).frame(width: 1000.0)
     }

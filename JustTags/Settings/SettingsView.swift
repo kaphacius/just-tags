@@ -11,13 +11,19 @@ import SwiftyEMVTags
 struct SettingsView: View {
     
     @Binding var selectedTab: Tab
-    @EnvironmentObject private var kernelInfoRepo: KernelInfoRepo
-    @EnvironmentObject private var tagMappingRepo: TagMappingRepo
+    internal let kernelInfoRepo: KernelInfoRepo?
+    internal let tagMappingRepo: TagMappingRepo?
     
     var body: some View {
         TabView(selection: $selectedTab) {
-            kernels.tag(Tab.kernels)
-            tagMappings.tag(Tab.tagMappings)
+            if let kernelInfoRepo {
+                kernels(repo: kernelInfoRepo).tag(Tab.kernels)
+            }
+            
+            if let tagMappingRepo {
+                tagMappings(repo: tagMappingRepo).tag(Tab.tagMappings)
+            }
+            
             keyBindings.tag(Tab.keyBindings)
         }
         .navigationTitle("Settings")
@@ -25,15 +31,15 @@ struct SettingsView: View {
         .frame(width: 600.0, height: 450.0)
     }
     
-    private var kernels: some View {
-        CustomResourceListView(vm: .init(repo: kernelInfoRepo))
+    private func kernels(repo: KernelInfoRepo) -> some View {
+        CustomResourceListView(vm: .init(repo: repo))
             .tabItem {
                 Label(KernelInfo.settingsPage, systemImage: KernelInfo.iconName)
             }
     }
     
-    private var tagMappings: some View {
-        CustomResourceListView(vm: .init(repo: tagMappingRepo))
+    private func tagMappings(repo: TagMappingRepo) -> some View {
+        CustomResourceListView(vm: .init(repo: repo))
             .tabItem {
                 Label(TagMapping.settingsPage, systemImage: TagMapping.iconName)
             }
@@ -61,8 +67,10 @@ extension SettingsView {
 
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingsView(selectedTab: .constant(.tagMappings))
-            .environmentObject(PreviewHelpers.kernelInfoRepo)
-            .environmentObject(PreviewHelpers.tagMappingRepo)
+        SettingsView(
+            selectedTab: .constant(.tagMappings),
+            kernelInfoRepo: PreviewHelpers.kernelInfoRepo,
+            tagMappingRepo: PreviewHelpers.tagMappingRepo
+        )
     }
 }

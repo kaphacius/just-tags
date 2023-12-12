@@ -12,9 +12,9 @@ import Combine
 internal final class AppVM: NSObject, ObservableObject {
 
     @Published internal var setUpInProgress: Bool = false
-    @Published internal var tagDecoder: TagDecoder!
-    @Published internal var kernelInfoRepo: KernelInfoRepo!
-    @Published internal var tagMappingRepo: TagMappingRepo!
+    @Published internal var tagDecoder: TagDecoder?
+    @Published internal var kernelInfoRepo: KernelInfoRepo?
+    @Published internal var tagMappingRepo: TagMappingRepo?
     @Published internal var selectedTab: SettingsView.Tab = .kernels
     
     private(set) var diffVMs: [WNS<DiffVM>] = []
@@ -38,11 +38,13 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         do {
-            self.tagDecoder = try TagDecoder.defaultDecoder()
-            self.kernelInfoRepo = .init(handler: tagDecoder)
-            try self.kernelInfoRepo.loadSavedResources()
-            self.tagMappingRepo = .init(handler: tagDecoder.tagMapper)
-            try self.tagMappingRepo.loadSavedResources()
+            if let decoder = try? TagDecoder.defaultDecoder() {
+                self.tagDecoder = decoder
+                self.kernelInfoRepo = .init(handler: decoder)
+                try self.kernelInfoRepo?.loadSavedResources()
+                self.tagMappingRepo = .init(handler: decoder.tagMapper)
+                try self.tagMappingRepo?.loadSavedResources()
+            }
         } catch {
             print(String(describing: error))
         }
@@ -232,7 +234,7 @@ extension AppVM: DiffVMProvider {
         diffVMs = diffVMs.pruned()
         let newVM = DiffVM(
             appVM: self,
-            tagParser: .init(tagDecoder: tagDecoder)
+            tagParser: .init(tagDecoder: tagDecoder!)
         )
         diffVMs.append(.init(newVM))
         return newVM
@@ -251,7 +253,7 @@ extension AppVM: MainVMProvider {
         // Create new main VM and add it to the list
         let newVM = MainVM(
             appVM: self,
-            tagParser: .init(tagDecoder: tagDecoder)
+            tagParser: .init(tagDecoder: tagDecoder!)
         )
         mainVMs.append(.init(newVM))
         newVM.presentingWhatsNew = shouldShowWhatsNew
