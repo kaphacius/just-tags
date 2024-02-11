@@ -66,7 +66,6 @@ extension TagRowVM.Category: Equatable {
 internal struct TagRowView: View {
     
     @EnvironmentObject private var windowVM: MainVM
-    @State private var isExpanded: Bool = false
     private let borderThickness: Double
     private let deselectedBorderColor: Color
     

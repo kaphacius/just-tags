@@ -10,12 +10,6 @@ import SwiftyEMVTags
 
 extension TagInfo: Hashable {
     
-    public static func == (lhs: TagInfo, rhs: TagInfo) -> Bool {
-        lhs.tag == rhs.tag &&
-        lhs.kernel == rhs.kernel &&
-        lhs.context == rhs.context
-    }
-    
     public func hash(into hasher: inout Hasher) {
         hasher.combine(tag)
         hasher.combine(context)

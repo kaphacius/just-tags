@@ -62,12 +62,6 @@ internal struct PlainTagView: View {
         }
     }
     
-    @ViewBuilder
-    private func byteValueView(for byte: UInt8) -> some View {
-        Text(byte.hexString)
-            .font(.title3.monospaced())
-    }
-    
     private var expandableValueView: some View {
         DisclosureGroup(
             isExpanded: $isExpanded,

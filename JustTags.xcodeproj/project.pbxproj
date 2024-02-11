@@ -71,9 +71,6 @@
 		5AE8BF5027E79BF000474AD0 /* JustTagsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF4F27E79BF000474AD0 /* JustTagsApp.swift */; };
 		5AE8BF5427E79BF100474AD0 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AE8BF5327E79BF100474AD0 /* Assets.xcassets */; };
 		5AE8BF5727E79BF100474AD0 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 5AE8BF5627E79BF100474AD0 /* Preview Assets.xcassets */; };
-		5AE8BF6227E79BF100474AD0 /* EMVTagsTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF6127E79BF100474AD0 /* EMVTagsTests.swift */; };
-		5AE8BF6C27E79BF100474AD0 /* EMVTagsUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF6B27E79BF100474AD0 /* EMVTagsUITests.swift */; };
-		5AE8BF6E27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF6D27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift */; };
 		5AE8BF7B27E79CC700474AD0 /* TagDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7A27E79CC700474AD0 /* TagDetailsView.swift */; };
 		5AE8BF7F27E79D0200474AD0 /* TagListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF7E27E79D0200474AD0 /* TagListView.swift */; };
 		5AE8BF8527E7AA4D00474AD0 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AE8BF8427E7AA4D00474AD0 /* MainView.swift */; };
@@ -85,23 +82,6 @@
 		5AFC5F5A28F49501004DA503 /* DecodedByteView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC5F5928F49501004DA503 /* DecodedByteView.swift */; };
 		5AFC5F5C28F49595004DA503 /* DecodedRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5AFC5F5B28F49595004DA503 /* DecodedRowView.swift */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		5AE8BF5E27E79BF100474AD0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5AE8BF4427E79BF000474AD0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5AE8BF4B27E79BF000474AD0;
-			remoteInfo = EMVTags;
-		};
-		5AE8BF6827E79BF100474AD0 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 5AE8BF4427E79BF000474AD0 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 5AE8BF4B27E79BF000474AD0;
-			remoteInfo = EMVTags;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5A11BD432B13899C0091E520 /* MainWindow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainWindow.swift; sourceTree = "<group>"; };
@@ -170,11 +150,6 @@
 		5AE8BF5327E79BF100474AD0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		5AE8BF5627E79BF100474AD0 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		5AE8BF5827E79BF100474AD0 /* JustTags.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = JustTags.entitlements; sourceTree = "<group>"; };
-		5AE8BF5D27E79BF100474AD0 /* JustTagsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JustTagsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5AE8BF6127E79BF100474AD0 /* EMVTagsTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagsTests.swift; sourceTree = "<group>"; };
-		5AE8BF6727E79BF100474AD0 /* JustTagsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = JustTagsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		5AE8BF6B27E79BF100474AD0 /* EMVTagsUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagsUITests.swift; sourceTree = "<group>"; };
-		5AE8BF6D27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EMVTagsUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		5AE8BF7A27E79CC700474AD0 /* TagDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagDetailsView.swift; sourceTree = "<group>"; };
 		5AE8BF7E27E79D0200474AD0 /* TagListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagListView.swift; sourceTree = "<group>"; };
 		5AE8BF8427E7AA4D00474AD0 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -193,20 +168,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5AE8BF5A27E79BF100474AD0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5AE8BF6427E79BF100474AD0 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -398,8 +359,6 @@
 			isa = PBXGroup;
 			children = (
 				5AE8BF4E27E79BF000474AD0 /* JustTags */,
-				5AE8BF6027E79BF100474AD0 /* JustTagsTests */,
-				5AE8BF6A27E79BF100474AD0 /* JustTagsUITests */,
 				5AE8BF4D27E79BF000474AD0 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -408,8 +367,6 @@
 			isa = PBXGroup;
 			children = (
 				5AE8BF4C27E79BF000474AD0 /* JustTags.app */,
-				5AE8BF5D27E79BF100474AD0 /* JustTagsTests.xctest */,
-				5AE8BF6727E79BF100474AD0 /* JustTagsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -443,23 +400,6 @@
 				5AE8BF5627E79BF100474AD0 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
-			sourceTree = "<group>";
-		};
-		5AE8BF6027E79BF100474AD0 /* JustTagsTests */ = {
-			isa = PBXGroup;
-			children = (
-				5AE8BF6127E79BF100474AD0 /* EMVTagsTests.swift */,
-			);
-			path = JustTagsTests;
-			sourceTree = "<group>";
-		};
-		5AE8BF6A27E79BF100474AD0 /* JustTagsUITests */ = {
-			isa = PBXGroup;
-			children = (
-				5AE8BF6B27E79BF100474AD0 /* EMVTagsUITests.swift */,
-				5AE8BF6D27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift */,
-			);
-			path = JustTagsUITests;
 			sourceTree = "<group>";
 		};
 		5AE8BF7C27E79CDF00474AD0 /* Details */ = {
@@ -515,42 +455,6 @@
 			productReference = 5AE8BF4C27E79BF000474AD0 /* JustTags.app */;
 			productType = "com.apple.product-type.application";
 		};
-		5AE8BF5C27E79BF100474AD0 /* JustTagsTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5AE8BF7427E79BF100474AD0 /* Build configuration list for PBXNativeTarget "JustTagsTests" */;
-			buildPhases = (
-				5AE8BF5927E79BF100474AD0 /* Sources */,
-				5AE8BF5A27E79BF100474AD0 /* Frameworks */,
-				5AE8BF5B27E79BF100474AD0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5AE8BF5F27E79BF100474AD0 /* PBXTargetDependency */,
-			);
-			name = JustTagsTests;
-			productName = EMVTagsTests;
-			productReference = 5AE8BF5D27E79BF100474AD0 /* JustTagsTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		5AE8BF6627E79BF100474AD0 /* JustTagsUITests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 5AE8BF7727E79BF100474AD0 /* Build configuration list for PBXNativeTarget "JustTagsUITests" */;
-			buildPhases = (
-				5AE8BF6327E79BF100474AD0 /* Sources */,
-				5AE8BF6427E79BF100474AD0 /* Frameworks */,
-				5AE8BF6527E79BF100474AD0 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				5AE8BF6927E79BF100474AD0 /* PBXTargetDependency */,
-			);
-			name = JustTagsUITests;
-			productName = EMVTagsUITests;
-			productReference = 5AE8BF6727E79BF100474AD0 /* JustTagsUITests.xctest */;
-			productType = "com.apple.product-type.bundle.ui-testing";
-		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -563,14 +467,6 @@
 				TargetAttributes = {
 					5AE8BF4B27E79BF000474AD0 = {
 						CreatedOnToolsVersion = 13.2;
-					};
-					5AE8BF5C27E79BF100474AD0 = {
-						CreatedOnToolsVersion = 13.2;
-						TestTargetID = 5AE8BF4B27E79BF000474AD0;
-					};
-					5AE8BF6627E79BF100474AD0 = {
-						CreatedOnToolsVersion = 13.2;
-						TestTargetID = 5AE8BF4B27E79BF000474AD0;
 					};
 				};
 			};
@@ -591,8 +487,6 @@
 			projectRoot = "";
 			targets = (
 				5AE8BF4B27E79BF000474AD0 /* JustTags */,
-				5AE8BF5C27E79BF100474AD0 /* JustTagsTests */,
-				5AE8BF6627E79BF100474AD0 /* JustTagsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -604,20 +498,6 @@
 			files = (
 				5AE8BF5727E79BF100474AD0 /* Preview Assets.xcassets in Resources */,
 				5AE8BF5427E79BF100474AD0 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5AE8BF5B27E79BF100474AD0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5AE8BF6527E79BF100474AD0 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -702,37 +582,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		5AE8BF5927E79BF100474AD0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5AE8BF6227E79BF100474AD0 /* EMVTagsTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		5AE8BF6327E79BF100474AD0 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				5AE8BF6E27E79BF100474AD0 /* EMVTagsUITestsLaunchTests.swift in Sources */,
-				5AE8BF6C27E79BF100474AD0 /* EMVTagsUITests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		5AE8BF5F27E79BF100474AD0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5AE8BF4B27E79BF000474AD0 /* JustTags */;
-			targetProxy = 5AE8BF5E27E79BF100474AD0 /* PBXContainerItemProxy */;
-		};
-		5AE8BF6927E79BF100474AD0 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 5AE8BF4B27E79BF000474AD0 /* JustTags */;
-			targetProxy = 5AE8BF6827E79BF100474AD0 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		5AE8BF6F27E79BF100474AD0 /* Debug */ = {
@@ -862,12 +712,13 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = JustTags/Resources/JustTags.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 2023101101;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"JustTags/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AF3826P4Z5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -896,12 +747,13 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_ENTITLEMENTS = JustTags/Resources/JustTags.entitlements;
 				CODE_SIGN_IDENTITY = "-";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				CURRENT_PROJECT_VERSION = 2023101101;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"JustTags/Preview Content\"";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = AF3826P4Z5;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -922,84 +774,6 @@
 			};
 			name = Release;
 		};
-		5AE8BF7527E79BF100474AD0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 9L82R8XG5B;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.1;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.kaphacius.JustTagsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JustTags.app/Contents/MacOS/JustTags";
-			};
-			name = Debug;
-		};
-		5AE8BF7627E79BF100474AD0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_IDENTITY = "-";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 9L82R8XG5B;
-				GENERATE_INFOPLIST_FILE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 12.1;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.kaphacius.JustTagsTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/JustTags.app/Contents/MacOS/JustTags";
-			};
-			name = Release;
-		};
-		5AE8BF7827E79BF100474AD0 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 9L82R8XG5B;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.kaphacius.JustTagsUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = JustTags;
-			};
-			name = Debug;
-		};
-		5AE8BF7927E79BF100474AD0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				DEAD_CODE_STRIPPING = YES;
-				DEVELOPMENT_TEAM = 9L82R8XG5B;
-				GENERATE_INFOPLIST_FILE = YES;
-				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.github.kaphacius.JustTagsUITests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_EMIT_LOC_STRINGS = NO;
-				SWIFT_VERSION = 5.0;
-				TEST_TARGET_NAME = JustTags;
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1017,24 +791,6 @@
 			buildConfigurations = (
 				5AE8BF7227E79BF100474AD0 /* Debug */,
 				5AE8BF7327E79BF100474AD0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5AE8BF7427E79BF100474AD0 /* Build configuration list for PBXNativeTarget "JustTagsTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5AE8BF7527E79BF100474AD0 /* Debug */,
-				5AE8BF7627E79BF100474AD0 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		5AE8BF7727E79BF100474AD0 /* Build configuration list for PBXNativeTarget "JustTagsUITests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				5AE8BF7827E79BF100474AD0 /* Debug */,
-				5AE8BF7927E79BF100474AD0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

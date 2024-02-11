@@ -25,7 +25,6 @@ internal class AnyWindowVM: ObservableObject {
     
     internal var cancellable: AnyCancellable?
     internal weak var appVM: AppVM?
-    internal var errorMessage: String = ""
     
     internal init() {
         title = AppVM.tabName
@@ -66,10 +65,6 @@ internal class AnyWindowVM: ObservableObject {
             title: "Unable to diff selected tags",
             message: "Diffing is only available if there are 2 tags selected in the current tab. Please select more tags."
         )
-    }
-    
-    internal var isEmpty: Bool {
-        false
     }
     
 }

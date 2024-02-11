@@ -10,11 +10,6 @@ import SwiftyEMVTags
 
 typealias TagPair = (lhs: [EMVTag], rhs: [EMVTag])
 
-internal struct DiffedByte {
-    internal let byte: UInt8
-    internal let result: DiffResult
-}
-
 internal struct DiffedTag {
     internal let tag: EMVTag
     internal let results: [DiffResult]
@@ -51,13 +46,6 @@ internal struct DiffedTagPair {
 internal enum TagDiffResult {
     case equal(EMVTag)
     case different([DiffedTag?])
-    
-    var isDifferent: Bool {
-        switch self {
-        case .equal: return false
-        case .different: return true
-        }
-    }
     
     var diffedPair: DiffedTagPair {
         switch self {

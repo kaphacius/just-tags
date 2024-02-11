@@ -38,8 +38,6 @@ extension String {
         
         return results.map { String($0) }
     }
-    
-    static let uknownTag = "Unknown tag"
 }
 
 extension Array where Self.Element == UInt8 {
@@ -64,14 +62,6 @@ extension EMVTag: Comparable {
         }
     }
 
-}
-
-extension Int {
-    
-    public var hexString: String {
-        String(format: "%02X", UInt64(self))
-    }
-    
 }
 
 extension Array where Self.Element == EMVTag {
@@ -131,21 +121,8 @@ internal func t2FlatMap<T, U>(_ arg: (T?, U?)) -> (T, U)? {
     }
 }
 
-//optionals
-extension Optional {
-    func get(orElse defaultValue: @autoclosure () -> Wrapped) -> Wrapped {
-        self ?? defaultValue()
-    }
-    
-    func get(orElseO defaultValue: @autoclosure () -> Optional<Wrapped>) -> Optional<Wrapped> {
-        self ?? defaultValue()
-    }
-}
-
+//Optionals
 extension Optional where Wrapped: Collection {
-    var notEmpty: Bool {
-        self.map(\.isEmpty).map { $0 == false } ?? false
-    }
     
     var isEmptyO: Bool {
         self.map(\.isEmpty) ?? true

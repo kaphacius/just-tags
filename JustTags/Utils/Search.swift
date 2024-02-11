@@ -44,13 +44,9 @@ struct PrioritySearchResult<P: PrioritySearchable> {
 
 protocol SimpleSearchable: Comparable, Identifiable {
     
-    var searchPair: (id: Self.ID, comps: Set<String>) { get }
-    
 }
 
 protocol PrioritySearchable: Comparable, Hashable {
-    
-    var searchPair: (hash: Int, comps: PrioritySearchComponents) { get }
     
 }
 
@@ -60,12 +56,6 @@ protocol NestedSearchable: SimpleSearchable {
         using words: Set<String>,
         components: [Self.ID: Set<String>]
     ) -> Self
-    
-}
-
-protocol SearchComponentsAware {
-    
-    var searchComponents: Set<String> { get }
     
 }
 
@@ -98,17 +88,6 @@ func filterPrioritySearchable<P: PrioritySearchable>(
         bestMatches: grouped.primary.sorted().map(\.searchable),
         more: grouped.secondary.sorted()
     )
-}
-
-func filterSimpleSearchable<S: SimpleSearchable>(
-    initial: [S],
-    components: [S.ID: Set<String>],
-    words: Set<String>
-) -> [S] {
-    initial.filter { searchable in
-        guard let comps = components[searchable.id] else { return false }
-        return words.isPartialMatchSubset(of: comps)
-    }
 }
 
 func filterNestedSearchable<N: NestedSearchable>(

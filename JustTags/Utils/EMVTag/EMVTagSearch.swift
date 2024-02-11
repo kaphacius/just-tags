@@ -8,10 +8,6 @@
 import Foundation
 import SwiftyEMVTags
 
-internal protocol Searchable {
-    var searchComponents: [String] { get }
-}
-
 extension EMVTag: SimpleSearchable, NestedSearchable {
 
     var searchPair: (id: UUID, comps: Set<String>) {
@@ -50,7 +46,7 @@ extension EMVTag: SimpleSearchable, NestedSearchable {
     
 }
 
-extension EMVTag: SearchComponentsAware {
+extension EMVTag {
     
     internal var searchComponents: Set<String> {
         [
@@ -64,7 +60,7 @@ extension EMVTag: SearchComponentsAware {
     
 }
 
-extension EMVTag.DecodingResult: SearchComponentsAware {
+extension EMVTag.DecodingResult {
     
     internal var searchComponents: Set<String> {
         switch self {
@@ -79,7 +75,7 @@ extension EMVTag.DecodingResult: SearchComponentsAware {
     
 }
 
-extension EMVTag.Category: SearchComponentsAware {
+extension EMVTag.Category {
 
     internal var searchComponents: Set<String> {
         switch self {
@@ -101,7 +97,7 @@ extension EMVTag.Category: SearchComponentsAware {
 
 }
 
-extension EMVTag.DecodedTag: SearchComponentsAware {
+extension EMVTag.DecodedTag {
     
     internal var searchComponents: Set<String> {
         [
@@ -112,7 +108,7 @@ extension EMVTag.DecodedTag: SearchComponentsAware {
     
 }
 
-extension EMVTag.DecodedTag.DecodingResult: SearchComponentsAware {
+extension EMVTag.DecodedTag.DecodingResult {
     
     var searchComponents: Set<String> {
         switch self {
@@ -133,7 +129,7 @@ extension EMVTag.DecodedTag.DecodingResult: SearchComponentsAware {
     
 }
 
-extension DecodedDataObject: SearchComponentsAware {
+extension DecodedDataObject {
     
     var searchComponents: Set<String> {
         [tag.hexString, name]
@@ -141,7 +137,7 @@ extension DecodedDataObject: SearchComponentsAware {
     
 }
 
-extension EMVTag.DecodedByte: SearchComponentsAware {
+extension EMVTag.DecodedByte {
     
     internal var searchComponents: Set<String> {
         [
@@ -152,7 +148,7 @@ extension EMVTag.DecodedByte: SearchComponentsAware {
     
 }
 
-extension EMVTag.DecodedByte.Group: SearchComponentsAware {
+extension EMVTag.DecodedByte.Group {
     
     internal var searchComponents: Set<String> {
         [
@@ -163,7 +159,7 @@ extension EMVTag.DecodedByte.Group: SearchComponentsAware {
     
 }
 
-extension EMVTag.DecodedByte.Group.GroupType: SearchComponentsAware {
+extension EMVTag.DecodedByte.Group.GroupType {
     
     internal var searchComponents: Set<String> {
         switch self {
@@ -176,7 +172,7 @@ extension EMVTag.DecodedByte.Group.GroupType: SearchComponentsAware {
     
 }
 
-extension EMVTag.DecodedByte.Group.MappingResult: SearchComponentsAware {
+extension EMVTag.DecodedByte.Group.MappingResult {
     
     internal var searchComponents: Set<String> {
         Set(mappings.map(\.meaning))

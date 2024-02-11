@@ -55,7 +55,7 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
             }.store(in: &cancellables)
     }
     
-    override var isEmpty: Bool {
+    var isEmpty: Bool {
         initialTags.allSatisfy(\.isEmpty)
     }
     

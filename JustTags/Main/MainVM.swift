@@ -93,7 +93,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         showsDetails = true
     }
     
-    override var isEmpty: Bool {
+    var isEmpty: Bool {
         initialTags.isEmpty
     }
     

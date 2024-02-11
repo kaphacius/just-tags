@@ -34,31 +34,7 @@ extension TagDecodingInfo: PrioritySearchable {
     
 }
 
-extension TagDecodingInfo: SearchComponentsAware {
-    
-    internal var searchComponents: Set<String> {
-        [
-            [info.searchComponents],
-            bytes.map(\.searchComponents)
-        ]
-            .flatMap { $0 }
-            .foldToSet()
-    }
-    
-}
-
-extension TagInfo: SearchComponentsAware {
-    
-    internal var searchComponents2: [String] {
-        [
-            tag.hexString,
-            name,
-            description,
-            source.rawValue,
-            format,
-            kernel
-        ]
-    }
+extension TagInfo {
     
     internal var searchComponents: Set<String> {
         [
@@ -73,7 +49,7 @@ extension TagInfo: SearchComponentsAware {
     
 }
 
-extension ByteInfo: SearchComponentsAware {
+extension ByteInfo {
     
     internal var searchComponents: Set<String> {
         groups
@@ -84,7 +60,7 @@ extension ByteInfo: SearchComponentsAware {
     
 }
 
-extension ByteInfo.Group: SearchComponentsAware {
+extension ByteInfo.Group {
     
     internal var searchComponents: Set<String> {
         type.searchComponents.union([name])
@@ -92,7 +68,7 @@ extension ByteInfo.Group: SearchComponentsAware {
     
 }
 
-extension ByteInfo.Group.MappingType: SearchComponentsAware {
+extension ByteInfo.Group.MappingType {
     
     internal var searchComponents: Set<String> {
         switch self {
@@ -105,7 +81,7 @@ extension ByteInfo.Group.MappingType: SearchComponentsAware {
     
 }
 
-extension ByteInfo.Group.Mapping: SearchComponentsAware {
+extension ByteInfo.Group.Mapping {
     
     internal var searchComponents: Set<String> {
         [meaning]
