@@ -27,9 +27,19 @@ struct TagMappingView: View {
 
 struct TagMappingView_Previews: PreviewProvider {
     static var previews: some View {
-        TagMappingView(listVMs: [
-            .init(value: "A0000000033010", meaning: "VISA Interlink, Visa International VISA Interlink, Visa International VISA Interlink, Visa International VISA Interlink, Visa International"),
-            .init(value: "A0000000033011", meaning: "VISA Interlink, Visa International VISA Interlink, Visa International VISA Interlink, Visa International VISA Interlink, Visa International")
-        ])
+        TagMappingView(
+            listVMs: [
+                .init(
+                    tag: 0x9F06,
+                    value: "A0000000033010",
+                    meaning: "VISA Interlink, Visa International VISA Interlink, Visa International VISA Interlink, Visa International VISA Interlink, Visa International"
+                )!,
+                .init(
+                    tag: 0x9F06,
+                    value: "A0000000033011",
+                    meaning: "VISA Interlink, Visa International VISA Interlink, Visa International VISA Interlink, Visa International VISA Interlink, Visa International"
+                )!
+            ]
+        )
     }
 }

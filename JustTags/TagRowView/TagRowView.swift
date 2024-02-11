@@ -126,6 +126,7 @@ struct TagRowView_Previews: PreviewProvider {
             TagRowView(vm: .make(with: .mockTag))
             TagRowView(vm: .make(with: .mockTagExtended))
             TagRowView(vm: .make(with: .mockTagConstructed))
+            TagRowView(vm: .make(with: .mockTagMultipleKernels))
         }
         .environmentObject(MainVM())
     }

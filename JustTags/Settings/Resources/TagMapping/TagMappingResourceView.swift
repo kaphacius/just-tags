@@ -28,7 +28,7 @@ extension TagMapping {
     
     var tagMappingListVMs: [TagMappingRowVM] {
         self.values.sorted(by: { $0.key < $1.key })
-            .map { .init(value: $0.key, meaning: $0.value) }
+            .compactMap { .init(tag: self.tag, value: $0.key, meaning: $0.value) }
     }
     
 }
