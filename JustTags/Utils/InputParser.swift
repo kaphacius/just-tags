@@ -19,6 +19,7 @@ struct InputParser {
         
         let hexStringBytes = input
             .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "\n", with: "")
             .split(by: 2)
             .map { UInt8($0, radix: 16) }
         
