@@ -82,9 +82,9 @@ struct WhatsNewView: View {
 
 struct  WhatsNewView_Previews: PreviewProvider {
     static var previews: some View {
-        WhatsNewView(vm: .oneOne)
+        WhatsNewView(vm: Version.oneOne.vm)
             .frame(width: 500)
-        WhatsNewView(vm: .oneTwo)
+        WhatsNewView(vm: Version.oneTwo.vm)
             .frame(width: 500)
     }
 }

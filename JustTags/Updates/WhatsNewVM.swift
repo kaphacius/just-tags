@@ -39,14 +39,39 @@ extension WhatsNewVM {
         }
     }
     
-    private static let versions: [String: WhatsNewVM] = [
-        "1.1.0": oneOne,
-        "1.2.0": oneTwo,
-        "1.2.2": oneTwoTwo,
-        "1.2.3": oneTwoThree
-    ]
+    private static let versions: [String: WhatsNewVM] = .init(
+        uniqueKeysWithValues: Version.allCases.map { ($0.version, $0.vm) }
+    )
     
-    internal static let oneOne: WhatsNewVM = .init(
+}
+
+internal enum Version: CaseIterable {
+    
+    case oneOne
+    case oneTwo
+    case oneTwoTwo
+    case oneTwoThree
+    
+    
+    internal var vm: WhatsNewVM {
+        switch self {
+        case .oneOne: Self.oneOneVM
+        case .oneTwo: Self.oneTwoVM
+        case .oneTwoTwo: Self.oneTwoTwoVM
+        case .oneTwoThree: Self.oneTwoThreeVM
+        }
+    }
+    
+    internal var version: String {
+        switch self {
+        case .oneOne: "1.1.0"
+        case .oneTwo: "1.2.0"
+        case .oneTwoTwo: "1.2.2"
+        case .oneTwoThree: "1.2.3"
+        }
+    }
+    
+    private static let oneOneVM: WhatsNewVM = .init(
         version: "1.1.0",
         items: [
             .init(
@@ -67,7 +92,7 @@ extension WhatsNewVM {
         ]
     )
     
-    internal static let oneTwo: WhatsNewVM = .init(
+    private static let oneTwoVM: WhatsNewVM = .init(
         version: "1.2.0",
         items: [
             .init(
@@ -83,7 +108,7 @@ extension WhatsNewVM {
         ]
     )
     
-    internal static let oneTwoTwo: WhatsNewVM = .init(
+    private static let oneTwoTwoVM: WhatsNewVM = .init(
         version: "1.2.2",
         items: [
             .init(
@@ -99,7 +124,7 @@ extension WhatsNewVM {
         ]
     )
     
-    internal static let oneTwoThree: WhatsNewVM = .init(
+    private static let oneTwoThreeVM: WhatsNewVM = .init(
         version: "1.2.3",
         items: [
             .init(
