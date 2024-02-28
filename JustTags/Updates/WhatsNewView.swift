@@ -15,7 +15,7 @@ struct WhatsNewView: View {
     var body: some View {
         VStack(spacing: .zero) {
             Text("What's New in JustTags")
-                .font(.system(size: 35.0))
+                .font(.system(size: 40.0).weight(.regular))
                 .padding(.top)
                 .padding(.bottom, 10.0)
             Text("Version \(vm.version)").font(.title2.italic())
@@ -33,6 +33,7 @@ struct WhatsNewView: View {
                 action: openReleaseNotes
             )
             .buttonStyle(.link)
+            .font(.title2)
             .padding(.bottom, 40.0)
             
             getStartedButton
@@ -41,7 +42,7 @@ struct WhatsNewView: View {
         }
 
         .padding()
-        .frame(width: 500)
+        .frame(width: 700)
     }
     
     private var getStartedButton: some View {
@@ -68,10 +69,11 @@ struct WhatsNewView: View {
             }
             VStack(alignment: .leading, spacing: 0.0) {
                 Text(item.title)
-                    .font(.body.weight(.bold))
+                    .font(.title2.weight(.semibold))
+                    .foregroundStyle(.primary)
                 Text(item.description)
-                    .font(.body)
-                    .foregroundColor(.secondary)
+                    .font(.title3)
+                    .foregroundStyle(.secondary)
                     .fixedSize(horizontal: false, vertical: true)
                 Spacer()
             }
@@ -83,8 +85,8 @@ struct WhatsNewView: View {
 struct  WhatsNewView_Previews: PreviewProvider {
     static var previews: some View {
         WhatsNewView(vm: Version.oneOne.vm)
-            .frame(width: 500)
-        WhatsNewView(vm: Version.oneTwo.vm)
-            .frame(width: 500)
+            .frame(width: 700)
+        WhatsNewView(vm: Version.oneTwoThree.vm)
+            .frame(width: 700)
     }
 }
