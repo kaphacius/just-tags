@@ -42,7 +42,8 @@ extension WhatsNewVM {
     private static let versions: [String: WhatsNewVM] = [
         "1.1.0": oneOne,
         "1.2.0": oneTwo,
-        "1.2.2": oneTwoTwo
+        "1.2.2": oneTwoTwo,
+        "1.2.3": oneTwoThree
     ]
     
     internal static let oneOne: WhatsNewVM = .init(
@@ -94,6 +95,27 @@ extension WhatsNewVM {
                 iconName: "text.book.closed.fill",
                 title: "Improved tag decoding",
                 description: "Added decoding for new tags, including 82, 9B."
+            )
+        ]
+    )
+    
+    internal static let oneTwoThree: WhatsNewVM = .init(
+        version: "1.2.3",
+        items: [
+            .init(
+                iconName: "magnifyingglass.circle.fill",
+                title: "DOL Visualization",
+                description: "Parsed DOLs display a list of requested tags."
+            ),
+            .init(
+                iconName: "text.book.closed.fill",
+                title: "Improved tag decoding",
+                description: "Added decoding for new tags: DF8117, DF811B, 9F6C, 9F07, 9F34."
+            ),
+            .init(
+                iconName: "wand.and.stars.inverse",
+                title: "General fixes and improvements",
+                description: "Fixed a number of issues around usability and stability."
             )
         ]
     )
