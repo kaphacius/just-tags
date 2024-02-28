@@ -256,7 +256,6 @@ extension AppVM: MainVMProvider {
             tagParser: .init(tagDecoder: tagDecoder!)
         )
         mainVMs.append(.init(newVM))
-        newVM.presentingWhatsNew = shouldShowWhatsNew
         
         // Restore main VM state if needed
         if setUpInProgress,
@@ -278,6 +277,8 @@ extension AppVM: MainVMProvider {
                     self.onOpenWindow?(id: WindowType.Case.main.id)
                 }
             }
+        } else {
+            newVM.presentingWhatsNew = shouldShowWhatsNew
         }
         
         return newVM
