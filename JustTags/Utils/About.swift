@@ -12,7 +12,7 @@ internal func showAboutApp() {
     NSApplication.shared.orderFrontStandardAboutPanel(
         options: [
             .credits: creditsString,
-            .init(rawValue: "Copyright"): "© 2022 YURII ZADOIANCHUK"
+            .init(rawValue: "Copyright"): "© 2024 YURII ZADOIANCHUK"
         ]
     )
 }
