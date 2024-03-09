@@ -1,12 +1,13 @@
 {
+  "originHash" : "a4cd6957c6479adb1c4d8147d9e833c3a51417b246ded1f52cc50462d4dd38a0",
   "pins" : [
     {
       "identity" : "swifty-ber-tlv",
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kaphacius/swifty-ber-tlv",
       "state" : {
-        "revision" : "9dabeb4341ac88f1e525fd156fe8bffd52451abe",
-        "version" : "0.4.8"
+        "revision" : "8de843a2d406e0c30a1e40831b5e386e3ac79b5b",
+        "version" : "0.4.9"
       }
     },
     {
@@ -14,9 +15,9 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/kaphacius/swifty-emv-tags",
       "state" : {
-        "revision" : "a16e24307d4e8e1997d0038522d578b3e73cfa30"
+        "revision" : "9ca0d223692c0c7bc6302a6e15975ec8071269dd"
       }
     }
   ],
-  "version" : 2
+  "version" : 3
 }
