@@ -23,6 +23,7 @@ enum Command {
     case whatsNew
     case releaseNotes
     case keyBindings
+    case clearWindow
     
     enum Group: Equatable, CaseIterable {
         case about
@@ -50,7 +51,8 @@ enum Command {
                     .paste,
                     .pasteIntoNewTab,
                     .selectAll,
-                    .deselectAll
+                    .deselectAll,
+                    .clearWindow
                 ]
             case .diff:
                 return [.diffSelectedTags]
@@ -98,7 +100,8 @@ extension WindowType {
                 .diffSelectedTags,
                 .whatsNew,
                 .releaseNotes,
-                .keyBindings
+                .keyBindings,
+                .clearWindow
             ]
         case .diff:
             return [

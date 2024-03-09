@@ -170,6 +170,13 @@ internal struct MainViewCommands: Commands {
         }.buttonStyle(PostButtonStyle(postAction: vm.openKeyBindings))
     }
     
+    private var clearWindowButton: some View {
+        Button(
+            "Clear Window",
+            action: { currentWindow.flatMap(\.asMainVM)?.clearWindow() }
+        ).keyboardShortcut(.escape, modifiers: [.command])
+    }
+    
     @ViewBuilder
     private func commandView(for command: Command) -> some View {
         Group {
@@ -204,6 +211,8 @@ internal struct MainViewCommands: Commands {
                 releaseNotesButton
             case .keyBindings:
                 keyBindingsButton
+            case .clearWindow:
+                clearWindowButton
             }
         }
         .disabled(currentWindow?.commands.contains(command) == false)

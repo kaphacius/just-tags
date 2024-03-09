@@ -19,6 +19,8 @@ internal let shortcuts: [ShortcutVM] = [
     .init(title: "Paste in New Tab", key: "V", modifiers: [.command, .shift]),
     .init(title: "Copy Selected Tag(s)", key: "C", modifiers: [.command]),
     .init(title: "Select All Tags", key: "A", modifiers: [.command]),
+    .init(title: "Deselect", key: "􀆧", modifiers: []),
+    .init(title: "Clear Window", key: "􀆧", modifiers: [.command]),
     .init(title: "Add Custom Kernel Info", key: "O", modifiers: [.command, .shift]),
     .init(title: "Show Active Kernels", key: "K", modifiers: [.command, .shift]),
     .init(title: "Diff Selected Tags", key: "D", modifiers: [.option, .shift]),

@@ -75,7 +75,7 @@ struct MainView: View {
     
     @ViewBuilder
     internal var mainView: some View {
-        if vm.showingTags {
+        if vm.showsTags {
             ScrollView {
                 TagListView(
                     tags: vm.currentTags.map(TagRowVM.init),
@@ -146,6 +146,11 @@ struct MainView: View {
                 "Deselect",
                 action: vm.deselectAll
             ).keyboardShortcut(.cancelAction)
+            
+            Button(
+                "Clear Window",
+                action: vm.clearWindow
+            ).keyboardShortcut(.escape, modifiers: [.command])
         }.hidden()
     }
     

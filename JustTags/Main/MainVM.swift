@@ -21,7 +21,6 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     @Published internal var initialTags: [EMVTag] = []
     @Published internal var tagSearchComponents: Dictionary<EMVTag.ID, Set<String>> = [:]
     @Published internal var searchText: String = ""
-    @Published internal var showingTags: Bool = false
     @Published internal var selectedTags = [EMVTag]()
     @Published internal var selectedIds = Set<EMVTag.ID>()
     @Published internal var expandedConstructedTags: Set<EMVTag.ID> = []
@@ -29,6 +28,10 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     @Published internal var detailTag: EMVTag? = nil
     @Published internal var presentingWhatsNew: Bool = false
     @Published internal var didChange: Bool = false
+    
+    internal var showsTags: Bool {
+        initialTags.isEmpty == false
+    }
     
     private var cancellables = Set<AnyCancellable>()
     
@@ -127,7 +130,6 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         initialTags = tagParser.updateDecodingResults(for: initialTags)
         
         populateSearch()
-        showingTags = initialTags.isEmpty == false
         
         detailTag = detailTag
             .map(\.id)
@@ -138,7 +140,6 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         refreshState()
         initialTags = tagsByParsing(string: string)
         populateSearch()
-        showingTags = initialTags.isEmpty == false
         selectSingleTagIfNeeded()
     }
     
@@ -174,6 +175,12 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     internal func deselectAll() {
         selectedTags = []
         selectedIds = []
+    }
+    
+    internal func clearWindow() {
+        initialTags.removeAll()
+        refreshState()
+        searchText = ""
     }
     
     internal func diffSelectedTags() {
