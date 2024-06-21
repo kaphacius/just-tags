@@ -35,22 +35,36 @@ JustTags in a macOS app for working with BER-TLV EMV tags.
 Clone the project
 
 ```bash
-  git clone https://github.com/kaphacius/just-tags
+git clone https://github.com/kaphacius/just-tags
 ```
 
 Go to the project directory
 
 ```bash
-  cd just-tags
+cd just-tags
 ```
 
 Open with Xcode
 
 ```bash
-  xed .
+xed .
 ```
 
 Build and run with `Command + R`
+
+### Command-line support
+If you want to open the application and pass the data from command-line, the following options are available:
+- Custom URL schemes. Run `open justtags://main/nzMDKAjI` OR `open justtags://main/9F33032808C8` from command-line.
+- Piping the output into a custom function. Set it like this:
+1. Add the following to your `~/.zshrc` or `~/.bashrc`:
+```bash
+justtags() {
+  read tags
+  open justtags://main/$tags
+}
+```
+2. Run `source ~/.zshrc` or `source ~/.bashrc`.
+3. Use the new function `echo "9F33032808C8" | justtags` OR `echo "nzMDKAjI" | justtags`.
 
 ## Roadmap
 
