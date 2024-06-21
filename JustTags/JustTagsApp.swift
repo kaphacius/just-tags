@@ -31,6 +31,17 @@ internal struct JustTagsApp: App {
                 }
             }
             .environmentObject(appVM)
+            .onOpenURL(perform: { url in
+                let abs = url.absoluteString
+                guard let markerIdx = abs.ranges(of: /\/main\//).first else {
+                    return
+                }
+                let last = String(url.absoluteString.suffix(from: markerIdx.upperBound))
+                NSPasteboard.copyString(last)
+                Task {
+                    appVM.pasteIntoCurrentTab()
+                }
+            })
         } defaultValue: {
             // WWDC 2024
             // Why is this called when id passed in?
