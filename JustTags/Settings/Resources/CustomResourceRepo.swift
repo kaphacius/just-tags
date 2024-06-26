@@ -63,7 +63,7 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
                 self.filenames[resource.id] = filename
                 return resource
             }.forEach {
-                try handler.addCustomResource($0)
+                try? handler.addCustomResource($0)
             }
 
         updateResources()
