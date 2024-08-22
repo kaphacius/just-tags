@@ -23,7 +23,7 @@ class WNS<T: AnyObject>: Identifiable where T: Identifiable {
         weak ?? strong
     }
     
-    internal init(_ value: T) {
+    internal init(stongValue value: T) {
         // Be strong in the beginning
         self.strong = value
         self.id = value.id
@@ -55,6 +55,10 @@ extension Array {
     
     func pruned<T>() -> Self where Element == WNS<T> {
         self.filter { $0.shouldBeDiscared == false }
+    }
+    
+    mutating func prune<T>() where Element == WNS<T> {
+        self = self.pruned()
     }
     
 }

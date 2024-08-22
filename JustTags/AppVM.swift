@@ -169,6 +169,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func openDiffView() {
+        diffVMs.prune()
         if let last = diffVMs.last {
             vmIdToOpen = last.id
             onOpenWindow?(id: WindowType.Case.diff.id, value: last.id)
@@ -178,6 +179,7 @@ internal final class AppVM: NSObject, ObservableObject {
     }
     
     internal func openMainView() {
+        mainVMs.prune()
         if let last = mainVMs.last {
             vmIdToOpen = last.id
             onOpenWindow?(id: WindowType.Case.main.id, value: last.id)
@@ -225,18 +227,19 @@ internal final class AppVM: NSObject, ObservableObject {
 extension AppVM: DiffVMProvider {
     
     subscript(vm id: DiffVM.ID) -> DiffVM? {
-        diffVMs.first(where: { $0.id == id })
+        print(#function, diffVMs.map(\.id))
+        return diffVMs.first(where: { $0.id == id })
             .flatMap { $0.getWithSwap() }
     }
     
     internal func createNewDiffVM() -> DiffVM {
         // Filter existing empty or unclaimed (strong) WNSs
-        diffVMs = diffVMs.pruned()
+        diffVMs.prune()
         let newVM = DiffVM(
             appVM: self,
             tagParser: .init(tagDecoder: tagDecoder!)
         )
-        diffVMs.append(.init(newVM))
+        diffVMs.append(.init(stongValue: newVM))
         return newVM
     }
     
@@ -255,7 +258,7 @@ extension AppVM: MainVMProvider {
             appVM: self,
             tagParser: .init(tagDecoder: tagDecoder!)
         )
-        mainVMs.append(.init(newVM))
+        mainVMs.append(.init(stongValue: newVM))
         
         // Restore main VM state if needed
         if setUpInProgress,
