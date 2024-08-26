@@ -227,7 +227,6 @@ internal final class AppVM: NSObject, ObservableObject {
 extension AppVM: DiffVMProvider {
     
     subscript(vm id: DiffVM.ID) -> DiffVM? {
-        print(#function, diffVMs.map(\.id))
         return diffVMs.first(where: { $0.id == id })
             .flatMap { $0.getWithSwap() }
     }
