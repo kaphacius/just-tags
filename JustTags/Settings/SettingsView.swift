@@ -25,6 +25,8 @@ struct SettingsView: View {
             }
             
             keyBindings.tag(Tab.keyBindings)
+            
+            scripts.tag(Tab.scripts)
         }
         .navigationTitle("Settings")
         .padding(commonPadding)
@@ -51,6 +53,13 @@ struct SettingsView: View {
                 Label("Key Bindings", systemImage: "keyboard.fill")
             }
     }
+    
+    private var scripts: some View {
+        ScriptsView()
+            .tabItem {
+                Label("Scripts", systemImage: "apple.terminal.fill")
+            }
+    }
 }
 
 extension SettingsView {
@@ -60,6 +69,7 @@ extension SettingsView {
         case kernels
         case tagMappings
         case keyBindings
+        case scripts
         
     }
     
