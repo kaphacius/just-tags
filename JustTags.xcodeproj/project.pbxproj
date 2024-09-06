@@ -463,7 +463,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1530;
+				LastUpgradeCheck = 1600;
 				TargetAttributes = {
 					5AE8BF4B27E79BF000474AD0 = {
 						CreatedOnToolsVersion = 13.2;
@@ -803,7 +803,7 @@
 			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
 			requirement = {
 				kind = revision;
-				revision = 14e0bf409ef0aa6ed179e573db1fa2ff17f80e48;
+				revision = 2fe712b00d177bcc8fff466298be074c7b54b421;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
