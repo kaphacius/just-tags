@@ -14,6 +14,7 @@ internal struct TagRowVM: Equatable, Identifiable {
     internal let category: Category
     internal let fullHexString: String
     internal let valueHexString: String
+    internal let isSubTag: Bool
     
     internal enum Category {
         case plain(PlainTagVM)
@@ -39,12 +40,14 @@ internal struct TagRowVM: Equatable, Identifiable {
     }
     
     init(
-        tag: EMVTag
+        tag: EMVTag,
+        isSubtag: Bool
     ) {
         self.id = tag.id
         self.category = .category(with: tag)
         self.fullHexString = tag.fullHexString
         self.valueHexString = tag.valueHexString
+        self.isSubTag = isSubtag
     }
 }
 
@@ -115,6 +118,11 @@ internal struct TagRowView: View {
                 action: windowVM.diffSelectedTags
             )
         }
+        if vm.isSubTag == false {
+            Button("Remove tag") {
+                windowVM.removeTag(with: vm.id)
+            }
+        }
     }
 
 }
@@ -122,10 +130,10 @@ internal struct TagRowView: View {
 struct TagRowView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            TagRowView(vm: .make(with: .mockTag))
-            TagRowView(vm: .make(with: .mockTagExtended))
-            TagRowView(vm: .make(with: .mockTagConstructed))
-            TagRowView(vm: .make(with: .mockTagMultipleKernels))
+            TagRowView(vm: .init(tag: .mockTag, isSubtag: false))
+            TagRowView(vm: .init(tag: .mockTagExtended, isSubtag: false))
+            TagRowView(vm: .init(tag: .mockTagConstructed, isSubtag: false))
+            TagRowView(vm: .init(tag: .mockTagMultipleKernels, isSubtag: false))
         }
         .environmentObject(MainVM())
     }

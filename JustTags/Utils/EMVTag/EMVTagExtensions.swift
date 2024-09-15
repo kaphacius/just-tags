@@ -120,13 +120,9 @@ extension EMVTag {
             name: name,
             headerVM: tagHeaderVM,
             valueVM: tagValueVM,
-            subtags: subtags.map(\.tagRowVM),
+            subtags: subtags.map { TagRowVM(tag: $0, isSubtag: true) },
             showsDetails: isUnknown == false
         )
-    }
-    
-    var tagRowVM: TagRowVM {
-        .init(tag: self)
     }
     
     var tagInfoVMs: [TagInfoVM] {

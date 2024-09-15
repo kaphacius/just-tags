@@ -40,7 +40,7 @@ struct EMVTagListView_Previews: PreviewProvider {
     static var previews: some View {
         TagListView(
             tags: [.mockTag, .mockTagExtended, .mockTagConstructed]
-                .map(TagRowVM.make(with:)),
+                .map { .init(tag: $0, isSubtag: false) },
             searchInProgress: .constant(true)
         ).environmentObject(MainVM())
     }

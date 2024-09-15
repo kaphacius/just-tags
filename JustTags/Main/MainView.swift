@@ -78,7 +78,7 @@ struct MainView: View {
         if vm.showsTags {
             ScrollView {
                 TagListView(
-                    tags: vm.currentTags.map(TagRowVM.init),
+                    tags: vm.currentTags.map { .init(tag: $0, isSubtag: false) },
                     searchInProgress: $searchInProgress
                 )
             }

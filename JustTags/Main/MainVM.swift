@@ -224,4 +224,8 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         )
     }
     
+    internal func removeTag(with id: EMVTag.ID) {
+        self.initialTags.removeAll(where: { $0.id == id })
+    }
+    
 }

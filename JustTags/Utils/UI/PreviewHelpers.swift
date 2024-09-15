@@ -98,16 +98,6 @@ extension ConstructedTagVM {
     
 }
 
-extension TagRowVM {
-    
-    static func make(
-        with tag: EMVTag
-    ) -> TagRowVM {
-        .init(tag: tag)
-    }
-    
-}
-
 extension KernelSelectionRowVM {
     
     static var mockShortVM: KernelSelectionRowVM = .init(
