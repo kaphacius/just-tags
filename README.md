@@ -66,14 +66,6 @@ justtags() {
 2. Run `source ~/.zshrc` or `source ~/.bashrc`.
 3. Use the new function `echo "9F33032808C8" | justtags` OR `echo "nzMDKAjI" | justtags`.
 
-## Roadmap
-
-- Specific kernel selection.
-- Adding tag information for specific kernels at runtime.
-- Improvements to tag value decoding: more tags and more formats.
-- Display the number of decoded and selected tags.
-- Save the session data to be available when the app is opened again.
-
 ## Contributing
 
 Contributions are always welcome!
