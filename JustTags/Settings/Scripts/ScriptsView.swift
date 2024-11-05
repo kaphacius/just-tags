@@ -9,7 +9,7 @@ import SwiftUI
 
 struct ScriptsView: View {
     
-    @State var shell: String = ""
+    @State var shell: String = "/bin/sh"
     @State var script: String = "foo bar"
     
     var body: some View {
