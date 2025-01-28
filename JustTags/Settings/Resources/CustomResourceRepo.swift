@@ -104,9 +104,8 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
         try handler.removeCustomResource(with: identifier)
         updateResources()
         
-        guard handler.identifiers.contains(identifier),
-              let resourcePath = pathForResource(with: identifier),
-              fm.fileExists(atPath: resourcePath.path)
+        guard let resourcePath = pathForResource(with: identifier),
+              fm.fileExists(atPath: resourcePath.path(percentEncoded: true))
         else {
             // Nothing to delete
             return
