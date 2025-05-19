@@ -10,6 +10,9 @@ import SwiftUI
 
 typealias TagMappingRepo = CustomResourceRepo<TagMapping>
 
+extension TagMapping: @retroactive Comparable {}
+extension TagMapping: @retroactive Equatable {}
+extension TagMapping: @retroactive Identifiable {}
 extension TagMapping: CustomResource {
     
     public typealias ID = UInt64
@@ -31,6 +34,7 @@ extension TagMapping: CustomResource {
     
 }
 
+extension TagMapper: @retroactive ObservableObject {}
 extension TagMapper: CustomResourceHandler {
     
     typealias Resource = TagMapping

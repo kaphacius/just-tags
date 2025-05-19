@@ -52,7 +52,7 @@ extension Array where Self.Element == EMVTag {
     }
 }
 
-extension EMVTag: Comparable {
+extension EMVTag: @retroactive Comparable {
 
     public static func < (lhs: EMVTag, rhs: EMVTag) -> Bool {
         if lhs.tag.tag == rhs.tag.tag {
@@ -72,7 +72,7 @@ extension Array where Self.Element == EMVTag {
 
 }
 
-extension Array: Comparable where Self.Element == UInt8 {
+extension Array: @retroactive Comparable where Self.Element == UInt8 {
     
     public static func < (lhs: Self, rhs: Self) -> Bool {
         for i in 0..<Swift.min(lhs.count, rhs.count) {

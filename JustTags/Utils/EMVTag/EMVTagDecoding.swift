@@ -241,7 +241,7 @@ extension UInt8 {
     
 }
 
-extension DecodedDataObject: CustomStringConvertible {
+extension DecodedDataObject: @retroactive CustomStringConvertible {
     
     public var description: String {
         

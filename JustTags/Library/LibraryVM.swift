@@ -141,7 +141,7 @@ fileprivate let allTags = "All Tags"
 fileprivate let allTagsKernelId = "All tags"
 fileprivate let generalKernelId = "general"
 
-extension KernelInfo: Hashable {
+extension KernelInfo: @retroactive Hashable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(id)

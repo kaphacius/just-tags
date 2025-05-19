@@ -8,7 +8,7 @@
 import Foundation
 import SwiftyEMVTags
 
-extension TagInfo: Hashable {
+extension TagInfo: @retroactive Hashable {
     
     public func hash(into hasher: inout Hasher) {
         hasher.combine(tag)
@@ -18,7 +18,7 @@ extension TagInfo: Hashable {
     
 }
 
-extension TagDecodingInfo: Hashable {
+extension TagDecodingInfo: @retroactive Hashable {
     
     public static func == (lhs: TagDecodingInfo, rhs: TagDecodingInfo) -> Bool {
         lhs.info.tag == rhs.info.tag &&
@@ -34,7 +34,7 @@ extension TagDecodingInfo: Hashable {
     
 }
 
-extension TagDecodingInfo: Comparable {
+extension TagDecodingInfo: @retroactive Comparable {
     
     public static func < (lhs: TagDecodingInfo, rhs: TagDecodingInfo) -> Bool {
         lhs.info.tag < rhs.info.tag

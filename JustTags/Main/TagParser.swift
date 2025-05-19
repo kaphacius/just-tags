@@ -10,7 +10,7 @@ import SwiftyBERTLV
 import Combine
 import SwiftUI
 
-extension TagDecoder: ObservableObject { }
+extension TagDecoder: @retroactive ObservableObject { }
 
 internal final class TagParser: ObservableObject, AnyTagDecoder {
     
