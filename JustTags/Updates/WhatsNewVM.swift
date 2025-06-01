@@ -51,6 +51,7 @@ internal enum Version: CaseIterable {
     case oneTwo
     case oneTwoTwo
     case oneTwoThree
+    case oneTwoSix
     
     
     internal var vm: WhatsNewVM {
@@ -59,6 +60,7 @@ internal enum Version: CaseIterable {
         case .oneTwo: Self.oneTwoVM
         case .oneTwoTwo: Self.oneTwoTwoVM
         case .oneTwoThree: Self.oneTwoThreeVM
+        case .oneTwoSix: Self.oneTwoSixVM
         }
     }
     
@@ -68,6 +70,7 @@ internal enum Version: CaseIterable {
         case .oneTwo: "1.2.0"
         case .oneTwoTwo: "1.2.2"
         case .oneTwoThree: "1.2.3"
+        case .oneTwoSix: "1.2.6"
         }
     }
     
@@ -141,6 +144,27 @@ internal enum Version: CaseIterable {
                 iconName: "wand.and.stars.inverse",
                 title: "General fixes and improvements",
                 description: "Fixed a number of issues around usability and stability."
+            )
+        ]
+    )
+    
+    private static let oneTwoSixVM: WhatsNewVM = .init(
+        version: "1.2.6",
+        items: [
+            .init(
+                iconName: "text.book.closed.fill",
+                title: "Improved tag decoding",
+                description: "Added decoding for new tags: 8A."
+            ),
+            .init(
+                iconName: "trash.fill",
+                title: "Tag removal",
+                description: "Added ability to remove tags from the list."
+            ),
+            .init(
+                iconName: "wand.and.sparkles.inverse",
+                title: "Custom URL scheme",
+                description: "Open the app using custom url scheme justtags://"
             )
         ]
     )
