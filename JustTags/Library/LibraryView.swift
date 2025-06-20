@@ -67,7 +67,8 @@ struct LibraryView: View {
                     VStack(spacing: 0.0) {
                         TagDetailsView(vm: selectedTag.tagDetailsVM)
                             .environment(\.isLibrary, true)
-                        if let mapping = vm.tagMappings[selectedTag.info.tag] {
+                        if let mapping = vm.tagMappings[selectedTag.info.tag],
+                           mapping.kernel == selectedTag.info.kernel {
                             TagMappingView(listVMs: mapping.tagMappingListVMs)
                                 .padding(.top, -commonPadding)
                         }
