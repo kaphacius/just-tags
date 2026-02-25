@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5A9BC832282C3528000C05F7 /* SwiftyEMVTags */; };
+		5AABF50A2F4F0216003DC535 /* SwiftyEMVTags in Frameworks */ = {isa = PBXBuildFile; productRef = 5AABF5092F4F0216003DC535 /* SwiftyEMVTags */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -33,7 +33,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5A9BC833282C3528000C05F7 /* SwiftyEMVTags in Frameworks */,
+				5AABF50A2F4F0216003DC535 /* SwiftyEMVTags in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -76,7 +76,7 @@
 			);
 			name = JustTags;
 			packageProductDependencies = (
-				5A9BC832282C3528000C05F7 /* SwiftyEMVTags */,
+				5AABF5092F4F0216003DC535 /* SwiftyEMVTags */,
 			);
 			productName = EMVTags;
 			productReference = 5AE8BF4C27E79BF000474AD0 /* JustTags.app */;
@@ -90,7 +90,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1320;
-				LastUpgradeCheck = 1610;
+				LastUpgradeCheck = 2630;
 				TargetAttributes = {
 					5AE8BF4B27E79BF000474AD0 = {
 						CreatedOnToolsVersion = 13.2;
@@ -107,7 +107,7 @@
 			);
 			mainGroup = 5AE8BF4327E79BF000474AD0;
 			packageReferences = (
-				5A9BC831282C3528000C05F7 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */,
+				5AABF5082F4F0216003DC535 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */,
 			);
 			productRefGroup = 5AE8BF4D27E79BF000474AD0 /* Products */;
 			projectDirPath = "";
@@ -198,6 +198,7 @@
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -255,6 +256,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = macosx;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 			};
@@ -271,12 +273,14 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2025060101;
+				CURRENT_PROJECT_VERSION = 2026022501;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"JustTags/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = JustTags/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = JustTags;
@@ -287,7 +291,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 1.2.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.kaphacius.JustTags;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -306,12 +310,14 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
-				CURRENT_PROJECT_VERSION = 2025060101;
+				CURRENT_PROJECT_VERSION = 2026022501;
 				DEAD_CODE_STRIPPING = YES;
 				DEVELOPMENT_ASSET_PATHS = "\"JustTags/Preview Content\"";
 				DEVELOPMENT_TEAM = "";
+				ENABLE_APP_SANDBOX = YES;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
+				ENABLE_USER_SELECTED_FILES = readonly;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = JustTags/Resources/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = JustTags;
@@ -322,7 +328,7 @@
 					"@executable_path/../Frameworks",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 14.0;
-				MARKETING_VERSION = 1.2.6;
+				MARKETING_VERSION = 1.2.7;
 				PRODUCT_BUNDLE_IDENTIFIER = com.github.kaphacius.JustTags;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -354,20 +360,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		5A9BC831282C3528000C05F7 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */ = {
+		5AABF5082F4F0216003DC535 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags";
+			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags/";
 			requirement = {
 				kind = revision;
-				revision = 16e69c24a2b6a1d41ab359024d2edcde57b2355e;
+				revision = 0d0067b38c475dab1f51817e159e86ce21168815;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		5A9BC832282C3528000C05F7 /* SwiftyEMVTags */ = {
+		5AABF5092F4F0216003DC535 /* SwiftyEMVTags */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5A9BC831282C3528000C05F7 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */;
+			package = 5AABF5082F4F0216003DC535 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */;
 			productName = SwiftyEMVTags;
 		};
 /* End XCSwiftPackageProductDependency section */
