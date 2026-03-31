@@ -38,10 +38,8 @@ internal final class DecoderVM: ObservableObject {
             .sorted()
 
         self.allDecodableTags = uniqueTags.filter { tagInfo in
-            let syntheticHex = tagInfo.info.tag.hexString + "0100"
-            guard let bertlvs = try? InputParser.parse(input: syntheticHex),
-                  let bertlv = bertlvs.first else { return false }
-            return !tagParser.decodeBERTLV(bertlv).isUnknown
+            tagInfo.bytes.count > 0 ||
+            tagParser.tagMapper.mappings[tagInfo.info.tag] != nil
         }
 
         let initialSection = Section(title: "", items: self.allDecodableTags)
