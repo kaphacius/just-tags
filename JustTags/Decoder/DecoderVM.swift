@@ -20,6 +20,7 @@ internal final class DecoderVM: ObservableObject {
     @Published internal var inputString = ""
     @Published internal var tagDetailVMs: [TagDetailsVM] = []
     @Published internal var sections: [Section] = []
+    @Published internal var autoSelectCount: Int = 0
 
     internal let allDecodableTags: [TagDecodingInfo]
     private let tagParser: TagParser
@@ -147,6 +148,12 @@ internal final class DecoderVM: ObservableObject {
             .init(title: "Best matches", items: filtered.bestMatches),
             .init(title: "More...", items: filtered.more)
         ]
+
+        let allResults = filtered.bestMatches + filtered.more
+        if allResults.count == 1 {
+            selectedTag = allResults[0]
+            autoSelectCount += 1
+        }
     }
 
 }

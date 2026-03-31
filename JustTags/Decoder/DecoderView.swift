@@ -11,6 +11,7 @@ struct DecoderView: View {
     @StateObject private var vm: DecoderVM
     @State private var searchInProgress: Bool = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
+    @FocusState private var byteInputFocused: Bool
 
     init(tagParser: TagParser) {
         self._vm = .init(wrappedValue: .init(tagParser: tagParser))
@@ -27,6 +28,7 @@ struct DecoderView: View {
         .navigationTitle(WindowType.Case.decoder.title)
         .background(searchButton)
         .focusedSceneValue(\.currentWindow, .decoder)
+        .onChange(of: vm.autoSelectCount) { _, _ in byteInputFocused = true }
     }
 
     // MARK: - Tag list (sidebar)
@@ -106,6 +108,7 @@ struct DecoderView: View {
         TextField(inputPlaceholder(for: tag), text: $vm.inputString)
             .font(.body.monospaced())
             .textFieldStyle(.roundedBorder)
+            .focused($byteInputFocused)
     }
 
     private func inputPlaceholder(for tag: TagDecodingInfo) -> String {
