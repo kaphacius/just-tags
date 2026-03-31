@@ -120,6 +120,13 @@ internal struct MainViewCommands: Commands {
             action: vm.openDiffView
         ).keyboardShortcut("d", modifiers: [.command, .shift])
     }
+
+    private var openDecoderViewButton: some View {
+        Button(
+            "Decoder view",
+            action: vm.openDecoderView
+        ).keyboardShortcut("e", modifiers: [.command, .shift])
+    }
     
     private var aboutAppButton: some View {
         Button(
@@ -201,6 +208,8 @@ internal struct MainViewCommands: Commands {
                 openMainViewButton
             case .openDiffView:
                 openDiffViewButton
+            case .openDecoderView:
+                openDecoderViewButton
             case .addKernelInfo:
                 addKernelInfoButton
             case .diffSelectedTags:

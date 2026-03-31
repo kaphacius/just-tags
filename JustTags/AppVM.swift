@@ -82,11 +82,11 @@ internal final class AppVM: NSObject, ObservableObject {
             onOpenWindow?(id: WindowType.Case.main.id)
         case .diff:
             onOpenWindow?(id: WindowType.Case.diff.id)
-        case .library:
+        case .library, .decoder:
             break
         }
     }
-    
+
     internal func pasteIntoCurrentTab() {
         guard let currentWindow else { return }
         if currentWindow.canPaste {
@@ -120,13 +120,13 @@ internal final class AppVM: NSObject, ObservableObject {
             let newVM = createNewDiffVM()
             NSPasteboard.string.map(newVM.parse(string:))
             onOpenWindow?(id: WindowType.Case.diff.id, value: newVM.id)
-        case .library:
+        case .library, .decoder:
             break
         case nil:
             break
         }
     }
-    
+
     internal func diffSelectedTags() {
         guard let activeMainVM = currentWindow.flatMap(\.asMainVM) else {
             // Don't diff tags when DiffView is active
@@ -168,6 +168,10 @@ internal final class AppVM: NSObject, ObservableObject {
         onOpenWindow?(id: WindowType.Case.diff.id, value: vm.id)
     }
     
+    internal func openDecoderView() {
+        onOpenWindow?(id: WindowType.Case.decoder.id)
+    }
+
     internal func openDiffView() {
         diffVMs.prune()
         if let last = diffVMs.last {
@@ -198,7 +202,7 @@ internal final class AppVM: NSObject, ObservableObject {
                 return createNewMainVM().id
             case .diff:
                 return createNewDiffVM().id
-            case .library:
+            case .library, .decoder:
                 // We should not be here
                 return .init()
             }
