@@ -44,6 +44,10 @@ extension Array where Self.Element == UInt8 {
     var hexString: String {
         map(\.hexString).joined()
     }
+    
+    var hexStringWithSpaces: String {
+        map(\.hexString).joined(separator: " ")
+    }
 }
 
 extension Array where Self.Element == EMVTag {

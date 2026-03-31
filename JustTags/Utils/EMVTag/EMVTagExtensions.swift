@@ -74,7 +74,7 @@ extension EMVTag {
 
     var tagValueVM: TagValueVM {
         .init(
-            value: tag.value.hexString,
+            value: tag.value.hexStringWithSpaces,
             extendedDescription: extendedDescription
         )
     }
