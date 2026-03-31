@@ -66,12 +66,21 @@ internal final class DecoderVM: ObservableObject {
     private func setUpDecoding() {
         Publishers.CombineLatest($selectedTag, $inputString)
             .map { [weak self] (tag, input) -> [TagDetailsVM] in
-                guard let self, let tag, !input.isEmpty else { return [] }
+                guard let self, let tag else { return [] }
+                if input.isEmpty {
+                    return self.infoOnlyVMs(for: tag)
+                }
                 return self.decode(tag: tag, input: input)
             }
             .receive(on: RunLoop.main)
             .assign(to: \.tagDetailVMs, on: self)
             .store(in: &cancellables)
+    }
+
+    private func infoOnlyVMs(for tag: TagDecodingInfo) -> [TagDetailsVM] {
+        tagParser.initialKernels
+            .compactMap { $0.tags.first(where: { $0.info.tag == tag.info.tag }) }
+            .map { TagDetailsVM(tag: $0.info.tag.hexString, name: $0.info.name, info: $0.info.tagInfoVM, bytes: [], kernel: $0.info.kernel) }
     }
 
     private func decode(tag: TagDecodingInfo, input: String) -> [TagDetailsVM] {

@@ -128,19 +128,11 @@ struct DecoderView: View {
     @ViewBuilder
     private func decodeResult(for tag: TagDecodingInfo) -> some View {
         if vm.tagDetailVMs.isEmpty {
-            if vm.inputString.isEmpty {
-                Text("Enter a value to decode")
-                    .font(.title2)
-                    .fontWeight(.light)
-                    .foregroundStyle(.tertiary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            } else {
-                Text("Unable to decode the given value")
-                    .font(.title2)
-                    .fontWeight(.light)
-                    .foregroundStyle(.tertiary)
-                    .frame(maxWidth: .infinity, maxHeight: .infinity)
-            }
+            Text("Unable to decode the given value")
+                .font(.title2)
+                .fontWeight(.light)
+                .foregroundStyle(.tertiary)
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
         } else if vm.tagDetailVMs.count == 1, let first = vm.tagDetailVMs.first {
             ScrollView {
                 TagDetailsView(vm: first)
