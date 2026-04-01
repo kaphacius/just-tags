@@ -31,17 +31,18 @@ internal final class DecoderVM: ObservableObject {
     init(tagParser: TagParser) {
         self.tagParser = tagParser
 
-        // Collect tags unique by tag ID, then keep only those with a value decoder
+        // Filter to decodable tags first, then deduplicate by tag ID.
+        // Filtering before deduplication ensures that if a tag appears in multiple
+        // kernels, a decodable variant is preferred over a non-decodable one.
         var seenTagIds = Set<UInt64>()
-        let uniqueTags = tagParser.initialKernels
+        self.allDecodableTags = tagParser.initialKernels
             .flatMap(\.tags)
+            .filter { tagInfo in
+                tagInfo.bytes.count > 0 ||
+                tagParser.tagMapper.mappings[tagInfo.info.tag] != nil
+            }
             .filter { seenTagIds.insert($0.info.tag).inserted }
             .sorted()
-
-        self.allDecodableTags = uniqueTags.filter { tagInfo in
-            tagInfo.bytes.count > 0 ||
-            tagParser.tagMapper.mappings[tagInfo.info.tag] != nil
-        }
 
         let initialSection = Section(title: "", items: self.allDecodableTags)
         self.initialSections = [initialSection]
