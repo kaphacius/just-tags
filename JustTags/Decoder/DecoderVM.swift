@@ -69,7 +69,7 @@ internal final class DecoderVM: ObservableObject {
         $selectedTag
             .removeDuplicates()
             .dropFirst()
-            .sink { [weak self] _ in self?.inputString = "" }
+            .sink { [weak self] _ in onMain { self?.inputString = "" } }
             .store(in: &cancellables)
 
         Publishers.CombineLatest($selectedTag, $inputString)
@@ -159,7 +159,7 @@ internal final class DecoderVM: ObservableObject {
         let allResults = filtered.bestMatches + filtered.more
         if allResults.count == 1 {
             selectedTag = allResults[0]
-            autoSelectCount += 1
+            onMain { self.autoSelectCount += 1 }
         }
     }
 

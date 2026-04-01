@@ -12,6 +12,7 @@ struct DecoderView: View {
     @State private var searchInProgress: Bool = false
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @FocusState private var byteInputFocused: Bool
+    @FocusState private var searchFieldFocused: Bool
 
     init(tagParser: TagParser) {
         self._vm = .init(wrappedValue: .init(tagParser: tagParser))
@@ -25,6 +26,7 @@ struct DecoderView: View {
             decodePanel
         }
         .searchable(text: $vm.searchText, isPresented: $searchInProgress)
+        .searchFocusedIfAvailable($searchFieldFocused)
         .navigationTitle(WindowType.Case.decoder.title)
         .background(searchButton)
         .focusedSceneValue(\.currentWindow, .decoder)
@@ -109,6 +111,13 @@ struct DecoderView: View {
             .font(.body.monospaced())
             .textFieldStyle(.roundedBorder)
             .focused($byteInputFocused)
+            .onKeyPress(.escape) {
+                DispatchQueue.main.async {
+                    vm.selectedTag = nil
+                    searchFieldFocused = true
+                }
+                return .handled
+            }
     }
 
     private func inputPlaceholder(for tag: TagDecodingInfo) -> String {
@@ -159,4 +168,15 @@ struct DecoderView: View {
             .hidden()
     }
 
+}
+
+private extension View {
+    @ViewBuilder
+    func searchFocusedIfAvailable(_ binding: FocusState<Bool>.Binding) -> some View {
+        if #available(macOS 15.0, *) {
+            self.searchFocused(binding)
+        } else {
+            self
+        }
+    }
 }
