@@ -162,10 +162,18 @@ struct DecoderView: View {
     }
 
     private var searchButton: some View {
-        Button("Search") { searchInProgress.toggle() }
-            .frame(width: 0.0, height: 0.0)
-            .keyboardShortcut("f", modifiers: [.command])
-            .hidden()
+        Group {
+            Button("Search") { searchInProgress.toggle() }
+                .keyboardShortcut("f", modifiers: [.command])
+            Button("Previous tag") { vm.selectPrevious() }
+                .keyboardShortcut(.upArrow, modifiers: [])
+                .disabled(byteInputFocused)
+            Button("Next tag") { vm.selectNext() }
+                .keyboardShortcut(.downArrow, modifiers: [])
+                .disabled(byteInputFocused)
+        }
+        .frame(width: 0.0, height: 0.0)
+        .hidden()
     }
 
 }

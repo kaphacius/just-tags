@@ -172,4 +172,22 @@ internal final class DecoderVM: ObservableObject {
         }
     }
 
+    internal func selectNext() { moveSelection(by: 1) }
+    internal func selectPrevious() { moveSelection(by: -1) }
+
+    private var flatItems: [TagDecodingInfo] { sections.flatMap(\.items) }
+
+    private func moveSelection(by offset: Int) {
+        let items = flatItems
+        guard !items.isEmpty else { return }
+        let currentIndex = selectedTag.flatMap { tag in items.firstIndex(of: tag) }
+        let nextIndex: Int
+        if let currentIndex {
+            nextIndex = (currentIndex + offset + items.count) % items.count
+        } else {
+            nextIndex = offset > 0 ? 0 : items.count - 1
+        }
+        selectedTag = items[nextIndex]
+    }
+
 }
