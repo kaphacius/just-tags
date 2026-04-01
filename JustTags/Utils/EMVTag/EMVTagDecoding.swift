@@ -61,7 +61,14 @@ extension EMVTag.DecodingResult {
 }
 
 extension EMVTag.DecodedTag.DecodingResult {
-    
+
+    internal var hasBytesOrMapping: Bool {
+        switch self {
+        case .bytes, .mapping: return true
+        default: return false
+        }
+    }
+
     internal var extendedDescription: String? {
         switch self {
         case .bytes, .dol, .noDecodingInfo:

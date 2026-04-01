@@ -78,7 +78,8 @@ internal final class DecoderVM: ObservableObject {
                 if input.isEmpty {
                     return self.infoOnlyVMs(for: tag)
                 }
-                return self.decode(tag: tag, input: input)
+                let decoded = self.decode(tag: tag, input: input)
+                return decoded.isEmpty ? self.infoOnlyVMs(for: tag) : decoded
             }
             .receive(on: RunLoop.main)
             .assign(to: \.tagDetailVMs, on: self)
@@ -88,6 +89,7 @@ internal final class DecoderVM: ObservableObject {
     private func infoOnlyVMs(for tag: TagDecodingInfo) -> [TagDetailsVM] {
         tagParser.initialKernels
             .compactMap { $0.tags.first(where: { $0.info.tag == tag.info.tag }) }
+            .filter { $0.bytes.count > 0 || tagParser.tagMapper.mappings[$0.info.tag] != nil }
             .map { TagDetailsVM(tag: $0.info.tag.hexString, name: $0.info.name, info: $0.info.tagInfoVM, bytes: [], kernel: $0.info.kernel) }
     }
 
@@ -96,7 +98,14 @@ internal final class DecoderVM: ObservableObject {
         let syntheticHex = tag.info.tag.hexString + berTLVLengthHex(valueBytes.count) + valueBytes.hexString
         guard let bertlvs = try? InputParser.parse(input: syntheticHex),
               let bertlv = bertlvs.first else { return [] }
-        return tagParser.decodeBERTLV(bertlv).tagDetailsVMs
+        switch tagParser.decodeBERTLV(bertlv).decodingResult {
+        case .unknown:
+            return []
+        case .singleKernel(let decodedTag):
+            return decodedTag.result.hasBytesOrMapping ? [decodedTag.tagDetailsVM] : []
+        case .multipleKernels(let decodedTags):
+            return decodedTags.filter(\.result.hasBytesOrMapping).map(\.tagDetailsVM)
+        }
     }
 
     private func parseValueBytes(_ input: String) -> [UInt8]? {
