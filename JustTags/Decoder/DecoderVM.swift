@@ -65,6 +65,12 @@ internal final class DecoderVM: ObservableObject {
     }
 
     private func setUpDecoding() {
+        $selectedTag
+            .removeDuplicates()
+            .dropFirst()
+            .sink { [weak self] _ in self?.inputString = "" }
+            .store(in: &cancellables)
+
         Publishers.CombineLatest($selectedTag, $inputString)
             .map { [weak self] (tag, input) -> [TagDetailsVM] in
                 guard let self, let tag else { return [] }
