@@ -179,13 +179,9 @@ extension Array where Element: Identifiable {
         firstIndex(where: { $0.id == id })
     }
     
-    @discardableResult
-    mutating func removeFirst(with id: Element.ID) -> Element? {
-        if let idx = firstIndex(with: id) {
-            remove(at: idx)
-        }
-        
-        return nil
+    mutating func removeFirst(with id: Element.ID) {
+        guard let idx = firstIndex(with: id) else { return }
+        remove(at: idx)
     }
     
 }
