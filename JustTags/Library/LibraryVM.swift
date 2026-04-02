@@ -20,14 +20,14 @@ internal final class LibraryVM: ObservableObject {
     
     private var cancellables: Set<AnyCancellable> = []
     private let tagSearchComponents: [Int: PrioritySearchComponents]
-    private let generalKernel: KernelInfo
+    private let generalKernel: KernelInfo?
     private var initialSections: [LibraryKernelInfoView.Section]
     
     init(tagParser: TagParser) {
         let sortedKernels = tagParser.initialKernels.sorted { $0.id < $1.id }
         let allTagsKernel = KernelInfo.makeAllTagsKernel(with: sortedKernels)
         self.kernels = [allTagsKernel] + sortedKernels
-        self.generalKernel = sortedKernels.first(where: { $0.id == generalKernelId })!
+        self.generalKernel = sortedKernels.first(where: { $0.id == generalKernelId })
         self.selectedKernel = allTagsKernel
         let allTagsSections = [allTagsKernel.singleSection]
         self.tagListSections = allTagsSections
@@ -53,8 +53,7 @@ internal final class LibraryVM: ObservableObject {
     
     // Sections without applying any search
     private func initialSections(for kernel: KernelInfo) -> [LibraryKernelInfoView.Section] {
-        if kernel.needsGeneralKernelTags {
-            // Combine selected kernel and general tags
+        if kernel.needsGeneralKernelTags, let generalKernel {
             return [kernel.singleSection, generalKernel.singleSection]
         } else {
             return [kernel.singleSection]
