@@ -111,7 +111,7 @@ internal func onMain(_ execute: @escaping () -> Void) {
 
 internal func onMain(seconds delay: TimeInterval, execute: @escaping () -> Void) {
     DispatchQueue.main.asyncAfter(
-        deadline: .now() + .milliseconds(Int(delay) * 1000),
+        deadline: .now() + .milliseconds(Int(delay * 1000)),
         execute: execute
     )
 }
