@@ -18,14 +18,13 @@ enum Command {
     case renameTab
     case openMainView
     case openDiffView
-    case openDecoderView
     case addKernelInfo
     case diffSelectedTags
     case whatsNew
     case releaseNotes
     case keyBindings
     case clearWindow
-    
+
     enum Group: Equatable, CaseIterable {
         case about
         case file
@@ -33,7 +32,7 @@ enum Command {
         case diff
         case help
         case undoRedo
-        
+
         var commands: [Command] {
             switch self {
             case .about:
@@ -44,7 +43,6 @@ enum Command {
                     .renameTab,
                     .openMainView,
                     .openDiffView,
-                    .openDecoderView,
                     .addKernelInfo
                 ]
             case .edit:
@@ -68,7 +66,7 @@ enum Command {
                 return []
             }
         }
-        
+
         var replacing: CommandGroupPlacement {
             switch self {
             case .about: return .appInfo
@@ -80,11 +78,11 @@ enum Command {
             }
         }
     }
-    
+
 }
 
 extension WindowType {
-    
+
     var commands: [Command] {
         switch self {
         case .main:
@@ -98,7 +96,6 @@ extension WindowType {
                 .newTabButton,
                 .renameTab,
                 .openDiffView,
-                .openDecoderView,
                 .addKernelInfo,
                 .diffSelectedTags,
                 .whatsNew,
@@ -114,24 +111,12 @@ extension WindowType {
                 .newTabButton,
                 .renameTab,
                 .openMainView,
-                .openDecoderView,
                 .addKernelInfo,
                 .whatsNew,
                 .releaseNotes,
                 .keyBindings
             ]
         case .library:
-            return [
-                .about,
-                .openMainView,
-                .openDiffView,
-                .openDecoderView,
-                .addKernelInfo,
-                .whatsNew,
-                .releaseNotes,
-                .keyBindings
-            ]
-        case .decoder:
             return [
                 .about,
                 .openMainView,
@@ -143,5 +128,5 @@ extension WindowType {
             ]
         }
     }
-    
+
 }

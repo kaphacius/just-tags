@@ -8,19 +8,17 @@
 import Foundation
 
 enum WindowType: Equatable, CustomStringConvertible {
-    
+
     enum Case {
         case main
         case diff
         case library
-        case decoder
 
         var id: String {
             switch self {
             case .main: "main"
             case .diff: "diff"
             case .library: "library"
-            case .decoder: "decoder"
             }
         }
 
@@ -29,7 +27,6 @@ enum WindowType: Equatable, CustomStringConvertible {
             case .main: "Tag parsing"
             case .diff: "Tag diffing"
             case .library: "Tag library"
-            case .decoder: "Tag decoder"
             }
         }
     }
@@ -37,17 +34,15 @@ enum WindowType: Equatable, CustomStringConvertible {
     case main(MainVM)
     case diff(WNS<DiffVM>)
     case library
-    case decoder
-    
+
     var type: Case {
         switch self {
         case .main: return .main
         case .diff: return .diff
         case .library: return .library
-        case .decoder: return .decoder
         }
     }
-    
+
     var description: String {
         switch self {
         case .main(let mainVM):
@@ -57,8 +52,6 @@ enum WindowType: Equatable, CustomStringConvertible {
             return "Diff: \(diffVM.title), diffed tags: \(diffVM.initialTags[0].count), \(diffVM.initialTags[1].count)"
         case .library:
             return "Library"
-        case .decoder:
-            return "Decoder"
         }
     }
 
@@ -67,7 +60,6 @@ enum WindowType: Equatable, CustomStringConvertible {
         case .main(let mainVM): mainVM.title
         case .diff(let diffVM): diffVM.value?.title
         case .library: nil
-        case .decoder: nil
         }
     }
 
@@ -77,23 +69,23 @@ enum WindowType: Equatable, CustomStringConvertible {
             mainVM.title = title
         case .diff(let diffVM):
             diffVM.value?.title = title
-        case .library, .decoder:
+        case .library:
             break
         }
     }
-    
+
     var asMainVM: MainVM? {
         switch self {
         case .main(let mainVM): mainVM
-        case .diff, .library, .decoder: nil
+        case .diff, .library: nil
         }
     }
-    
+
     var canPaste: Bool {
         switch self {
         case .main(let mainVM): mainVM.canPaste
         case .diff(let diffVM): diffVM.value?.canPaste ?? false
-        case .library, .decoder: false
+        case .library: false
         }
     }
 
@@ -103,11 +95,11 @@ enum WindowType: Equatable, CustomStringConvertible {
             mainVM.parse(string: string)
         case .diff(let diffVM):
             diffVM.value?.parse(string: string)
-        case .library, .decoder:
+        case .library:
             break
         }
     }
-    
+
     static func == (lhs: WindowType, rhs: WindowType) -> Bool {
         switch (lhs, rhs) {
         case let (.main(llhs), .main(rrhs)):
@@ -127,12 +119,9 @@ enum WindowType: Equatable, CustomStringConvertible {
             return llhs === rrhs
         case (.library, .library):
             return true
-        case (.decoder, .decoder):
-            return true
         case (.library, _),
             (.diff, _),
-            (.main, _),
-            (.decoder, _):
+            (.main, _):
             return false
         }
     }

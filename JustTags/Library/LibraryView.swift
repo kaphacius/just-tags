@@ -10,23 +10,25 @@ import SwiftyEMVTags
 import Combine
 
 struct LibraryView: View {
-    
+
     @StateObject private var vm: LibraryVM
-    
+
     @State private var columnVisibility: NavigationSplitViewVisibility = .all
     @State private var searchInProgress: Bool = false
-    
+    @FocusState private var byteInputFocused: Bool
+    @FocusState private var searchFieldFocused: Bool
+
     init(tagParser: TagParser) {
         self._vm = .init(wrappedValue: .init(tagParser: tagParser))
     }
-    
+
     // This is for previews
     init(tagParser: TagParser, selectedTagIdx: Int) {
         self._vm = .init(
             wrappedValue: .init(tagParser: tagParser, selectedTagIdx: selectedTagIdx)
         )
     }
-    
+
     internal var body: some View {
         NavigationSplitView(
             columnVisibility: $columnVisibility,
@@ -35,11 +37,13 @@ struct LibraryView: View {
             detail: detail
         )
         .searchable(text: $vm.searchText, isPresented: $searchInProgress)
+        .searchFocusedIfAvailable($searchFieldFocused)
         .navigationTitle(vm.selectedKernel.name)
         .background(searchButton)
         .focusedSceneValue(\.currentWindow, .library)
+        .onChange(of: vm.autoSelectCount) { _, _ in byteInputFocused = true }
     }
-    
+
     @ViewBuilder
     private func sidebar() -> some View {
         List(vm.kernels, id: \.self, selection: $vm.selectedKernel) { kernel in
@@ -49,7 +53,7 @@ struct LibraryView: View {
         }
         .navigationSplitViewColumnWidth(150.0)
     }
-    
+
     @ViewBuilder
     private func content() -> some View {
         LibraryKernelInfoView(
@@ -58,22 +62,45 @@ struct LibraryView: View {
         )
         .navigationSplitViewColumnWidth(min: detailWidth, ideal: detailWidth)
     }
-     
+
     @ViewBuilder
     private func detail() -> some View {
         Group {
             if let selectedTag = vm.selectedTag {
-                ScrollView {
-                    VStack(spacing: 0.0) {
-                        TagDetailsView(vm: selectedTag.tagDetailsVM)
-                            .environment(\.isLibrary, true)
-                        if let mapping = vm.tagMappings[selectedTag.info.tag],
-                           mapping.kernel == selectedTag.info.kernel {
-                            TagMappingView(listVMs: mapping.tagMappingListVMs)
-                                .padding(.top, -commonPadding)
+                VStack(spacing: 0.0) {
+                    if vm.isDecodable(selectedTag) {
+                        inputField(for: selectedTag)
+                            .padding(commonPadding)
+                        Divider()
+                    }
+                    if vm.tagDetailVMs.isEmpty {
+                        ScrollView {
+                            VStack(spacing: 0.0) {
+                                TagDetailsView(vm: selectedTag.tagDetailsVM)
+                                    .environment(\.isLibrary, true)
+                                if let mapping = vm.tagMappings[selectedTag.info.tag],
+                                   mapping.kernel == selectedTag.info.kernel {
+                                    TagMappingView(listVMs: mapping.tagMappingListVMs)
+                                        .padding(.top, -commonPadding)
+                                }
+                            }
+                        }
+                    } else if vm.tagDetailVMs.count == 1, let first = vm.tagDetailVMs.first {
+                        ScrollView {
+                            TagDetailsView(vm: first)
+                        }
+                    } else {
+                        TabView {
+                            ForEach(vm.tagDetailVMs, id: \.kernel) { detailVM in
+                                ScrollView {
+                                    TagDetailsView(vm: detailVM)
+                                }
+                                .tabItem { Text(detailVM.kernel) }
+                            }
                         }
                     }
                 }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             } else {
                 Text("No Tag Selected")
                     .font(.largeTitle)
@@ -82,20 +109,68 @@ struct LibraryView: View {
             }
         }.frame(minWidth: detailWidth)
     }
-    
+
+    private func inputField(for tag: TagDecodingInfo) -> some View {
+        TextField(inputPlaceholder(for: tag), text: $vm.inputString)
+            .font(.body.monospaced())
+            .textFieldStyle(.roundedBorder)
+            .focused($byteInputFocused)
+            .onKeyPress(.escape) {
+                DispatchQueue.main.async {
+                    vm.selectedTag = nil
+                    searchFieldFocused = true
+                }
+                return .handled
+            }
+    }
+
+    private func inputPlaceholder(for tag: TagDecodingInfo) -> String {
+        let exactCount = tag.bytes.count
+        if exactCount > 0 {
+            return "Enter \(exactCount) \(exactCount == 1 ? "byte" : "bytes") as hex or base64"
+        }
+        let min = tag.info.minLength
+        let max = tag.info.maxLength
+        if let minInt = Int(min), let maxInt = Int(max) {
+            if minInt == maxInt {
+                return "Enter \(minInt) \(minInt == 1 ? "byte" : "bytes") as hex or base64"
+            } else {
+                return "Enter \(minInt)–\(maxInt) bytes as hex or base64"
+            }
+        }
+        return "Enter hex or base64 value"
+    }
+
     private var searchButton: some View {
-        Button("Search") {
-            searchInProgress.toggle()
+        Group {
+            Button("Search") { searchInProgress.toggle() }
+                .keyboardShortcut("f", modifiers: [.command])
+            Button("Previous tag") { vm.selectPrevious() }
+                .keyboardShortcut(.upArrow, modifiers: [])
+                .disabled(byteInputFocused)
+            Button("Next tag") { vm.selectNext() }
+                .keyboardShortcut(.downArrow, modifiers: [])
+                .disabled(byteInputFocused)
         }
         .frame(width: 0.0, height: 0.0)
-        .keyboardShortcut("f", modifiers: [.command])
         .hidden()
     }
 
 }
 
+private extension View {
+    @ViewBuilder
+    func searchFocusedIfAvailable(_ binding: FocusState<Bool>.Binding) -> some View {
+        if #available(macOS 15.0, *) {
+            self.searchFocused(binding)
+        } else {
+            self
+        }
+    }
+}
+
 struct LibraryView_Previews: PreviewProvider {
-    
+
     static var previews: some View {
         LibraryView(
             tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder!),

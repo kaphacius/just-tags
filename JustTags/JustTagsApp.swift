@@ -77,15 +77,6 @@ internal struct JustTagsApp: App {
             )
         }.keyboardShortcut("L", modifiers: [.command, .shift])
 
-        Window(
-            WindowType.Case.decoder.title,
-            id: WindowType.Case.decoder.id
-        ) {
-            DecoderView(
-                tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder!)
-            )
-        }.keyboardShortcut("e", modifiers: [.command, .shift])
-        
         Settings {
             SettingsView(
                 selectedTab: $appVM.selectedTab,
