@@ -123,10 +123,7 @@ internal class CustomResourceRepo<Resource: CustomResource>: ObservableObject {
 
     private func pathForResource(with identifier: Resource.ID) -> URL? {
         filenames[identifier]
-            .map { resourcesDir
-                .appendingPathComponent($0)
-                .appendingPathExtension(for: .json)
-            }
+            .map { resourcesDir.appendingPathComponent($0) }
     }
     
 }
