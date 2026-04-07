@@ -14,7 +14,7 @@ class WNS<T: AnyObject>: Identifiable where T: Identifiable {
     private weak var weak: T?
     private var strong: T?
     
-    internal var shouldBeDiscared: Bool {
+    internal var shouldBeDiscarded: Bool {
         // Discard if value is gone or if swap never happened
         strong != nil || weak == nil
     }
@@ -54,7 +54,7 @@ class WNS<T: AnyObject>: Identifiable where T: Identifiable {
 extension Array {
     
     func pruned<T>() -> Self where Element == WNS<T> {
-        self.filter { $0.shouldBeDiscared == false }
+        self.filter { $0.shouldBeDiscarded == false }
     }
     
     mutating func prune<T>() where Element == WNS<T> {
