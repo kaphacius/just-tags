@@ -52,6 +52,7 @@ struct DecodedByteView: View {
                 }
                 .border(Self.borderColor, width: 1.0)
                 .environment(\.isLibrary, vm.isPlaceholder || isLibrary)
+                .environment(\.currentByteIdx, vm.idx)
             }
         }
     }

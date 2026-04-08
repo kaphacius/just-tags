@@ -65,6 +65,16 @@ internal final class LibraryVM: ObservableObject {
         self.selectedTag = self.tagListSections[0].items[selectedTagIdx]
     }
 
+    internal func toggleBit(byteIdx: Int, bitPosition: Int) {
+        let bitShift = UInt8.bitWidth - 1 - bitPosition
+        var bytes = parseValueBytes(inputString) ?? []
+        while bytes.count <= byteIdx {
+            bytes.append(0x00)
+        }
+        bytes[byteIdx] ^= (1 << bitShift)
+        inputString = bytes.map { String(format: "%02X", $0) }.joined()
+    }
+
     internal func isDecodable(_ tag: TagDecodingInfo) -> Bool {
         decodableTagIds.contains(tag.info.tag)
     }

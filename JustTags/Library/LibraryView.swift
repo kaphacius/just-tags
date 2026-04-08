@@ -89,6 +89,7 @@ struct LibraryView: View {
                         ScrollView {
                             TagDetailsView(vm: first)
                         }
+                        .environment(\.bitToggleHandler, vm.toggleBit)
                     } else {
                         TabView {
                             ForEach(vm.tagDetailVMs, id: \.kernel) { detailVM in
@@ -98,6 +99,7 @@ struct LibraryView: View {
                                 .tabItem { Text(detailVM.kernel) }
                             }
                         }
+                        .environment(\.bitToggleHandler, vm.toggleBit)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

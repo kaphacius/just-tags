@@ -6,6 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 JustTags is a native macOS SwiftUI application for working with BER-TLV EMV tags (payment card protocol tags). It supports parsing, filtering, diffing, and inspecting EMV tag data from hex or base64 input.
 
+## Swift Code Style
+
+Prefer `== false` over `!` for boolean negation (e.g. `isLibrary == false` not `!isLibrary`).
+
 ## Build & Development
 
 ```bash

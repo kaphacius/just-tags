@@ -26,22 +26,26 @@ struct DecodedRowVM: Equatable {
 }
 
 internal struct DecodedRowView: View {
-    
+
     @Environment(\.isLibrary) private var isLibrary
-    
+    @Environment(\.bitToggleHandler) private var bitToggleHandler
+    @Environment(\.currentByteIdx) private var currentByteIdx
+
+    @State private var hoveredBitPosition: Int?
+
     private static let rowHeight = 25.0
     private static let borderColor: Color = Color(nsColor: .tertiaryLabelColor)
-    
+
     internal let vm: DecodedRowVM
-    
+
     var body: some View {
         HStack(spacing: 0.0) {
             Group {
                 ForEach(
                     (0..<UInt8.bitWidth).map { ($0, vm.value(at: $0)) },
                     id: \.0
-                ) {
-                    element(with: $0.1)
+                ) { (bitPos, text) in
+                    element(text: text, bitPosition: bitPos)
                 }
                 meaningView
             }
@@ -52,8 +56,13 @@ internal struct DecodedRowView: View {
                 Color(nsColor: .yellow.withAlphaComponent(0.1))
             }
         }
+        .onChange(of: vm) { _, _ in
+            if hoveredBitPosition != nil {
+                NSCursor.pointingHand.set()
+            }
+        }
     }
-    
+
     private var meaningView: some View {
         HStack(spacing: 0.0) {
             Text(vm.meaning)
@@ -67,17 +76,32 @@ internal struct DecodedRowView: View {
         .frame(maxHeight: .infinity)
         .border(Self.borderColor, width: 0.5)
     }
-    
-    private func element(with text: String?) -> some View {
-        Rectangle()
-            .foregroundColor(.clear)
+
+    private func element(text: String?, bitPosition: Int) -> some View {
+        let isClickable = isLibrary == false && bitToggleHandler != nil && text != nil
+        let isHovered = hoveredBitPosition == bitPosition
+        return Rectangle()
+            .foregroundStyle(isClickable && isHovered ? Color.accentColor.opacity(0.15) : .clear)
             .border(Self.borderColor, width: 0.5)
             .frame(width: Self.rowHeight)
             .overlay {
                 text.map { Text(isLibrary ? lookupSymbol : $0) }
             }
+            .onHover { hovering in
+                guard isClickable else { return }
+                hoveredBitPosition = hovering ? bitPosition : nil
+                if hovering {
+                    NSCursor.pointingHand.set()
+                } else {
+                    NSCursor.arrow.set()
+                }
+            }
+            .onTapGesture {
+                guard isClickable else { return }
+                bitToggleHandler?(currentByteIdx, bitPosition)
+            }
     }
-    
+
 }
 
 struct DecodedRowView_Previews: PreviewProvider {
