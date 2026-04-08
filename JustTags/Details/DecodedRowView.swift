@@ -58,7 +58,9 @@ internal struct DecodedRowView: View {
         }
         .onChange(of: vm) { _, _ in
             if hoveredBitPosition != nil {
-                NSCursor.pointingHand.set()
+                DispatchQueue.main.async {
+                    NSCursor.pointingHand.set()
+                }
             }
         }
     }

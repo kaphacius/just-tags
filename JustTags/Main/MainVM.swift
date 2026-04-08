@@ -227,5 +227,22 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     internal func removeTag(with id: EMVTag.ID) {
         self.initialTags.removeAll(where: { $0.id == id })
     }
-    
+
+    internal func toggleBit(byteIdx: Int, bitPosition: Int) {
+        guard let tag = detailTag else { return }
+        let bitShift = UInt8.bitWidth - 1 - bitPosition
+        var valueBytes = tag.tag.value
+        guard byteIdx < valueBytes.count else { return }
+        valueBytes[byteIdx] ^= (1 << bitShift)
+        let syntheticHex = tag.tag.tag.hexString + tag.tag.lengthBytes.hexString + valueBytes.hexString
+        guard let bertlvs = try? InputParser.parse(input: syntheticHex),
+              let bertlv = bertlvs.first else { return }
+        let decoded = tagParser.decodeBERTLV(bertlv)
+        let newTag = EMVTag(id: tag.id, tag: decoded.tag, category: decoded.category, decodingResult: decoded.decodingResult)
+        if let idx = initialTags.firstIndex(where: { $0.id == tag.id }) {
+            initialTags[idx] = newTag
+        }
+        detailTag = newTag
+    }
+
 }

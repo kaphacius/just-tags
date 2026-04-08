@@ -38,7 +38,6 @@ struct LibraryView: View {
         )
         .searchable(text: $vm.searchText, isPresented: $searchInProgress)
         .searchFocusedIfAvailable($searchFieldFocused)
-        .navigationTitle(vm.selectedKernel.name)
         .background(searchButton)
         .focusedSceneValue(\.currentWindow, .library)
         .onChange(of: vm.autoSelectCount) { _, _ in byteInputFocused = true }

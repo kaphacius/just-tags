@@ -137,7 +137,6 @@ internal final class LibraryVM: ObservableObject {
                 guard let self, let tag, !input.isEmpty, isDecodable(tag) else { return [] }
                 return decode(tag: tag, input: input)
             }
-            .receive(on: RunLoop.main)
             .assign(to: \.tagDetailVMs, on: self)
             .store(in: &cancellables)
     }

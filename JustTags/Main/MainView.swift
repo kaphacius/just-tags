@@ -114,16 +114,18 @@ struct MainView: View {
         if let first = vms.first, vms.count == 1 {
             TagDetailsView(vm: first)
                 .padding(-commonPadding)
+                .environment(\.bitToggleHandler, vm.toggleBit)
         } else {
             TabView {
-                ForEach(vms, id: \.kernel) { vm in
-                    TagDetailsView(vm: vm)
+                ForEach(vms, id: \.kernel) { detailVM in
+                    TagDetailsView(vm: detailVM)
                         .tabItem {
-                            Text(vm.kernel)
+                            Text(detailVM.kernel)
                                 .frame(maxWidth: .infinity)
                         }
                 }
             }
+            .environment(\.bitToggleHandler, vm.toggleBit)
         }
     }
     
