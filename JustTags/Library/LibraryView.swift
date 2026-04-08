@@ -18,8 +18,8 @@ struct LibraryView: View {
     @FocusState private var byteInputFocused: Bool
     @FocusState private var searchFieldFocused: Bool
 
-    init(tagParser: TagParser) {
-        self._vm = .init(wrappedValue: .init(tagParser: tagParser))
+    init(tagParser: TagParser, initialState: LibraryWindowState? = nil) {
+        self._vm = .init(wrappedValue: .init(tagParser: tagParser, initialState: initialState))
     }
 
     // This is for previews

@@ -8,19 +8,30 @@
 import Foundation
 
 internal struct AppState: Codable {
-    
+
     private var mains: [MainWindowState]
     internal let activeTab: Int
-    
+    internal let library: LibraryWindowState?
+    internal let activeWindowIsLibrary: Bool?
+
     internal init(
         mains: [MainWindowState],
-        activeTab: Int
+        activeTab: Int,
+        library: LibraryWindowState?,
+        activeWindowIsLibrary: Bool
     ) {
         self.mains = mains
         self.activeTab = activeTab
+        self.library = library
+        self.activeWindowIsLibrary = activeWindowIsLibrary
     }
-    
-    internal static let empty: AppState = .init(mains: [], activeTab: 0)
+
+    internal static let empty: AppState = .init(
+        mains: [],
+        activeTab: 0,
+        library: nil,
+        activeWindowIsLibrary: false
+    )
     
     mutating internal func nextMainState() -> MainWindowState? {
         mains.isEmpty ? nil : mains.removeFirst()
@@ -65,14 +76,36 @@ internal struct AppState: Codable {
     
 }
 
+internal struct LibraryWindowState: Codable {
+
+    internal let searchText: String
+    internal let inputString: String
+    internal let selectedTagId: UInt64?
+    internal let selectedKernelId: String?
+    internal let selectedTagContext: UInt64?
+
+}
+
 internal struct MainWindowState: Codable {
-    
+
     internal let title: String
     internal let tagsHexString: String
-    
+
     internal init(windowVM vm: MainVM) {
         self.title = vm.title
         self.tagsHexString = vm.initialTags.map(\.fullHexString).joined()
     }
-    
+
+}
+
+extension LibraryWindowState {
+
+    internal init(vm: LibraryVM) {
+        self.searchText = vm.searchText
+        self.inputString = vm.inputString
+        self.selectedTagId = vm.selectedTag?.info.tag
+        self.selectedKernelId = vm.selectedTag?.info.kernel
+        self.selectedTagContext = vm.selectedTag?.info.context
+    }
+
 }

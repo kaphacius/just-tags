@@ -28,7 +28,7 @@ internal final class LibraryVM: ObservableObject {
     private let tagParser: TagParser
     private let decodableTagIds: Set<UInt64>
 
-    init(tagParser: TagParser) {
+    init(tagParser: TagParser, initialState: LibraryWindowState? = nil) {
         self.tagParser = tagParser
 
         let sortedKernels = tagParser.initialKernels.sorted { $0.id < $1.id }
@@ -51,12 +51,26 @@ internal final class LibraryVM: ObservableObject {
             uniqueKeysWithValues: allTagsKernel.tags.map(\.searchPair)
         )
 
+        if let state = initialState {
+            self.searchText = state.searchText
+            self.inputString = state.inputString
+            if let tagId = state.selectedTagId, let kernelId = state.selectedKernelId {
+                self.selectedTag = allTagsKernel.tags.first {
+                    $0.info.tag == tagId &&
+                    $0.info.kernel == kernelId &&
+                    $0.info.context == state.selectedTagContext
+                }
+            }
+        }
+
         _selectedKernel.projectedValue
             .sink(receiveValue: { [weak self] in self?.selectedKernelUpdated($0) })
             .store(in: &cancellables)
 
         self.setUpSearch()
         self.setUpDecoding()
+
+        AppVM.shared.libraryVM = self
     }
 
     // This is for previews

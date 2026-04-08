@@ -73,7 +73,8 @@ internal struct JustTagsApp: App {
             id: WindowType.Case.library.id
         ) {
             LibraryView(
-                tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder!)
+                tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder!),
+                initialState: AppVM.shared.libraryWindowState
             )
         }.keyboardShortcut("L", modifiers: [.command, .shift])
 

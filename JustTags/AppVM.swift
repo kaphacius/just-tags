@@ -19,18 +19,32 @@ internal final class AppVM: NSObject, ObservableObject {
     
     private(set) var diffVMs: [WNS<DiffVM>] = []
     private(set) var mainVMs: [WNS<MainVM>] = []
-    
+
+    internal var libraryVM: LibraryVM?
+    internal var libraryWindowState: LibraryWindowState?
+
     private var loadedState: AppState
     private var vmIdToOpen: UUID?
-    
-    internal var onOpenWindow: OpenWindowAction?
+    private var pendingLibraryOpen: Bool = false
+
+    internal var onOpenWindow: OpenWindowAction? {
+        didSet {
+            if pendingLibraryOpen {
+                pendingLibraryOpen = false
+                onOpenWindow?(id: WindowType.Case.library.id)
+            }
+        }
+    }
     internal var currentWindow: WindowType?
     
     private override init() {
         self.loadedState = AppState.loadState()
-        
+
         super.init()
-        
+
+        self.libraryWindowState = loadedState.library
+        self.pendingLibraryOpen = loadedState.activeWindowIsLibrary == true
+
         if loadedState.isStateRestored {
             self.setUpInProgress = false
         } else {
