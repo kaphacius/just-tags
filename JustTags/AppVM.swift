@@ -21,29 +21,19 @@ internal final class AppVM: NSObject, ObservableObject {
     private(set) var mainVMs: [WNS<MainVM>] = []
 
     internal var libraryVM: LibraryVM?
-    internal var libraryWindowState: LibraryWindowState?
 
-    private var loadedState: AppState
+    internal private(set) var loadedState: AppState
+    internal var shouldOpenLibraryOnLaunch: Bool
     private var vmIdToOpen: UUID?
-    private var pendingLibraryOpen: Bool = false
 
-    internal var onOpenWindow: OpenWindowAction? {
-        didSet {
-            if pendingLibraryOpen {
-                pendingLibraryOpen = false
-                onOpenWindow?(id: WindowType.Case.library.id)
-            }
-        }
-    }
+    internal var onOpenWindow: OpenWindowAction?
     internal var currentWindow: WindowType?
-    
+
     private override init() {
         self.loadedState = AppState.loadState()
+        self.shouldOpenLibraryOnLaunch = loadedState.activeWindow == .library
 
         super.init()
-
-        self.libraryWindowState = loadedState.library
-        self.pendingLibraryOpen = loadedState.activeWindowIsLibrary == true
 
         if loadedState.isStateRestored {
             self.setUpInProgress = false
@@ -286,6 +276,10 @@ extension AppVM: MainVMProvider {
                     // Has to be async to avoid updating view state from rendering
                     self.setUpInProgress = false
                     self.currentWindow?.asMainVM?.presentingWhatsNew = shouldShowWhatsNew
+                    if self.shouldOpenLibraryOnLaunch {
+                        self.shouldOpenLibraryOnLaunch = false
+                        self.onOpenWindow?(id: WindowType.Case.library.id)
+                    }
                 }
             } else {
                 // If there is state left to restore - open a new main tab after a small delay
@@ -295,6 +289,12 @@ extension AppVM: MainVMProvider {
             }
         } else {
             newVM.presentingWhatsNew = shouldShowWhatsNew
+            if shouldOpenLibraryOnLaunch {
+                shouldOpenLibraryOnLaunch = false
+                onMain {
+                    self.onOpenWindow?(id: WindowType.Case.library.id)
+                }
+            }
         }
         
         return newVM

@@ -7,30 +7,35 @@
 
 import Foundation
 
+internal enum ActiveWindow: String, Codable {
+    case main
+    case library
+}
+
 internal struct AppState: Codable {
 
     private var mains: [MainWindowState]
     internal let activeTab: Int
     internal let library: LibraryWindowState?
-    internal let activeWindowIsLibrary: Bool?
+    internal let activeWindow: ActiveWindow?
 
     internal init(
         mains: [MainWindowState],
         activeTab: Int,
         library: LibraryWindowState?,
-        activeWindowIsLibrary: Bool
+        activeWindow: ActiveWindow
     ) {
         self.mains = mains
         self.activeTab = activeTab
         self.library = library
-        self.activeWindowIsLibrary = activeWindowIsLibrary
+        self.activeWindow = activeWindow
     }
 
     internal static let empty: AppState = .init(
         mains: [],
         activeTab: 0,
         library: nil,
-        activeWindowIsLibrary: false
+        activeWindow: .main
     )
     
     mutating internal func nextMainState() -> MainWindowState? {

@@ -13,7 +13,7 @@ internal struct JustTagsApp: App {
     
     @StateObject private var appVM: AppVM = .shared
     @FocusedValue(\.currentWindow) private var currentWindow
-    
+
     internal var body: some Scene {
         WindowGroup(
             WindowType.Case.main.title,
@@ -74,7 +74,7 @@ internal struct JustTagsApp: App {
         ) {
             LibraryView(
                 tagParser: TagParser(tagDecoder: AppVM.shared.tagDecoder!),
-                initialState: AppVM.shared.libraryWindowState
+                initialState: AppVM.shared.loadedState.library
             )
         }.keyboardShortcut("L", modifiers: [.command, .shift])
 

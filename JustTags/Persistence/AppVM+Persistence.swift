@@ -16,13 +16,13 @@ extension AppVM {
             .map(MainWindowState.init)
 
         let libraryState = libraryVM.map(LibraryWindowState.init)
-        let isLibraryActive = currentWindow == .library
+        let activeWindow: ActiveWindow = currentWindow?.type == .library ? .library : .main
 
         let appState = AppState(
             mains: mainStates,
             activeTab: mainVMs.firstIndex(where: { $0.value === currentWindow?.asMainVM }) ?? 0,
             library: libraryState,
-            activeWindowIsLibrary: isLibraryActive
+            activeWindow: activeWindow
         )
 
         AppState.save(state: appState)
