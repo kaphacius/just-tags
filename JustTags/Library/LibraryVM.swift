@@ -190,16 +190,42 @@ internal final class LibraryVM: ObservableObject {
 
     private func decode(tag: TagDecodingInfo, input: String) -> [TagDetailsVM] {
         guard let valueBytes = parseValueBytes(input), !valueBytes.isEmpty else { return [] }
-        let syntheticHex = tag.info.tag.hexString + berTLVLengthHex(valueBytes.count) + valueBytes.hexString
+        let expectedLength = tag.bytes.count
+        let paddedBytes: [UInt8]
+        if expectedLength > valueBytes.count {
+            paddedBytes = valueBytes + Array(repeating: 0x00, count: expectedLength - valueBytes.count)
+        } else {
+            paddedBytes = valueBytes
+        }
+        let syntheticHex = tag.info.tag.hexString + berTLVLengthHex(paddedBytes.count) + paddedBytes.hexString
         guard let bertlvs = try? InputParser.parse(input: syntheticHex),
               let bertlv = bertlvs.first else { return [] }
+
+        let enteredCount = valueBytes.count
+        let placeholders = tag.placeholderByteVMs
+
+        func makeVM(from decodedTag: EMVTag.DecodedTag) -> TagDetailsVM? {
+            guard decodedTag.result.hasBytesOrMapping else { return nil }
+            var bytes = decodedTag.result.decodedByteVMs
+            if bytes.count > enteredCount {
+                bytes = Array(bytes[..<enteredCount]) + Array(placeholders[enteredCount...])
+            }
+            return .init(
+                tag: decodedTag.tagInfo.tag.hexString,
+                name: decodedTag.tagInfo.name,
+                info: decodedTag.tagInfoVM,
+                bytes: bytes,
+                kernel: decodedTag.kernel
+            )
+        }
+
         switch tagParser.decodeBERTLV(bertlv).decodingResult {
         case .unknown:
             return []
         case .singleKernel(let decodedTag):
-            return decodedTag.result.hasBytesOrMapping ? [decodedTag.tagDetailsVM] : []
+            return makeVM(from: decodedTag).map { [$0] } ?? []
         case .multipleKernels(let decodedTags):
-            return decodedTags.filter(\.result.hasBytesOrMapping).map(\.tagDetailsVM)
+            return decodedTags.compactMap(makeVM)
         }
     }
 
@@ -207,7 +233,8 @@ internal final class LibraryVM: ObservableObject {
         let cleaned = input
             .replacingOccurrences(of: " ", with: "")
             .replacingOccurrences(of: "\n", with: "")
-        let hexBytes = cleaned.split(by: 2).map { UInt8($0, radix: 16) }
+        let hexInput = cleaned.count % 2 != 0 ? String(cleaned.dropLast()) : cleaned
+        let hexBytes = hexInput.split(by: 2).map { UInt8($0, radix: 16) }
         let compacted = hexBytes.compactMap { $0 }
         if hexBytes.count == compacted.count, !compacted.isEmpty {
             return compacted
@@ -265,6 +292,14 @@ fileprivate extension KernelInfo {
 }
 
 internal extension TagDecodingInfo {
+
+    var placeholderByteVMs: [DecodedByteVM] {
+        bytes
+            .map { try? EMVTag.DecodedByte(byte: 0x00, info: $0) }
+            .enumerated()
+            .compactMap(t2FlatMap(_:))
+            .map { $0.1.decodedByteVM(idx: $0.0, isPlaceholder: true) }
+    }
 
     var tagDetailsVM: TagDetailsVM {
         let bytes = bytes

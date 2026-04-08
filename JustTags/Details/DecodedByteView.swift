@@ -9,29 +9,33 @@ import SwiftUI
 import SwiftyEMVTags
 
 struct DecodedByteVM {
-    
+
     internal let title: String
     internal let rows: [DecodedRowVM]
     internal let idx: Int
-    
-    internal init(idx: Int, name: String?, rows: [DecodedRowVM]) {
+    internal let isPlaceholder: Bool
+
+    internal init(idx: Int, name: String?, rows: [DecodedRowVM], isPlaceholder: Bool = false) {
         let name = name.map { ": \($0)" } ?? ""
         self.title = "Byte \(idx + 1)\(name)"
         self.rows = rows
         self.idx = idx
+        self.isPlaceholder = isPlaceholder
     }
-    
+
 }
 
 struct DecodedByteView: View {
-    
+
     private static let rowHeight = 25.0
     private static let borderColor: Color = Color(nsColor: .tertiaryLabelColor)
     private static let bitHeaderValues = stride(from: UInt8.bitWidth, through: 1, by: -1)
         .map { "b\($0)" }
-    
+
+    @Environment(\.isLibrary) private var isLibrary
+
     internal let vm: DecodedByteVM
-    
+
     internal var body: some View {
         GroupBox {
             VStack(alignment: .leading, spacing: commonPadding) {
@@ -47,6 +51,7 @@ struct DecodedByteView: View {
                     }
                 }
                 .border(Self.borderColor, width: 1.0)
+                .environment(\.isLibrary, vm.isPlaceholder || isLibrary)
             }
         }
     }

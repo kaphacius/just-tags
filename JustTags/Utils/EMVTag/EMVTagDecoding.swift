@@ -99,11 +99,12 @@ extension EMVTag.DecodedByte {
         groups.compactMap(\.selectedMeaning)
     }
     
-    internal func decodedByteVM(idx: Int) -> DecodedByteVM {
+    internal func decodedByteVM(idx: Int, isPlaceholder: Bool = false) -> DecodedByteVM {
         .init(
             idx: idx,
             name: name,
-            rows: decodedRowVMs
+            rows: decodedRowVMs,
+            isPlaceholder: isPlaceholder
         )
     }
     
