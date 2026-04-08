@@ -63,6 +63,16 @@ internal final class AppVM: NSObject, ObservableObject {
         }
         
         NotificationCenter.default.addObserver(
+            forName: NSWindow.willCloseNotification,
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            guard let w = notification.object as? NSWindow,
+                  w.title == WindowType.Case.library.title else { return }
+            self?.libraryVM = nil
+        }
+
+        NotificationCenter.default.addObserver(
             forName: NSWindow.didBecomeKeyNotification,
             object: nil,
             queue: nil
