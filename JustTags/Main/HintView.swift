@@ -13,7 +13,7 @@ struct HintView: View {
             Text("Paste your hex or base64 string here")
                 .font(.largeTitle)
                 .multilineTextAlignment(.center)
-                .foregroundColor(Color(nsColor: NSColor.secondaryLabelColor))
+                .foregroundStyle(.secondary)
                 .padding(.bottom)
                 .padding(.horizontal, 20.0)
             HStack(alignment: .center) {
@@ -25,10 +25,9 @@ struct HintView: View {
                     Text("V")
                         .padding(.bottom, 3.0)
                 }.font(.system(size: 70.0))
-                    .foregroundColor(Color(nsColor: NSColor.secondaryLabelColor))
+                    .foregroundStyle(.secondary)
             }.padding()
         }
-        .disabled(true)
         .allowsHitTesting(false)
     }
 }
