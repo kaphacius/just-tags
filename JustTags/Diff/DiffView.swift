@@ -12,14 +12,12 @@ struct DiffView: View {
     
     @ObservedObject internal var vm: DiffVM
     @State private var showsKernelsPopover: Bool = false
-    @FocusState internal var focusedEditor: Int?
     
     internal var body: some View {
         VStack(spacing: commonPadding) {
             header
             main
         }
-        .onChange(of: focusedEditor) { (_, newValue) in vm.updateFocusedEditor(newValue) }
         .animation(.none, value: vm.showOnlyDifferent)
         .padding(.horizontal, commonPadding)
         .padding(.top, commonPadding)
@@ -35,9 +33,9 @@ struct DiffView: View {
             HStack {
                 Toggle("Show only different tags", isOn: $vm.showOnlyDifferent)
                     .background(onlyDiffShortcut)
-            }
-            .frame(maxWidth: .infinity)
-            .overlay(alignment: .trailing) {
+
+                Spacer()
+                
                 HStack {
                     Button(action: {
                         vm.flipSides()
@@ -95,22 +93,46 @@ struct DiffView: View {
     private func column(for idx: Int) -> some View {
         GroupBox {
             if vm.initialTags[idx].isEmpty {
-                textInput(for: idx)
+                pasteTarget(for: idx)
             } else {
                 tagList(for: vm.initialTags[idx])
             }
-        }.frame(minHeight: 500.0)
+        }
+        .frame(minHeight: 500.0)
+        .overlay {
+            RoundedRectangle(cornerRadius: 8.0, style: .continuous)
+                .stroke(
+                    vm.selectedColumn == idx ? Color.accentColor : Color.clear,
+                    lineWidth: 2.0
+                )
+                .padding(2.0)
+        }
+        .contentShape(Rectangle())
+        .onTapGesture {
+            vm.selectColumn(idx)
+        }
     }
     
     @ViewBuilder
-    private func textInput(for idx: Int) -> some View {
-        TextEditor(text: $vm.texts[idx])
-            .font(.largeTitle.monospaced())
-            .focused($focusedEditor, equals: idx)
-            .onChange(of: vm.texts[idx]) { (_, text) in
-                vm.parse(string: text)
+    private func pasteTarget(for idx: Int) -> some View {
+        VStack(spacing: commonPadding * 3) {
+            VStack(spacing: commonPadding) {
+                Text(idx == 0 ? "Paste left side" : "Paste right side")
+                    .font(.title2)
+                Text("Click this pane, then press Command-V")
+                    .foregroundStyle(.secondary)
             }
-            .overlay(HintView())
+            
+            Button {
+                vm.selectColumn(idx)
+                NSPasteboard.string.map(vm.parse(string:))
+            } label: {
+                Label("Paste from Clipboard", systemImage: "doc.on.clipboard")
+            }
+            .buttonStyle(.borderedProminent)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .padding(commonPadding * 4)
     }
     
     @ViewBuilder

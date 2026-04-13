@@ -17,11 +17,10 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
     @Published internal var diffResults: [DiffedTagPair]
     @Published internal var showOnlyDifferent: Bool
     @Published internal var showsDiff: Bool
+    @Published internal var selectedColumn: Int
     
     internal let id: UUID = .init()
-    
-    private var focusedEditorIdx: Int?
-    
+
     private var cancellables: Set<AnyCancellable> = []
     
     internal init(
@@ -30,12 +29,14 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
         columns: Int = 2,
         texts: [String] = ["", ""],
         initialTags: [[EMVTag]] = [[], []],
-        showOnlyDifferent: Bool = false
+        showOnlyDifferent: Bool = false,
+        selectedColumn: Int = 0
     ) {
         _columns = .init(initialValue: columns)
         _texts = .init(initialValue: texts)
         _initialTags = .init(initialValue: initialTags)
         _showOnlyDifferent = .init(initialValue: showOnlyDifferent)
+        _selectedColumn = .init(initialValue: selectedColumn)
         _diffResults = .init(
             initialValue: Diff.diff(
                 tags: initialTags,
@@ -67,8 +68,9 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
         initialTags.contains([]) == false
     }
     
-    internal func updateFocusedEditor(_ idx: Int?) {
-        self.focusedEditorIdx = idx
+    internal func selectColumn(_ idx: Int) {
+        guard idx >= 0, idx < columns else { return }
+        self.selectedColumn = idx
     }
     
     internal func diffInitialTags() {
@@ -98,17 +100,14 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
     }
     
     internal func parse(string: String) {
-        guard let focusedEditorIdx = focusedEditorIdx else { return }
-        
         let tags = tagsByParsing(string: string)
         guard tags.isEmpty == false else {
-            texts[focusedEditorIdx] = ""
             return
         }
         
-        texts[focusedEditorIdx] = string
+        texts[selectedColumn] = string
         
-        apply(tags: tags, at: focusedEditorIdx)
+        apply(tags: tags, at: selectedColumn)
     }
     
     internal func apply(tags: [EMVTag], at idx: Int) {
@@ -122,6 +121,10 @@ internal final class DiffVM: AnyWindowVM, Identifiable {
         
         refreshState()
         diffInitialTags()
+        
+        if let nextEmptyColumn = initialTags.firstIndex(where: \.isEmpty) {
+            selectedColumn = nextEmptyColumn
+        }
     }
     
     internal func diff(tags: TagPair) {
