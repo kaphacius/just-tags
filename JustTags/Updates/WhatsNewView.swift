@@ -9,7 +9,7 @@ import SwiftUI
 
 struct WhatsNewView: View {
     
-    @Environment(\.presentationMode) private var presentationMode
+    @Environment(\.dismiss) private var dismiss
     internal var vm: WhatsNewVM
     
     var body: some View {
@@ -47,10 +47,10 @@ struct WhatsNewView: View {
     
     private var getStartedButton: some View {
         Button {
-            presentationMode.wrappedValue.dismiss()
+            dismiss()
         } label: {
             Text("Continue")
-                .foregroundColor(.white)
+                .foregroundStyle(.white)
                 .padding(.horizontal)
                 .padding(.horizontal)
                 .padding(.horizontal)
@@ -63,7 +63,7 @@ struct WhatsNewView: View {
             VStack {
                 Image(systemName: item.iconName)
                     .font(.largeTitle)
-                    .foregroundColor(.accentColor)
+                    .foregroundStyle(.tint)
                     .frame(width: 50.0, height: 50.0, alignment: .topTrailing)
                 Spacer()
             }

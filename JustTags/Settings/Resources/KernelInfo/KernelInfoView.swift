@@ -51,7 +51,7 @@ struct KernelInfoView: CustomResourceView {
                     .font(.title2)
                 Text("Identifier: ").bold() + Text(vm.id)
                     .italic()
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
                 Text("Type: ").bold() + Text(vm.type)
                 Text(vm.description)
             }

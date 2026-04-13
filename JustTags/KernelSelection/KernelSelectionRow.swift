@@ -28,7 +28,7 @@ struct KernelSelectionRow: View {
                     .lineLimit(1)
                 Text(vm.id)
                     .font(.callout.italic())
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
             Spacer()
             Toggle("isSelected", isOn: isSelected)

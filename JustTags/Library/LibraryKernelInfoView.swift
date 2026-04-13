@@ -7,7 +7,6 @@
 
 import SwiftUI
 import SwiftyEMVTags
-import Combine
 
 struct LibraryKernelInfoView: View {
     
@@ -37,7 +36,7 @@ struct LibraryKernelInfoView: View {
                 }.overlay(
                     RoundedRectangle(cornerRadius: 4.0, style: .continuous)
                         .strokeBorder(lineWidth: 1.0, antialiased: true)
-                        .foregroundColor(selectedTag == tag ? .secondary : .clear)
+                        .foregroundStyle(selectedTag == tag ? AnyShapeStyle(.secondary) : AnyShapeStyle(.clear))
                         .animation(.easeOut(duration: 0.25), value: selectedTag)
                 ).onTapGesture {
                     if selectedTag == tag {

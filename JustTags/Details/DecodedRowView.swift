@@ -53,7 +53,7 @@ internal struct DecodedRowView: View {
         }
         .background {
             if vm.isSelected {
-                Color(nsColor: .yellow.withAlphaComponent(0.1))
+                Color.yellow.opacity(0.1)
             }
         }
         .onChange(of: vm) { _, _ in

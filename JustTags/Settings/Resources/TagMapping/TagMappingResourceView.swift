@@ -58,7 +58,7 @@ struct TagMappingResourceView: CustomResourceView {
             }
             Text("Kernel: ").bold() + Text(vm.kernel)
                 .italic()
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
             }
     }
 }

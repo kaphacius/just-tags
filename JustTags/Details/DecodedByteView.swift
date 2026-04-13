@@ -73,7 +73,7 @@ struct DecodedByteView: View {
     
     private func bitView(with text: String?) -> some View {
         Rectangle()
-            .foregroundColor(.clear)
+            .foregroundStyle(.clear)
             .border(Self.borderColor, width: 0.5)
             .frame(width: Self.rowHeight, height: Self.rowHeight)
             .overlay {

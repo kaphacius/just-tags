@@ -25,7 +25,7 @@ internal struct TagValueView: View {
             if let extendedDescription = vm.extendedDescription {
                 Text(extendedDescription)
                     .font(.title3)
-                    .foregroundColor(.secondary)
+                    .foregroundStyle(.secondary)
             }
         }
     }

@@ -37,7 +37,7 @@ internal struct TagHeaderView: View {
             Text(name)
         } else {
             Image(systemName: "questionmark.app.dashed")
-                .foregroundColor(.secondary)
+                .foregroundStyle(.secondary)
                 .padding(.leading, -commonPadding)
         }
     }
@@ -59,7 +59,7 @@ internal struct TagHeaderView: View {
             .font(.subheadline.weight(.ultraLight).monospaced())
             .padding(.horizontal, 5.0)
             .padding(.vertical, 2.0)
-            .foregroundColor(.secondary)
+            .foregroundStyle(.secondary)
             .background { kernelLabelBackground() }
     }
     

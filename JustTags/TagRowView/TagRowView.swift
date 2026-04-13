@@ -94,7 +94,7 @@ internal struct TagRowView: View {
         .overlay(
             RoundedRectangle(cornerRadius: 4.0, style: .continuous)
                 .strokeBorder(lineWidth: borderThickness, antialiased: true)
-                .foregroundColor(windowVM.isTagSelected(id: vm.id) ? .secondary : deselectedBorderColor)
+                .foregroundStyle(windowVM.isTagSelected(id: vm.id) ? .secondary : deselectedBorderColor)
                 .animation(.easeOut(duration: 0.25), value: windowVM.isTagSelected(id: vm.id))
         )
     }

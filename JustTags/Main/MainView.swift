@@ -131,7 +131,7 @@ struct MainView: View {
     
     private var tagSelectionHint: some View {
         Text("Select a tag to view the details")
-            .foregroundColor(.secondary)
+            .foregroundStyle(.secondary)
             .font(.title2)
             .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
