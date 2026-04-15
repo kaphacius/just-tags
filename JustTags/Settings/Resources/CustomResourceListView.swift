@@ -12,7 +12,9 @@ struct CustomResourceListView<Resource: CustomResource>: View {
     
     @ObservedObject internal var vm: CustomResourceListVM<Resource>
     @State private var alert: PresentableAlert?
-    
+    @State private var showsClearAllConfirmation: Bool = false
+    @State private var resourceToDelete: Resource.ID?
+
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: commonPadding * 2) {
@@ -28,6 +30,35 @@ struct CustomResourceListView<Resource: CustomResource>: View {
         .onDrop(of: [.fileURL], isTargeted: nil, perform: handleDrop(_:))
         .animation(.default, value: vm.resources.map(\.id))
         .errorAlert($alert)
+        .confirmationDialog(
+            "Clear all \(Resource.displayName)s?",
+            isPresented: $showsClearAllConfirmation
+        ) {
+            Button("Clear All", role: .destructive) {
+                do {
+                    try vm.clearSavedResources()
+                } catch {
+                    self.alert = .init(error: error)
+                }
+            }
+        }
+        .confirmationDialog(
+            "Delete this \(Resource.displayName)?",
+            isPresented: Binding(
+                get: { resourceToDelete != nil },
+                set: { if $0 == false { resourceToDelete = nil } }
+            )
+        ) {
+            Button("Delete", role: .destructive) {
+                guard let id = resourceToDelete else { return }
+                do {
+                    try vm.removeResource(with: id)
+                } catch {
+                    self.alert = .init(error: error)
+                }
+                resourceToDelete = nil
+            }
+        }
     }
     
     private var addNew: some View {
@@ -37,13 +68,8 @@ struct CustomResourceListView<Resource: CustomResource>: View {
     }
     
     private var clearAll: some View {
-        Button {
-            // TODO: Add confirmation to deletion
-            do {
-                try vm.clearSavedResources()
-            } catch {
-                self.alert = .init(error: error)
-            }
+        Button(role: .destructive) {
+            showsClearAllConfirmation = true
         } label: {
             Label("Clear all \(Resource.displayName)s", systemImage: "trash.fill")
         }
@@ -64,14 +90,9 @@ struct CustomResourceListView<Resource: CustomResource>: View {
     @ViewBuilder
     private func deleteButtonOverlay(for identifier: Resource.ID) -> some View {
         if vm.shouldShowDeleteButton(for: identifier) {
-            Button(action: {
-                // TODO: Add confirmation to deletion
-                do {
-                    try vm.removeResource(with: identifier)
-                } catch {
-                    self.alert = .init(error: error)
-                }
-            }) {
+            Button(role: .destructive) {
+                resourceToDelete = identifier
+            } label: {
                 Label("Delete", systemImage: "xmark.bin.fill")
                     .labelStyle(.iconOnly)
             }.padding(.trailing, commonPadding)
