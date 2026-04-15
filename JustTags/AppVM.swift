@@ -140,6 +140,24 @@ internal final class AppVM: NSObject, ObservableObject {
             break
         }
     }
+    
+    internal func openMainDeepLink(url: URL, openWindow: OpenWindowAction) {
+        let abs = url.absoluteString
+        guard let markerIdx = abs.ranges(of: /\/main\//).first else {
+            return
+        }
+        
+        let payload = String(abs.suffix(from: markerIdx.upperBound))
+        let vm: MainVM
+        if let latestVM = mainVMs.last.flatMap(\.value) {
+            vm = latestVM
+        } else {
+            vm = createNewMainVM()
+        }
+        
+        vm.parse(string: payload.removingPercentEncoding ?? payload)
+        openWindow(id: WindowType.Case.main.id, value: vm.id)
+    }
 
     internal func diffSelectedTags() {
         guard let activeMainVM = currentWindow.flatMap(\.asMainVM) else {

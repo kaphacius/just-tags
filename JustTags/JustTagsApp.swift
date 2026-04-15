@@ -13,6 +13,7 @@ internal struct JustTagsApp: App {
     
     @StateObject private var appVM: AppVM = .shared
     @FocusedValue(\.currentWindow) private var currentWindow
+    @Environment(\.openWindow) private var openWindow
 
     internal var body: some Scene {
         WindowGroup(
@@ -32,15 +33,7 @@ internal struct JustTagsApp: App {
             }
             .environmentObject(appVM)
             .onOpenURL(perform: { url in
-                let abs = url.absoluteString
-                guard let markerIdx = abs.ranges(of: /\/main\//).first else {
-                    return
-                }
-                let last = String(url.absoluteString.suffix(from: markerIdx.upperBound))
-                NSPasteboard.copyString(last)
-                Task {
-                    appVM.pasteIntoCurrentTab()
-                }
+                appVM.openMainDeepLink(url: url, openWindow: openWindow)
             })
         } defaultValue: {
             // WWDC 2024
