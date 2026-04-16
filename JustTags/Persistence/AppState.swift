@@ -15,35 +15,64 @@ internal enum ActiveWindow: String, Codable {
 internal struct AppState: Codable {
 
     private var mains: [MainWindowState]
-    internal let activeTab: Int
+    private var diffs: [DiffWindowState]
     internal let library: LibraryWindowState?
     internal let activeWindow: ActiveWindow?
 
+    private enum CodingKeys: String, CodingKey {
+        case mains, diffs, library, activeWindow
+    }
+
     internal init(
         mains: [MainWindowState],
-        activeTab: Int,
+        diffs: [DiffWindowState],
         library: LibraryWindowState?,
         activeWindow: ActiveWindow
     ) {
         self.mains = mains
-        self.activeTab = activeTab
+        self.diffs = diffs
         self.library = library
         self.activeWindow = activeWindow
     }
 
+    // Custom Codable so that older saved states without `diffs` still load cleanly.
+    internal init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.mains = try c.decode([MainWindowState].self, forKey: .mains)
+        self.diffs = try c.decodeIfPresent([DiffWindowState].self, forKey: .diffs) ?? []
+        self.library = try c.decodeIfPresent(LibraryWindowState.self, forKey: .library)
+        self.activeWindow = try c.decodeIfPresent(ActiveWindow.self, forKey: .activeWindow)
+    }
+
+    internal func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(mains, forKey: .mains)
+        try c.encode(diffs, forKey: .diffs)
+        try c.encodeIfPresent(library, forKey: .library)
+        try c.encodeIfPresent(activeWindow, forKey: .activeWindow)
+    }
+
     internal static let empty: AppState = .init(
         mains: [],
-        activeTab: 0,
+        diffs: [],
         library: nil,
         activeWindow: .main
     )
-    
+
     mutating internal func nextMainState() -> MainWindowState? {
         mains.isEmpty ? nil : mains.removeFirst()
     }
-    
+
+    mutating internal func nextDiffState() -> DiffWindowState? {
+        diffs.isEmpty ? nil : diffs.removeFirst()
+    }
+
     internal var isStateRestored: Bool {
         mains.isEmpty
+    }
+
+    internal var hasDiffStates: Bool {
+        diffs.isEmpty == false
     }
     
     internal static func save(state: AppState) {
@@ -111,6 +140,16 @@ extension LibraryWindowState {
         self.selectedTagId = vm.selectedTag?.info.tag
         self.selectedKernelId = vm.selectedTag?.info.kernel
         self.selectedTagContext = vm.selectedTag?.info.context
+    }
+
+}
+
+internal struct DiffWindowState: Codable {
+
+    internal let texts: [String]
+
+    internal init(vm: DiffVM) {
+        self.texts = vm.texts
     }
 
 }

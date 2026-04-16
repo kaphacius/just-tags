@@ -271,7 +271,20 @@ extension AppVM: DiffVMProvider {
             tagParser: .init(tagDecoder: tagDecoder!)
         )
         diffVMs.append(.init(stongValue: newVM))
+
+        if let nextDiffState = loadedState.nextDiffState() {
+            newVM.texts = nextDiffState.texts
+            newVM.reparse()
+        }
+
         return newVM
+    }
+
+    private func openRestoredDiffWindows() {
+        guard loadedState.hasDiffStates else { return }
+        let vm = createNewDiffVM()
+        onOpenWindow?(id: WindowType.Case.diff.id, value: vm.id)
+        onMain(seconds: 0.1) { self.openRestoredDiffWindows() }
     }
     
 }
@@ -308,6 +321,7 @@ extension AppVM: MainVMProvider {
                         self.shouldOpenLibraryOnLaunch = false
                         self.onOpenWindow?(id: WindowType.Case.library.id)
                     }
+                    self.openRestoredDiffWindows()
                 }
             } else {
                 // If there is state left to restore - open a new main tab after a small delay

@@ -15,12 +15,17 @@ extension AppVM {
             .filter { $0.isEmpty == false }
             .map(MainWindowState.init)
 
+        let diffStates: [DiffWindowState] = diffVMs
+            .compactMap(\.value)
+            .filter { $0.isEmpty == false }
+            .map(DiffWindowState.init)
+
         let libraryState = libraryVM.map(LibraryWindowState.init)
         let activeWindow: ActiveWindow = currentWindow?.type == .library ? .library : .main
 
         let appState = AppState(
             mains: mainStates,
-            activeTab: mainVMs.firstIndex(where: { $0.value === currentWindow?.asMainVM }) ?? 0,
+            diffs: diffStates,
             library: libraryState,
             activeWindow: activeWindow
         )
