@@ -18,15 +18,15 @@ internal final class LibraryVM: ObservableObject {
     @Published internal var inputString = ""
     @Published internal var tagDetailVMs: [TagDetailsVM] = []
     @Published internal var autoSelectCount: Int = 0
-    internal let kernels: [KernelInfo]
-    internal let tagMappings: [UInt64: TagMapping]
+    @Published internal var kernels: [KernelInfo]
+    @Published internal var tagMappings: [UInt64: TagMapping]
 
     private var cancellables: Set<AnyCancellable> = []
-    private let tagSearchComponents: [Int: PrioritySearchComponents]
-    private let generalKernel: KernelInfo?
+    private var tagSearchComponents: [Int: PrioritySearchComponents]
+    private var generalKernel: KernelInfo?
     private var initialSections: [LibraryKernelInfoView.Section]
     private let tagParser: TagParser
-    private let decodableTagIds: Set<UInt64>
+    private var decodableTagIds: Set<UInt64>
 
     init(tagParser: TagParser, initialState: LibraryWindowState? = nil) {
         self.tagParser = tagParser
@@ -69,6 +69,7 @@ internal final class LibraryVM: ObservableObject {
 
         self.setUpSearch()
         self.setUpDecoding()
+        self.setUpResourceObservation()
 
         AppVM.shared.libraryVM = self
     }
@@ -112,6 +113,44 @@ internal final class LibraryVM: ObservableObject {
         if shouldSearch(with: searchText) {
             // Filter tags if searchText is present
             performSearch(searchText)
+        }
+    }
+
+    private func setUpResourceObservation() {
+        tagParser.objectWillChange
+            .sink { [weak self] _ in self?.rebuild() }
+            .store(in: &cancellables)
+    }
+
+    private func rebuild() {
+        let sortedKernels = tagParser.initialKernels.sorted { $0.id < $1.id }
+        let allTagsKernel = KernelInfo.makeAllTagsKernel(with: sortedKernels)
+
+        // Update all snapshot state before touching selectedKernel, since
+        // setting selectedKernel synchronously triggers selectedKernelUpdated via Combine.
+        kernels = [allTagsKernel] + sortedKernels
+        generalKernel = sortedKernels.first(where: { $0.id == generalKernelId })
+        tagMappings = tagParser.tagMapper.mappings
+        decodableTagIds = Set(
+            tagParser.initialKernels.flatMap(\.tags)
+                .filter { $0.bytes.count > 0 || tagParser.tagMapper.mappings[$0.info.tag] != nil }
+                .map(\.info.tag)
+        )
+        tagSearchComponents = .init(
+            uniqueKeysWithValues: allTagsKernel.tags.map(\.searchPair)
+        )
+
+        // Restore selected kernel if still present, fall back to allTagsKernel.
+        // This assignment triggers selectedKernelUpdated synchronously, rebuilding tagListSections.
+        selectedKernel = kernels.first(where: { $0.id == selectedKernel.id }) ?? allTagsKernel
+
+        // Restore selected tag if still present in the new data, otherwise clear it.
+        if let current = selectedTag {
+            selectedTag = allTagsKernel.tags.first {
+                $0.info.tag == current.info.tag &&
+                $0.info.kernel == current.info.kernel &&
+                $0.info.context == current.info.context
+            }
         }
     }
 

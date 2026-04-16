@@ -1,0 +1,47 @@
+{
+  "id": "mock",
+  "name": "Mock Kernel",
+  "category": "vendor",
+  "description": "Mock kernel for testing library reactivity",
+  "tags": [
+    {
+      "info": {
+        "tag": "DF01",
+        "name": "Mock Tag A",
+        "description": "A mock single-byte tag for testing",
+        "source": "terminal",
+        "format": "binary",
+        "kernel": "mock",
+        "minLength": "1",
+        "maxLength": "1"
+      },
+      "bytes": [
+        {
+          "name": "Mock Byte",
+          "groups": [
+            { "name": "Bit 8", "pattern": "10000000", "type": "bool" },
+            { "name": "Bit 7", "pattern": "01000000", "type": "bool" },
+            { "name": "Bit 6", "pattern": "00100000", "type": "bool" },
+            { "name": "Bit 5", "pattern": "00010000", "type": "bool" },
+            { "name": "Bit 4", "pattern": "00001000", "type": "bool" },
+            { "name": "Bit 3", "pattern": "00000100", "type": "bool" },
+            { "name": "Bit 2", "pattern": "00000010", "type": "bool" },
+            { "name": "Bit 1", "pattern": "00000001", "type": "bool" }
+          ]
+        }
+      ]
+    },
+    {
+      "info": {
+        "tag": "DF02",
+        "name": "Mock Tag B",
+        "description": "A mock variable-length tag for testing",
+        "source": "card",
+        "format": "ans",
+        "kernel": "mock",
+        "minLength": "1",
+        "maxLength": "8"
+      }
+    }
+  ]
+}
