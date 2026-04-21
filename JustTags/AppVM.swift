@@ -20,10 +20,10 @@ internal final class AppVM: NSObject, ObservableObject {
     private(set) var diffVMs: [WNS<DiffVM>] = []
     private(set) var mainVMs: [WNS<MainVM>] = []
 
+
     internal var libraryVM: LibraryVM?
 
     internal private(set) var loadedState: AppState
-    internal var shouldOpenLibraryOnLaunch: Bool
     private var vmIdToOpen: UUID?
 
     internal var onOpenWindow: OpenWindowAction?
@@ -31,8 +31,6 @@ internal final class AppVM: NSObject, ObservableObject {
 
     private override init() {
         self.loadedState = AppState.loadState()
-        self.shouldOpenLibraryOnLaunch = loadedState.activeWindow == .library
-
         super.init()
 
         if loadedState.isStateRestored {
@@ -280,11 +278,28 @@ extension AppVM: DiffVMProvider {
         return newVM
     }
 
-    private func openRestoredDiffWindows() {
-        guard loadedState.hasDiffStates else { return }
+    private func openRestoredDiffWindows(completion: (() -> Void)? = nil) {
+        guard loadedState.hasDiffStates else {
+            completion?()
+            return
+        }
         let vm = createNewDiffVM()
         onOpenWindow?(id: WindowType.Case.diff.id, value: vm.id)
-        onMain(seconds: 0.1) { self.openRestoredDiffWindows() }
+        onMain(seconds: 0.1) { self.openRestoredDiffWindows(completion: completion) }
+    }
+
+    private func activateRestoredWindow() {
+        guard let info = loadedState.activeWindowInfo else { return }
+        switch info.kind {
+        case .library:
+            onOpenWindow?(id: WindowType.Case.library.id)
+        case .main:
+            guard info.index < mainVMs.count else { return }
+            onOpenWindow?(id: WindowType.Case.main.id, value: mainVMs[info.index].id)
+        case .diff:
+            guard info.index < diffVMs.count else { return }
+            onOpenWindow?(id: WindowType.Case.diff.id, value: diffVMs[info.index].id)
+        }
     }
     
 }
@@ -297,48 +312,66 @@ extension AppVM: MainVMProvider {
     }
     
     internal func createNewMainVM() -> MainVM {
-        // Create new main VM and add it to the list
+        // Create a new MainVM and register it so AppVM can look it up by ID later.
         let newVM = MainVM(
             appVM: self,
             tagParser: .init(tagDecoder: tagDecoder!)
         )
         mainVMs.append(.init(stongValue: newVM))
-        
-        // Restore main VM state if needed
+
+        // During launch restoration, setUpInProgress is true and loadedState still has
+        // unconsumed MainWindowStates. Each call to createNewMainVM() claims the next one.
         if setUpInProgress,
            let nextMainState = self.loadedState.nextMainState() {
-            // Restore saved state
+            // Apply the saved title and tag data to the freshly created VM.
             newVM.title = nextMainState.title
             newVM.parse(string: nextMainState.tagsHexString)
-            
-            if self.loadedState.isStateRestored  {
-                // If no more state left to restore - finish set up
+
+            if self.loadedState.isStateRestored {
+                // All saved main windows are now open. Kick off the rest of the
+                // restoration sequence on the next run-loop tick to avoid mutating
+                // published state during a SwiftUI render pass.
                 onMain {
-                    // Has to be async to avoid updating view state from rendering
                     self.setUpInProgress = false
-                    self.currentWindow?.asMainVM?.presentingWhatsNew = shouldShowWhatsNew
-                    if self.shouldOpenLibraryOnLaunch {
-                        self.shouldOpenLibraryOnLaunch = false
-                        self.onOpenWindow?(id: WindowType.Case.library.id)
+                    // Open any saved diff windows, then (in the completion) open the
+                    // library window if it was open at quit, and finally bring the
+                    // originally-active window back to front.
+                    self.openRestoredDiffWindows {
+                        if self.loadedState.library != nil {
+                            self.onOpenWindow?(id: WindowType.Case.library.id)
+                        }
+                        // Small delay lets all windows finish appearing before we
+                        // activate the one that was key when the app was last quit.
+                        onMain(seconds: 0.1) {
+                            self.activateRestoredWindow()
+                            // Show What's New only after the correct window is active.
+                            self.currentWindow?.asMainVM?.presentingWhatsNew = shouldShowWhatsNew
+                        }
                     }
-                    self.openRestoredDiffWindows()
                 }
             } else {
-                // If there is state left to restore - open a new main tab after a small delay
+                // More main windows still need to be created. Trigger the next one
+                // after a short delay so each window has time to appear and register
+                // itself before we request the one after it.
                 onMain(seconds: 0.1) {
                     self.onOpenWindow?(id: WindowType.Case.main.id)
                 }
             }
         } else {
+            // Normal (non-restoration) path: a new blank tab was opened by the user
+            // or by the app on first launch with no saved state.
             newVM.presentingWhatsNew = shouldShowWhatsNew
-            if shouldOpenLibraryOnLaunch {
-                shouldOpenLibraryOnLaunch = false
+            // Only reopen the library during initial setup (setUpInProgress == true means
+            // there were no saved main windows, so this is the very first tab on launch).
+            // After restoration completes, setUpInProgress is false and we must not
+            // reopen the library every time the user creates a new tab.
+            if setUpInProgress, loadedState.library != nil {
                 onMain {
                     self.onOpenWindow?(id: WindowType.Case.library.id)
                 }
             }
         }
-        
+
         return newVM
     }
     

@@ -7,9 +7,19 @@
 
 import Foundation
 
-internal enum ActiveWindow: String, Codable {
-    case main
-    case library
+internal struct ActiveWindowInfo: Codable {
+
+    internal enum Kind: String, Codable {
+        case main, diff, library
+    }
+
+    internal let kind: Kind
+    internal let index: Int
+
+    static let library = ActiveWindowInfo(kind: .library, index: 0)
+    static func main(_ index: Int) -> ActiveWindowInfo { .init(kind: .main, index: index) }
+    static func diff(_ index: Int) -> ActiveWindowInfo { .init(kind: .diff, index: index) }
+
 }
 
 internal struct AppState: Codable {
@@ -17,31 +27,31 @@ internal struct AppState: Codable {
     private var mains: [MainWindowState]
     private var diffs: [DiffWindowState]
     internal let library: LibraryWindowState?
-    internal let activeWindow: ActiveWindow?
+    internal let activeWindowInfo: ActiveWindowInfo?
 
     private enum CodingKeys: String, CodingKey {
-        case mains, diffs, library, activeWindow
+        case mains, diffs, library, activeWindowInfo
     }
 
     internal init(
         mains: [MainWindowState],
         diffs: [DiffWindowState],
         library: LibraryWindowState?,
-        activeWindow: ActiveWindow
+        activeWindowInfo: ActiveWindowInfo
     ) {
         self.mains = mains
         self.diffs = diffs
         self.library = library
-        self.activeWindow = activeWindow
+        self.activeWindowInfo = activeWindowInfo
     }
 
-    // Custom Codable so that older saved states without `diffs` still load cleanly.
+    // Custom Codable so that older saved states without `diffs` or `activeWindowInfo` load cleanly.
     internal init(from decoder: Decoder) throws {
         let c = try decoder.container(keyedBy: CodingKeys.self)
         self.mains = try c.decode([MainWindowState].self, forKey: .mains)
         self.diffs = try c.decodeIfPresent([DiffWindowState].self, forKey: .diffs) ?? []
         self.library = try c.decodeIfPresent(LibraryWindowState.self, forKey: .library)
-        self.activeWindow = try c.decodeIfPresent(ActiveWindow.self, forKey: .activeWindow)
+        self.activeWindowInfo = try c.decodeIfPresent(ActiveWindowInfo.self, forKey: .activeWindowInfo)
     }
 
     internal func encode(to encoder: Encoder) throws {
@@ -49,14 +59,14 @@ internal struct AppState: Codable {
         try c.encode(mains, forKey: .mains)
         try c.encode(diffs, forKey: .diffs)
         try c.encodeIfPresent(library, forKey: .library)
-        try c.encodeIfPresent(activeWindow, forKey: .activeWindow)
+        try c.encodeIfPresent(activeWindowInfo, forKey: .activeWindowInfo)
     }
 
     internal static let empty: AppState = .init(
         mains: [],
         diffs: [],
         library: nil,
-        activeWindow: .main
+        activeWindowInfo: .main(0)
     )
 
     mutating internal func nextMainState() -> MainWindowState? {
