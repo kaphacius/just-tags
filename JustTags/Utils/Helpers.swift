@@ -144,10 +144,10 @@ extension Optional where Wrapped == String {
 }
 
 extension EMVTag {
-    
+
     func matching(id: Self.ID) -> EMVTag? {
         if self.id == id { return self }
-        
+
         switch self.category {
         case .constructed(let subtags):
             return subtags
@@ -157,9 +157,9 @@ extension EMVTag {
         case .plain:
             return nil
         }
-        
+
     }
-    
+
 }
 
 extension Array where Element == EMVTag {

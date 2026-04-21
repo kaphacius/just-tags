@@ -28,6 +28,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     @Published internal var detailTag: EMVTag? = nil
     @Published internal var presentingWhatsNew: Bool = false
     @Published internal var didChange: Bool = false
+    @Published internal var editedTags: [EMVTag.ID: [UInt8]] = [:]
     
     internal var showsTags: Bool {
         initialTags.isEmpty == false
@@ -124,6 +125,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         selectedIds = []
         detailTag = nil
         expandedConstructedTags = []
+        editedTags = [:]
     }
     
     internal override func reparse() {
@@ -233,6 +235,10 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         let bitShift = UInt8.bitWidth - 1 - bitPosition
         var valueBytes = tag.tag.value
         guard byteIdx < valueBytes.count else { return }
+        // Record the original value the first time this tag is touched.
+        if editedTags[tag.id] == nil {
+            editedTags[tag.id] = valueBytes
+        }
         valueBytes[byteIdx] ^= (1 << bitShift)
         let syntheticHex = tag.tag.tag.hexString + tag.tag.lengthBytes.hexString + valueBytes.hexString
         guard let bertlvs = try? InputParser.parse(input: syntheticHex),
@@ -241,6 +247,9 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         let newTag = EMVTag(id: tag.id, tag: decoded.tag, category: decoded.category, decodingResult: decoded.decodingResult)
         if let idx = initialTags.firstIndex(where: { $0.id == tag.id }) {
             initialTags[idx] = newTag
+        }
+        if valueBytes == editedTags[tag.id] {
+            editedTags.removeValue(forKey: tag.id)
         }
         detailTag = newTag
     }

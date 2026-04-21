@@ -70,7 +70,8 @@ extension PlainTagVM {
     static func make(
         with tag: EMVTag,
         canExpand: Bool = false,
-        showsDetails: Bool = true
+        showsDetails: Bool = true,
+        isEdited: Bool = false
     ) -> PlainTagVM {
         .init(
             id: tag.id,
@@ -78,7 +79,8 @@ extension PlainTagVM {
             valueVM: tag.tagValueVM,
             canExpand: canExpand,
             showsDetails: showsDetails,
-            selectedMeanings: tag.selectedMeanings
+            selectedMeanings: tag.selectedMeanings,
+            isEdited: isEdited
         )
     }
     
@@ -87,13 +89,14 @@ extension PlainTagVM {
 extension ConstructedTagVM {
     
     static func make(
-        with tag: EMVTag
+        with tag: EMVTag,
+        editedIds: Set<EMVTag.ID> = []
     ) -> ConstructedTagVM {
         guard case .constructed = tag.category else {
             fatalError("Provided tag is not constructed")
         }
-        
-        return tag.constructedTagVM
+
+        return tag.constructedTagVM(editedIds: editedIds)
     }
     
 }

@@ -59,7 +59,7 @@ extension EMVTag {
             return [id] + subtags.flatMap(\.constructedIds)
         }
     }
-    
+
     internal var fullHexString: String {
         tag.bytes.hexString
     }
@@ -98,30 +98,32 @@ extension EMVTag {
         }
     }
     
-    var plainTagVM: PlainTagVM {
+    func plainTagVM(isEdited: Bool) -> PlainTagVM {
         .init(
             id: id,
             headerVM: tagHeaderVM,
             valueVM: tagValueVM,
             canExpand: selectedMeanings.count > 1,
             showsDetails: isUnknown == false,
-            selectedMeanings: selectedMeanings
+            selectedMeanings: selectedMeanings,
+            isEdited: isEdited
         )
     }
-    
-    var constructedTagVM: ConstructedTagVM {
+
+    func constructedTagVM(editedIds: Set<EMVTag.ID>) -> ConstructedTagVM {
         guard case let .constructed(subtags) = category else {
             fatalError("Unable to extract subtags from a plain tag")
         }
-        
+
         return .init(
             id: id,
             tag: tag.tag.hexString,
             name: name,
             headerVM: tagHeaderVM,
             valueVM: tagValueVM,
-            subtags: subtags.map { TagRowVM(tag: $0, isSubtag: true) },
-            showsDetails: isUnknown == false
+            subtags: subtags.map { TagRowVM(tag: $0, isSubtag: true, editedIds: editedIds) },
+            showsDetails: isUnknown == false,
+            isEdited: editedIds.contains(id) || subtags.contains { editedIds.contains($0.id) }
         )
     }
     

@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftyEMVTags
 
 internal struct ConstructedTagVM: Equatable {
-    
+
     let id: UUID
     let tag: String
     let name: String?
@@ -17,7 +17,8 @@ internal struct ConstructedTagVM: Equatable {
     let valueVM: TagValueVM
     let subtags: [TagRowVM]
     let showsDetails: Bool
-    
+    let isEdited: Bool
+
 }
 
 internal struct ConstructedTagView: View {
@@ -65,9 +66,18 @@ internal struct ConstructedTagView: View {
                 }
                 .padding(.top, commonPadding)
             }, label: {
-                TagHeaderView(vm: vm.headerVM)
-                    .padding(.leading, commonPadding)
-                    .padding(.vertical, -commonPadding)
+                HStack(spacing: commonPadding) {
+                    if vm.isEdited {
+                        Circle()
+                            .fill(.orange)
+                            .frame(width: 6.0, height: 6.0)
+                            .transition(.scale.combined(with: .opacity))
+                    }
+                    TagHeaderView(vm: vm.headerVM)
+                }
+                .animation(.spring(duration: 0.3), value: vm.isEdited)
+                .padding(.leading, commonPadding)
+                .padding(.vertical, -commonPadding)
             }
         )
         .animation(.none, value: binding.wrappedValue)

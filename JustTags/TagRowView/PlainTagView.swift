@@ -9,16 +9,17 @@ import SwiftUI
 import SwiftyEMVTags
 
 internal struct PlainTagVM: Identifiable, Equatable {
-    
+
     typealias ID = EMVTag.ID
-    
+
     let id: UUID
     let headerVM: TagHeaderVM
     let valueVM: TagValueVM
     let canExpand: Bool
     let showsDetails: Bool
     let selectedMeanings: [String]
-    
+    let isEdited: Bool
+
 }
 
 internal struct PlainTagView: View {
@@ -35,7 +36,16 @@ internal struct PlainTagView: View {
     internal var body: some View {
         HStack(spacing: 0.0) {
             VStack(alignment: .leading, spacing: commonPadding) {
-                TagHeaderView(vm: vm.headerVM)
+                HStack(spacing: commonPadding) {
+                    if vm.isEdited {
+                        Circle()
+                            .fill(.orange)
+                            .frame(width: 6.0, height: 6.0)
+                            .transition(.scale.combined(with: .opacity))
+                    }
+                    TagHeaderView(vm: vm.headerVM)
+                }
+                .animation(.spring(duration: 0.3), value: vm.isEdited)
                 tagValueView
             }.frame(maxWidth: .infinity, alignment: .leading)
             

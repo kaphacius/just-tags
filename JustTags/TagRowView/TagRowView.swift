@@ -19,32 +19,34 @@ internal struct TagRowVM: Equatable, Identifiable {
     internal enum Category {
         case plain(PlainTagVM)
         case constructed(ConstructedTagVM)
-        
+
         fileprivate var isPlain: Bool {
             switch self {
             case .plain: return true
             case .constructed: return false
             }
         }
-        
+
         static func category(
-            with tag: EMVTag
+            with tag: EMVTag,
+            editedIds: Set<EMVTag.ID>
         ) -> Category {
             switch tag.category {
             case .plain:
-                return .plain(tag.plainTagVM)
+                return .plain(tag.plainTagVM(isEdited: editedIds.contains(tag.id)))
             case .constructed:
-                return .constructed(tag.constructedTagVM)
+                return .constructed(tag.constructedTagVM(editedIds: editedIds))
             }
         }
     }
-    
+
     init(
         tag: EMVTag,
-        isSubtag: Bool
+        isSubtag: Bool,
+        editedIds: Set<EMVTag.ID> = []
     ) {
         self.id = tag.id
-        self.category = .category(with: tag)
+        self.category = .category(with: tag, editedIds: editedIds)
         self.fullHexString = tag.fullHexString
         self.valueHexString = tag.valueHexString
         self.isSubTag = isSubtag

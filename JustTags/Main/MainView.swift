@@ -78,7 +78,10 @@ struct MainView: View {
         if vm.showsTags {
             ScrollView {
                 TagListView(
-                    tags: vm.currentTags.map { .init(tag: $0, isSubtag: false) },
+                    tags: {
+                        let editedIds = Set(vm.editedTags.keys)
+                        return vm.currentTags.map { .init(tag: $0, isSubtag: false, editedIds: editedIds) }
+                    }(),
                     searchInProgress: $searchInProgress
                 )
             }
