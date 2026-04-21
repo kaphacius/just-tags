@@ -122,13 +122,7 @@ internal struct MainViewCommands: Commands {
     }
 
     private var aboutAppButton: some View {
-        Button(
-            "About JustTags",
-            action: showAboutApp
-        ).onAppear {
-            // Hack to pass openURL to AppVM
-            self.vm.onOpenWindow = self.openWindow
-        }
+        Button("About JustTags", action: showAboutApp)
     }
     
     private func renameTab() {

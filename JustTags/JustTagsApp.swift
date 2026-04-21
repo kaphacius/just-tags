@@ -32,6 +32,9 @@ internal struct JustTagsApp: App {
                 }
             }
             .environmentObject(appVM)
+            .onAppear {
+                appVM.onOpenWindow = openWindow
+            }
             .onOpenURL(perform: { url in
                 appVM.openMainDeepLink(url: url, openWindow: openWindow)
             })
@@ -42,7 +45,8 @@ internal struct JustTagsApp: App {
         }
         .commands {
             MainViewCommands(vm: appVM)
-        }.onChange(of: currentWindow) { _, newValue in
+        }
+        .onChange(of: currentWindow) { _, newValue in
             appVM.currentWindow = newValue
         }
         
