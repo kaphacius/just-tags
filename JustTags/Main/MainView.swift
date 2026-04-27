@@ -14,16 +14,14 @@ struct MainView: View {
     
     @State private var showsKernelsPopover: Bool = false
     @State private var searchInProgress: Bool = false
+    @SceneStorage("main-view.showsDetails") private var showsDetailsSceneStorage: Bool = true
     
     @ObservedObject internal var vm: MainVM
     
     internal var body: some View {
-        HStack(spacing: 0.0) {
-            mainView
-        }
+        mainView
         .background(shortcutButtons)
         .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .animation(.easeIn, value: vm.showsDetails)
         .environmentObject(vm)
         .sheet(isPresented: $vm.presentingWhatsNew) {
             appVersion
@@ -34,6 +32,25 @@ struct MainView: View {
         .navigationTitle(vm.title)
         .toolbar { toolbarItems }
         .focusedSceneValue(\.currentWindow, .main(vm))
+        .inspector(isPresented: showsDetailsBinding) {
+            details
+                .inspectorColumnWidth(min: 320.0, ideal: detailWidth, max: 700.0)
+        }
+        .onAppear {
+            if showsDetailsSceneStorage != vm.showsDetails {
+                showsDetailsSceneStorage = vm.showsDetails
+            }
+        }
+        .onChange(of: vm.showsDetails) { _, newValue in
+            if showsDetailsSceneStorage != newValue {
+                showsDetailsSceneStorage = newValue
+            }
+        }
+        .onChange(of: showsDetailsSceneStorage) { _, newValue in
+            if vm.showsDetails != newValue {
+                vm.showsDetails = newValue
+            }
+        }
         .onChange(of: showsKernelsPopover) { oldValue, newValue in
             if oldValue == true, newValue == false {
                 onMain {
@@ -86,10 +103,6 @@ struct MainView: View {
                 )
             }
             .frame(maxWidth: .infinity)
-            if vm.showsDetails {
-                details
-                    .frame(width: detailWidth)
-            }
         } else {
             HintView()
                 .frame(maxWidth: .infinity, maxHeight: .infinity)
@@ -110,6 +123,16 @@ struct MainView: View {
         }
         .transition(.move(edge: .trailing))
         .padding(commonPadding)
+    }
+
+    private var showsDetailsBinding: Binding<Bool> {
+        .init(
+            get: { showsDetailsSceneStorage },
+            set: { newValue in
+                showsDetailsSceneStorage = newValue
+                vm.showsDetails = newValue
+            }
+        )
     }
     
     @ViewBuilder

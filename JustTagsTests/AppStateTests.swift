@@ -13,7 +13,7 @@ struct AppStateTests {
 
     @Test func roundTrip() throws {
         let state = AppState(
-            mains: [.init(title: "Tab 1", tagsHexString: "9F330368 08C8")],
+            mains: [.init(title: "Tab 1", tagsHexString: "9F330368 08C8", showsDetails: false)],
             diffs: [.init(texts: ["aabb", "ccdd"])],
             library: nil,
             activeWindowInfo: .main(0)
@@ -25,6 +25,7 @@ struct AppStateTests {
         let mainState = mutableDecoded.nextMainState()
         #expect(mainState?.title == "Tab 1")
         #expect(mainState?.tagsHexString == "9F330368 08C8")
+        #expect(mainState?.showsDetails == false)
 
         let diffState = mutableDecoded.nextDiffState()
         #expect(diffState?.texts == ["aabb", "ccdd"])
@@ -40,6 +41,7 @@ struct AppStateTests {
         {"mains":[{"title":"Tab 1","tagsHexString":"9F330368 08C8"}]}
         """
         var state = try JSONDecoder().decode(AppState.self, from: Data(json.utf8))
+        #expect(state.nextMainState()?.showsDetails == true)
         #expect(state.nextDiffState() == nil)
         #expect(state.hasDiffStates == false)
         #expect(state.activeWindowInfo == nil)

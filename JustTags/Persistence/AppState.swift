@@ -134,15 +134,36 @@ internal struct MainWindowState: Codable {
 
     internal let title: String
     internal let tagsHexString: String
+    internal let showsDetails: Bool
 
-    internal init(title: String, tagsHexString: String) {
+    private enum CodingKeys: String, CodingKey {
+        case title, tagsHexString, showsDetails
+    }
+
+    internal init(title: String, tagsHexString: String, showsDetails: Bool = true) {
         self.title = title
         self.tagsHexString = tagsHexString
+        self.showsDetails = showsDetails
+    }
+
+    internal init(from decoder: Decoder) throws {
+        let c = try decoder.container(keyedBy: CodingKeys.self)
+        self.title = try c.decode(String.self, forKey: .title)
+        self.tagsHexString = try c.decode(String.self, forKey: .tagsHexString)
+        self.showsDetails = try c.decodeIfPresent(Bool.self, forKey: .showsDetails) ?? true
+    }
+
+    internal func encode(to encoder: Encoder) throws {
+        var c = encoder.container(keyedBy: CodingKeys.self)
+        try c.encode(title, forKey: .title)
+        try c.encode(tagsHexString, forKey: .tagsHexString)
+        try c.encode(showsDetails, forKey: .showsDetails)
     }
 
     internal init(windowVM vm: MainVM) {
         self.title = vm.title
         self.tagsHexString = vm.initialTags.map(\.fullHexString).joined()
+        self.showsDetails = vm.showsDetails
     }
 
 }

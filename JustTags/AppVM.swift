@@ -325,6 +325,7 @@ extension AppVM: MainVMProvider {
            let nextMainState = self.loadedState.nextMainState() {
             // Apply the saved title and tag data to the freshly created VM.
             newVM.title = nextMainState.title
+            newVM.showsDetails = nextMainState.showsDetails
             newVM.parse(string: nextMainState.tagsHexString)
 
             if self.loadedState.isStateRestored {
