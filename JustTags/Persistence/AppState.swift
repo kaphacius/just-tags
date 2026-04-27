@@ -135,6 +135,11 @@ internal struct MainWindowState: Codable {
     internal let title: String
     internal let tagsHexString: String
 
+    internal init(title: String, tagsHexString: String) {
+        self.title = title
+        self.tagsHexString = tagsHexString
+    }
+
     internal init(windowVM vm: MainVM) {
         self.title = vm.title
         self.tagsHexString = vm.initialTags.map(\.fullHexString).joined()
@@ -157,6 +162,10 @@ extension LibraryWindowState {
 internal struct DiffWindowState: Codable {
 
     internal let texts: [String]
+
+    internal init(texts: [String]) {
+        self.texts = texts
+    }
 
     internal init(vm: DiffVM) {
         self.texts = vm.texts
