@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftyEMVTags
+import SwiftyBERTLV
 import SwiftUI
 import Combine
 
@@ -228,6 +229,32 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     
     internal func removeTag(with id: EMVTag.ID) {
         self.initialTags.removeAll(where: { $0.id == id })
+    }
+
+    internal func selectMappingValue(_ hexValue: String, for tagId: EMVTag.ID) {
+        guard let tag = initialTags.first(with: tagId),
+              let valueBytes = [UInt8](hexString: hexValue) else { return }
+
+        let newBERTLV = BERTLV(tag: tag.tag.tag, value: valueBytes, category: .plain)
+        guard let parsed = try? InputParser.parse(input: newBERTLV.bytes.hexString),
+              let parsedFirst = parsed.first else { return }
+
+        let decoded = tagParser.decodeBERTLV(parsedFirst)
+        let newTag = EMVTag(id: tag.id, tag: decoded.tag, category: decoded.category, decodingResult: decoded.decodingResult)
+
+        if editedTags[tag.id] == nil {
+            editedTags[tag.id] = tag.tag.value
+        }
+        if newTag.tag.value == editedTags[tag.id] {
+            editedTags.removeValue(forKey: tag.id)
+        }
+
+        if let idx = initialTags.firstIndex(where: { $0.id == tag.id }) {
+            initialTags[idx] = newTag
+        }
+        if detailTag?.id == tag.id {
+            detailTag = newTag
+        }
     }
 
     internal func toggleBit(byteIdx: Int, bitPosition: Int) {

@@ -13,6 +13,7 @@ internal struct PlainTagVM: Identifiable, Equatable {
     typealias ID = EMVTag.ID
 
     let id: UUID
+    let tagCode: UInt64
     let headerVM: TagHeaderVM
     let valueVM: TagValueVM
     let canExpand: Bool
@@ -48,7 +49,9 @@ internal struct PlainTagView: View {
                 .animation(.spring(duration: 0.3), value: vm.isEdited)
                 tagValueView
             }.frame(maxWidth: .infinity, alignment: .leading)
-            
+
+            mappingPickerButton
+
             if vm.showsDetails {
                 DetailsButton(id: vm.id)
             }
@@ -72,6 +75,28 @@ internal struct PlainTagView: View {
         }
     }
     
+    @ViewBuilder
+    private var mappingPickerButton: some View {
+        if let mapping = windowVM.tagParser.tagMapper.mappings[vm.tagCode] {
+            let currentValue = vm.valueVM.value.replacingOccurrences(of: " ", with: "")
+            Menu {
+                ForEach(mapping.values.sorted(by: { $0.key < $1.key }), id: \.key) { key, meaning in
+                    Button(key + "  " + meaning) {
+                        windowVM.selectMappingValue(key, for: vm.id)
+                    }
+                }
+            } label: {
+                GroupBox {
+                    Label("Select value", systemImage: "list.bullet")
+                        .labelStyle(.iconOnly)
+                        .padding(.horizontal, commonPadding)
+                }
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, commonPadding)
+        }
+    }
+
     private var expandableValueView: some View {
         DisclosureGroup(
             isExpanded: $isExpanded,

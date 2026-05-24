@@ -16,6 +16,7 @@ internal struct BitToggleHandler: EnvironmentKey {
     static let defaultValue: ((Int, Int) -> Void)? = nil
 }
 
+
 internal struct CurrentByteIdx: EnvironmentKey {
     static let defaultValue: Int = 0
 }

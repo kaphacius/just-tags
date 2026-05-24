@@ -101,7 +101,7 @@ struct MainView: View {
         GroupBox {
             if let detailTag = vm.detailTag {
                 ScrollView {
-                    detailViews(vms: detailTag.tagDetailsVMs)
+                    detailViews(vms: enrichedDetailVMs(for: detailTag))
                 }
             } else {
                 tagSelectionHint
@@ -110,6 +110,29 @@ struct MainView: View {
         }
         .transition(.move(edge: .trailing))
         .padding(commonPadding)
+    }
+
+    private func enrichedDetailVMs(for tag: EMVTag) -> [TagDetailsVM] {
+        guard let mapping = vm.tagParser.tagMapper.mappings[tag.tag.tag] else {
+            return tag.tagDetailsVMs
+        }
+        let tagId = tag.id
+        let mappingVM = TagMappingVM(
+            rowVMs: mapping.values.sorted(by: { $0.key < $1.key }).map { (value: $0.key, meaning: $0.value) },
+            currentValue: tag.tag.value.hexString,
+            selectHandler: { [vm] hexValue in vm.selectMappingValue(hexValue, for: tagId) }
+        )
+        return tag.tagDetailsVMs.map { detailVM in
+            guard mapping.kernel == detailVM.kernel else { return detailVM }
+            return TagDetailsVM(
+                tag: detailVM.tag,
+                name: detailVM.name,
+                info: detailVM.info,
+                bytes: detailVM.bytes,
+                kernel: detailVM.kernel,
+                mapping: mappingVM
+            )
+        }
     }
 
     @ViewBuilder

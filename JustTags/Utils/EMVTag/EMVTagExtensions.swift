@@ -101,6 +101,7 @@ extension EMVTag {
     func plainTagVM(isEdited: Bool) -> PlainTagVM {
         .init(
             id: id,
+            tagCode: tag.tag,
             headerVM: tagHeaderVM,
             valueVM: tagValueVM,
             canExpand: selectedMeanings.count > 1,

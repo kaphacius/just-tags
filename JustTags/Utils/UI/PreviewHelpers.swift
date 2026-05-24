@@ -75,6 +75,7 @@ extension PlainTagVM {
     ) -> PlainTagVM {
         .init(
             id: tag.id,
+            tagCode: tag.tag.tag,
             headerVM: tag.tagHeaderVM,
             valueVM: tag.tagValueVM,
             canExpand: canExpand,
