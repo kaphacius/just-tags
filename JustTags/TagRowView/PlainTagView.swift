@@ -28,6 +28,7 @@ internal struct PlainTagView: View {
     
     @EnvironmentObject private var windowVM: MainVM
     @State internal var isExpanded: Bool = false
+    @State private var showsMappingPicker: Bool = false
     @State private var showsAsciiEditor: Bool = false
     @State private var asciiEditText: String = ""
 
@@ -82,14 +83,10 @@ internal struct PlainTagView: View {
     @ViewBuilder
     private var mappingPickerButton: some View {
         if let mapping = windowVM.tagParser.tagMapper.mappings[vm.tagCode] {
-            let currentValue = vm.valueVM.value.replacingOccurrences(of: " ", with: "")
-            Menu {
-                ForEach(mapping.values.sorted(by: { $0.key < $1.key }), id: \.key) { key, meaning in
-                    Button(key + "  " + meaning) {
-                        windowVM.selectMappingValue(key, for: vm.id)
-                    }
-                }
-            } label: {
+            let rows = mapping.values
+                .sorted(by: { $0.key < $1.key })
+                .map { MappingPickerRow(id: $0.key, meaning: $0.value) }
+            Button { showsMappingPicker = true } label: {
                 GroupBox {
                     Label("Select value", systemImage: "list.bullet")
                         .labelStyle(.iconOnly)
@@ -98,6 +95,9 @@ internal struct PlainTagView: View {
             }
             .buttonStyle(.plain)
             .padding(.horizontal, commonPadding)
+            .mappingPickerPopover(isPresented: $showsMappingPicker, rows: rows) { value in
+                windowVM.selectMappingValue(value, for: vm.id)
+            }
         }
     }
 

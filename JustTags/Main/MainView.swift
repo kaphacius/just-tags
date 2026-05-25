@@ -118,9 +118,12 @@ struct MainView: View {
         return tag.tagDetailsVMs.map { detailVM in
             var mappingVM: TagMappingVM? = nil
             if let mapping = tagMapping, mapping.kernel == detailVM.kernel {
+                let rows = mapping.values
+                    .sorted(by: { $0.key < $1.key })
+                    .map { MappingPickerRow(id: $0.key, meaning: $0.value) }
                 mappingVM = TagMappingVM(
-                    rowVMs: mapping.values.sorted(by: { $0.key < $1.key }).map { (value: $0.key, meaning: $0.value) },
-                    currentValue: tag.tag.value.hexString,
+                    rows: rows,
+                    currentValue: tag.tag.value.hexString.uppercased(),
                     selectHandler: { [vm] hexValue in vm.selectMappingValue(hexValue, for: tagId) }
                 )
             }

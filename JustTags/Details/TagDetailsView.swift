@@ -9,7 +9,7 @@ import SwiftUI
 import SwiftyEMVTags
 
 struct TagMappingVM {
-    let rowVMs: [(value: String, meaning: String)]
+    let rows: [MappingPickerRow]
     let currentValue: String
     let selectHandler: (String) -> Void
 }
@@ -55,6 +55,7 @@ struct TagDetailsView: View {
 
     @State var infoOpen = true
     @State private var asciiEditText: String
+    @State private var showsMappingPicker = false
 
     init(vm: TagDetailsVM) {
         self.vm = vm
@@ -125,17 +126,11 @@ struct TagDetailsView: View {
 
     private func mappingDropdown(mapping: TagMappingVM) -> some View {
         GroupBox {
-            Menu {
-                ForEach(mapping.rowVMs, id: \.value) { rowVM in
-                    Button(rowVM.value + "  " + rowVM.meaning) {
-                        mapping.selectHandler(rowVM.value)
-                    }
-                }
-            } label: {
+            Button { showsMappingPicker = true } label: {
                 HStack {
                     Text(mapping.currentValue)
                         .font(.title3.monospaced())
-                    if let current = mapping.rowVMs.first(where: { $0.value.uppercased() == mapping.currentValue.uppercased() }) {
+                    if let current = mapping.rows.first(where: { $0.id == mapping.currentValue }) {
                         Text(current.meaning)
                             .font(.title3)
                             .foregroundStyle(.secondary)
@@ -150,6 +145,9 @@ struct TagDetailsView: View {
             }
             .buttonStyle(.plain)
             .frame(maxWidth: .infinity)
+            .mappingPickerPopover(isPresented: $showsMappingPicker, rows: mapping.rows) { value in
+                mapping.selectHandler(value)
+            }
         }
     }
 }
