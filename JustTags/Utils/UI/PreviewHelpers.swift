@@ -81,7 +81,8 @@ extension PlainTagVM {
             canExpand: canExpand,
             showsDetails: showsDetails,
             selectedMeanings: tag.selectedMeanings,
-            isEdited: isEdited
+            isEdited: isEdited,
+            asciiValue: tag.asciiValue
         )
     }
     

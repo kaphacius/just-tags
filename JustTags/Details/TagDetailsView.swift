@@ -14,6 +14,11 @@ struct TagMappingVM {
     let selectHandler: (String) -> Void
 }
 
+struct TagAsciiVM {
+    let currentValue: String
+    let editHandler: (String) -> Void
+}
+
 struct TagDetailsVM {
 
     let tag: String
@@ -22,6 +27,7 @@ struct TagDetailsVM {
     let bytes: [DecodedByteVM]
     let kernel: String
     let mapping: TagMappingVM?
+    let ascii: TagAsciiVM?
 
     init(
         tag: String,
@@ -29,7 +35,8 @@ struct TagDetailsVM {
         info: TagInfoVM,
         bytes: [DecodedByteVM],
         kernel: String,
-        mapping: TagMappingVM? = nil
+        mapping: TagMappingVM? = nil,
+        ascii: TagAsciiVM? = nil
     ) {
         self.tag = tag
         self.name = name
@@ -37,6 +44,7 @@ struct TagDetailsVM {
         self.bytes = bytes
         self.kernel = kernel
         self.mapping = mapping
+        self.ascii = ascii
     }
 
 }
@@ -46,18 +54,33 @@ struct TagDetailsView: View {
     internal let vm: TagDetailsVM
 
     @State var infoOpen = true
+    @State private var asciiEditText: String
+
+    init(vm: TagDetailsVM) {
+        self.vm = vm
+        _asciiEditText = State(initialValue: vm.ascii?.currentValue ?? "")
+    }
 
     var body: some View {
         VStack(alignment: .leading, spacing: commonPadding) {
             header
             info
             bytes
+            if let asciiVM = vm.ascii {
+                asciiEditor(asciiVM: asciiVM)
+            }
             if let mapping = vm.mapping {
                 mappingDropdown(mapping: mapping)
             }
         }
         .frame(maxWidth: .infinity)
         .padding(commonPadding)
+        .onChange(of: vm.ascii?.currentValue) { _, newValue in
+            let new = newValue ?? ""
+            if new != asciiEditText {
+                asciiEditText = new
+            }
+        }
     }
 
     private var header: some View {
@@ -90,6 +113,14 @@ struct TagDetailsView: View {
 
     private var bytes: some View {
         ForEach(vm.bytes, id: \.idx, content: DecodedByteView.init(vm:))
+    }
+
+    private func asciiEditor(asciiVM: TagAsciiVM) -> some View {
+        GroupBox {
+            TextField("", text: $asciiEditText)
+                .font(.title3.monospaced())
+                .onChange(of: asciiEditText) { _, newValue in asciiVM.editHandler(newValue) }
+        }
     }
 
     private func mappingDropdown(mapping: TagMappingVM) -> some View {

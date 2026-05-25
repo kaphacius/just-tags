@@ -20,6 +20,7 @@ internal struct PlainTagVM: Identifiable, Equatable {
     let showsDetails: Bool
     let selectedMeanings: [String]
     let isEdited: Bool
+    let asciiValue: String?
 
 }
 
@@ -27,7 +28,9 @@ internal struct PlainTagView: View {
     
     @EnvironmentObject private var windowVM: MainVM
     @State internal var isExpanded: Bool = false
-    
+    @State private var showsAsciiEditor: Bool = false
+    @State private var asciiEditText: String = ""
+
     private let vm: PlainTagVM
     
     internal init(vm: PlainTagVM) {
@@ -51,6 +54,7 @@ internal struct PlainTagView: View {
             }.frame(maxWidth: .infinity, alignment: .leading)
 
             mappingPickerButton
+            asciiEditButton
 
             if vm.showsDetails {
                 DetailsButton(id: vm.id)
@@ -94,6 +98,30 @@ internal struct PlainTagView: View {
             }
             .buttonStyle(.plain)
             .padding(.horizontal, commonPadding)
+        }
+    }
+
+    @ViewBuilder
+    private var asciiEditButton: some View {
+        if vm.asciiValue != nil {
+            Button { showsAsciiEditor = true } label: {
+                GroupBox {
+                    Label("Edit value", systemImage: "character.cursor.ibeam")
+                        .labelStyle(.iconOnly)
+                        .padding(.horizontal, commonPadding)
+                }
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, commonPadding)
+            .popover(isPresented: $showsAsciiEditor) {
+                TextField("", text: $asciiEditText)
+                    .font(.body.monospaced())
+                    .onChange(of: asciiEditText) { _, new in windowVM.setAsciiValue(new, for: vm.id) }
+                    .onSubmit { showsAsciiEditor = false }
+                    .padding()
+                    .frame(minWidth: 200)
+                    .onAppear { asciiEditText = vm.asciiValue ?? "" }
+            }
         }
     }
 

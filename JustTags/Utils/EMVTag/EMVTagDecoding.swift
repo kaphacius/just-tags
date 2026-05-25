@@ -62,6 +62,11 @@ extension EMVTag.DecodingResult {
 
 extension EMVTag.DecodedTag.DecodingResult {
 
+    internal var asciiValue: String? {
+        if case .asciiValue(let value) = self { return value }
+        return nil
+    }
+
     internal var hasBytesOrMapping: Bool {
         switch self {
         case .bytes, .mapping: return true

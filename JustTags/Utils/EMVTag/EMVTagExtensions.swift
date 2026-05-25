@@ -98,6 +98,22 @@ extension EMVTag {
         }
     }
     
+    var asciiValue: String? {
+        guard case .singleKernel(let decodedTag) = decodingResult else { return nil }
+        return decodedTag.result.asciiValue
+    }
+
+    func asciiValue(for kernel: String) -> String? {
+        switch decodingResult {
+        case .singleKernel(let decodedTag) where decodedTag.kernel == kernel:
+            return decodedTag.result.asciiValue
+        case .multipleKernels(let decodedTags):
+            return decodedTags.first(where: { $0.kernel == kernel })?.result.asciiValue
+        default:
+            return nil
+        }
+    }
+
     func plainTagVM(isEdited: Bool) -> PlainTagVM {
         .init(
             id: id,
@@ -107,7 +123,8 @@ extension EMVTag {
             canExpand: selectedMeanings.count > 1,
             showsDetails: isUnknown == false,
             selectedMeanings: selectedMeanings,
-            isEdited: isEdited
+            isEdited: isEdited,
+            asciiValue: asciiValue
         )
     }
 

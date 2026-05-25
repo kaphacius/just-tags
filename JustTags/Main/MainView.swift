@@ -113,24 +113,32 @@ struct MainView: View {
     }
 
     private func enrichedDetailVMs(for tag: EMVTag) -> [TagDetailsVM] {
-        guard let mapping = vm.tagParser.tagMapper.mappings[tag.tag.tag] else {
-            return tag.tagDetailsVMs
-        }
+        let tagMapping = vm.tagParser.tagMapper.mappings[tag.tag.tag]
         let tagId = tag.id
-        let mappingVM = TagMappingVM(
-            rowVMs: mapping.values.sorted(by: { $0.key < $1.key }).map { (value: $0.key, meaning: $0.value) },
-            currentValue: tag.tag.value.hexString,
-            selectHandler: { [vm] hexValue in vm.selectMappingValue(hexValue, for: tagId) }
-        )
         return tag.tagDetailsVMs.map { detailVM in
-            guard mapping.kernel == detailVM.kernel else { return detailVM }
+            var mappingVM: TagMappingVM? = nil
+            if let mapping = tagMapping, mapping.kernel == detailVM.kernel {
+                mappingVM = TagMappingVM(
+                    rowVMs: mapping.values.sorted(by: { $0.key < $1.key }).map { (value: $0.key, meaning: $0.value) },
+                    currentValue: tag.tag.value.hexString,
+                    selectHandler: { [vm] hexValue in vm.selectMappingValue(hexValue, for: tagId) }
+                )
+            }
+            let asciiVM = tag.asciiValue(for: detailVM.kernel).map { currentAscii in
+                TagAsciiVM(
+                    currentValue: currentAscii,
+                    editHandler: { [vm] newValue in vm.setAsciiValue(newValue, for: tagId) }
+                )
+            }
+            guard mappingVM != nil || asciiVM != nil else { return detailVM }
             return TagDetailsVM(
                 tag: detailVM.tag,
                 name: detailVM.name,
                 info: detailVM.info,
                 bytes: detailVM.bytes,
                 kernel: detailVM.kernel,
-                mapping: mappingVM
+                mapping: mappingVM,
+                ascii: asciiVM
             )
         }
     }

@@ -232,10 +232,18 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     }
 
     internal func selectMappingValue(_ hexValue: String, for tagId: EMVTag.ID) {
-        guard let tag = initialTags.first(with: tagId),
-              let valueBytes = [UInt8](hexString: hexValue) else { return }
+        guard let valueBytes = [UInt8](hexString: hexValue) else { return }
+        updateTagValue(valueBytes, for: tagId)
+    }
 
-        let newBERTLV = BERTLV(tag: tag.tag.tag, value: valueBytes, category: .plain)
+    internal func setAsciiValue(_ string: String, for tagId: EMVTag.ID) {
+        updateTagValue(Array(string.utf8), for: tagId)
+    }
+
+    private func updateTagValue(_ newValueBytes: [UInt8], for tagId: EMVTag.ID) {
+        guard let tag = initialTags.first(with: tagId) else { return }
+
+        let newBERTLV = BERTLV(tag: tag.tag.tag, value: newValueBytes, category: .plain)
         guard let parsed = try? InputParser.parse(input: newBERTLV.bytes.hexString),
               let parsedFirst = parsed.first else { return }
 
@@ -248,7 +256,6 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         if newTag.tag.value == editedTags[tag.id] {
             editedTags.removeValue(forKey: tag.id)
         }
-
         if let idx = initialTags.firstIndex(where: { $0.id == tag.id }) {
             initialTags[idx] = newTag
         }
