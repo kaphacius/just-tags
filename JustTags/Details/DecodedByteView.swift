@@ -8,7 +8,7 @@
 import SwiftUI
 import SwiftyEMVTags
 
-struct DecodedByteVM {
+struct DecodedByteVM: Equatable {
 
     internal let title: String
     internal let rows: [DecodedRowVM]

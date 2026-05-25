@@ -21,6 +21,7 @@ internal struct PlainTagVM: Identifiable, Equatable {
     let selectedMeanings: [String]
     let isEdited: Bool
     let asciiValue: String?
+    let bytes: [DecodedByteVM]?
 
 }
 
@@ -30,6 +31,7 @@ internal struct PlainTagView: View {
     @State internal var isExpanded: Bool = false
     @State private var showsMappingPicker: Bool = false
     @State private var showsAsciiEditor: Bool = false
+    @State private var showsBitEditor: Bool = false
     @State private var asciiEditText: String = ""
 
     private let vm: PlainTagVM
@@ -56,6 +58,7 @@ internal struct PlainTagView: View {
 
             mappingPickerButton
             asciiEditButton
+            bitEditorButton
 
             if vm.showsDetails {
                 DetailsButton(id: vm.id)
@@ -121,6 +124,33 @@ internal struct PlainTagView: View {
                     .padding()
                     .frame(minWidth: 200)
                     .onAppear { asciiEditText = vm.asciiValue ?? "" }
+            }
+        }
+    }
+
+    @ViewBuilder
+    private var bitEditorButton: some View {
+        if let bytes = vm.bytes {
+            Button { showsBitEditor = true } label: {
+                GroupBox {
+                    Label("Edit bits", systemImage: "tablecells")
+                        .labelStyle(.iconOnly)
+                        .padding(.horizontal, commonPadding)
+                }
+            }
+            .buttonStyle(.plain)
+            .padding(.horizontal, commonPadding)
+            .popover(isPresented: $showsBitEditor) {
+                ScrollView {
+                    VStack(spacing: commonPadding) {
+                        ForEach(bytes, id: \.idx, content: DecodedByteView.init(vm:))
+                    }
+                    .padding(commonPadding)
+                }
+                .environment(\.bitToggleHandler) { byteIdx, bitPos in
+                    windowVM.toggleBit(byteIdx: byteIdx, bitPosition: bitPos, for: vm.id)
+                }
+                .frame(maxHeight: 600)
             }
         }
     }

@@ -103,6 +103,12 @@ extension EMVTag {
         return decodedTag.result.asciiValue
     }
 
+    var bytes: [DecodedByteVM]? {
+        guard case .singleKernel(let decodedTag) = decodingResult else { return nil }
+        let vms = decodedTag.result.decodedByteVMs
+        return vms.isEmpty ? nil : vms
+    }
+
     func asciiValue(for kernel: String) -> String? {
         switch decodingResult {
         case .singleKernel(let decodedTag) where decodedTag.kernel == kernel:
@@ -124,7 +130,8 @@ extension EMVTag {
             showsDetails: isUnknown == false,
             selectedMeanings: selectedMeanings,
             isEdited: isEdited,
-            asciiValue: asciiValue
+            asciiValue: asciiValue,
+            bytes: bytes
         )
     }
 

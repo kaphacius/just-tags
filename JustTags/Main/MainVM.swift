@@ -266,10 +266,14 @@ internal final class MainVM: AnyWindowVM, Identifiable {
 
     internal func toggleBit(byteIdx: Int, bitPosition: Int) {
         guard let tag = detailTag else { return }
+        toggleBit(byteIdx: byteIdx, bitPosition: bitPosition, for: tag.id)
+    }
+
+    internal func toggleBit(byteIdx: Int, bitPosition: Int, for tagId: EMVTag.ID) {
+        guard let tag = initialTags.first(with: tagId) else { return }
         let bitShift = UInt8.bitWidth - 1 - bitPosition
         var valueBytes = tag.tag.value
         guard byteIdx < valueBytes.count else { return }
-        // Record the original value the first time this tag is touched.
         if editedTags[tag.id] == nil {
             editedTags[tag.id] = valueBytes
         }
@@ -285,7 +289,9 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         if valueBytes == editedTags[tag.id] {
             editedTags.removeValue(forKey: tag.id)
         }
-        detailTag = newTag
+        if detailTag?.id == tag.id {
+            detailTag = newTag
+        }
     }
 
 }

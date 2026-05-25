@@ -82,7 +82,8 @@ extension PlainTagVM {
             showsDetails: showsDetails,
             selectedMeanings: tag.selectedMeanings,
             isEdited: isEdited,
-            asciiValue: tag.asciiValue
+            asciiValue: tag.asciiValue,
+            bytes: tag.bytes
         )
     }
     
