@@ -1,6 +1,0 @@
-project: JustTags.xcodeproj
-retain_swift_ui_previews: true
-schemes:
-- JustTags
-targets:
-- JustTags
