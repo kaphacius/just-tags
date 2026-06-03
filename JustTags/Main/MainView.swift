@@ -13,6 +13,7 @@ import SwiftyBERTLV
 struct MainView: View {
     
     @State private var showsKernelsPopover: Bool = false
+    @State private var showsAddTag: Bool = false
     @State private var searchInProgress: Bool = false
 
     @ObservedObject internal var vm: MainVM
@@ -48,6 +49,18 @@ struct MainView: View {
     @ToolbarContentBuilder
     internal var toolbarItems: some ToolbarContent {
         ToolbarItemGroup(placement: .primaryAction) {
+            Button { showsAddTag = true } label: {
+                Label("Add Tag", systemImage: "plus")
+            }
+            .keyboardShortcut("n", modifiers: [.command])
+            .popover(isPresented: $showsAddTag, arrowEdge: .top) {
+                AddTagView { tagHex, valueHex in
+                    vm.addTag(tagHex: tagHex, valueHex: valueHex)
+                    showsAddTag = false
+                }
+                .environmentObject(vm)
+            }
+
             Button(action: vm.collapseAll) {
                 Label("Collapse all", systemImage: "chevron.right.square")
             }.keyboardShortcut(.leftArrow, modifiers: [])

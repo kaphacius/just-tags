@@ -22,14 +22,15 @@ internal struct ConstructedTagVM: Equatable {
 }
 
 internal struct ConstructedTagView: View {
-    
+
     @EnvironmentObject private var windowVM: MainVM
-    
+    @State private var showsAddSubtag: Bool = false
+
     internal let vm: ConstructedTagVM
-    
+
     internal var body: some View {
         let binding = windowVM.expandedBinding(for: vm.id)
-        
+
         return HStack {
             VStack(alignment: .leading) {
                 disclosureGroup(with: binding)
@@ -41,7 +42,9 @@ internal struct ConstructedTagView: View {
                     }
                 }
             }
-            
+
+            addSubtagButton
+
             if vm.showsDetails && binding.wrappedValue == false {
                 DetailsButton(id: vm.id)
             }
@@ -54,7 +57,26 @@ internal struct ConstructedTagView: View {
             binding.wrappedValue.toggle()
         }
     }
-    
+
+    private var addSubtagButton: some View {
+        Button { showsAddSubtag = true } label: {
+            GroupBox {
+                Label("Add subtag", systemImage: "plus")
+                    .labelStyle(.iconOnly)
+                    .padding(.horizontal, commonPadding)
+            }
+        }
+        .buttonStyle(.plain)
+        .padding(.horizontal, commonPadding)
+        .popover(isPresented: $showsAddSubtag, arrowEdge: .top) {
+            AddTagView(title: "Add Subtag") { tagHex, valueHex in
+                windowVM.addSubtag(tagHex: tagHex, valueHex: valueHex, toId: vm.id)
+                showsAddSubtag = false
+            }
+            .environmentObject(windowVM)
+        }
+    }
+
     private func disclosureGroup(
         with binding: Binding<Bool>
     ) -> some View {

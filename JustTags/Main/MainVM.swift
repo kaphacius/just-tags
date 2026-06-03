@@ -264,6 +264,57 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         }
     }
 
+    internal func addTag(tagHex: String, valueHex: String) {
+        guard let newTag = makeTag(tagHex: tagHex, valueHex: valueHex) else { return }
+        initialTags.append(newTag)
+        populateSearch()
+        onDetailTagSelected(id: newTag.id)
+    }
+
+    internal func addSubtag(tagHex: String, valueHex: String, toId parentId: EMVTag.ID) {
+        guard let newSubtag = makeTag(tagHex: tagHex, valueHex: valueHex),
+              let updatedTags = addingSubtag(newSubtag, to: parentId, in: initialTags) else { return }
+        initialTags = updatedTags
+        populateSearch()
+        expandedConstructedTags.insert(parentId)
+        onDetailTagSelected(id: newSubtag.id)
+    }
+
+    private func addingSubtag(
+        _ newSubtag: EMVTag,
+        to parentId: EMVTag.ID,
+        in tags: [EMVTag]
+    ) -> [EMVTag]? {
+        for (idx, tag) in tags.enumerated() {
+            if tag.id == parentId, case .constructed(let existingSubtags) = tag.category {
+                let allSubtags = existingSubtags + [newSubtag]
+                let newBERT = BERTLV(tag: tag.tag.tag, value: allSubtags.flatMap(\.tag.bytes), category: .plain)
+                var result = tags
+                result[idx] = EMVTag(id: tag.id, tag: newBERT, category: .constructed(subtags: allSubtags), decodingResult: tag.decodingResult)
+                return result
+            }
+            if case .constructed(let subtags) = tag.category,
+               let updatedSubtags = addingSubtag(newSubtag, to: parentId, in: subtags) {
+                let newBERT = BERTLV(tag: tag.tag.tag, value: updatedSubtags.flatMap(\.tag.bytes), category: .plain)
+                var result = tags
+                result[idx] = EMVTag(id: tag.id, tag: newBERT, category: .constructed(subtags: updatedSubtags), decodingResult: tag.decodingResult)
+                return result
+            }
+        }
+        return nil
+    }
+
+    private func makeTag(tagHex: String, valueHex: String) -> EMVTag? {
+        guard let tagBytes = [UInt8](hexString: tagHex), tagBytes.isEmpty == false else { return nil }
+        guard let valueBytes = [UInt8](hexString: valueHex), valueBytes.isEmpty == false else { return nil }
+        let tagCode = tagBytes.reduce(UInt64(0)) { ($0 << 8) | UInt64($1) }
+        let bertlv = BERTLV(tag: tagCode, value: valueBytes, category: .plain)
+        guard let parsed = try? InputParser.parse(input: bertlv.bytes.hexString),
+              let parsedFirst = parsed.first else { return nil }
+        let decoded = tagParser.decodeBERTLV(parsedFirst)
+        return EMVTag(id: UUID(), tag: decoded.tag, category: decoded.category, decodingResult: decoded.decodingResult)
+    }
+
     internal func toggleBit(byteIdx: Int, bitPosition: Int) {
         guard let tag = detailTag else { return }
         toggleBit(byteIdx: byteIdx, bitPosition: bitPosition, for: tag.id)
