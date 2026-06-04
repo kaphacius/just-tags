@@ -256,9 +256,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         if newTag.tag.value == editedTags[tag.id] {
             editedTags.removeValue(forKey: tag.id)
         }
-        if let idx = initialTags.firstIndex(where: { $0.id == tag.id }) {
-            initialTags[idx] = newTag
-        }
+        initialTags = replacingTag(newTag, in: initialTags)
         if detailTag?.id == tag.id {
             detailTag = newTag
         }
@@ -288,20 +286,31 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         for (idx, tag) in tags.enumerated() {
             if tag.id == parentId, case .constructed(let existingSubtags) = tag.category {
                 let allSubtags = existingSubtags + [newSubtag]
-                let newBERT = BERTLV(tag: tag.tag.tag, value: allSubtags.flatMap(\.tag.bytes), category: .plain)
+                let newBERT = BERTLV(tag: tag.tag.tag, value: allSubtags.flatMap(\.tag.bytes), category: .constructed(subtags: allSubtags.map(\.tag)))
                 var result = tags
                 result[idx] = EMVTag(id: tag.id, tag: newBERT, category: .constructed(subtags: allSubtags), decodingResult: tag.decodingResult)
                 return result
             }
             if case .constructed(let subtags) = tag.category,
                let updatedSubtags = addingSubtag(newSubtag, to: parentId, in: subtags) {
-                let newBERT = BERTLV(tag: tag.tag.tag, value: updatedSubtags.flatMap(\.tag.bytes), category: .plain)
+                let newBERT = BERTLV(tag: tag.tag.tag, value: updatedSubtags.flatMap(\.tag.bytes), category: .constructed(subtags: updatedSubtags.map(\.tag)))
                 var result = tags
                 result[idx] = EMVTag(id: tag.id, tag: newBERT, category: .constructed(subtags: updatedSubtags), decodingResult: tag.decodingResult)
                 return result
             }
         }
         return nil
+    }
+
+    private func replacingTag(_ newTag: EMVTag, in tags: [EMVTag]) -> [EMVTag] {
+        tags.map { tag in
+            if tag.id == newTag.id { return newTag }
+            guard case .constructed(let subtags) = tag.category,
+                  subtags.first(with: newTag.id) != nil else { return tag }
+            let updatedSubtags = replacingTag(newTag, in: subtags)
+            let newBERT = BERTLV(tag: tag.tag.tag, value: updatedSubtags.flatMap(\.tag.bytes), category: .constructed(subtags: updatedSubtags.map(\.tag)))
+            return EMVTag(id: tag.id, tag: newBERT, category: .constructed(subtags: updatedSubtags), decodingResult: tag.decodingResult)
+        }
     }
 
     private func makeTag(tagHex: String, valueHex: String) -> EMVTag? {
@@ -334,9 +343,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
               let bertlv = bertlvs.first else { return }
         let decoded = tagParser.decodeBERTLV(bertlv)
         let newTag = EMVTag(id: tag.id, tag: decoded.tag, category: decoded.category, decodingResult: decoded.decodingResult)
-        if let idx = initialTags.firstIndex(where: { $0.id == tag.id }) {
-            initialTags[idx] = newTag
-        }
+        initialTags = replacingTag(newTag, in: initialTags)
         if valueBytes == editedTags[tag.id] {
             editedTags.removeValue(forKey: tag.id)
         }
