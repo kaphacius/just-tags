@@ -9,14 +9,19 @@ import SwiftUI
 import SwiftyEMVTags
 
 internal struct TagHeaderVM: Equatable {
+
+    internal struct Meaning: Equatable {
+        internal let name: String
+        internal let kernel: String?
+    }
+
     internal let tag: String
-    internal let name: String?
-    internal let kernels: [String]
+    internal let meanings: [Meaning]
 }
 
 internal struct TagHeaderView: View {
     internal let vm: TagHeaderVM
-    
+
     internal var body: some View {
         HStack {
             Text(vm.tag)
@@ -24,32 +29,28 @@ internal struct TagHeaderView: View {
                 .fontWeight(.medium)
 
             nameLabel
-                .font(.title3.weight(.regular))
-                .lineLimit(1)
-            
-            kernels
         }
     }
-    
+
     @ViewBuilder
     private var nameLabel: some View {
-        if let name = vm.name {
-            Text(name)
-        } else {
+        if vm.meanings.isEmpty {
             Image(systemName: "questionmark.app.dashed")
                 .foregroundStyle(.secondary)
                 .padding(.leading, -commonPadding)
-        }
-    }
-    
-    @ViewBuilder
-    private var kernels: some View {
-        if vm.kernels.count > 1 {
-            ForEach(
-                vm.kernels,
-                id: \.self,
-                content: kernelLabel(for:)
-            )
+        } else if vm.meanings.count == 1, let meaning = vm.meanings.first {
+            Text(meaning.name)
+                .font(.title3.weight(.regular))
+                .lineLimit(1)
+        } else {
+            ForEach(vm.meanings, id: \.kernel) { meaning in
+                Text(meaning.name)
+                    .font(.title3.weight(.regular))
+                    .lineLimit(1)
+                if let kernel = meaning.kernel {
+                    kernelLabel(for: kernel)
+                }
+            }
         }
     }
     
