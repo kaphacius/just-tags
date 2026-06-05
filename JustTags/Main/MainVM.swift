@@ -228,7 +228,36 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     }
     
     internal func removeTag(with id: EMVTag.ID) {
-        self.initialTags.removeAll(where: { $0.id == id })
+        guard let updatedTags = removingTag(id: id, from: initialTags) else { return }
+        initialTags = updatedTags
+        populateSearch()
+        editedTags.removeValue(forKey: id)
+        expandedConstructedTags.remove(id)
+        if detailTag?.id == id { detailTag = nil }
+        if selectedIds.contains(id) {
+            selectedIds.remove(id)
+            selectedTags.removeFirst(with: id)
+        }
+    }
+
+    private func removingTag(id: EMVTag.ID, from tags: [EMVTag]) -> [EMVTag]? {
+        if tags.contains(where: { $0.id == id }) {
+            return tags.filter { $0.id != id }
+        }
+        for (idx, tag) in tags.enumerated() {
+            guard case .constructed(let subtags) = tag.category,
+                  subtags.first(with: id) != nil else { continue }
+            let updatedSubtags = removingTag(id: id, from: subtags) ?? subtags
+            let newBERT = BERTLV(
+                tag: tag.tag.tag,
+                value: updatedSubtags.flatMap(\.tag.bytes),
+                category: .constructed(subtags: updatedSubtags.map(\.tag))
+            )
+            var result = tags
+            result[idx] = EMVTag(id: tag.id, tag: newBERT, category: .constructed(subtags: updatedSubtags), decodingResult: tag.decodingResult)
+            return result
+        }
+        return nil
     }
 
     internal func selectMappingValue(_ hexValue: String, for tagId: EMVTag.ID) {

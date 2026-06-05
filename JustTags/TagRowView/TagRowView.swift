@@ -120,10 +120,8 @@ internal struct TagRowView: View {
                 action: windowVM.diffSelectedTags
             )
         }
-        if vm.isSubTag == false {
-            Button("Remove tag") {
-                windowVM.removeTag(with: vm.id)
-            }
+        Button("Remove tag") {
+            windowVM.removeTag(with: vm.id)
         }
     }
 
