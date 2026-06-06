@@ -120,6 +120,9 @@ internal struct TagRowView: View {
                 action: windowVM.diffSelectedTags
             )
         }
+        Button("Open in new window") {
+            windowVM.openTagInNewWindow(id: vm.id)
+        }
         Button("Remove tag") {
             windowVM.removeTag(with: vm.id)
         }

@@ -227,6 +227,16 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         )
     }
     
+    internal func openTagInNewWindow(id: EMVTag.ID) {
+        guard let tag = initialTags.first(with: id) else { return }
+        let hexString = switch tag.category {
+        case .plain: tag.fullHexString
+        case .constructed: tag.valueHexString
+        }
+        guard let url = URL(string: "justtags://main/\(hexString)") else { return }
+        NSWorkspace.shared.open(url)
+    }
+
     internal func removeTag(with id: EMVTag.ID) {
         guard let updatedTags = removingTag(id: id, from: initialTags) else { return }
         initialTags = updatedTags

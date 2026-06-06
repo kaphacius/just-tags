@@ -144,10 +144,10 @@ internal final class AppVM: NSObject, ObservableObject {
         guard let markerIdx = abs.ranges(of: /\/main\//).first else {
             return
         }
-        
+
         let payload = String(abs.suffix(from: markerIdx.upperBound))
         let vm: MainVM
-        if let latestVM = mainVMs.last.flatMap(\.value) {
+        if let latestVM = mainVMs.last.flatMap(\.value), latestVM.isEmpty {
             vm = latestVM
         } else {
             vm = createNewMainVM()
