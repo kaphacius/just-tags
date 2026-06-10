@@ -142,6 +142,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     internal func parse(string: String) {
         refreshState()
         initialTags = tagsByParsing(string: string)
+        tagParser.selectKernels(from: initialTags)
         populateSearch()
         selectSingleTagIfNeeded()
     }
