@@ -72,10 +72,11 @@ internal struct MainViewCommands: Commands {
     }
     
     private var paste: some View {
-        Button(
-            "Paste",
-            action: vm.pasteIntoCurrentTab
-        ).keyboardShortcut("v", modifiers: [.command])
+        Button("Paste") {
+            if NSApp.sendAction(#selector(NSText.paste(_:)), to: nil, from: nil) { return }
+            if currentWindow == .library { return }
+            vm.pasteIntoCurrentTab()
+        }.keyboardShortcut("v", modifiers: [.command])
     }
     
     private var pasteIntoNewTab: some View {

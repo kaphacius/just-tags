@@ -63,7 +63,7 @@ internal final class TagParser: ObservableObject, AnyTagDecoder {
 
     private func detectedKernelNumbers(in tags: [EMVTag]) -> Set<Int> {
         tags.reduce(into: Set<Int>()) { result, tag in
-            kernelNumber(from: tag).map { result.insert($0) }
+            _ = kernelNumber(from: tag).map { result.insert($0) }
             if case .constructed(let subtags) = tag.category {
                 result.formUnion(detectedKernelNumbers(in: subtags))
             }

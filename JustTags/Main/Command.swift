@@ -119,6 +119,7 @@ extension WindowType {
         case .library:
             return [
                 .about,
+                .paste,
                 .openMainView,
                 .openDiffView,
                 .addKernelInfo,
