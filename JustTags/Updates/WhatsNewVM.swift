@@ -53,8 +53,9 @@ internal enum Version: CaseIterable {
     case oneTwoThree
     case oneTwoSix
     case oneTwoSeven
-    
-    
+    case oneThreeZero
+
+
     internal var vm: WhatsNewVM {
         switch self {
         case .oneOne: Self.oneOneVM
@@ -63,9 +64,10 @@ internal enum Version: CaseIterable {
         case .oneTwoThree: Self.oneTwoThreeVM
         case .oneTwoSix: Self.oneTwoSixVM
         case .oneTwoSeven: Self.oneTwoSevenVM
+        case .oneThreeZero: Self.oneThreeZeroVM
         }
     }
-    
+
     internal var version: String {
         switch self {
         case .oneOne: "1.1.0"
@@ -74,6 +76,7 @@ internal enum Version: CaseIterable {
         case .oneTwoThree: "1.2.3"
         case .oneTwoSix: "1.2.6"
         case .oneTwoSeven: "1.2.7"
+        case .oneThreeZero: "1.3.0"
         }
     }
     
@@ -172,6 +175,37 @@ internal enum Version: CaseIterable {
         ]
     )
     
+    private static let oneThreeZeroVM: WhatsNewVM = .init(
+        version: "1.3.0",
+        items: [
+            .init(
+                iconName: "pencil.circle.fill",
+                title: "Tag editing",
+                description: "Edit tag values directly in the list — toggle individual bits, pick from known value mappings, or type an ASCII string. Edited tags are highlighted so you can track what's changed."
+            ),
+            .init(
+                iconName: "plus.circle.fill",
+                title: "Tag and subtag creation",
+                description: "Add new tags to the list, or add subtags inside a constructed tag."
+            ),
+            .init(
+                iconName: "rectangle.on.rectangle.fill",
+                title: "Open tag in new window",
+                description: "Right-click any tag to open it in a new window for focused inspection."
+            ),
+            .init(
+                iconName: "cpu.fill",
+                title: "Automatic kernel selection",
+                description: "JustTags now detects AID and Kernel ID tags in your data and automatically activates the matching kernel."
+            ),
+            .init(
+                iconName: "text.book.closed.fill",
+                title: "Improved tag decoding",
+                description: "Added bit-level decoding for many Kernel 2, 4, and 5 tags, plus new decodings for 5F30 Service Code, 5F57 Account Type, 9F2A Kernel Identifier, and more."
+            )
+        ]
+    )
+
     private static let oneTwoSevenVM: WhatsNewVM = .init(
         version: "1.2.7",
         items: [
