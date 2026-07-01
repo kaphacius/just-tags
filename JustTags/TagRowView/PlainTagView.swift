@@ -150,6 +150,9 @@ internal struct PlainTagView: View {
                 .environment(\.bitToggleHandler) { byteIdx, bitPos in
                     windowVM.toggleBit(byteIdx: byteIdx, bitPosition: bitPos, for: vm.id)
                 }
+                .environment(\.groupValueHandler) { byteIdx, startIndex, width, value in
+                    windowVM.setGroupValue(byteIdx: byteIdx, startIndex: startIndex, width: width, value: value, for: vm.id)
+                }
                 .frame(maxHeight: 600)
             }
         }

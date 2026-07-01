@@ -114,7 +114,11 @@ struct DecodedRowView_Previews: PreviewProvider {
                     .mockTag
                     .tagDetailsVMs
                     .flatMap(\.bytes)
-                    .flatMap(\.rows)
+                    .flatMap(\.groups)
+                    .compactMap { group in
+                        if case .rows(let rows) = group { return rows } else { return nil }
+                    }
+                    .flatMap { $0 }
                     .enumerated()
                 ), id: \.offset
             ) { DecodedRowView(vm: $0.element) }

@@ -82,11 +82,21 @@ internal final class LibraryVM: ObservableObject {
 
     internal func toggleBit(byteIdx: Int, bitPosition: Int) {
         let bitShift = UInt8.bitWidth - 1 - bitPosition
+        updateByte(byteIdx: byteIdx) { $0 ^ (1 << bitShift) }
+    }
+
+    internal func setGroupValue(byteIdx: Int, startIndex: Int, width: Int, value: UInt8) {
+        let shift = UInt8.bitWidth - startIndex - width
+        let mask: UInt8 = UInt8((1 << width) - 1) << shift
+        updateByte(byteIdx: byteIdx) { ($0 & ~mask) | ((value << shift) & mask) }
+    }
+
+    private func updateByte(byteIdx: Int, transform: (UInt8) -> UInt8) {
         var bytes = parseValueBytes(inputString) ?? []
         while bytes.count <= byteIdx {
             bytes.append(0x00)
         }
-        bytes[byteIdx] ^= (1 << bitShift)
+        bytes[byteIdx] = transform(bytes[byteIdx])
         inputString = bytes.map { String(format: "%02X", $0) }.joined()
     }
 

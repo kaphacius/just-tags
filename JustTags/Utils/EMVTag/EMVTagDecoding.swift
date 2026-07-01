@@ -108,21 +108,22 @@ extension EMVTag.DecodedByte {
         .init(
             idx: idx,
             name: name,
-            rows: decodedRowVMs,
+            groups: decodedGroupVMs,
             isPlaceholder: isPlaceholder
         )
     }
-    
-    internal var decodedRowVMs: [DecodedRowVM] {
+
+    internal var decodedGroupVMs: [DecodedGroupVM] {
         var idx: Int = 0
-    
-        return groups.flatMap { group in
-            let vms = group.decodedRowVMs(startIndex: idx)
+        let fullBits = groups.map { $0.pattern.binaryString(width: $0.width) }.joined()
+
+        return groups.map { group in
+            let vm = group.decodedGroupVM(startIndex: idx, fullBits: fullBits)
             idx += group.width
-            return vms
+            return vm
         }
     }
-    
+
 }
 
 extension EMVTag.DecodedByte.Group {
@@ -131,16 +132,40 @@ extension EMVTag.DecodedByte.Group {
         switch self.type {
         case .bool(let result) where result:
             return name
-        case .bitmap(let mappingResult):
+        case .bitmap(let mappingResult), .enumeration(let mappingResult):
             return mappingResult.selectedMeaning
         default:
             return nil
         }
     }
-    
+
+    internal func decodedGroupVM(startIndex: Int, fullBits: String) -> DecodedGroupVM {
+        switch self.type {
+        case .enumeration(let mappingResult):
+            return .picker(mappingResult.pickerVM(name: name, width: width, startIndex: startIndex, fullBits: fullBits))
+        case .RFU:
+            return .picker(rfuPickerVM(startIndex: startIndex, fullBits: fullBits))
+        default:
+            return .rows(decodedRowVMs(startIndex: startIndex))
+        }
+    }
+
+    private func rfuPickerVM(startIndex: Int, fullBits: String) -> EnumGroupPickerVM {
+        EnumGroupPickerVM(
+            name: name,
+            fullBits: fullBits,
+            highlightRange: startIndex..<(startIndex + width),
+            currentMeaning: "",
+            rows: [],
+            startIndex: startIndex,
+            width: width,
+            isInteractive: false
+        )
+    }
+
     internal func decodedRowVMs(startIndex: Int) -> [DecodedRowVM] {
         switch self.type {
-        case .bitmap(let mappingResult):
+        case .bitmap(let mappingResult), .enumeration(let mappingResult):
             return mappingResult.decodedRowVMs(
                 name: name,
                 width: width,
@@ -201,7 +226,29 @@ extension EMVTag.DecodedByte.Group.MappingResult {
                 )
             }
     }
-    
+
+    internal func pickerVM(
+        name: String,
+        width: Int,
+        startIndex: Int,
+        fullBits: String
+    ) -> EnumGroupPickerVM {
+        let rows: [MappingPickerRow] = mappings.compactMap { mapping in
+            guard case .concrete(let pattern) = mapping.pattern else { return nil }
+            return MappingPickerRow(id: pattern.binaryString(width: width), meaning: mapping.meaning)
+        }
+        return EnumGroupPickerVM(
+            name: name,
+            fullBits: fullBits,
+            highlightRange: startIndex..<(startIndex + width),
+            currentMeaning: selectedMeaning ?? "",
+            rows: rows,
+            startIndex: startIndex,
+            width: width,
+            isInteractive: true
+        )
+    }
+
 }
 
 extension EMVTag.DecodedByte.Group.MappingResult.SingleMapping {
@@ -241,17 +288,21 @@ extension EMVTag.DecodedByte.Group.MappingResult.SingleMapping.Pattern {
 }
 
 extension UInt8 {
-    
+
     internal func stringBits(startIndex: Int, width: Int) -> [String] {
         Array(stringBits[startIndex..<startIndex + width])
     }
-    
+
     fileprivate var stringBits: [String] {
         String(self, radix: 2)
             .pad(with: "0", toLength: UInt8.bitWidth)
             .map { String($0) }
     }
-    
+
+    fileprivate func binaryString(width: Int) -> String {
+        String(stringBits.suffix(width).joined())
+    }
+
 }
 
 extension DecodedDataObject: @retroactive CustomStringConvertible {

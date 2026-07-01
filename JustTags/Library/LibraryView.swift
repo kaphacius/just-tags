@@ -89,6 +89,7 @@ struct LibraryView: View {
                             TagDetailsView(vm: first)
                         }
                         .environment(\.bitToggleHandler, vm.toggleBit)
+                        .environment(\.groupValueHandler, vm.setGroupValue)
                     } else {
                         TabView {
                             ForEach(vm.tagDetailVMs, id: \.kernel) { detailVM in
@@ -99,6 +100,7 @@ struct LibraryView: View {
                             }
                         }
                         .environment(\.bitToggleHandler, vm.toggleBit)
+                        .environment(\.groupValueHandler, vm.setGroupValue)
                     }
                 }
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)

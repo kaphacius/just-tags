@@ -143,7 +143,7 @@
 			);
 			mainGroup = 5AE8BF4327E79BF000474AD0;
 			packageReferences = (
-				5AABF5082F4F0216003DC535 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */,
+				5AABF5082F4F0216003DC535 /* XCLocalSwiftPackageReference "../swifty-emv-tags" */,
 			);
 			productRefGroup = 5AE8BF4D27E79BF000474AD0 /* Products */;
 			projectDirPath = "";
@@ -473,21 +473,16 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		5AABF5082F4F0216003DC535 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/kaphacius/swifty-emv-tags/";
-			requirement = {
-				kind = revision;
-				revision = 000dea53e605116e96cd5921d47fd86e87a2605d;
-			};
+/* Begin XCLocalSwiftPackageReference section */
+		5AABF5082F4F0216003DC535 /* XCLocalSwiftPackageReference "../swifty-emv-tags" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = "../swifty-emv-tags";
 		};
-/* End XCRemoteSwiftPackageReference section */
+/* End XCLocalSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
 		5AABF5092F4F0216003DC535 /* SwiftyEMVTags */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 5AABF5082F4F0216003DC535 /* XCRemoteSwiftPackageReference "swifty-emv-tags" */;
 			productName = SwiftyEMVTags;
 		};
 /* End XCSwiftPackageProductDependency section */

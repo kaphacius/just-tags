@@ -111,7 +111,7 @@ struct MainView: View {
     
     @ViewBuilder
     private var details: some View {
-        GroupBox {
+        Group {
             if let detailTag = vm.detailTag {
                 ScrollView {
                     detailViews(vms: enrichedDetailVMs(for: detailTag))
@@ -165,6 +165,7 @@ struct MainView: View {
             TagDetailsView(vm: first)
                 .padding(-commonPadding)
                 .environment(\.bitToggleHandler, vm.toggleBit)
+                .environment(\.groupValueHandler, vm.setGroupValue)
         } else {
             TabView {
                 ForEach(vms, id: \.kernel) { detailVM in
@@ -176,6 +177,7 @@ struct MainView: View {
                 }
             }
             .environment(\.bitToggleHandler, vm.toggleBit)
+            .environment(\.groupValueHandler, vm.setGroupValue)
         }
     }
     

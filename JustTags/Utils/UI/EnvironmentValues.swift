@@ -16,6 +16,10 @@ internal struct BitToggleHandler: EnvironmentKey {
     static let defaultValue: ((Int, Int) -> Void)? = nil
 }
 
+internal struct GroupValueHandler: EnvironmentKey {
+    static let defaultValue: ((Int, Int, Int, UInt8) -> Void)? = nil
+}
+
 
 internal struct CurrentByteIdx: EnvironmentKey {
     static let defaultValue: Int = 0
@@ -31,6 +35,12 @@ extension EnvironmentValues {
     internal var bitToggleHandler: ((Int, Int) -> Void)? {
         get { self[BitToggleHandler.self] }
         set { self[BitToggleHandler.self] = newValue }
+    }
+
+    /// Sets the value of a group of bits within a byte. Parameters are (byteIdx, startIndex, width, value).
+    internal var groupValueHandler: ((Int, Int, Int, UInt8) -> Void)? {
+        get { self[GroupValueHandler.self] }
+        set { self[GroupValueHandler.self] = newValue }
     }
 
     internal var currentByteIdx: Int {

@@ -74,7 +74,7 @@ extension ByteInfo.Group.MappingType {
         switch self {
         case .RFU, .hex, .bool:
             return []
-        case .bitmap(let mappings):
+        case .bitmap(let mappings), .enumeration(let mappings):
             return Set(mappings.flatMap(\.searchComponents))
         }
     }

@@ -163,7 +163,7 @@ extension EMVTag.DecodedByte.Group.GroupType {
     
     internal var searchComponents: Set<String> {
         switch self {
-        case .bitmap(let mappingResult):
+        case .bitmap(let mappingResult), .enumeration(let mappingResult):
             return mappingResult.searchComponents
         case .hex, .RFU, .bool:
             return []

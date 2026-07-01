@@ -5,15 +5,15 @@
 
 import SwiftUI
 
-struct MappingPickerRow: Identifiable {
+struct MappingPickerRow: Identifiable, Equatable {
     let id: String
     let meaning: String
     let label: String
 
-    init(id: String, meaning: String) {
+    init(id: String, meaning: String, label: String? = nil) {
         self.id = id.uppercased()
         self.meaning = meaning
-        self.label = self.id + "  " + meaning
+        self.label = label ?? (self.id + "  " + meaning)
     }
 }
 

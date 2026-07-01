@@ -8,17 +8,22 @@
 import SwiftUI
 import SwiftyEMVTags
 
+enum DecodedGroupVM: Equatable {
+    case rows([DecodedRowVM])
+    case picker(EnumGroupPickerVM)
+}
+
 struct DecodedByteVM: Equatable {
 
     internal let title: String
-    internal let rows: [DecodedRowVM]
+    internal let groups: [DecodedGroupVM]
     internal let idx: Int
     internal let isPlaceholder: Bool
 
-    internal init(idx: Int, name: String?, rows: [DecodedRowVM], isPlaceholder: Bool = false) {
+    internal init(idx: Int, name: String?, groups: [DecodedGroupVM], isPlaceholder: Bool = false) {
         let name = name.map { ": \($0)" } ?? ""
         self.title = "Byte \(idx + 1)\(name)"
-        self.rows = rows
+        self.groups = groups
         self.idx = idx
         self.isPlaceholder = isPlaceholder
     }
@@ -41,20 +46,50 @@ struct DecodedByteView: View {
             VStack(alignment: .leading, spacing: commonPadding) {
                 Text(vm.title)
                     .font(.title2)
-                VStack(spacing: 0.0) {
-                    bitHeaderRow
-                    ForEach(
-                        Array(vm.rows.enumerated()),
-                        id:\.offset
-                    ) {
-                        DecodedRowView(vm: $0.element)
+                ForEach(Array(renderItems.enumerated()), id: \.offset) { _, item in
+                    switch item {
+                    case .picker(let pickerVM):
+                        EnumGroupPickerRow(vm: pickerVM)
+                    case .rows(let rows):
+                        VStack(spacing: 0.0) {
+                            bitHeaderRow
+                            ForEach(Array(rows.enumerated()), id: \.offset) {
+                                DecodedRowView(vm: $0.element)
+                            }
+                        }
+                        .border(Self.borderColor, width: 1.0)
                     }
                 }
-                .border(Self.borderColor, width: 1.0)
-                .environment(\.isLibrary, vm.isPlaceholder || isLibrary)
-                .environment(\.currentByteIdx, vm.idx)
+            }
+            .environment(\.isLibrary, vm.isPlaceholder || isLibrary)
+            .environment(\.currentByteIdx, vm.idx)
+        }
+    }
+
+    private enum RenderItem {
+        case picker(EnumGroupPickerVM)
+        case rows([DecodedRowVM])
+    }
+
+    private var renderItems: [RenderItem] {
+        var items: [RenderItem] = []
+        var pendingRows: [DecodedRowVM] = []
+        for group in vm.groups {
+            switch group {
+            case .picker(let p):
+                if pendingRows.isEmpty == false {
+                    items.append(.rows(pendingRows))
+                    pendingRows = []
+                }
+                items.append(.picker(p))
+            case .rows(let r):
+                pendingRows.append(contentsOf: r)
             }
         }
+        if pendingRows.isEmpty == false {
+            items.append(.rows(pendingRows))
+        }
+        return items
     }
     
     private var bitHeaderRow: some View {
@@ -80,7 +115,7 @@ struct DecodedByteView: View {
                 text.map(Text.init)
             }
     }
-    
+
 }
 
 struct DecodedByteView_Previews: PreviewProvider {

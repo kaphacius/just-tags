@@ -370,14 +370,29 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     }
 
     internal func toggleBit(byteIdx: Int, bitPosition: Int, for tagId: EMVTag.ID) {
-        guard let tag = initialTags.first(with: tagId) else { return }
         let bitShift = UInt8.bitWidth - 1 - bitPosition
+        updateByte(byteIdx: byteIdx, for: tagId) { $0 ^ (1 << bitShift) }
+    }
+
+    internal func setGroupValue(byteIdx: Int, startIndex: Int, width: Int, value: UInt8) {
+        guard let tag = detailTag else { return }
+        setGroupValue(byteIdx: byteIdx, startIndex: startIndex, width: width, value: value, for: tag.id)
+    }
+
+    internal func setGroupValue(byteIdx: Int, startIndex: Int, width: Int, value: UInt8, for tagId: EMVTag.ID) {
+        let shift = UInt8.bitWidth - startIndex - width
+        let mask: UInt8 = UInt8((1 << width) - 1) << shift
+        updateByte(byteIdx: byteIdx, for: tagId) { ($0 & ~mask) | ((value << shift) & mask) }
+    }
+
+    private func updateByte(byteIdx: Int, for tagId: EMVTag.ID, transform: (UInt8) -> UInt8) {
+        guard let tag = initialTags.first(with: tagId) else { return }
         var valueBytes = tag.tag.value
         guard byteIdx < valueBytes.count else { return }
         if editedTags[tag.id] == nil {
             editedTags[tag.id] = valueBytes
         }
-        valueBytes[byteIdx] ^= (1 << bitShift)
+        valueBytes[byteIdx] = transform(valueBytes[byteIdx])
         let syntheticHex = tag.tag.tag.hexString + tag.tag.lengthBytes.hexString + valueBytes.hexString
         guard let bertlvs = try? InputParser.parse(input: syntheticHex),
               let bertlv = bertlvs.first else { return }
