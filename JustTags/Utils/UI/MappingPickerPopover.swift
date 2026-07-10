@@ -44,7 +44,7 @@ extension View {
                     }
                 }
             }
-            .frame(maxHeight: 300)
+            .frame(minWidth: 280, maxHeight: 300)
             .padding(.vertical, 6)
         }
     }

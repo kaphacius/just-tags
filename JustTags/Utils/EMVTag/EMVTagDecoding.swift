@@ -116,9 +116,10 @@ extension EMVTag.DecodedByte {
     internal var decodedGroupVMs: [DecodedGroupVM] {
         var idx: Int = 0
         let fullBits = groups.map { $0.pattern.binaryString(width: $0.width) }.joined()
+        let hasEnumeration = groups.contains { if case .enumeration = $0.type { return true }; return false }
 
         return groups.map { group in
-            let vm = group.decodedGroupVM(startIndex: idx, fullBits: fullBits)
+            let vm = group.decodedGroupVM(startIndex: idx, fullBits: fullBits, rfuAsPicker: hasEnumeration)
             idx += group.width
             return vm
         }
@@ -139,11 +140,11 @@ extension EMVTag.DecodedByte.Group {
         }
     }
 
-    internal func decodedGroupVM(startIndex: Int, fullBits: String) -> DecodedGroupVM {
+    internal func decodedGroupVM(startIndex: Int, fullBits: String, rfuAsPicker: Bool) -> DecodedGroupVM {
         switch self.type {
         case .enumeration(let mappingResult):
             return .picker(mappingResult.pickerVM(name: name, width: width, startIndex: startIndex, fullBits: fullBits))
-        case .RFU:
+        case .RFU where rfuAsPicker:
             return .picker(rfuPickerVM(startIndex: startIndex, fullBits: fullBits))
         default:
             return .rows(decodedRowVMs(startIndex: startIndex))
