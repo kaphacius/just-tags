@@ -88,12 +88,14 @@ internal final class AppVM: NSObject, ObservableObject {
     
     internal func openNewTab() {
         guard let currentWindow else { return }
-        
+
         switch currentWindow.type {
         case .main:
-            onOpenWindow?(id: WindowType.Case.main.id)
+            let newVM = createNewMainVM()
+            onOpenWindow?(id: WindowType.Case.main.id, value: newVM.id)
         case .diff:
-            onOpenWindow?(id: WindowType.Case.diff.id)
+            let newVM = createNewDiffVM()
+            onOpenWindow?(id: WindowType.Case.diff.id, value: newVM.id)
         case .library:
             break
         }
