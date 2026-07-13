@@ -37,10 +37,12 @@ internal final class TagParser: ObservableObject, AnyTagDecoder {
         tagDecoder.activeKernels
     }
     
+    private let defaultKernelIds: Set<String>
     private var initialKernelIds: [String]
     private var cancellables: Set<AnyCancellable> = []
-    
+
     init(tagDecoder: TagDecoder) {
+        self.defaultKernelIds = Set(tagDecoder.kernelIds)
         self.initialKernelIds = tagDecoder.kernelIds
         self.selectedKernelIds = Set(tagDecoder.kernelIds)
         self.tagDecoder = tagDecoder
@@ -53,12 +55,11 @@ internal final class TagParser: ObservableObject, AnyTagDecoder {
     
     internal func selectKernels(from tags: [EMVTag]) {
         let detected = Set(detectedKernelNumbers(in: tags).map { "kernel\($0)" })
-        let builtInIds = Set(initialKernelIds)
-        let applicable = detected.intersection(builtInIds)
-        let customSelected = selectedKernelIds.subtracting(builtInIds)
-        selectedKernelIds = (applicable.isEmpty ? builtInIds : applicable
-            .union(builtInIds.filter { $0 == "general" }))
-            .union(customSelected)
+        let applicable = detected.intersection(defaultKernelIds)
+        let customIds = Set(tagDecoder.kernelIds).subtracting(defaultKernelIds)
+        selectedKernelIds = (applicable.isEmpty ? defaultKernelIds : applicable
+            .union(defaultKernelIds.filter { $0 == "general" }))
+            .union(customIds)
     }
 
     private func detectedKernelNumbers(in tags: [EMVTag]) -> Set<Int> {
