@@ -9,9 +9,38 @@ import Foundation
 import SwiftyEMVTags
 import SwiftyBERTLV
 
+/// The result of resolving a tag conflict between a custom kernel and a built-in one:
+/// the custom kernel's meaning is assumed to be a deliberate override, so it's shown as
+/// `primary` while the built-in's competing meaning is `hidden` behind a disclosure.
+/// When there's no cross-category conflict (all-custom or all-built-in overlap), every
+/// meaning stays in `primary` and `hidden` is empty - today's "show as a tie" behavior.
+internal struct ResolvedMeanings {
+    internal let primary: [EMVTag.DecodedTag]
+    internal let hidden: [EMVTag.DecodedTag]
+}
+
+extension EMVTag.DecodingResult {
+
+    internal func resolvedMeanings(customKernelIds: Set<String>) -> ResolvedMeanings {
+        guard case .multipleKernels(let decodedTags) = self else {
+            return .init(primary: [], hidden: [])
+        }
+
+        let customTags = decodedTags.filter { customKernelIds.contains($0.kernel) }
+        let builtInTags = decodedTags.filter { customKernelIds.contains($0.kernel) == false }
+
+        guard customTags.isEmpty == false, builtInTags.isEmpty == false else {
+            return .init(primary: decodedTags, hidden: [])
+        }
+
+        return .init(primary: customTags, hidden: builtInTags)
+    }
+
+}
+
 extension EMVTag {
-    
-    internal var extendedDescription: String? {
+
+    internal func extendedDescription(customKernelIds: Set<String> = []) -> String? {
         switch self.decodingResult {
         case .unknown:
             return nil
@@ -24,20 +53,22 @@ extension EMVTag {
             } else {
                 return nil
             }
-        case .multipleKernels(let decodedTags):
-            return Set(decodedTags.compactMap(\.result.extendedDescription))
+        case .multipleKernels:
+            let primary = decodingResult.resolvedMeanings(customKernelIds: customKernelIds).primary
+            return Set(primary.compactMap(\.result.extendedDescription))
                 .joined(separator: ", ")
         }
     }
-    
-    internal var name: String? {
+
+    internal func name(customKernelIds: Set<String> = []) -> String? {
         switch self.decodingResult {
         case .unknown:
             return nil
         case .singleKernel(let decodedTag):
             return decodedTag.tagInfo.name
-        case .multipleKernels(let decodedTags):
-            return Set(decodedTags.map(\.tagInfo.name))
+        case .multipleKernels:
+            let primary = decodingResult.resolvedMeanings(customKernelIds: customKernelIds).primary
+            return Set(primary.map(\.tagInfo.name))
                 .joined(separator: ", ")
         }
     }
@@ -72,24 +103,27 @@ extension EMVTag {
 
 extension EMVTag {
 
-    var tagValueVM: TagValueVM {
+    func tagValueVM(customKernelIds: Set<String> = []) -> TagValueVM {
         .init(
             value: tag.value.hexStringWithSpaces,
-            extendedDescription: extendedDescription
+            extendedDescription: extendedDescription(customKernelIds: customKernelIds)
         )
     }
 
-    var tagHeaderVM: TagHeaderVM {
+    func tagHeaderVM(customKernelIds: Set<String> = []) -> TagHeaderVM {
         let meanings: [TagHeaderVM.Meaning]
+        var hiddenMeanings: [TagHeaderVM.Meaning] = []
         switch decodingResult {
         case .unknown:
             meanings = []
         case .singleKernel(let decodedTag):
             meanings = [.init(name: decodedTag.tagInfo.name, kernel: nil)]
-        case .multipleKernels(let decodedTags):
-            meanings = decodedTags.map { .init(name: $0.tagInfo.name, kernel: $0.kernel) }
+        case .multipleKernels:
+            let resolved = decodingResult.resolvedMeanings(customKernelIds: customKernelIds)
+            meanings = resolved.primary.map { .init(name: $0.tagInfo.name, kernel: $0.kernel) }
+            hiddenMeanings = resolved.hidden.map { .init(name: $0.tagInfo.name, kernel: $0.kernel) }
         }
-        return .init(tag: tag.tag.hexString, meanings: meanings)
+        return .init(tag: tag.tag.hexString, meanings: meanings, hiddenMeanings: hiddenMeanings)
     }
     
     var asciiValue: String? {
@@ -114,12 +148,12 @@ extension EMVTag {
         }
     }
 
-    func plainTagVM(isEdited: Bool) -> PlainTagVM {
+    func plainTagVM(isEdited: Bool, customKernelIds: Set<String> = []) -> PlainTagVM {
         .init(
             id: id,
             tagCode: tag.tag,
-            headerVM: tagHeaderVM,
-            valueVM: tagValueVM,
+            headerVM: tagHeaderVM(customKernelIds: customKernelIds),
+            valueVM: tagValueVM(customKernelIds: customKernelIds),
             canExpand: selectedMeanings.count > 1,
             showsDetails: isUnknown == false,
             selectedMeanings: selectedMeanings,
@@ -129,7 +163,7 @@ extension EMVTag {
         )
     }
 
-    func constructedTagVM(editedIds: Set<EMVTag.ID>) -> ConstructedTagVM {
+    func constructedTagVM(editedIds: Set<EMVTag.ID>, customKernelIds: Set<String> = []) -> ConstructedTagVM {
         guard case let .constructed(subtags) = category else {
             fatalError("Unable to extract subtags from a plain tag")
         }
@@ -137,23 +171,25 @@ extension EMVTag {
         return .init(
             id: id,
             tag: tag.tag.hexString,
-            name: name,
-            headerVM: tagHeaderVM,
-            valueVM: tagValueVM,
-            subtags: subtags.map { TagRowVM(tag: $0, isSubtag: true, editedIds: editedIds) },
+            name: name(customKernelIds: customKernelIds),
+            headerVM: tagHeaderVM(customKernelIds: customKernelIds),
+            valueVM: tagValueVM(customKernelIds: customKernelIds),
+            subtags: subtags.map {
+                TagRowVM(tag: $0, isSubtag: true, editedIds: editedIds, customKernelIds: customKernelIds)
+            },
             showsDetails: isUnknown == false,
             isEdited: editedIds.contains(id) || subtags.contains { editedIds.contains($0.id) }
         )
     }
-    
-    var tagInfoVMs: [TagInfoVM] {
+
+    func tagInfoVMs(customKernelIds: Set<String> = []) -> [TagInfoVM] {
         switch self.decodingResult {
         case .unknown:
             return []
         case .singleKernel(let decodedTag):
             return [decodedTag.tagInfoVM]
-        case .multipleKernels(let decodedTags):
-            return decodedTags.map(\.tagInfoVM)
+        case .multipleKernels:
+            return decodingResult.resolvedMeanings(customKernelIds: customKernelIds).primary.map(\.tagInfoVM)
         }
     }
 

@@ -14,10 +14,10 @@ internal struct DiffedTag {
     internal let tag: EMVTag
     internal let results: [DiffResult]
     
-    var diffedTagRowVM: DiffedTagRowVM {
+    func diffedTagRowVM(customKernelIds: Set<String> = []) -> DiffedTagRowVM {
         .init(
             id: tag.id,
-            headerVM: tag.tagHeaderVM,
+            headerVM: tag.tagHeaderVM(customKernelIds: customKernelIds),
             valueVM: .init(value: tag.tag.value, results: results),
             fullHexString: tag.fullHexString,
             valueHexString: tag.tag.value.hexString

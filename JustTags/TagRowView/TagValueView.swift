@@ -34,8 +34,8 @@ internal struct TagValueView: View {
 struct TagValueView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            TagValueView(vm: EMVTag.mockTag.tagValueVM)
-            TagValueView(vm: EMVTag.mockTagExtended.tagValueVM)
+            TagValueView(vm: EMVTag.mockTag.tagValueVM())
+            TagValueView(vm: EMVTag.mockTagExtended.tagValueVM())
         }
     }
 }

@@ -30,36 +30,49 @@ internal final class TagParser: ObservableObject, AnyTagDecoder {
     }
 
     private var tagDecoder: TagDecoder
+    private let kernelInfoRepo: KernelInfoRepo
     internal var activeKernels: [KernelInfo] {
         initialKernels.filter { selectedKernelIds.contains($0.id) }
     }
     internal var initialKernels: [KernelInfo] {
         tagDecoder.activeKernels
     }
-    
-    private let defaultKernelIds: Set<String>
+
+    /// Ids of kernels that were imported/persisted as custom resources, sourced from
+    /// `KernelInfoRepo` directly rather than inferred from load order - this stays
+    /// correct regardless of whether custom kernels were restored before or after this
+    /// `TagParser` was created.
+    internal var customKernelIds: Set<String> {
+        Set(kernelInfoRepo.customIdentifiers)
+    }
+
+    private var builtInKernelIds: Set<String> {
+        Set(tagDecoder.kernelIds).subtracting(customKernelIds)
+    }
+
     private var initialKernelIds: [String]
     private var cancellables: Set<AnyCancellable> = []
 
-    init(tagDecoder: TagDecoder) {
-        self.defaultKernelIds = Set(tagDecoder.kernelIds)
+    init(tagDecoder: TagDecoder, kernelInfoRepo: KernelInfoRepo) {
+        self.kernelInfoRepo = kernelInfoRepo
         self.initialKernelIds = tagDecoder.kernelIds
         self.selectedKernelIds = Set(tagDecoder.kernelIds)
         self.tagDecoder = tagDecoder
-        
+
         tagDecoder.objectWillChange
             .receive(on: RunLoop.main)
             .sink { [weak self] _ in self?.updateKernels() }
             .store(in: &cancellables)
     }
-    
+
     internal func selectKernels(from tags: [EMVTag]) {
+        let builtInKernelIds = self.builtInKernelIds
         let detected = Set(detectedKernelNumbers(in: tags).map { "kernel\($0)" })
-        let applicable = detected.intersection(defaultKernelIds)
-        let customIds = Set(tagDecoder.kernelIds).subtracting(defaultKernelIds)
-        selectedKernelIds = (applicable.isEmpty ? defaultKernelIds : applicable
-            .union(defaultKernelIds.filter { $0 == "general" }))
-            .union(customIds)
+        let applicable = detected.intersection(builtInKernelIds)
+        let selectedBuiltIns = (applicable.isEmpty ? builtInKernelIds : applicable
+            .union(builtInKernelIds.filter { $0 == "general" }))
+        selectedKernelIds = selectedBuiltIns
+            .union(selectedCustomKernelIds(from: tags))
     }
 
     private func detectedKernelNumbers(in tags: [EMVTag]) -> Set<Int> {
@@ -80,6 +93,79 @@ internal final class TagParser: ObservableObject, AnyTagDecoder {
             return Int(byte)
         }
         return nil
+    }
+
+    private func selectedCustomKernelIds(from tags: [EMVTag]) -> Set<String> {
+        let customKernels = customKernelIds.compactMap { tagDecoder.kernelsInfo[$0] }
+        return Self.selectedCustomKernelIds(from: tags, among: customKernels)
+    }
+
+    /// Determines which custom kernels should auto-activate for the given tag set.
+    ///
+    /// Each custom kernel scores its declared `triggerTags` against the tag codes
+    /// present anywhere in `tags`. A kernel with no declared trigger tags never
+    /// auto-activates. Kernels connected via (symmetric) `exclusiveWith` are grouped:
+    /// only the highest scorer in a group activates, and any tie (including a 0-0 tie)
+    /// activates none of them.
+    internal static func selectedCustomKernelIds(
+        from tags: [EMVTag],
+        among customKernels: [KernelInfo]
+    ) -> Set<String> {
+        guard customKernels.isEmpty == false else { return [] }
+
+        let presentTagCodes = flatTagCodes(in: tags)
+        let scores = Dictionary(uniqueKeysWithValues: customKernels.map { kernel in
+            (kernel.id, Set(kernel.triggerTags).intersection(presentTagCodes).count)
+        })
+
+        return exclusionGroups(of: customKernels).reduce(into: Set<String>()) { result, group in
+            let maxScore = group.compactMap { scores[$0] }.max() ?? 0
+            guard maxScore >= 1 else { return }
+
+            let winners = group.filter { (scores[$0] ?? 0) == maxScore }
+            if winners.count == 1 {
+                result.insert(winners[0])
+            }
+        }
+    }
+
+    /// Groups kernel ids into connected components via the symmetric closure of
+    /// `exclusiveWith` - a kernel with no exclusions of its own forms a group of one.
+    internal static func exclusionGroups(of kernels: [KernelInfo]) -> [[String]] {
+        let idsInScope = Set(kernels.map(\.id))
+        var adjacency: [String: Set<String>] = [:]
+        for kernel in kernels {
+            for otherId in kernel.exclusiveWith where idsInScope.contains(otherId) {
+                adjacency[kernel.id, default: []].insert(otherId)
+                adjacency[otherId, default: []].insert(kernel.id)
+            }
+        }
+
+        var visited: Set<String> = []
+        var groups: [[String]] = []
+        for kernel in kernels {
+            guard visited.contains(kernel.id) == false else { continue }
+
+            var group: [String] = []
+            var stack = [kernel.id]
+            while let id = stack.popLast() {
+                guard visited.insert(id).inserted else { continue }
+                group.append(id)
+                stack.append(contentsOf: adjacency[id, default: []])
+            }
+            groups.append(group)
+        }
+
+        return groups
+    }
+
+    internal static func flatTagCodes(in tags: [EMVTag]) -> Set<UInt64> {
+        tags.reduce(into: Set<UInt64>()) { result, tag in
+            result.insert(tag.tag.tag)
+            if case .constructed(let subtags) = tag.category {
+                result.formUnion(flatTagCodes(in: subtags))
+            }
+        }
     }
 
     private func updateKernels() {

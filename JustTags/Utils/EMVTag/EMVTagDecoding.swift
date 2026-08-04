@@ -14,17 +14,17 @@ extension EMVTag {
         decodingResult.selectedMeanings
     }
     
-    internal var tagDetailsVMs: [TagDetailsVM] {
-        decodingResult.tagDetailsVMs
+    internal func tagDetailsVMs(customKernelIds: Set<String> = []) -> [TagDetailsVM] {
+        decodingResult.tagDetailsVMs(customKernelIds: customKernelIds)
     }
-    
-    internal var diffedTagRowVM: DiffedTagRowVM {
+
+    internal func diffedTagRowVM(customKernelIds: Set<String> = []) -> DiffedTagRowVM {
         DiffedTag(
             tag: self,
             results: Array(repeating: .equal, count: tag.value.count)
-        ).diffedTagRowVM
+        ).diffedTagRowVM(customKernelIds: customKernelIds)
     }
-    
+
 }
 
 extension EMVTag.DecodingResult {
@@ -47,17 +47,17 @@ extension EMVTag.DecodingResult {
         }
     }
     
-    internal var tagDetailsVMs: [TagDetailsVM] {
+    internal func tagDetailsVMs(customKernelIds: Set<String> = []) -> [TagDetailsVM] {
         switch self {
         case .unknown:
             return []
         case .singleKernel(let decodedTag):
             return [decodedTag.tagDetailsVM]
-        case .multipleKernels(let decodedTags):
-            return decodedTags.map(\.tagDetailsVM)
+        case .multipleKernels:
+            return resolvedMeanings(customKernelIds: customKernelIds).primary.map(\.tagDetailsVM)
         }
     }
-    
+
 }
 
 extension EMVTag.DecodedTag.DecodingResult {

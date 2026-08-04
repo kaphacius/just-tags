@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftyEMVTags
 
 struct KernelSelectionListView: View {
     
@@ -27,10 +28,15 @@ struct KernelSelectionListView: View {
 }
 
 struct KernelSelectionListView_Previews: PreviewProvider {
+    private static let previewTagDecoder = try! TagDecoder.defaultDecoder()
+
     static var previews: some View {
         KernelSelectionListView(
             vm: .init(
-                tagParser: .init(tagDecoder: try! .defaultDecoder())
+                tagParser: .init(
+                    tagDecoder: previewTagDecoder,
+                    kernelInfoRepo: .init(handler: previewTagDecoder)!
+                )
             )
         )
     }

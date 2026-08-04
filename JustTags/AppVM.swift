@@ -268,7 +268,7 @@ extension AppVM: DiffVMProvider {
         diffVMs.prune()
         let newVM = DiffVM(
             appVM: self,
-            tagParser: .init(tagDecoder: tagDecoder!)
+            tagParser: .init(tagDecoder: tagDecoder!, kernelInfoRepo: kernelInfoRepo!)
         )
         diffVMs.append(.init(stongValue: newVM))
 
@@ -317,7 +317,7 @@ extension AppVM: MainVMProvider {
         // Create a new MainVM and register it so AppVM can look it up by ID later.
         let newVM = MainVM(
             appVM: self,
-            tagParser: .init(tagDecoder: tagDecoder!)
+            tagParser: .init(tagDecoder: tagDecoder!, kernelInfoRepo: kernelInfoRepo!)
         )
         mainVMs.append(.init(stongValue: newVM))
 

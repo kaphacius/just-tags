@@ -155,7 +155,7 @@ struct TagDetailsView: View {
 
 struct EMVTagDetailView_Previews: PreviewProvider {
     static var previews: some View {
-        TagDetailsView(vm: EMVTag.mockTag.tagDetailsVMs.first!)
+        TagDetailsView(vm: EMVTag.mockTag.tagDetailsVMs().first!)
             .frame(width: detailWidth, height: 1000)
     }
 }

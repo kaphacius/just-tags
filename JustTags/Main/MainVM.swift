@@ -54,7 +54,10 @@ internal final class MainVM: AnyWindowVM, Identifiable {
     
     internal init(
         appVM: AppVM = .shared,
-        tagParser: TagParser = .init(tagDecoder: try! .defaultDecoder())
+        tagParser: TagParser = {
+            let decoder = try! TagDecoder.defaultDecoder()
+            return TagParser(tagDecoder: decoder, kernelInfoRepo: .init(handler: decoder)!)
+        }()
     ) {
         super.init()
         
@@ -151,7 +154,7 @@ internal final class MainVM: AnyWindowVM, Identifiable {
         // Select the tag automatically if only one was parsed and decoded
         if currentTags.count == 1,
            let first = currentTags.first,
-           first.decodingResult.tagDetailsVMs.isEmpty == false {
+           first.decodingResult.tagDetailsVMs().isEmpty == false {
             detailTag = first
         }
     }

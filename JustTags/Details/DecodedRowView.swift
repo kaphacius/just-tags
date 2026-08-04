@@ -112,7 +112,7 @@ struct DecodedRowView_Previews: PreviewProvider {
             ForEach(
                 Array(EMVTag
                     .mockTag
-                    .tagDetailsVMs
+                    .tagDetailsVMs()
                     .flatMap(\.bytes)
                     .flatMap(\.groups)
                     .compactMap { group in

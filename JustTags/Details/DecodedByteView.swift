@@ -124,7 +124,7 @@ struct DecodedByteView_Previews: PreviewProvider {
             ForEach(
                 Array(EMVTag
                     .mockTag
-                    .tagDetailsVMs
+                    .tagDetailsVMs()
                     .flatMap(\.bytes)
                 ),
                 id: \.idx,

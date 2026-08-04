@@ -52,7 +52,7 @@ struct DiffedTagRowView_Previews: PreviewProvider {
             DiffedTagRowView(
                 vm: DiffedTag(
                     tag: .mockTag, results: [.different, .equal, .different]
-                ).diffedTagRowVM
+                ).diffedTagRowVM()
             )
         }.environmentObject(MainVM())
     }

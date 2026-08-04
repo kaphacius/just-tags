@@ -17,10 +17,18 @@ internal struct TagHeaderVM: Equatable {
 
     internal let tag: String
     internal let meanings: [Meaning]
+    internal let hiddenMeanings: [Meaning]
+
+    internal init(tag: String, meanings: [Meaning], hiddenMeanings: [Meaning] = []) {
+        self.tag = tag
+        self.meanings = meanings
+        self.hiddenMeanings = hiddenMeanings
+    }
 }
 
 internal struct TagHeaderView: View {
     internal let vm: TagHeaderVM
+    @State private var showsHiddenMeanings: Bool = false
 
     internal var body: some View {
         HStack {
@@ -29,6 +37,10 @@ internal struct TagHeaderView: View {
                 .fontWeight(.medium)
 
             nameLabel
+
+            if vm.hiddenMeanings.isEmpty == false {
+                disclosureButton
+            }
         }
     }
 
@@ -53,7 +65,35 @@ internal struct TagHeaderView: View {
             }
         }
     }
-    
+
+    private var disclosureButton: some View {
+        Button {
+            showsHiddenMeanings.toggle()
+        } label: {
+            Label(
+                "\(vm.hiddenMeanings.count) other kernel\(vm.hiddenMeanings.count == 1 ? "" : "s") define this tag",
+                systemImage: showsHiddenMeanings ? "chevron.up" : "chevron.down"
+            )
+            .labelStyle(.iconOnly)
+        }
+        .buttonStyle(.plain)
+        .foregroundStyle(.secondary)
+        .help("\(vm.hiddenMeanings.count) other kernel\(vm.hiddenMeanings.count == 1 ? "" : "s") define this tag")
+        .popover(isPresented: $showsHiddenMeanings) {
+            VStack(alignment: .leading, spacing: commonPadding) {
+                ForEach(vm.hiddenMeanings, id: \.kernel) { meaning in
+                    HStack {
+                        Text(meaning.name)
+                        if let kernel = meaning.kernel {
+                            kernelLabel(for: kernel)
+                        }
+                    }
+                }
+            }
+            .padding(commonPadding * 2)
+        }
+    }
+
     private func kernelLabel(for kernel: String) -> some View {
         // TODO: make this a button?
         Text(kernel)
@@ -84,9 +124,9 @@ internal struct TagHeaderView: View {
 struct TagHeaderView_Previews: PreviewProvider {
     static var previews: some View {
         VStack(alignment: .leading) {
-            TagHeaderView(vm: EMVTag.mockTagMultipleKernels.tagHeaderVM)
-            TagHeaderView(vm: EMVTag.mockTagExtended.tagHeaderVM)
-            TagHeaderView(vm: EMVTag.mockTagConstructed.tagHeaderVM)
+            TagHeaderView(vm: EMVTag.mockTagMultipleKernels.tagHeaderVM())
+            TagHeaderView(vm: EMVTag.mockTagExtended.tagHeaderVM())
+            TagHeaderView(vm: EMVTag.mockTagConstructed.tagHeaderVM())
         }
     }
 }

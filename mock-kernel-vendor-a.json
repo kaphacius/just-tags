@@ -1,0 +1,46 @@
+{
+  "id": "vendor-a",
+  "name": "Vendor A Kernel",
+  "category": "vendor",
+  "description": "Mock vendor kernel A for testing overlapping custom tags",
+  "triggerTags": ["DF01"],
+  "exclusiveWith": [],
+  "tags": [
+    {
+      "info": {
+        "tag": "DF01",
+        "name": "C1",
+        "description": "Vendor A custom tag C1",
+        "source": "terminal",
+        "format": "binary",
+        "kernel": "vendor-a",
+        "minLength": "1",
+        "maxLength": "1"
+      }
+    },
+    {
+      "info": {
+        "tag": "DF02",
+        "name": "C2",
+        "description": "Vendor A's definition of custom tag C2",
+        "source": "card",
+        "format": "binary",
+        "kernel": "vendor-a",
+        "minLength": "1",
+        "maxLength": "1"
+      }
+    },
+    {
+      "info": {
+        "tag": "DF03",
+        "name": "C3",
+        "description": "Vendor A's definition of custom tag C3",
+        "source": "card",
+        "format": "binary",
+        "kernel": "vendor-a",
+        "minLength": "1",
+        "maxLength": "1"
+      }
+    }
+  ]
+}

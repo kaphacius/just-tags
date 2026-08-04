@@ -140,7 +140,7 @@ struct DiffView: View {
         ScrollView {
             LazyVStack(spacing: commonPadding) {
                 ForEach(tags) { tag in
-                    DiffedTagRowView(vm: tag.diffedTagRowVM)
+                    DiffedTagRowView(vm: tag.diffedTagRowVM(customKernelIds: vm.tagParser.customKernelIds))
                 }
             }
         }
@@ -172,19 +172,19 @@ struct DiffView: View {
             switch (diffPair.lhs, diffPair.rhs) {
             case (let lhs?, let rhs?):
                 HStack(alignment: .top, spacing: commonPadding) {
-                    DiffedTagRowView(vm: lhs.diffedTagRowVM)
+                    DiffedTagRowView(vm: lhs.diffedTagRowVM(customKernelIds: vm.tagParser.customKernelIds))
                     Divider()
-                    DiffedTagRowView(vm: rhs.diffedTagRowVM)
+                    DiffedTagRowView(vm: rhs.diffedTagRowVM(customKernelIds: vm.tagParser.customKernelIds))
                 }
             case (let lhs?, _):
                 HStack(spacing: commonPadding) {
-                    DiffedTagRowView(vm: lhs.diffedTagRowVM)
+                    DiffedTagRowView(vm: lhs.diffedTagRowVM(customKernelIds: vm.tagParser.customKernelIds))
                     Rectangle().hidden()
                 }
             case (_, let rhs?):
                 HStack(spacing: commonPadding) {
                     Rectangle().hidden()
-                    DiffedTagRowView(vm: rhs.diffedTagRowVM)
+                    DiffedTagRowView(vm: rhs.diffedTagRowVM(customKernelIds: vm.tagParser.customKernelIds))
                 }
             case (nil, nil):
                 EmptyView()
@@ -204,9 +204,10 @@ struct DiffView: View {
 }
 
 struct DiffView_Previews: PreviewProvider {
+    private static let previewTagDecoder = try! TagDecoder.defaultDecoder()
     private static let viewModel = DiffVM(
         appVM: .shared,
-        tagParser: .init(tagDecoder: try! .defaultDecoder()),
+        tagParser: .init(tagDecoder: previewTagDecoder, kernelInfoRepo: .init(handler: previewTagDecoder)!),
         columns: 2,
         texts: [],
         initialTags: [EMVTag.mockDiffPair.0, EMVTag.mockDiffPair.1],

@@ -48,7 +48,7 @@ struct TagInfoView: View {
 struct TagInfoView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
-            ForEach(Array(EMVTag.mockTag.tagInfoVMs.enumerated()), id: \.offset) {
+            ForEach(Array(EMVTag.mockTag.tagInfoVMs().enumerated()), id: \.offset) {
                 TagInfoView(vm: $0.element)
             }
         }.frame(width: 400)

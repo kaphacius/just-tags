@@ -29,13 +29,18 @@ internal struct TagRowVM: Equatable, Identifiable {
 
         static func category(
             with tag: EMVTag,
-            editedIds: Set<EMVTag.ID>
+            editedIds: Set<EMVTag.ID>,
+            customKernelIds: Set<String> = []
         ) -> Category {
             switch tag.category {
             case .plain:
-                return .plain(tag.plainTagVM(isEdited: editedIds.contains(tag.id)))
+                return .plain(
+                    tag.plainTagVM(isEdited: editedIds.contains(tag.id), customKernelIds: customKernelIds)
+                )
             case .constructed:
-                return .constructed(tag.constructedTagVM(editedIds: editedIds))
+                return .constructed(
+                    tag.constructedTagVM(editedIds: editedIds, customKernelIds: customKernelIds)
+                )
             }
         }
     }
@@ -43,10 +48,11 @@ internal struct TagRowVM: Equatable, Identifiable {
     init(
         tag: EMVTag,
         isSubtag: Bool,
-        editedIds: Set<EMVTag.ID> = []
+        editedIds: Set<EMVTag.ID> = [],
+        customKernelIds: Set<String> = []
     ) {
         self.id = tag.id
-        self.category = .category(with: tag, editedIds: editedIds)
+        self.category = .category(with: tag, editedIds: editedIds, customKernelIds: customKernelIds)
         self.fullHexString = tag.fullHexString
         self.valueHexString = tag.valueHexString
         self.isSubTag = isSubtag

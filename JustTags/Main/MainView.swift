@@ -93,7 +93,10 @@ struct MainView: View {
                 TagListView(
                     tags: {
                         let editedIds = Set(vm.editedTags.keys)
-                        return vm.currentTags.map { .init(tag: $0, isSubtag: false, editedIds: editedIds) }
+                        let customKernelIds = vm.tagParser.customKernelIds
+                        return vm.currentTags.map {
+                            .init(tag: $0, isSubtag: false, editedIds: editedIds, customKernelIds: customKernelIds)
+                        }
                     }(),
                     searchInProgress: $searchInProgress
                 )
@@ -128,7 +131,7 @@ struct MainView: View {
     private func enrichedDetailVMs(for tag: EMVTag) -> [TagDetailsVM] {
         let tagMapping = vm.tagParser.tagMapper.mappings[tag.tag.tag]
         let tagId = tag.id
-        return tag.tagDetailsVMs.map { detailVM in
+        return tag.tagDetailsVMs(customKernelIds: vm.tagParser.customKernelIds).map { detailVM in
             var mappingVM: TagMappingVM? = nil
             if let mapping = tagMapping, mapping.kernel == detailVM.kernel {
                 let rows = mapping.values
